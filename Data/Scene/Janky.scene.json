@@ -598,6 +598,254 @@
                 }
             },
             "name": "7_Hinder"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_01/Scifi-Building_01.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -20.799999237060547,
+                        -15.0,
+                        50.20000076293945
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_01"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_02/Scifi-Building_02.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -70.0999984741211,
+                        -15.0,
+                        -82.9000015258789
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.13946926593780518,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_02"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_03/Scifi-Building_03.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -9.399999618530273,
+                        -15.0,
+                        -102.0999984741211
+                    ],
+                    "rotation": [
+                        0.0,
+                        5.436648368835449,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_03"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_04/Scifi-Building_04.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        18.799999237060547,
+                        -15.0,
+                        26.100000381469727
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.29860258102417,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_04"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_05/Scifi-Building_05.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -95.80000305175781,
+                        -15.0,
+                        -46.599998474121094
+                    ],
+                    "rotation": [
+                        0.0,
+                        4.241115093231201,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_05"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_06/Scifi-Building_06.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -108.95539855957031,
+                        -15.0,
+                        28.1990966796875
+                    ],
+                    "rotation": [
+                        0.0,
+                        5.183575630187988,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_06"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_07/Scifi-Building_07.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -22.600000381469727,
+                        -15.0,
+                        11.300000190734863
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_07"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/Building/Scifi-Building_08/Scifi-Building_08.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        24.799999237060547,
+                        -15.0,
+                        -75.80000305175781
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Scifi-Building_08"
         }
     ],
     "settings": {},
