@@ -1,0 +1,109 @@
+{
+    "entities": [
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "TransformComponent": {
+                    "position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "rotation": [
+                        -0.0,
+                        0.0,
+                        0.28999999165534973
+                    ],
+                    "scale": [
+                        10.0,
+                        1.0,
+                        10.0
+                    ]
+                }
+            },
+            "name": "Cube"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -0.800000011920929,
+                        0.4000000059604645,
+                        0.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        -0.23999999463558197
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        10.0
+                    ]
+                }
+            },
+            "name": "Cube"
+        },
+        {
+            "name": "FreeCamera",
+            "prefab": "Data/Prefab/Camera/FreeCamera.prefab.json"
+        },
+        {
+            "components": {
+                "AnimatorComponent": {
+                    "loop": true,
+                    "playSpeed": 1.0,
+                    "useRootMotion": false,
+                    "useRootMotionY": false
+                },
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Default"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/PlayerRobot/Map_Robot3.gltf"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -1.7000000476837158,
+                        0.6000000238418579,
+                        -0.6000000238418579
+                    ],
+                    "rotation": [
+                        0.14000000059604645,
+                        -3.3499999046325684,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Map_Robot3"
+        }
+    ],
+    "settings": {},
+    "version": 1
+}

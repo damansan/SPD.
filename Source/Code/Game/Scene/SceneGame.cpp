@@ -37,27 +37,27 @@ void SceneGame::Initialize(const SceneContext& context)
 	physicsDebugRenderer.Initialize(context.device);
 
 
-	const int lightCount = 20;
-	const float radius = 3.0f;
-	const float height = 1.0f;
+	//const int lightCount = 20;
+	//const float radius = 3.0f;
+	//const float height = 1.0f;
 
-	for (int i = 0; i < lightCount; i++)
-	{
-		float angle = (2.0f * 3.14159265f / lightCount) * i;
-		float x = radius * cosf(angle);
-		float z = radius * sinf(angle);
+	//for (int i = 0; i < lightCount; i++)
+	//{
+	//	float angle = (2.0f * 3.14159265f / lightCount) * i;
+	//	float x = radius * cosf(angle);
+	//	float z = radius * sinf(angle);
 
-		float r = (sinf(angle) + 1.0f) * 0.5f;
-		float g = (sinf(angle + 2.0f) + 1.0f) * 0.5f;
-		float b = (sinf(angle + 4.0f) + 1.0f) * 0.5f;
+	//	float r = (sinf(angle) + 1.0f) * 0.5f;
+	//	float g = (sinf(angle + 2.0f) + 1.0f) * 0.5f;
+	//	float b = (sinf(angle + 4.0f) + 1.0f) * 0.5f;
 
-		lightManager.AddPointLight(
-			{ x, height, z }, // 位置
-			{ r, g, b },      // 色
-			5.0f,             // 範囲
-			3.0f              // 強度
-		);
-	}
+	//	lightManager.AddPointLight(
+	//		{ x, height, z }, // 位置
+	//		{ r, g, b },      // 色
+	//		5.0f,             // 範囲
+	//		3.0f              // 強度
+	//	);
+	//}
 
 
 #if WaveDemo && !defined(_DEBUG)

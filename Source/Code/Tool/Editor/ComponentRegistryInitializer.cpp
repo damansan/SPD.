@@ -6,6 +6,8 @@
 #include <commdlg.h>
 #include <filesystem>
 #include <algorithm>
+#include <DirectXMath.h>
+#include <cmath>
 
 #include "Engine/ECS/Components/ControllerComponent.h"
 #include "Engine/ECS/Components/MovementComponent.h"
@@ -15,6 +17,7 @@
 #include "Engine/ECS/Components/FreeCameraComponent.h"
 #include "Engine/ECS/Components/PhysicsComponents.h"
 #include "Engine/ECS/Components/IKComponent.h"
+#include "Engine/ECS/Components/TransformComponent.h"
 
 #include "MetaRegistry.h"
 
@@ -27,8 +30,67 @@
         { body }                                                            \
     }
 
+namespace
+{
+	// 角度を 0 以上 360 未満にそろえる（360 → 0、-10 → 350）
+	float WrapDegrees(float deg)
+	{
+		float r = fmodf(deg, 360.0f);
+		return (r < 0.0f) ? r + 360.0f : r;
+	}
+}
+
 void ComponentRegistryInitializer::Initialize()
 {
+	// トランスフォーム
+	REGISTER_INSPECTOR(TransformComponent,
+		DRAW_COMPONENT(TransformComponent, "Transform",
+			{
+				ImGui::DragFloat3("Position", &_c->position.x, 0.1f);
+
+	// ラジアン から 度 に変換
+	DirectX::XMFLOAT3 deg(
+		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.x)),
+		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.y)),
+		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.z)));
+
+	// 変えたときだけ、度 から ラジアンにして書き戻す
+	if (ImGui::DragFloat3("Rotation", &deg.x, 0.5f, 0.0f, 0.0f))
+	{
+		_c->rotation.x = DirectX::XMConvertToRadians(WrapDegrees(deg.x));
+		_c->rotation.y = DirectX::XMConvertToRadians(WrapDegrees(deg.y));
+		_c->rotation.z = DirectX::XMConvertToRadians(WrapDegrees(deg.z));
+	}
+
+	// 自分の向きに沿って動かす
+	static DirectX::XMFLOAT3 localMove(0.0f, 0.0f, 0.0f);
+	const DirectX::XMFLOAT3 before = localMove;
+
+	if (ImGui::DragFloat3("Local Move", &localMove.x, 0.1f))
+	{
+		// 前のフレームから増えた分
+		DirectX::XMVECTOR localDelta = DirectX::XMVectorSubtract(
+			DirectX::XMLoadFloat3(&localMove), DirectX::XMLoadFloat3(&before));
+
+		// 回転だけを当てて、ワールドの向きに直す
+		DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(
+			_c->rotation.x, _c->rotation.y, _c->rotation.z);
+		DirectX::XMVECTOR worldDelta = DirectX::XMVector3TransformNormal(localDelta, R);
+
+		DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&_c->position);
+		DirectX::XMStoreFloat3(&_c->position, DirectX::XMVectorAdd(pos, worldDelta));
+	}
+
+	// 触っていないときは 0 に戻す
+	if (!ImGui::IsItemActive())
+	{
+		localMove = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	}
+
+
+	ImGui::DragFloat3("Scale", &_c->scale.x, 0.01f);
+			}));
+
 	// アニメーター
 	REGISTER_INSPECTOR(AnimatorComponent,
 		[](auto& reg, auto e)
