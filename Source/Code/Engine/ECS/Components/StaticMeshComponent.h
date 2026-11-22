@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include "Engine/Resource/Model.h"
 
-// Ã“IƒƒbƒVƒ…—pƒRƒ“ƒ|[ƒlƒ“ƒg
+// é™çš„ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct StaticMeshComponent
 {
-    // ƒ‚ƒfƒ‹ƒf[ƒ^
+    // ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿
     std::shared_ptr<Model> model; 
 };

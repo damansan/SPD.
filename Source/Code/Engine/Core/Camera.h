@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
 class Camera
@@ -7,26 +7,26 @@ public:
     Camera() = default;
     ~Camera() = default;
 
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(float screenWidth, float screenHeight);
 
-    // ’‹“_İ’è
+    // æ³¨è¦–ç‚¹è¨­å®š
     void SetLookAt(
         const DirectX::XMFLOAT3& eye,
         const DirectX::XMFLOAT3& target,
         const DirectX::XMFLOAT3& up
     );
 
-    // ƒp[ƒXƒyƒNƒeƒBƒuİ’è
+    // ãƒ‘ãƒ¼ã‚¹ãƒšã‚¯ãƒ†ã‚£ãƒ–è¨­å®š
     void SetPerspectiveFov(
         float fovY, float aspect,
         float nearZ, float farZ
     );
 
-    // Fov‚ÌƒZƒbƒg
+    // Fovã®ã‚»ãƒƒãƒˆ
     void SetFovDeg(float fovDeg);
 
-    // ƒQƒbƒ^[
+    // ã‚²ãƒƒã‚¿ãƒ¼
     const DirectX::XMFLOAT4X4& GetView()        const { return view; }
     const DirectX::XMFLOAT4X4& GetProjection()  const { return projection; }
     const DirectX::XMFLOAT3& GetEye()           const { return eye; }
@@ -47,7 +47,7 @@ private:
     DirectX::XMFLOAT3   right = {};
     float               viewingAngle = 40.0f;
 
-    // ÅŒã‚É SetPerspectiveFov ‚Åg‚Á‚½’l
+    // æœ€å¾Œã« SetPerspectiveFov ã§ä½¿ã£ãŸå€¤
     float               aspect = 16.0f / 9.0f;
     float               nearZ = 0.1f;
     float               farZ = 1000.0f;

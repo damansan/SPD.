@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/ECS/Reflect.h"
 
 struct PlayerWallSenseComponent
 {
 	REFLECT_BEGIN(PlayerWallSenseComponent, "Player Wall Sense")
 
-		// İ’è’l
-		REFLECT_FIELD(float, maxWallNormalY, (0.3f), ("Max Wall Normal Y", 0.0f, 1.0f)) // –@ü‚Ì y ‚Ì‘å‚«‚³‚ª‚±‚êˆÈ‰º‚È‚ç•Ç‚Æ‚İ‚È‚·
-		REFLECT_FIELD(float, wallGraceTime, (0.15f), ("Wall Grace Time", 0.0f, 1.0f))   // •Ç‚©‚ç—£‚ê‚Ä‚à nearWall ‚ğ•Û‚ÂŠÔ
+		// è¨­å®šå€¤
+		REFLECT_FIELD(float, maxWallNormalY, (0.3f), ("Max Wall Normal Y", 0.0f, 1.0f)) // æ³•ç·šã® y ã®å¤§ãã•ãŒã“ã‚Œä»¥ä¸‹ãªã‚‰å£ã¨ã¿ãªã™
+		REFLECT_FIELD(float, wallGraceTime, (0.15f), ("Wall Grace Time", 0.0f, 1.0f))   // å£ã‹ã‚‰é›¢ã‚Œã¦ã‚‚ nearWall ã‚’ä¿ã¤æ™‚é–“
 
-		// ó‘Ô
-		REFLECT_FIELD(bool, touchingWall, (false), ("Touching Wall", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // •Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©
-		REFLECT_FIELD(float, approachAngleDeg, (0.0f), ("Approach Angle Deg", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “–‚½‚éŠp“x(0=‚©‚·‚ß‚éA90=³–ÊAƒ}ƒCƒiƒX=—£‚ê‚Ä‚¢‚­)
-		REFLECT_FIELD(bool, isWallRight, (false), ("Is Wall Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // i‚ŞŒü‚«‚©‚çŒ©‚ÄA•Ç‚ª‰E‚É‚ ‚é‚©
+		// çŠ¶æ…‹
+		REFLECT_FIELD(bool, touchingWall, (false), ("Touching Wall", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å£ã«å½“ãŸã£ã¦ã„ã‚‹ã‹
+		REFLECT_FIELD(float, approachAngleDeg, (0.0f), ("Approach Angle Deg", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å½“ãŸã‚‹è§’åº¦(0=ã‹ã™ã‚ã‚‹ã€90=æ­£é¢ã€ãƒã‚¤ãƒŠã‚¹=é›¢ã‚Œã¦ã„ã)
+		REFLECT_FIELD(bool, isWallRight, (false), ("Is Wall Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // é€²ã‚€å‘ãã‹ã‚‰è¦‹ã¦ã€å£ãŒå³ã«ã‚ã‚‹ã‹
 
-		// —P—\•t‚«
-		REFLECT_FIELD(float, wallLostTime, (999.0f), ("Wall Lost Time", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // •Ç‚©‚ç—£‚ê‚Ä‚©‚ç‚ÌŠÔ
-		REFLECT_FIELD(bool,  nearWall,      (false), ("Near Wall",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // •Ç‚É‚¢‚é(—P—\•t‚«)
+		// çŒ¶äºˆä»˜ã
+		REFLECT_FIELD(float, wallLostTime, (999.0f), ("Wall Lost Time", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å£ã‹ã‚‰é›¢ã‚Œã¦ã‹ã‚‰ã®æ™‚é–“
+		REFLECT_FIELD(bool,  nearWall,      (false), ("Near Wall",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å£ã«ã„ã‚‹(çŒ¶äºˆä»˜ã)
 
 		REFLECT_END()
 };

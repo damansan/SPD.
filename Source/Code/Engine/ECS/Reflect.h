@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/ECS/Reflection.h"
 
 using namespace entt::literals;
 
-// Œ^‚»‚Ì‚à‚Ì‚Ì“o˜^‚ğŠJn‚·‚é
+// å‹ãã®ã‚‚ã®ã®ç™»éŒ²ã‚’é–‹å§‹ã™ã‚‹
 #define REFLECT_BEGIN(Type, DisplayName)                                            \
 private:                                                                            \
     using ReflectSelf = Type;                                                       \
@@ -17,7 +17,7 @@ private:                                                                        
     }();                                                                            \
 public:
 
-// FieldInfo‚ğAˆÊ’uˆø”{ƒfƒtƒHƒ‹ƒgˆø”‚Å‘g‚İ—§‚Ä‚éƒwƒ‹ƒp[
+// FieldInfoã‚’ã€ä½ç½®å¼•æ•°ï¼‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå¼•æ•°ã§çµ„ã¿ç«‹ã¦ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼
 inline FieldInfo MakeFieldInfo(
     std::string label,
     float minValue = 0.0f,
@@ -29,7 +29,7 @@ inline FieldInfo MakeFieldInfo(
     return FieldInfo{ label, minValue, maxValue, dragSpeed, dragDropPayload, flags };
 }
 
-// 1ƒtƒB[ƒ‹ƒh•ª‚ÌéŒ¾{“o˜^
+// 1ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰åˆ†ã®å®£è¨€ï¼‹ç™»éŒ²
 #define REFLECT_FIELD(FieldType, FieldName, DefaultArgs, FieldInfoArgs) \
     FieldType FieldName = FieldType DefaultArgs;                        \
     static inline bool _reflect_##FieldName##_registered = []           \
@@ -40,7 +40,7 @@ inline FieldInfo MakeFieldInfo(
         return true;                                                    \
     }();
 
-// enum‚Ì“o˜^
+// enumã®ç™»éŒ²
 #define REFLECT_ENUM(EnumType)                          \
 namespace ReflectEnumDetail_##EnumType                  \
 {                                                       \

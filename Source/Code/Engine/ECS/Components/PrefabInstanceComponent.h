@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 
-// ‚±‚ÌƒGƒ“ƒeƒBƒeƒB‚ª‚Ç‚ÌƒvƒŒƒnƒu‚©‚ç¶¬‚³‚ê‚½‚©‚ğ‹L˜^‚·‚é
+// ã“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒã©ã®ãƒ—ãƒ¬ãƒãƒ–ã‹ã‚‰ç”Ÿæˆã•ã‚ŒãŸã‹ã‚’è¨˜éŒ²ã™ã‚‹
 struct PrefabInstanceComponent
 {
 	std::string prefabPath;

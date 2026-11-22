@@ -1,11 +1,11 @@
-#include "PostProcessToolWindow.h"
+ï»¿#include "PostProcessToolWindow.h"
 
 #include "Engine/Rendering/PostProcess.h"
 
 #include <imgui.h>
 #include <string>
 
-// ’²®‰æ–Ê‚ğ•`‚­
+// èª¿æ•´ç”»é¢ã‚’æã
 void PostProcessToolWindow::Draw(PostProcessSettings& settings)
 {
 	if (!isOpen) return;
@@ -16,39 +16,39 @@ void PostProcessToolWindow::Draw(PostProcessSettings& settings)
 		return;
 	}
 
-	// ƒg[ƒ“ƒ}ƒbƒv
+	// ãƒˆãƒ¼ãƒ³ãƒãƒƒãƒ—
 	ImGui::SeparatorText("Tone Mapping");
 	ImGui::SliderFloat  ("Exposure", &settings.exposure, 0.0f, 4.0f, "%.2f");
 	ImGui::Checkbox     ("ACES", &settings.tonemapEnabled);
 
-	// ƒJƒ‰[’²®
+	// ã‚«ãƒ©ãƒ¼èª¿æ•´
 	ImGui::SeparatorText("Color Adjustments");
 	ImGui::SliderFloat  ("Contrast", &settings.contrast, 0.0f, 2.0f, "%.2f");
 	ImGui::ColorEdit3   ("Color Filter", &settings.colorFilter.x);
 	ImGui::SliderFloat  ("Saturation", &settings.saturation, 0.0f, 2.0f, "%.2f");
 
-	// ƒrƒlƒbƒg
+	// ãƒ“ãƒãƒƒãƒˆ
 	ImGui::SeparatorText("Vignette");
 	ImGui::SliderFloat  ("Intensity", &settings.vignetteIntensity, 0.0f, 1.0f, "%.2f");
 	ImGui::SliderFloat  ("Smoothness", &settings.vignetteSmoothness, 0.01f, 1.0f, "%.2f");
 	ImGui::ColorEdit3   ("Vignette Color", &settings.vignetteColor.x);
 
-	// ƒuƒ‹[ƒ€
+	// ãƒ–ãƒ«ãƒ¼ãƒ 
 	ImGui::SeparatorText("Bloom");
 	ImGui::SliderFloat("Threshold", &settings.bloomThreshold, 0.0f, 5.0f);
 	ImGui::SliderFloat("Intensity##Bloom", &settings.bloomIntensity, 0.0f, 3.0f);
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼
 	ImGui::SeparatorText("Radial Blur");
 	ImGui::Checkbox("Enabled##RadialBlur", &settings.radialBlurEnabled);
-	// OFF ‚ÌŠÔ‚ÍG‚ê‚È‚¢‚æ‚¤‚É‚·‚é
+	// OFF ã®é–“ã¯è§¦ã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹
 	ImGui::BeginDisabled(!settings.radialBlurEnabled);
 	ImGui::SliderFloat("Strength##RadialBlur", &settings.radialBlurStrength, 0.0f, 0.5f, "%.2f");
 	ImGui::SliderFloat("Radius##RadialBlur", &settings.radialBlurRadius, 0.0f, 2.0f, "%.2f");
 	ImGui::SliderFloat("Softness##RadialBlur", &settings.radialBlurSoftness, 0.01f, 2.0f, "%.2f");
 	ImGui::EndDisabled();
 
-	// ƒfƒoƒbƒO•\¦
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
 	ImGui::SeparatorText("Debug");
 	const char* debugViews[] = { "None", "Bloom Extract", "Bloom Blur", "Bloom Result" };
 	int debugView = static_cast<int>(settings.debugView);
@@ -57,7 +57,7 @@ void PostProcessToolWindow::Draw(PostProcessSettings& settings)
 		settings.debugView = static_cast<PostProcessDebugView>(debugView);
 	}
 
-	// ‚Ú‚©‚µ‚½’i‚ğŒ©‚é‚Æ‚«‚¾‚¯A‚Ç‚Ì’i‚©‚ğ‘I‚Ô
+	// ã¼ã‹ã—ãŸæ®µã‚’è¦‹ã‚‹ã¨ãã ã‘ã€ã©ã®æ®µã‹ã‚’é¸ã¶
 	if (settings.debugView == PostProcessDebugView::BloomBlur)
 	{
 		ImGui::SliderInt("Level", &settings.debugBloomLevel, 0, PostProcess::kBloomLevels - 1);
@@ -67,7 +67,7 @@ void PostProcessToolWindow::Draw(PostProcessSettings& settings)
 	ImGui::Spacing();
 	ImGui::Separator();
 
-	// ‰Šú’l‚É–ß‚·
+	// åˆæœŸå€¤ã«æˆ»ã™
 	if (ImGui::Button("Reset"))
 	{
 		settings = PostProcessSettings{};

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <PxPhysicsAPI.h>
 
 class PhysX
@@ -7,34 +7,34 @@ public:
 	PhysX() = default;
 	~PhysX() = default;
 
-	PhysX(const PhysX&) = delete;                // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	PhysX& operator=(const PhysX&) = delete;     // ƒRƒs[‘ã“ü‹Ö~
-	PhysX(PhysX&&) noexcept = delete;            // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	PhysX& operator=(PhysX&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~
+	PhysX(const PhysX&) = delete;                // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	PhysX& operator=(const PhysX&) = delete;     // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+	PhysX(PhysX&&) noexcept = delete;            // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	PhysX& operator=(PhysX&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize();
-	// I—¹ˆ—
+	// çµ‚äº†å‡¦ç†
 	void Cleanup();
 
-	// PxPhysicsæ“¾
+	// PxPhysicså–å¾—
 	physx::PxPhysics* GetPhysics() { return physics; }
-	// CPUƒfƒBƒXƒpƒbƒ`ƒƒæ“¾
+	// CPUãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£å–å¾—
 	physx::PxDefaultCpuDispatcher* GetDispatcher() { return dispatcher; }
-	// ƒfƒtƒHƒ‹ƒgƒ}ƒeƒŠƒAƒ‹æ“¾
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ†ãƒªã‚¢ãƒ«å–å¾—
 	physx::PxMaterial* GetDefaultMaterial() { return defaultMaterial; }
 
-	// ƒƒbƒVƒ…ƒf[ƒ^‚©‚çPxTriangleMesh‚ğ¶¬
+	// ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰PxTriangleMeshã‚’ç”Ÿæˆ
 	physx::PxTriangleMesh* CreateTriangleMesh(
 		const void* vertexData, uint32_t vertexCount, uint32_t vertexStride,
 		const uint32_t* indices, uint32_t triangleCount);
 
 private:
-	physx::PxDefaultAllocator      allocator;        // ƒAƒƒP[ƒ^
-	physx::PxDefaultErrorCallback  errorCallback;    // ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒN
+	physx::PxDefaultAllocator      allocator;        // ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿
+	physx::PxDefaultErrorCallback  errorCallback;    // ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
 
-	physx::PxPvd* pvd = nullptr;                     // PhysXVisualDebuggerÚ‘±
-	physx::PxPvdTransport* pvdTransport = nullptr;   // PhysXVisualDebuggerÚ‘±—pƒgƒ‰ƒ“ƒXƒ|[ƒg
+	physx::PxPvd* pvd = nullptr;                     // PhysXVisualDebuggeræ¥ç¶š
+	physx::PxPvdTransport* pvdTransport = nullptr;   // PhysXVisualDebuggeræ¥ç¶šç”¨ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ãƒˆ
 
 	physx::PxFoundation* foundation = nullptr;
 	physx::PxPhysics* physics = nullptr;

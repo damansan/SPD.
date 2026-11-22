@@ -1,4 +1,4 @@
-#include "ConditionGraphData.h"
+ï»¿#include "ConditionGraphData.h"
 #include <algorithm>
 
 namespace
@@ -90,7 +90,7 @@ namespace
 		return LogicOp::And;
 	}
 
-	// ID‚Å—v‘f‚ğ’T‚·
+	// IDã§è¦ç´ ã‚’æ¢ã™
 	template<typename T>
 	const T* FindById(const std::vector<T>& list, int id)
 	{
@@ -101,7 +101,7 @@ namespace
 		return nullptr;
 	}
 
-	// ID‚Å—v‘f‚ğÁ‚·
+	// IDã§è¦ç´ ã‚’æ¶ˆã™
 	template<typename T>
 	bool EraseById(std::vector<T>& list, int id)
 	{
@@ -111,7 +111,7 @@ namespace
 		return true;
 	}
 
-	// ‘å¬‚Ì”äŠr‚©
+	// å¤§å°ã®æ¯”è¼ƒã‹
 	bool IsOrderCompareOp(CompareOp op)
 	{
 		return op == CompareOp::Greater || op == CompareOp::Less
@@ -119,7 +119,7 @@ namespace
 	}
 }
 
-// g—p’†‚ÌID‚ÌÅ‘å’l+1‚ÉAÌ”Ô‚ğ‚»‚ë‚¦‚é
+// ä½¿ç”¨ä¸­ã®IDã®æœ€å¤§å€¤+1ã«ã€æ¡ç•ªã‚’ãã‚ãˆã‚‹
 void ConditionGraph::RecalculateNextId()
 {
 	int maxId = returnNode.id;
@@ -132,7 +132,7 @@ void ConditionGraph::RecalculateNextId()
 	nextId = maxId + 1;
 }
 
-// Return‚É‰½‚à‚Â‚È‚ª‚Á‚Ä‚¢‚È‚¢‚©
+// Returnã«ä½•ã‚‚ã¤ãªãŒã£ã¦ã„ãªã„ã‹
 bool ConditionGraph::IsEmpty() const
 {
 	for (const auto& l : links)
@@ -142,7 +142,7 @@ bool ConditionGraph::IsEmpty() const
 	return true;
 }
 
-// ƒm[ƒh‚Ìí—Ş
+// ãƒãƒ¼ãƒ‰ã®ç¨®é¡
 ConditionNodeKind ConditionGraph::GetNodeKind(int nodeId) const
 {
 	if (nodeId == returnNode.id)            return ConditionNodeKind::Return;
@@ -154,7 +154,7 @@ ConditionNodeKind ConditionGraph::GetNodeKind(int nodeId) const
 	return ConditionNodeKind::None;
 }
 
-// o—Íƒsƒ“‚ªo‚·’l‚ÌŒ^
+// å‡ºåŠ›ãƒ”ãƒ³ãŒå‡ºã™å€¤ã®å‹
 bool ConditionGraph::GetOutputType(int nodeId, ValueType& outType) const
 {
 	switch (GetNodeKind(nodeId))
@@ -166,24 +166,24 @@ bool ConditionGraph::GetOutputType(int nodeId, ValueType& outType) const
 	case ConditionNodeKind::Getter:
 	{
 		const ConditionGetterNode* g = FindById(getterNodes, nodeId);
-		// Float2`4‚ÍAg‚¦‚é¬•ª(.xyz)‚ğ‘I‚ñ‚Å‚¢‚ê‚ÎFloat‚Æ‚µ‚Äˆµ‚¤
+		// Float2ï½4ã¯ã€ä½¿ãˆã‚‹æˆåˆ†(.xyz)ã‚’é¸ã‚“ã§ã„ã‚Œã°Floatã¨ã—ã¦æ‰±ã†
 		outType = IsGetterAxisValid(*g) ? ValueType::Float : GetGetterFieldType(*g);
 		return true;
 	}
-	// ”äŠrE˜_—E”Û’è‚Ìo—Í‚Íí‚ÉBool
+	// æ¯”è¼ƒãƒ»è«–ç†ãƒ»å¦å®šã®å‡ºåŠ›ã¯å¸¸ã«Bool
 	case ConditionNodeKind::Operator:
 	case ConditionNodeKind::Logic:
 	case ConditionNodeKind::Not:
 		outType = ValueType::Bool;
 		return true;
 
-		// Return‚Ío—Íƒsƒ“‚ğ‚½‚È‚¢
+		// Returnã¯å‡ºåŠ›ãƒ”ãƒ³ã‚’æŒãŸãªã„
 	default:
 		return false;
 	}
 }
 
-// •Ï”ƒm[ƒh‚Ì’Ç‰Á
+// å¤‰æ•°ãƒãƒ¼ãƒ‰ã®è¿½åŠ 
 int ConditionGraph::AddVariableNode(ValueType type, float x, float y)
 {
 	ConditionVariableNode n;
@@ -194,7 +194,7 @@ int ConditionGraph::AddVariableNode(ValueType type, float x, float y)
 	variableNodes.push_back(n);
 	return n.id;
 }
-// ƒQƒbƒ^[ƒm[ƒh‚Ì’Ç‰Á
+// ã‚²ãƒƒã‚¿ãƒ¼ãƒãƒ¼ãƒ‰ã®è¿½åŠ 
 int ConditionGraph::AddGetterNode(float x, float y)
 {
 	ConditionGetterNode n;
@@ -204,7 +204,7 @@ int ConditionGraph::AddGetterNode(float x, float y)
 	getterNodes.push_back(n);
 	return n.id;
 }
-// ”äŠrƒm[ƒh’Ç‰Á
+// æ¯”è¼ƒãƒãƒ¼ãƒ‰è¿½åŠ 
 int ConditionGraph::AddOperatorNode(CompareOp op, float x, float y)
 {
 	ConditionOperatorNode n;
@@ -215,7 +215,7 @@ int ConditionGraph::AddOperatorNode(CompareOp op, float x, float y)
 	operatorNodes.push_back(n);
 	return n.id;
 }
-// ˜_—‰‰Zƒm[ƒh’Ç‰Á
+// è«–ç†æ¼”ç®—ãƒãƒ¼ãƒ‰è¿½åŠ 
 int ConditionGraph::AddLogicNode(LogicOp op, float x, float y)
 {
 	ConditionLogicNode n;
@@ -226,7 +226,7 @@ int ConditionGraph::AddLogicNode(LogicOp op, float x, float y)
 	logicNodes.push_back(n);
 	return n.id;
 }
-// ”Û’èƒm[ƒh’Ç‰Á
+// å¦å®šãƒãƒ¼ãƒ‰è¿½åŠ 
 int ConditionGraph::AddNotNode(float x, float y)
 {
 	ConditionNotNode n;
@@ -237,10 +237,10 @@ int ConditionGraph::AddNotNode(float x, float y)
 	return n.id;
 }
 
-// ƒm[ƒh‚Ìíœ
+// ãƒãƒ¼ãƒ‰ã®å‰Šé™¤
 void ConditionGraph::RemoveNode(int nodeId)
 {
-	// Return‚ÍğŒƒOƒ‰ƒt‚É•K‚¸1‚Â‚ ‚é‚Ì‚ÅÁ‚³‚È‚¢
+	// Returnã¯æ¡ä»¶ã‚°ãƒ©ãƒ•ã«å¿…ãš1ã¤ã‚ã‚‹ã®ã§æ¶ˆã•ãªã„
 	if (nodeId == returnNode.id) return;
 
 	bool removed = EraseById(variableNodes, nodeId)
@@ -250,24 +250,24 @@ void ConditionGraph::RemoveNode(int nodeId)
 		|| EraseById(notNodes, nodeId);
 	if (!removed) return;
 
-	// ‚Â‚È‚ª‚Á‚Ä‚¢‚½ƒŠƒ“ƒN‚àÁ‚·
+	// ã¤ãªãŒã£ã¦ã„ãŸãƒªãƒ³ã‚¯ã‚‚æ¶ˆã™
 	links.erase(
 		std::remove_if(links.begin(), links.end(),
 			[nodeId](const ConditionLink& l) { return l.fromId == nodeId || l.toId == nodeId; }),
 		links.end());
 }
 
-// ƒŠƒ“ƒN‚ğì‚ê‚é‚©
+// ãƒªãƒ³ã‚¯ã‚’ä½œã‚Œã‚‹ã‹
 bool ConditionGraph::CanLink(int fromNodeId, int toNodeId, bool toPinB, std::string* reason) const
 {
 	return CheckLink(fromNodeId, toNodeId, toPinB, -1, reason);
 }
-// ƒŠƒ“ƒN‚ğì‚é
+// ãƒªãƒ³ã‚¯ã‚’ä½œã‚‹
 int ConditionGraph::AddLink(int fromNodeId, int toNodeId, bool toPinB)
 {
 	if (!CanLink(fromNodeId, toNodeId, toPinB)) return -1;
 
-	// “ü—Íƒsƒ“‚É‚Í1–{‚¾‚¯
+	// å…¥åŠ›ãƒ”ãƒ³ã«ã¯1æœ¬ã ã‘
 	links.erase(
 		std::remove_if(links.begin(), links.end(),
 			[=](const ConditionLink& l) { return l.toId == toNodeId && l.toPinB == toPinB; }),
@@ -282,20 +282,20 @@ int ConditionGraph::AddLink(int fromNodeId, int toNodeId, bool toPinB)
 	return l.id;
 }
 
-// ƒŠƒ“ƒN‚Ìíœ
+// ãƒªãƒ³ã‚¯ã®å‰Šé™¤
 void ConditionGraph::RemoveLink(int linkId)
 {
 	EraseById(links, linkId);
 }
 
-// ¡‚Ìİ’è‚ÅAƒŠƒ“ƒN‚ªŒˆ‚Ü‚è‚É‡‚Á‚Ä‚¢‚é‚©
+// ä»Šã®è¨­å®šã§ã€ãƒªãƒ³ã‚¯ãŒæ±ºã¾ã‚Šã«åˆã£ã¦ã„ã‚‹ã‹
 bool ConditionGraph::IsLinkValid(const ConditionLink& link, std::string* reason) const
 {
 	return CheckLink(link.fromId, link.toId, link.toPinB, link.id, reason);
 }
 
 
-// ƒŠƒ“ƒN‚ÌŒˆ‚Ü‚è‚ÌŠm”F
+// ãƒªãƒ³ã‚¯ã®æ±ºã¾ã‚Šã®ç¢ºèª
 bool ConditionGraph::CheckLink(int fromNodeId, int toNodeId, bool toPinB, int ignoreLinkId, std::string* reason) const
 {
 	auto fail = [reason](const char* message)
@@ -306,11 +306,11 @@ bool ConditionGraph::CheckLink(int fromNodeId, int toNodeId, bool toPinB, int ig
 
 	if (fromNodeId == toNodeId) return fail("Cannot link a node to itself.");
 
-	// o‚·‘¤‚ÌŒ^
+	// å‡ºã™å´ã®å‹
 	ValueType fromType;
 	if (!GetOutputType(fromNodeId, fromType)) return fail("Source has no output.");
 
-	// ƒQƒbƒ^[‚ÍA“Ç‚ß‚éƒtƒB[ƒ‹ƒh‚ğ‘I‚ñ‚Å‚¢‚È‚¢‚Æ‚Â‚È‚°‚È‚¢
+	// ã‚²ãƒƒã‚¿ãƒ¼ã¯ã€èª­ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’é¸ã‚“ã§ã„ãªã„ã¨ã¤ãªã’ãªã„
 	if (GetNodeKind(fromNodeId) == ConditionNodeKind::Getter)
 	{
 		const ConditionGetterNode* g = FindById(getterNodes, fromNodeId);
@@ -319,27 +319,27 @@ bool ConditionGraph::CheckLink(int fromNodeId, int toNodeId, bool toPinB, int ig
 	}
 	if (fromType == ValueType::Unsupported) return fail("This field cannot be read in conditions.");
 
-	// Float2`4‚ÍA¬•ª(X/Y/Z/W)‚ğ‘I‚Î‚È‚¢‚Æ”ä‚×‚ç‚ê‚È‚¢
+	// Float2ï½4ã¯ã€æˆåˆ†(X/Y/Z/W)ã‚’é¸ã°ãªã„ã¨æ¯”ã¹ã‚‰ã‚Œãªã„
 	if (Reflection::GetComponentCount(fromType) > 0) return fail("Select an axis (X/Y/Z/W).");
 
-	// ó‚¯‚é‘¤‚ÉA‚»‚Ìƒsƒ“‚ª‚ ‚é‚©
+	// å—ã‘ã‚‹å´ã«ã€ãã®ãƒ”ãƒ³ãŒã‚ã‚‹ã‹
 	ConditionNodeKind toKind = GetNodeKind(toNodeId);
 	bool hasPinA = (toKind == ConditionNodeKind::Operator || toKind == ConditionNodeKind::Logic
 		|| toKind == ConditionNodeKind::Not || toKind == ConditionNodeKind::Return);
 	bool hasPinB = (toKind == ConditionNodeKind::Operator || toKind == ConditionNodeKind::Logic);
 	if (toPinB ? !hasPinB : !hasPinA) return fail("Target has no such input.");
 
-	// Œ^‚ÌŒˆ‚Ü‚è
+	// å‹ã®æ±ºã¾ã‚Š
 	if (toKind == ConditionNodeKind::Operator)
 	{
-		// Bool‚Í == ‚Æ != ‚¾‚¯
+		// Boolã¯ == ã¨ != ã ã‘
 		const ConditionOperatorNode* o = FindById(operatorNodes, toNodeId);
 		if (fromType == ValueType::Bool && IsOrderCompareOp(o->op))
 		{
 			return fail("Bool can only be compared with == or !=.");
 		}
 
-		// A‚ÆB‚Í“¯‚¶Œ^
+		// Aã¨Bã¯åŒã˜å‹
 		for (const auto& l : links)
 		{
 			if (l.id == ignoreLinkId) continue;
@@ -354,20 +354,20 @@ bool ConditionGraph::CheckLink(int fromNodeId, int toNodeId, bool toPinB, int ig
 	}
 	else
 	{
-		// ˜_—E”Û’èEReturn‚ÍABool‚¾‚¯
+		// è«–ç†ãƒ»å¦å®šãƒ»Returnã¯ã€Boolã ã‘
 		if (fromType != ValueType::Bool) return fail("Input must be Bool.");
 	}
 
-	// —Ö‚ğì‚ç‚È‚¢
+	// è¼ªã‚’ä½œã‚‰ãªã„
 	if (DependsOn(fromNodeId, toNodeId, ignoreLinkId)) return fail("Cannot create a loop.");
 
 	return true;
 }
 
-// nodeId‚Ì“ü—Í‚ğŒã‚ë‚Ö‚½‚Ç‚Á‚ÄAtargetId‚É‚½‚Ç‚è’…‚­‚©
+// nodeIdã®å…¥åŠ›ã‚’å¾Œã‚ã¸ãŸã©ã£ã¦ã€targetIdã«ãŸã©ã‚Šç€ãã‹
 bool ConditionGraph::DependsOn(int nodeId, int targetId, int ignoreLinkId) const
 {
-	// ‚½‚Ç‚é“r’†‚Å“¯‚¶ƒm[ƒh‚ğ‰½“x‚àŒ©‚È‚¢‚æ‚¤‚ÉAŒ©‚½‚à‚Ì‚ğŠo‚¦‚Ä‚¨‚­
+	// ãŸã©ã‚‹é€”ä¸­ã§åŒã˜ãƒãƒ¼ãƒ‰ã‚’ä½•åº¦ã‚‚è¦‹ãªã„ã‚ˆã†ã«ã€è¦‹ãŸã‚‚ã®ã‚’è¦šãˆã¦ãŠã
 	std::vector<int> stack{ nodeId };
 	std::vector<int> visited;
 
@@ -379,7 +379,7 @@ bool ConditionGraph::DependsOn(int nodeId, int targetId, int ignoreLinkId) const
 		if (std::find(visited.begin(), visited.end(), current) != visited.end()) continue;
 		visited.push_back(current);
 
-		// current‚É“ü‚Á‚Ä‚­‚éƒŠƒ“ƒN‚ÌŒ³‚ğ‚½‚Ç‚é
+		// currentã«å…¥ã£ã¦ãã‚‹ãƒªãƒ³ã‚¯ã®å…ƒã‚’ãŸã©ã‚‹
 		for (const auto& l : links)
 		{
 			if (l.id == ignoreLinkId) continue;
@@ -389,7 +389,7 @@ bool ConditionGraph::DependsOn(int nodeId, int targetId, int ignoreLinkId) const
 	return false;
 }
 
-// JSON‚Ö•ÏŠ·
+// JSONã¸å¤‰æ›
 nlohmann::ordered_json ConditionGraphToJson(const ConditionGraph& graph)
 {
 	nlohmann::ordered_json jc;
@@ -471,7 +471,7 @@ nlohmann::ordered_json ConditionGraphToJson(const ConditionGraph& graph)
 	return jc;
 }
 
-// JSON‚©‚ç•œŒ³
+// JSONã‹ã‚‰å¾©å…ƒ
 void ConditionGraphFromJson(ConditionGraph& graph, const nlohmann::json& jc)
 {
 	graph = ConditionGraph{};
@@ -549,7 +549,7 @@ void ConditionGraphFromJson(ConditionGraph& graph, const nlohmann::json& jc)
 			g.componentName = jg.value("componentName", "");
 			g.fieldName = jg.value("fieldName", "");
 
-			// ŒÃ‚¢•Û‘¶ƒf[ƒ^‚Í•\¦–¼‚Å•Û‘¶‚³‚ê‚Ä‚¢‚é‚Ì‚ÅAƒR[ƒhã‚Ì–¼‘O‚É’u‚«Š·‚¦‚é
+			// å¤ã„ä¿å­˜ãƒ‡ãƒ¼ã‚¿ã¯è¡¨ç¤ºåã§ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã«ç½®ãæ›ãˆã‚‹
 			if (!g.componentName.empty() && !g.fieldName.empty() &&
 				!Reflection::FindField(g.componentName, g.fieldName))
 			{
@@ -576,11 +576,11 @@ void ConditionGraphFromJson(ConditionGraph& graph, const nlohmann::json& jc)
 		}
 	}
 
-	// “Ç‚İ‚ñ‚¾ID‚Ì‘±‚«‚©‚çÌ”Ô‚·‚é
+	// èª­ã¿è¾¼ã‚“ã IDã®ç¶šãã‹ã‚‰æ¡ç•ªã™ã‚‹
 	graph.RecalculateNextId();
 }
 
-// ƒQƒbƒ^[‚ª“Ç‚ŞƒtƒB[ƒ‹ƒh‚ÌŒ^
+// ã‚²ãƒƒã‚¿ãƒ¼ãŒèª­ã‚€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å‹
 ValueType GetGetterFieldType(const ConditionGetterNode& node)
 {
 	if (node.componentName.empty() || node.fieldName.empty()) return ValueType::Unsupported;
@@ -588,7 +588,7 @@ ValueType GetGetterFieldType(const ConditionGetterNode& node)
 	const FieldEntry* field = Reflection::FindField(node.componentName, node.fieldName);
 	return field ? field->type : ValueType::Unsupported;
 }
-// ƒQƒbƒ^[‚Å‘I‚ñ‚Å‚¢‚é¬•ª‚ªA‚»‚ÌŒ^‚Åg‚¦‚é‚©
+// ã‚²ãƒƒã‚¿ãƒ¼ã§é¸ã‚“ã§ã„ã‚‹æˆåˆ†ãŒã€ãã®å‹ã§ä½¿ãˆã‚‹ã‹
 bool IsGetterAxisValid(const ConditionGetterNode& node)
 {
 	int count = Reflection::GetComponentCount(GetGetterFieldType(node));

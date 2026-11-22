@@ -1,10 +1,10 @@
-#include "SkeletonUtils.h"
+ï»¿#include "SkeletonUtils.h"
 #include <functional>
 
 namespace SkeletonUtils
 {
-	// eqŠÖŒW‚ğ’H‚èAŠeƒm[ƒh‚Ìƒ[ƒJƒ‹pose(position/rotation/scale)‚©‚ç
-	// ƒ[ƒ‹ƒh‹óŠÔ‚ÌƒOƒ[ƒoƒ‹s—ñ‚ğÄ‹AŒvZ‚·‚é
+	// è¦ªå­é–¢ä¿‚ã‚’è¾¿ã‚Šã€å„ãƒãƒ¼ãƒ‰ã®ãƒ­ãƒ¼ã‚«ãƒ«pose(position/rotation/scale)ã‹ã‚‰
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’å†å¸°è¨ˆç®—ã™ã‚‹
 	void CalcGlobalTransforms(
 		const std::vector<Model::Node>& nodes,
 		const std::vector<DirectX::XMFLOAT3>& localPositions,
@@ -14,7 +14,7 @@ namespace SkeletonUtils
 	{
 		outGlobalTransforms.resize(nodes.size());
 
-		// ƒ‹[ƒg‚©‚çÄ‹A“I‚ÉƒOƒ[ƒoƒ‹s—ñ‚ğŒvZ
+		// ãƒ«ãƒ¼ãƒˆã‹ã‚‰å†å¸°çš„ã«ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’è¨ˆç®—
 		std::function<void(int, const DirectX::XMFLOAT4X4&)> calcGlobal =
 			[&](int nodeIndex, const DirectX::XMFLOAT4X4& parentTransform)
 			{
@@ -24,7 +24,7 @@ namespace SkeletonUtils
 				const auto& rotation = localRotations[nodeIndex];
 				const auto& scale = localScales[nodeIndex];
 
-				// ƒ[ƒJƒ‹s—ñ‚ğŒvZ
+				// ãƒ­ãƒ¼ã‚«ãƒ«è¡Œåˆ—ã‚’è¨ˆç®—
 				DirectX::XMMATRIX S = DirectX::XMMatrixScaling(
 					scale.x, scale.y, scale.z);
 				DirectX::XMMATRIX R = DirectX::XMMatrixRotationQuaternion(
@@ -40,14 +40,14 @@ namespace SkeletonUtils
 
 				DirectX::XMStoreFloat4x4(&outGlobalTransforms[nodeIndex], global);
 
-				// qƒm[ƒh‚ğÄ‹Aˆ—
+				// å­ãƒãƒ¼ãƒ‰ã‚’å†å¸°å‡¦ç†
 				for (int child : node.childIndices)
 				{
 					calcGlobal(child, outGlobalTransforms[nodeIndex]);
 				}
 			};
 
-		// ƒ‹[ƒgƒm[ƒh‚©‚çŒvZŠJn
+		// ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‹ã‚‰è¨ˆç®—é–‹å§‹
 		DirectX::XMFLOAT4X4 identity =
 		{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 
@@ -60,7 +60,7 @@ namespace SkeletonUtils
 		}
 	}
 
-	// ƒOƒ[ƒoƒ‹s—ñ‚ÆBone.offsetTransform‚©‚çAƒXƒLƒjƒ“ƒO—p‚Ìƒ{[ƒ“s—ñ‚ğ‹‚ß‚é
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã¨Bone.offsetTransformã‹ã‚‰ã€ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ç”¨ã®ãƒœãƒ¼ãƒ³è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	void CalcSkinningMatrices(
 		const Model& model,
 		const std::vector<DirectX::XMFLOAT4X4>& globalTransforms,

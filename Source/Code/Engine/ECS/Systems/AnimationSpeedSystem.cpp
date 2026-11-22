@@ -1,4 +1,4 @@
-#include "AnimationSpeedSystem.h"
+ï»¿#include "AnimationSpeedSystem.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/ECS/Components/AnimationSpeedComponent.h"
@@ -14,7 +14,7 @@ void AnimationSpeedSystem::Update(entt::registry& registry)
 		auto& animator = view.get<AnimatorComponent>(entity);
 		auto& animSpeed = view.get<AnimationSpeedComponent>(entity);
 
-		// ƒpƒX‚ª–¢Ý’è‚È‚çA‚±‚ÌƒGƒ“ƒeƒBƒeƒB‚Í‘¬“xƒJ[ƒu‚ðŽg‚í‚È‚¢
+		// ãƒ‘ã‚¹ãŒæœªè¨­å®šãªã‚‰ã€ã“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¯é€Ÿåº¦ã‚«ãƒ¼ãƒ–ã‚’ä½¿ã‚ãªã„
 		if (animSpeed.animationSpeedPath.empty())
 		{
 			animator.speedCurveMultiplier = 1.0f;
@@ -35,7 +35,7 @@ void AnimationSpeedSystem::Update(entt::registry& registry)
 			if (c.clipName == animator.currentAnimation) { clip = &c; break; }
 		}
 
-		// ƒNƒŠƒbƒv‚Ì’·‚³‚ðŽæ“¾‚·‚é
+		// ã‚¯ãƒªãƒƒãƒ—ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
 		float clipLength = 0.0f;
 		for (const auto& anim : skinned.model->GetAnimations())
 		{

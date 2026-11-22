@@ -1,35 +1,35 @@
-#pragma once
+ï»¿#pragma once
 #include <functional>
 #include <string>
 #include "entt.hpp"
 #include <json.hpp>
 
-// ƒV[ƒ“•Û‘¶ / “Ç‚İ‚İ
+// ã‚·ãƒ¼ãƒ³ä¿å­˜ / èª­ã¿è¾¼ã¿
 class SceneSerializer
 {
 public:
-	// –¼‘O‚ÍƒR[ƒ‹ƒoƒbƒN‚Åó‚¯æ‚é
+	// åå‰ã¯ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã§å—ã‘å–ã‚‹
 	using NameGetter = std::function<std::string(entt::entity)>;
 
 	static constexpr int Version = 1;
 
-	// ƒV[ƒ“‘S‘Ì‚ğJSON‚É‚·‚é
+	// ã‚·ãƒ¼ãƒ³å…¨ä½“ã‚’JSONã«ã™ã‚‹
 	static nlohmann::json Serialize(entt::registry& registry, const NameGetter& getName = nullptr);
 
-	// JSON‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚·
+	// JSONã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãå‡ºã™
 	static bool SaveToFile(entt::registry& registry, const std::string& path, const NameGetter& getName = nullptr);
 
-	// –¼‘O‚ÍƒGƒfƒBƒ^‘¤‚Ìî•ñ‚È‚Ì‚ÅAİ’è‚ÍƒR[ƒ‹ƒoƒbƒN‚Å“n‚·
+	// åå‰ã¯ã‚¨ãƒ‡ã‚£ã‚¿å´ã®æƒ…å ±ãªã®ã§ã€è¨­å®šã¯ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã§æ¸¡ã™
 	using NameSetter = std::function<void(entt::entity, const std::string&)>;
 
-	// JSON‚Ì“à—e‚ÅAEntity‚ğì‚éiŠù‘¶‚ÌEntity‚É‚ÍG‚ê‚È‚¢j
+	// JSONã®å†…å®¹ã§ã€Entityã‚’ä½œã‚‹ï¼ˆæ—¢å­˜ã®Entityã«ã¯è§¦ã‚Œãªã„ï¼‰
 	static void Deserialize(entt::registry& registry, const nlohmann::json& scene, const NameSetter& setName = nullptr);
 
-	// ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ŞB“Ç‚İ‚İ‘O‚ÉAŠù‘¶‚ÌEntity‚ğ1‚Â‚¸‚Âdestroy‚·‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€ã€‚èª­ã¿è¾¼ã¿å‰ã«ã€æ—¢å­˜ã®Entityã‚’1ã¤ãšã¤destroyã™ã‚‹
 	static bool LoadFromFile(entt::registry& registry, const std::string& path, const NameSetter& setName = nullptr);
 
 private:
-	// Œ»İ‚ÌEntity‚Ì’l‚ÆƒvƒŒƒnƒu‚Å‚Ì’l‚ğ”äŠr‚·‚é
+	// ç¾åœ¨ã®Entityã®å€¤ã¨ãƒ—ãƒ¬ãƒãƒ–ã§ã®å€¤ã‚’æ¯”è¼ƒã™ã‚‹
 	static nlohmann::json DiffAgainstPrefab(const nlohmann::json& current, const nlohmann::json& prefab);
 
 };

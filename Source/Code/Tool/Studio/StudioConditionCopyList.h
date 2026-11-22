@@ -1,41 +1,41 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 
 #include "StudioConditionTarget.h"
 #include "Engine/Data/StateMachineData.h"
 
-// Ê‚·Œ³‚ÌŒó•â1Œ
+// å†™ã™å…ƒã®å€™è£œ1ä»¶
 struct ConditionCopyItem
 {
-	ConditionTarget target; // ‚Ç‚ÌƒŠƒ“ƒN‚©
-	std::string group;      // Œ©o‚µ(q‚Ì‚Æ‚«‚ÍState–¼Ae‚Ì‚Æ‚«‚Í‹ó)
-	std::string label;      // •\¦–¼
+	ConditionTarget target; // ã©ã®ãƒªãƒ³ã‚¯ã‹
+	std::string group;      // è¦‹å‡ºã—(å­ã®ã¨ãã¯Stateåã€è¦ªã®ã¨ãã¯ç©º)
+	std::string label;      // è¡¨ç¤ºå
 };
 
-// İ’è‚ğÊ‚·ˆË—Š
+// è¨­å®šã‚’å†™ã™ä¾é ¼
 struct ConditionCopyRequest
 {
-	ConditionTarget source; // Ê‚·Œ³
-	ConditionTarget target; // Ê‚·æ
+	ConditionTarget source; // å†™ã™å…ƒ
+	ConditionTarget target; // å†™ã™å…ˆ
 
 	bool IsValid() const { return source.IsValid() && target.IsValid(); }
 };
 
-// “¯‚¶ŠK‘w‚ÌƒŠƒ“ƒN‚©‚çAİ’è‚ğÊ‚·‚½‚ß‚ÌƒŠƒXƒg
+// åŒã˜éšå±¤ã®ãƒªãƒ³ã‚¯ã‹ã‚‰ã€è¨­å®šã‚’å†™ã™ãŸã‚ã®ãƒªã‚¹ãƒˆ
 namespace ConditionCopyList
 {
-	// ƒhƒ‰ƒbƒO‚Å‰^‚Ô•¨‚Ìí—Ş
+	// ãƒ‰ãƒ©ãƒƒã‚°ã§é‹ã¶ç‰©ã®ç¨®é¡
 	inline constexpr const char* kPayloadType = "CONDITION_LINK";
 
-	// e‚ÌŠK‘w‚ÌƒŠƒ“ƒN‚ğW‚ß‚é
+	// è¦ªã®éšå±¤ã®ãƒªãƒ³ã‚¯ã‚’é›†ã‚ã‚‹
 	std::vector<ConditionCopyItem> CollectParent(const StateMachineData& data, const ConditionTarget& self);
-	// q‚ÌŠK‘w‚ÌƒŠƒ“ƒN‚ğW‚ß‚é
+	// å­ã®éšå±¤ã®ãƒªãƒ³ã‚¯ã‚’é›†ã‚ã‚‹
 	std::vector<ConditionCopyItem> CollectChild(const StateMachineData& data, const ConditionTarget& self);
 
-	// ƒŠƒXƒg‚ğ•`‚­
+	// ãƒªã‚¹ãƒˆã‚’æã
 	void Draw(const std::vector<ConditionCopyItem>& items);
 
-	// ó‚¯Œû‚ğ•`‚­
+	// å—ã‘å£ã‚’æã
 	ConditionTarget DrawDropTarget(const ConditionTarget& self);
 }

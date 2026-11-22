@@ -1,4 +1,4 @@
-#include "PlayerWallSenseSystem.h"
+ï»¿#include "PlayerWallSenseSystem.h"
 #include <cmath>
 #include <algorithm>
 #include <DirectXMath.h>
@@ -16,21 +16,21 @@ void PlayerWallSenseSystem::Update(entt::registry& registry, float elapsedTime, 
 	auto view = registry.view<PlayerWallSenseComponent, CharacterContactComponent, MovementComponent>();
 	view.each([&](PlayerWallSenseComponent& sense, const CharacterContactComponent& contact, const MovementComponent& movement)
 		{
-			// ƒtƒ‰ƒOƒŠƒZƒbƒg
+			// ãƒ•ãƒ©ã‚°ãƒªã‚»ãƒƒãƒˆ
 			sense.touchingWall = false;
 			sense.approachAngleDeg = 0.0f;
 			sense.isWallRight = false;
 
-			// ¡‚ÌƒtƒŒ[ƒ€‚Ì•Ç(“r’†‚Å”²‚¯‚Ä‚àA‰º‚Ì—P—\‚ÌŒvZ‚Í•K‚¸’Ê‚é)
+			// ä»Šã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®å£(é€”ä¸­ã§æŠœã‘ã¦ã‚‚ã€ä¸‹ã®çŒ¶äºˆã®è¨ˆç®—ã¯å¿…ãšé€šã‚‹)
 			do
 			{
 				if (!contact.hitSide) break;
 
-				// •Ç‚ç‚µ‚³F‚Ù‚Ú‚’¼‚È–Ê‚¾‚¯
+				// å£ã‚‰ã—ã•ï¼šã»ã¼å‚ç›´ãªé¢ã ã‘
 				const DirectX::XMFLOAT3& n = contact.sideNormal;
 				if (fabsf(n.y) > sense.maxWallNormalY) break;
 
-				// …•½¬•ª‚¾‚¯‚Ål‚¦‚é
+				// æ°´å¹³æˆåˆ†ã ã‘ã§è€ƒãˆã‚‹
 				const float nLen = sqrtf(n.x * n.x + n.z * n.z);
 				if (nLen < 1e-4f) break;
 				const float nx = n.x / nLen;
@@ -41,26 +41,26 @@ void PlayerWallSenseSystem::Update(entt::registry& registry, float elapsedTime, 
 				const float vLen = sqrtf(movement.velocity.x * movement.velocity.x + movement.velocity.z * movement.velocity.z);
 				if (vLen < 1e-4f)
 				{
-					// …•½‚É“®‚¢‚Ä‚¢‚È‚¢FŒü‚«‚ªŒˆ‚Ü‚ç‚È‚¢‚Ì‚ÅA³–Êˆµ‚¢‚É‚µ‚Ä‚¨‚­
+					// æ°´å¹³ã«å‹•ã„ã¦ã„ãªã„ï¼šå‘ããŒæ±ºã¾ã‚‰ãªã„ã®ã§ã€æ­£é¢æ‰±ã„ã«ã—ã¦ãŠã
 					sense.approachAngleDeg = 90.0f;
 					break;
 				}
 				const float vx = movement.velocity.x / vLen;
 				const float vz = movement.velocity.z / vLen;
 
-				// •Ç‚ÖŒü‚©‚¤¬•ª(1=³–ÊA0=•½sAƒ}ƒCƒiƒX=—£‚ê‚Ä‚¢‚­)
+				// å£ã¸å‘ã‹ã†æˆåˆ†(1=æ­£é¢ã€0=å¹³è¡Œã€ãƒã‚¤ãƒŠã‚¹=é›¢ã‚Œã¦ã„ã)
 				const float into = -(vx * nx + vz * nz);
 				sense.approachAngleDeg = DirectX::XMConvertToDegrees(asinf((std::clamp)(into, -1.0f, 1.0f)));
 
-				// i‚ŞŒü‚«‚Ì‰E(‘O‚ª +Z ‚Ì‚Æ‚«A‰E‚Í +X)
+				// é€²ã‚€å‘ãã®å³(å‰ãŒ +Z ã®ã¨ãã€å³ã¯ +X)
 				const float rightX = vz;
 				const float rightZ = -vx;
 
-				// –@ü‚Í•Ç‚©‚çŠOŒü‚«
+				// æ³•ç·šã¯å£ã‹ã‚‰å¤–å‘ã
 				sense.isWallRight = (nx * rightX + nz * rightZ) < 0.0f;
 			} while (false);
 
-			// —P—\•t‚«F•Ç‚©‚ç—£‚ê‚Ä‚àA­‚µ‚ÌŠÔ‚Íu•Ç‚É‚¢‚év‚Æ‚İ‚È‚·(’n–Ê‚Ì isAirborne ‚Æ‘Î)
+			// çŒ¶äºˆä»˜ãï¼šå£ã‹ã‚‰é›¢ã‚Œã¦ã‚‚ã€å°‘ã—ã®é–“ã¯ã€Œå£ã«ã„ã‚‹ã€ã¨ã¿ãªã™(åœ°é¢ã® isAirborne ã¨å¯¾)
 			sense.wallLostTime = sense.touchingWall ? 0.0f : sense.wallLostTime + elapsedTime;
 			sense.nearWall = sense.touchingWall || (sense.wallLostTime < sense.wallGraceTime);
 		});

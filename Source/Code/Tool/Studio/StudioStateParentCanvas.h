@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -10,112 +10,112 @@
 #include "Engine/Data/StateMachineData.h"
 #include "Tool/NodeEditor/NodeEditorCanvas.h"
 
-// StateƒOƒ‰ƒt‚Ìe‚ÌƒLƒƒƒ“ƒoƒX
+// Stateã‚°ãƒ©ãƒ•ã®è¦ªã®ã‚­ãƒ£ãƒ³ãƒã‚¹
 class StudioStateParentCanvas
 {
 public:
 	void Initialize();
 
-	// ƒLƒƒƒ“ƒoƒX‚ğ•`‚­
+	// ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æã
 	void Draw(StateMachineData& data);
-	// ‘I‘ğ‚µ‚Ä‚¢‚é•¨‚ğíœ
+	// é¸æŠã—ã¦ã„ã‚‹ç‰©ã‚’å‰Šé™¤
 	void DeleteSelection(StateMachineData& data);
-	// “Ç‚İ‚İEV‹Kì¬‚Ì‚Æ‚«‚ÉA‘I‘ğ‚È‚Ç‚ğ–ß‚·
+	// èª­ã¿è¾¼ã¿ãƒ»æ–°è¦ä½œæˆã®ã¨ãã«ã€é¸æŠãªã©ã‚’æˆ»ã™
 	void Reset();
 
-	// ƒCƒ“ƒXƒyƒNƒ^[•`‰æ
+	// ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼æç”»
 	void DrawInspector(StateMachineData& data);
 
-	// ‘I‘ğ’†‚Ìƒm[ƒh‚ÆLink
+	// é¸æŠä¸­ã®ãƒãƒ¼ãƒ‰ã¨Link
 	const std::vector<int>& GetSelectedNodeKeys() const { return selectedNodeKeys; }
 	int GetSelectedLinkId() const { return selectedLinkId; }
 
-	// q‚ÌƒLƒƒƒ“ƒoƒX‚ğŠJ‚­ˆË—Š
+	// å­ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’é–‹ãä¾é ¼
 	int ConsumeOpenChildRequest() { int id = openChildRequest; openChildRequest = -1; return id; }
-	// ğŒ•ÒW‚·‚éƒLƒƒƒ“ƒoƒX‚ğŠJ‚­ˆË—Š
+	// æ¡ä»¶ç·¨é›†ã™ã‚‹ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’é–‹ãä¾é ¼
 	ConditionTarget ConsumeEditConditionRequest() { ConditionTarget t = editConditionRequest; editConditionRequest = {}; return t; }
-	// ƒŠƒ“ƒN‚Ìİ’è‚ğÊ‚·ˆË—Š
+	// ãƒªãƒ³ã‚¯ã®è¨­å®šã‚’å†™ã™ä¾é ¼
 	ConditionCopyRequest ConsumeCopyRequest() { ConditionCopyRequest r = copyRequest; copyRequest = {}; return r; }
 
 private:
-	// --- •`‰æ --- //
+	// --- æç”» --- //
 
-	// ƒm[ƒh•`‰æ
+	// ãƒãƒ¼ãƒ‰æç”»
 	void DrawEntryNode();
 	void DrawStateNodes();
 
-	// ƒŠƒ“ƒN•`‰æ
+	// ãƒªãƒ³ã‚¯æç”»
 	void DrawLinks();
-	// ì¬’†‚ÌƒŠƒ“ƒN•`‰æ
+	// ä½œæˆä¸­ã®ãƒªãƒ³ã‚¯æç”»
 	void DrawPendingLink();
 
-	// ”wŒi‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+	// èƒŒæ™¯å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	void DrawBackgroundMenu();
-	// ƒm[ƒh‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+	// ãƒãƒ¼ãƒ‰å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	void DrawNodeMenu();
 
 
-	// --- “ü—Í --- //
+	// --- å…¥åŠ› --- //
 
-	// ƒŠƒ“ƒNì¬’†‚Ì“ü—Í
+	// ãƒªãƒ³ã‚¯ä½œæˆä¸­ã®å…¥åŠ›
 	void UpdateLinkCreation();
-	// ‘I‘ğ‚ÌXV
+	// é¸æŠã®æ›´æ–°
 	void UpdateSelection();
 
-	// ƒf[ƒ^‚É‘¶İ‚·‚éƒm[ƒh‚©
+	// ãƒ‡ãƒ¼ã‚¿ã«å­˜åœ¨ã™ã‚‹ãƒãƒ¼ãƒ‰ã‹
 	bool IsExistingNode(int key) const;
 
 
-	// --- ƒCƒ“ƒXƒyƒNƒ^[ --- //
+	// --- ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ --- //
 
-	// ƒXƒe[ƒg‚Ìİ’è
+	// ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
 	void DrawStateInspector(StateNode& state);
-	// ƒGƒ“ƒgƒŠ[‚Ìİ’è
+	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®è¨­å®š
 	void DrawEntryInspector();
-	// •¡”ƒXƒe[ƒg‚Ì‘I‘ğ
+	// è¤‡æ•°ã‚¹ãƒ†ãƒ¼ãƒˆã®é¸æŠæ™‚
 	void DrawMultiStateInspector();
-	// ƒŠƒ“ƒN‚Ìİ’è
+	// ãƒªãƒ³ã‚¯ã®è¨­å®š
 	void DrawLinkInspector(int linkId);
 
-	// o‚Ä‚¢‚­ƒŠƒ“ƒN‚Ìˆê——
+	// å‡ºã¦ã„ããƒªãƒ³ã‚¯ã®ä¸€è¦§
 	void DrawLinkList(int fromKey, std::vector<StateTransition>& links);
 
-	// ƒŠƒ“ƒN‚Ì‘JˆÚŒ³‚ÆA‘JˆÚŒ³‚Ì’†‚Å‚Ì‰½”Ô–Ú‚©‚ğ’T‚·
+	// ãƒªãƒ³ã‚¯ã®é·ç§»å…ƒã¨ã€é·ç§»å…ƒã®ä¸­ã§ã®ä½•ç•ªç›®ã‹ã‚’æ¢ã™
 	bool FindLinkOwner(int linkId, int& outFromKey, int& outIndex, int& outCount) const;
 
-	// ƒm[ƒh‚ÌƒL[‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+	// ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 	std::string GetNodeName(int key) const;
 
-	// --- ƒŠƒ“ƒN‚ÌŒvZ --- //
+	// --- ãƒªãƒ³ã‚¯ã®è¨ˆç®— --- //
 
-	// fromKey‚©‚çtoStateId‚Ö‚ÌƒŠƒ“ƒN‚ª‚ ‚é‚©
+	// fromKeyã‹ã‚‰toStateIdã¸ã®ãƒªãƒ³ã‚¯ãŒã‚ã‚‹ã‹
 	bool HasLink(int fromKey, int toStateId) const;
-	// ü‚Ìn“_‚ÆI“_‚ğ‹‚ß‚é
+	// ç·šã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’æ±‚ã‚ã‚‹
 	bool CalcLinkPoints(int fromKey, int toStateId, int lane, ImVec2& outStart, ImVec2& outEnd) const;
 
 
-	// --- ƒm[ƒh‚ÌID --- //
+	// --- ãƒãƒ¼ãƒ‰ã®ID --- //
 
-	// Entry‚Íƒf[ƒ^‚ÌID‚Æ”í‚ç‚È‚¢”ÍˆÍ‚Ì’l‚ğg‚¤
+	// Entryã¯ãƒ‡ãƒ¼ã‚¿ã®IDã¨è¢«ã‚‰ãªã„ç¯„å›²ã®å€¤ã‚’ä½¿ã†
 	static constexpr int64_t kEntryNodeId = 1ll << 40;
-	// ƒm[ƒh‚ÌƒL[ <-> ƒm[ƒhƒGƒfƒBƒ^‚ÌID
+	// ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ <-> ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ã®ID
 	static ed::NodeId ToNodeId(int key);
 	static int ToNodeKey(ed::NodeId nodeId);
 
 
-	// --- ƒf[ƒ^ --- //
+	// --- ãƒ‡ãƒ¼ã‚¿ --- //
 
 	StateMachineData* data = nullptr;
 
-	// --- ƒLƒƒƒ“ƒoƒX‚Ìó‘Ô --- //
+	// --- ã‚­ãƒ£ãƒ³ãƒã‚¹ã®çŠ¶æ…‹ --- //
 
 	NodeEditorCanvas canvas;
-	// ƒf[ƒ^‚ÌˆÊ’u‚ğƒm[ƒh‚É”½‰f‚·‚é‚©
+	// ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã‚’ãƒãƒ¼ãƒ‰ã«åæ˜ ã™ã‚‹ã‹
 	bool needsApplyPositions = true;
-	// ƒm[ƒh‚Ì‹éŒ`
+	// ãƒãƒ¼ãƒ‰ã®çŸ©å½¢
 	std::unordered_map<int, std::pair<ImVec2, ImVec2>> nodeRects;
 
-	// •`‚¢‚½ƒŠƒ“ƒN‚Ìü
+	// æã„ãŸãƒªãƒ³ã‚¯ã®ç·š
 	struct LinkSegment
 	{
 		int linkId;
@@ -124,32 +124,32 @@ private:
 	};
 	std::vector<LinkSegment> linkSegments;
 
-	// ‘I‘ğ’†‚Ìƒm[ƒh‚ÆLink
+	// é¸æŠä¸­ã®ãƒãƒ¼ãƒ‰ã¨Link
 	std::vector<int> selectedNodeKeys;
 	int selectedLinkId = -1;
 
-	// Ÿ‚ÉƒLƒƒƒ“ƒoƒX‚ğ•`‚­‚Æ‚«‚ÉAƒm[ƒhƒGƒfƒBƒ^‘¤‚Ì‘I‘ğ‚ğÁ‚·‚©
+	// æ¬¡ã«ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æãã¨ãã«ã€ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿å´ã®é¸æŠã‚’æ¶ˆã™ã‹
 	bool clearSelectionRequested = false;
 
-	// ƒŠƒ“ƒN‚Ìì¬’†‚Ì‘JˆÚŒ³
+	// ãƒªãƒ³ã‚¯ã®ä½œæˆä¸­ã®é·ç§»å…ƒ
 	int pendingFromKey = -1;
 
-	// ”wŒi‚Ì‰EƒNƒŠƒbƒN‚ÌˆÊ’u
+	// èƒŒæ™¯ã®å³ã‚¯ãƒªãƒƒã‚¯ã®ä½ç½®
 	ImVec2 pendingCreatePos{};
-	// ƒm[ƒh‚Ì‰EƒNƒŠƒbƒN‚Ì‘ÎÛ
+	// ãƒãƒ¼ãƒ‰ã®å³ã‚¯ãƒªãƒƒã‚¯ã®å¯¾è±¡
 	int contextNodeKey = -1;
 
-	// –¼‘O‚Ì“ü—Í—“
+	// åå‰ã®å…¥åŠ›æ¬„
 	int nameEditingStateId = -1;
 	char nameBuffer[128] = {};
-	// –¼‘O‚ğŠm’è‚Å‚«‚È‚©‚Á‚½——R
+	// åå‰ã‚’ç¢ºå®šã§ããªã‹ã£ãŸç†ç”±
 	std::string nameError;
 
-	// q‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚¢‚Ä‚Ù‚µ‚¢State
+	// å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã„ã¦ã»ã—ã„State
 	int openChildRequest = -1;
 
-	// ğŒ‚ğ•ÒW‚µ‚Ä‚Ù‚µ‚¢ƒŠƒ“ƒN
+	// æ¡ä»¶ã‚’ç·¨é›†ã—ã¦ã»ã—ã„ãƒªãƒ³ã‚¯
 	ConditionTarget editConditionRequest;
-	// İ’è‚ğÊ‚µ‚Ä‚Ù‚µ‚¢ƒŠƒ“ƒN
+	// è¨­å®šã‚’å†™ã—ã¦ã»ã—ã„ãƒªãƒ³ã‚¯
 	ConditionCopyRequest copyRequest;
 };

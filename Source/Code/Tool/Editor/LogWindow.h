@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include <imgui.h>
 #include <vector>
 #include "Engine/Core/Log.h"
 
-// ƒƒO‚Ì•\¦ƒEƒBƒ“ƒhƒE
+// ãƒ­ã‚°ã®è¡¨ç¤ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 class LogWindow
 {
 public:
 	void Draw();
 
 private:
-	std::vector<LogBuffer::Entry> cache; // •\¦—p‚ÌÊ‚µ
+	std::vector<LogBuffer::Entry> cache; // è¡¨ç¤ºç”¨ã®å†™ã—
 	uint64_t cachedVersion = 0;
 	ImGuiTextFilter filter;
 };

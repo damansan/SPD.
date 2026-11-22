@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <DirectXMath.h>
 #include "Model.h"
 
-// ƒ‚ƒfƒ‹‚ÌœŠiŠK‘w‚ğˆµ‚¤‹¤’ÊŒvZƒƒWƒbƒN
+// ãƒ¢ãƒ‡ãƒ«ã®éª¨æ ¼éšå±¤ã‚’æ‰±ã†å…±é€šè¨ˆç®—ãƒ­ã‚¸ãƒƒã‚¯
 namespace SkeletonUtils
 {
-	// ƒ[ƒ‹ƒh‹óŠÔ‚ÌƒOƒ[ƒoƒ‹s—ñ‚ğÄ‹AŒvZ‚·‚é
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’å†å¸°è¨ˆç®—ã™ã‚‹
 	void CalcGlobalTransforms(
 		const std::vector<Model::Node>& nodes,
 		const std::vector<DirectX::XMFLOAT3>& localPositions,
@@ -14,7 +14,7 @@ namespace SkeletonUtils
 		const std::vector<DirectX::XMFLOAT3>& localScales,
 		std::vector<DirectX::XMFLOAT4X4>& outGlobalTransforms);
 
-	// ƒOƒ[ƒoƒ‹s—ñ‚ÆBone.offsetTransform‚©‚çAƒXƒLƒjƒ“ƒO—p‚Ìƒ{[ƒ“s—ñ‚ğ‹‚ß‚é
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã¨Bone.offsetTransformã‹ã‚‰ã€ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ç”¨ã®ãƒœãƒ¼ãƒ³è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	void CalcSkinningMatrices(
 		const Model& model,
 		const std::vector<DirectX::XMFLOAT4X4>& globalTransforms,

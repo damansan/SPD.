@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
-// ƒLƒƒƒ‰ƒNƒ^[‚ªG‚ê‚½–Ê‚ÌŒ‹‰Ê
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ãŒè§¦ã‚ŒãŸé¢ã®çµæœ
 struct CharacterContactComponent
 {
 	REFLECT_BEGIN(CharacterContactComponent, "Character Contact")
 
-		REFLECT_FIELD(bool, hitSide, (false), ("Hit Side", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))  // ‚±‚ÌƒtƒŒ[ƒ€‚Ì ˆÚ“® ‚Å‰¡‚É“–‚½‚Á‚½‚©
-		REFLECT_FIELD(DirectX::XMFLOAT3, sideNormal, (0.0f, 0.0f, 0.0f), ("Side Normal", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰¡‚É“–‚½‚Á‚½–Ê‚Ì–@ü
-		REFLECT_FIELD(bool, canStand, (true), ("Can Stand", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // Œ³‚Ì‚‚³‚É–ß‚Á‚Ä‚àA‰½‚É‚àd‚È‚ç‚È‚¢‚©
+		REFLECT_FIELD(bool, hitSide, (false), ("Hit Side", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))  // ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã® ç§»å‹• ã§æ¨ªã«å½“ãŸã£ãŸã‹
+		REFLECT_FIELD(DirectX::XMFLOAT3, sideNormal, (0.0f, 0.0f, 0.0f), ("Side Normal", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æ¨ªã«å½“ãŸã£ãŸé¢ã®æ³•ç·š
+		REFLECT_FIELD(bool, canStand, (true), ("Can Stand", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…ƒã®é«˜ã•ã«æˆ»ã£ã¦ã‚‚ã€ä½•ã«ã‚‚é‡ãªã‚‰ãªã„ã‹
 
-		REFLECT_FIELD(bool, hitGround, (false), ("Hit Ground", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‚±‚ÌƒtƒŒ[ƒ€‚Ì move ‚Å‰º‚É“–‚½‚Á‚½‚©
-		REFLECT_FIELD(DirectX::XMFLOAT3, groundNormal, (0.0f, 1.0f, 0.0f), ("Ground Normal", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰º‚É“–‚½‚Á‚½–Ê‚Ì–@ü(“–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Î^ã)
+		REFLECT_FIELD(bool, hitGround, (false), ("Hit Ground", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã® move ã§ä¸‹ã«å½“ãŸã£ãŸã‹
+		REFLECT_FIELD(DirectX::XMFLOAT3, groundNormal, (0.0f, 1.0f, 0.0f), ("Ground Normal", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä¸‹ã«å½“ãŸã£ãŸé¢ã®æ³•ç·š(å½“ãŸã£ã¦ã„ãªã‘ã‚Œã°çœŸä¸Š)
 
 		REFLECT_END()
 };

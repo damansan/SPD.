@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IStudioAttachment.h"
 #include "Engine/Core/JsonFileCache.h"
 #include "Engine/Data/SequencerData.h"
@@ -18,56 +18,56 @@ public:
 
 	void SetWindowId(int id) { windowId = id; }
 
-	// ImGui•`‰æ
+	// ImGuiæç”»
 	void DrawGUI(entt::registry& registry, StudioContext& context) override;
 
 private:
-	// ‘I‚ñ‚Å‚¢‚é‚à‚Ì‚Ìí—Ş
+	// é¸ã‚“ã§ã„ã‚‹ã‚‚ã®ã®ç¨®é¡
 	enum class SelectionType
 	{
-		None,  // ƒgƒ‰ƒbƒN‚¾‚¯‚ğ‘I‚ñ‚Å‚¢‚é
-		Point, // Point ‚ğ‘I‚ñ‚Å‚¢‚é
-		Range, // Range ‚ğ‘I‚ñ‚Å‚¢‚é
+		None,  // ãƒˆãƒ©ãƒƒã‚¯ã ã‘ã‚’é¸ã‚“ã§ã„ã‚‹
+		Point, // Point ã‚’é¸ã‚“ã§ã„ã‚‹
+		Range, // Range ã‚’é¸ã‚“ã§ã„ã‚‹
 	};
 
-	// == “à•”ó‘Ô == //
+	// == å†…éƒ¨çŠ¶æ…‹ == //
 	int windowId = 0;
 
-	SequencerData sequencerData;    // •ÒW’†‚Ìƒf[ƒ^
-	JsonFileCache<SequencerData> fileCache; // ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‘‚«
-	std::string loadedModelPath;    // ÅŒã‚É“Ç‚İ‚ñ‚¾ƒ‚ƒfƒ‹ƒpƒX
-	bool isDirty = false;           // –¢•Û‘¶‚Ì•ÏX‚ª‚ ‚é‚©
-	StudioTimelineWidget timeline;  // ƒ^ƒCƒ€ƒ‰ƒCƒ“•”•i
+	SequencerData sequencerData;    // ç·¨é›†ä¸­ã®ãƒ‡ãƒ¼ã‚¿
+	JsonFileCache<SequencerData> fileCache; // ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿æ›¸ã
+	std::string loadedModelPath;    // æœ€å¾Œã«èª­ã¿è¾¼ã‚“ã ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹
+	bool isDirty = false;           // æœªä¿å­˜ã®å¤‰æ›´ãŒã‚ã‚‹ã‹
+	StudioTimelineWidget timeline;  // ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³éƒ¨å“
 
-	SequencerFlag selectedTrack = SequencerFlag::AnimExit; // ‘I‚ñ‚Å‚¢‚éƒgƒ‰ƒbƒN
-	SelectionType selectedType = SelectionType::None;      // ‘I‚ñ‚Å‚¢‚é‚à‚Ì‚Ìí—Ş
-	int selectedId = -1;                                   // ‘I‚ñ‚Å‚¢‚é Point / Range ‚Ì id
+	SequencerFlag selectedTrack = SequencerFlag::AnimExit; // é¸ã‚“ã§ã„ã‚‹ãƒˆãƒ©ãƒƒã‚¯
+	SelectionType selectedType = SelectionType::None;      // é¸ã‚“ã§ã„ã‚‹ã‚‚ã®ã®ç¨®é¡
+	int selectedId = -1;                                   // é¸ã‚“ã§ã„ã‚‹ Point / Range ã® id
 	std::string selectedClipName;
 
 
-	// ƒ^ƒCƒ€ƒ‰ƒCƒ“
+	// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 	bool DrawTimelineArea(const Model& model, AnimatorComponent& animator, StudioContext& context);
-	// ”’l
-	bool DrawDetailArea(const Model& model, const std::string& clipName, const std::string& modelPath); // ‰EFÚ×i•ÏX‚ª‚ ‚ê‚Îtruej
-	// Ú×
+	// æ•°å€¤
+	bool DrawDetailArea(const Model& model, const std::string& clipName, const std::string& modelPath); // å³ï¼šè©³ç´°ï¼ˆå¤‰æ›´ãŒã‚ã‚Œã°trueï¼‰
+	// è©³ç´°
 	bool DrawSelectedItem(const Model& model, const std::string& clipName); 
 
-	// ƒgƒ‰ƒbƒN‚Ì•`‰æ
+	// ãƒˆãƒ©ãƒƒã‚¯ã®æç”»
 	bool DrawTrack(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep);
-	// Point ‚Ìs
+	// Point ã®è¡Œ
 	bool DrawPointLane(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep); 
-	// Range ‚Ìs
+	// Range ã®è¡Œ
 	bool DrawRangeLane(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep);
-	// •Â‚¶‚Ä‚¢‚é‚Æ‚«‚Ì×‚¢s
+	// é–‰ã˜ã¦ã„ã‚‹ã¨ãã®ç´°ã„è¡Œ
 	void DrawCollapsedLane(SequencerFlag flag, const Model& model, const std::string& clipName);
 
-	// ƒ{ƒ^ƒ“
+	// ãƒœã‚¿ãƒ³
 	bool DrawItemButtons(const Model& model, const std::string& clipName, float pinTime, float frameStep);
 	
-	// ƒtƒ‰ƒO‚Ì•\¦–¼
+	// ãƒ•ãƒ©ã‚°ã®è¡¨ç¤ºå
 	static const char* GetFlagName(SequencerFlag flag);
 
-	// •Û‘¶ / “Ç‚İ‚İ
+	// ä¿å­˜ / èª­ã¿è¾¼ã¿
 	void Load(const std::string& modelPath);
 	void Save(const std::string& modelPath);
 }; 

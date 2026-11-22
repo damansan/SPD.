@@ -1,33 +1,33 @@
-#include "PhysX.h"
+ï»¿#include "PhysX.h"
 
 using namespace physx;
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void PhysX::Initialize()
 {
-	// Foundatioì¬
+	// Foundatioä½œæˆ
 	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, errorCallback);
 
 #ifdef _DEBUG
-	// PhysXVisualDebugger‚ÉÚ‘±
+	// PhysXVisualDebuggerã«æ¥ç¶š
 	pvd = PxCreatePvd(*foundation);
 	pvdTransport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
 	pvd->connect(*pvdTransport, physx::PxPvdInstrumentationFlag::eALL);
 #endif
 
-	// PxPhysics–{‘Ìì¬
+	// PxPhysicsæœ¬ä½“ä½œæˆ
 	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, PxTolerancesScale(), true, pvd);
 
-	// ƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğCPUƒXƒŒƒbƒh‚ÉŠ„‚èU‚éƒfƒBƒXƒpƒbƒ`ƒƒ‚ğì¬
-	dispatcher = PxDefaultCpuDispatcherCreate(1); // ƒXƒŒƒbƒh”‚P(‰ÄŠúuÀ‚¾‚Æ2ƒXƒŒƒbƒh‚¾‚Á‚½)
+	// ã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’CPUã‚¹ãƒ¬ãƒƒãƒ‰ã«å‰²ã‚ŠæŒ¯ã‚‹ãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒãƒ£ã‚’ä½œæˆ
+	dispatcher = PxDefaultCpuDispatcherCreate(1); // ã‚¹ãƒ¬ãƒƒãƒ‰æ•°ï¼‘(å¤æœŸè¬›åº§ã ã¨2ã‚¹ãƒ¬ãƒƒãƒ‰ã ã£ãŸ)
 
-	// ƒfƒtƒHƒ‹ƒgƒ}ƒeƒŠƒAƒ‹(Ã–€C, “®–€C, ”½”­ŒW”)ì¬
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ†ãƒªã‚¢ãƒ«(é™æ‘©æ“¦, å‹•æ‘©æ“¦, åç™ºä¿‚æ•°)ä½œæˆ
 	defaultMaterial = physics->createMaterial(0.5f, 0.5f, 0.6f);
 }
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 void PhysX::Cleanup()
 {
-	// ì¬‚µ‚½‡‚Æ‹t‡‚É‰ğ•ú‚·‚é
+	// ä½œæˆã—ãŸé †ã¨é€†é †ã«è§£æ”¾ã™ã‚‹
 	if (defaultMaterial) { defaultMaterial->release(); defaultMaterial = nullptr; }
 	if (dispatcher)      { dispatcher->release();      dispatcher      = nullptr; }
 	if (physics)         { physics->release();         physics         = nullptr; }
@@ -37,7 +37,7 @@ void PhysX::Cleanup()
 	if (foundation)      { foundation->release();      foundation      = nullptr; }
 }
 
-// ƒƒbƒVƒ…ƒf[ƒ^‚©‚çPxTriangleMesh‚ğ¶¬
+// ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰PxTriangleMeshã‚’ç”Ÿæˆ
 physx::PxTriangleMesh* PhysX::CreateTriangleMesh(
 	const void* vertexData, 
 	uint32_t vertexCount,
@@ -45,7 +45,7 @@ physx::PxTriangleMesh* PhysX::CreateTriangleMesh(
 	const uint32_t* indices,
 	uint32_t triangleCount)
 {
-	// ƒƒbƒVƒ…î•ñ‘g‚İ—§‚Ä
+	// ãƒ¡ãƒƒã‚·ãƒ¥æƒ…å ±çµ„ã¿ç«‹ã¦
 	PxTriangleMeshDesc meshDesc;
 	meshDesc.points.count = vertexCount;
 	meshDesc.points.stride = vertexStride;
@@ -55,10 +55,10 @@ physx::PxTriangleMesh* PhysX::CreateTriangleMesh(
 	meshDesc.triangles.stride = 3 * sizeof(uint32_t);
 	meshDesc.triangles.data = indices;
 
-	// Cookingƒpƒ‰ƒ[ƒ^
+	// Cookingãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	PxCookingParams cookingParams(physics->getTolerancesScale());
 
-	// ƒƒbƒVƒ…¶¬
+	// ãƒ¡ãƒƒã‚·ãƒ¥ç”Ÿæˆ
 	return PxCreateTriangleMesh(
 		cookingParams,
 		meshDesc,

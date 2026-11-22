@@ -1,11 +1,11 @@
-#include "SequencerSystem.h"
+ï»¿#include "SequencerSystem.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 
-// 1‘Ì‚ÌƒGƒ“ƒeƒBƒeƒB‚É‚Â‚¢‚ÄAƒtƒ‰ƒO‚ğXV‚·‚é
+// 1ä½“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«ã¤ã„ã¦ã€ãƒ•ãƒ©ã‚°ã‚’æ›´æ–°ã™ã‚‹
 void SequencerSystem::UpdateFlags(SequencerComponent& seq, const SequencerClipData* clip, const PlayedSpan& span)
 {
-	// ƒtƒ‰ƒO‚ğˆê’U‘S•”false‚É–ß‚·
+	// ãƒ•ãƒ©ã‚°ã‚’ä¸€æ—¦å…¨éƒ¨falseã«æˆ»ã™
 	seq.animExit = false;
 
 	if (!clip) return;
@@ -19,13 +19,13 @@ void SequencerSystem::UpdateFlags(SequencerComponent& seq, const SequencerClipDa
 			}
 		};
 
-	// RangeF¡‚Ì‚ª”ÍˆÍ“à‚È‚çtrue
+	// Rangeï¼šä»Šã®æ™‚åˆ»ãŒç¯„å›²å†…ãªã‚‰true
 	for (const auto& r : clip->ranges)
 	{
 		setFlag(r.flag, span.current >= r.start && span.current <= r.end);
 	}
 
-	// PointF¡‰ñ‚ÌƒtƒŒ[ƒ€‚ÅÄ¶‚µ‚½‹æŠÔ‚É“ü‚Á‚Ä‚¢‚ê‚Îtrue
+	// Pointï¼šä»Šå›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§å†ç”Ÿã—ãŸåŒºé–“ã«å…¥ã£ã¦ã„ã‚Œã°true
 	for (const auto& p : clip->points)
 	{
 		bool passed = false;
@@ -35,7 +35,7 @@ void SequencerSystem::UpdateFlags(SequencerComponent& seq, const SequencerClipDa
 		}
 		else
 		{
-			// ƒ‹[ƒv‚µ‚½ƒtƒŒ[ƒ€Fi‚Ş‘O‚©‚çƒNƒŠƒbƒv‚ÌÅŒã ‚ÆAƒNƒŠƒbƒv‚Ì“ª‚©‚çi‚ñ‚¾Œã
+			// ãƒ«ãƒ¼ãƒ—ã—ãŸãƒ•ãƒ¬ãƒ¼ãƒ ï¼šé€²ã‚€å‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã®æœ€å¾Œ ã¨ã€ã‚¯ãƒªãƒƒãƒ—ã®é ­ã‹ã‚‰é€²ã‚“ã å¾Œ
 			passed = (span.from < p.time && p.time <= span.clipEnd)
 				|| (span.clipStart <= p.time && p.time <= span.to);
 		}
@@ -58,13 +58,13 @@ void SequencerSystem::Update(entt::registry& registry)
 			continue;
 		}
 
-		// ƒ‚ƒfƒ‹‚²‚Æ‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚Ş
+		// ãƒ¢ãƒ‡ãƒ«ã”ã¨ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚€
 		const SequencerData& data = dataCache.GetOrLoad(SequencerData::GetFilePath(skinned.modelPath),
 			[](SequencerData& data, const nlohmann::json& j) { data.FromJson(j); }, JsonMissingLog::Silent);
 
 		const SequencerClipData* clip = data.FindClip(animator.currentAnimation);
 
-		// Ä‚«‚İŒã‚ÌƒNƒŠƒbƒv‚ğ’T‚·
+		// ç„¼ãè¾¼ã¿å¾Œã®ã‚¯ãƒªãƒƒãƒ—ã‚’æ¢ã™
 		const Model::Animation* animation = skinned.model->FindAnimation(animator.currentAnimation);
 
 		if (!animation)
@@ -72,7 +72,7 @@ void SequencerSystem::Update(entt::registry& registry)
 			continue;
 		}
 
-		// ¡‰ñ‚ÌƒtƒŒ[ƒ€‚ÅÄ¶‚µ‚½‹æŠÔ‚ğA¶ƒf[ƒ^‚Ì‚É’¼‚·
+		// ä»Šå›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§å†ç”Ÿã—ãŸåŒºé–“ã‚’ã€ç”Ÿãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»ã«ç›´ã™
 		PlayedSpan span;
 		span.current = animation->ToRawTime(animator.animationTime);
 		span.clipStart = animation->ToRawTime(0.0f);
@@ -80,7 +80,7 @@ void SequencerSystem::Update(entt::registry& registry)
 		span.to = animation->ToRawTime(animator.stepToTime);
 		span.wrapped = animator.stepWrapped;
 
-		// n‚Ü‚Á‚½’¼Œã‚ÍA“ª‚Ì‚¿‚å‚¤‚Ç‚àŠÜ‚Ş‚æ‚¤‚ÉA“ª‚æ‚è­‚µ‘O‚É‚·‚é
+		// å§‹ã¾ã£ãŸç›´å¾Œã¯ã€é ­ã®æ™‚åˆ»ã¡ã‚‡ã†ã©ã‚‚å«ã‚€ã‚ˆã†ã«ã€é ­ã‚ˆã‚Šå°‘ã—å‰ã«ã™ã‚‹
 		span.from = (animator.stepFromTime < 0.0f)
 			? span.clipStart - 0.0001f
 			: animation->ToRawTime(animator.stepFromTime);

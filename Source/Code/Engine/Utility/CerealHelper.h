@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
-// Cereal‘O•ûéŒ¾
+// Cerealå‰æ–¹å®£è¨€
 namespace cereal
 {
     class BinaryOutputArchive;
     class BinaryInputArchive;
 }
 
-// DirectXMath\‘¢‘Ì‚ÌserializeéŒ¾
+// DirectXMathæ§‹é€ ä½“ã®serializeå®£è¨€
 namespace DirectX
 {
     template<class T> void serialize(T& archive, DirectX::XMFLOAT2& v);
@@ -17,7 +17,7 @@ namespace DirectX
     template<class T> void serialize(T& archive, DirectX::XMFLOAT4X4& m);
     template<class T> void serialize(T& archive, DirectX::XMUINT4& v);
 
-    // –¾¦“IƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ÌéŒ¾i.cpp‚Å“WŠJÏ‚İ‚Æ“`‚¦‚éj
+    // æ˜ç¤ºçš„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã®å®£è¨€ï¼ˆ.cppã§å±•é–‹æ¸ˆã¿ã¨ä¼ãˆã‚‹ï¼‰
     extern template void serialize(cereal::BinaryOutputArchive&, DirectX::XMFLOAT2&);
     extern template void serialize(cereal::BinaryInputArchive&, DirectX::XMFLOAT2&);
     extern template void serialize(cereal::BinaryOutputArchive&, DirectX::XMFLOAT3&);

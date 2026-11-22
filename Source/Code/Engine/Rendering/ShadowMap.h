@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include "Engine/Rendering/ShaderLimits.h"
 
-// ƒJƒXƒP[ƒhƒVƒƒƒhƒE—p‚Ì‰eƒ}ƒbƒv
+// ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰ã‚·ãƒ£ãƒ‰ã‚¦ç”¨ã®å½±ãƒãƒƒãƒ—
 class ShadowMap
 {
 public:
-	static constexpr UINT CASCADE_COUNT = SHADOW_CASCADE_COUNT; // ƒJƒXƒP[ƒh‚Ì’i”
-	static constexpr UINT RESOLUTION = 2048;  // 1’i‚ ‚½‚è‚Ìc‰¡ƒsƒNƒZƒ‹”
+	static constexpr UINT CASCADE_COUNT = SHADOW_CASCADE_COUNT; // ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰ã®æ®µæ•°
+	static constexpr UINT RESOLUTION = 2048;  // 1æ®µã‚ãŸã‚Šã®ç¸¦æ¨ªãƒ”ã‚¯ã‚»ãƒ«æ•°
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(ID3D11Device* device);
 
-	// w’è‚µ‚½’i‚ğ•`‰ææ‚É‚·‚é
+	// æŒ‡å®šã—ãŸæ®µã‚’æç”»å…ˆã«ã™ã‚‹
 	void BeginCascade(ID3D11DeviceContext* dc, UINT cascadeIndex);
 
-	// •`‰ææ‚ğŠO‚·
+	// æç”»å…ˆã‚’å¤–ã™
 	void End(ID3D11DeviceContext* dc);
 
 	ID3D11ShaderResourceView* GetSRV() const { return srv.Get(); }
@@ -24,9 +24,9 @@ public:
 	ID3D11RasterizerState* GetRasterizerState() const { return rasterizerState.Get(); }
 
 private:
-	Microsoft::WRL::ComPtr<ID3D11Texture2D>          texture;             // –{‘Ìi”z—ñƒeƒNƒXƒ`ƒƒj
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>   dsvs[CASCADE_COUNT]; // ‘‚­‚Æ‚«F’i‚²‚Æ‚É1–‡
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;                 // “Ç‚Ş‚Æ‚«F‘S’i‚Ü‚Æ‚ß‚Ä1‚Â
-	Microsoft::WRL::ComPtr<ID3D11SamplerState>       comparisonSampler;   // ‰e”»’è—p
-	Microsoft::WRL::ComPtr<ID3D11RasterizerState>    rasterizerState;     // ‰e‚ğ•`‚­‚Æ‚«—p
+	Microsoft::WRL::ComPtr<ID3D11Texture2D>          texture;             // æœ¬ä½“ï¼ˆé…åˆ—ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼‰
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>   dsvs[CASCADE_COUNT]; // æ›¸ãã¨ãï¼šæ®µã”ã¨ã«1æš
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;                 // èª­ã‚€ã¨ãï¼šå…¨æ®µã¾ã¨ã‚ã¦1ã¤
+	Microsoft::WRL::ComPtr<ID3D11SamplerState>       comparisonSampler;   // å½±åˆ¤å®šç”¨
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState>    rasterizerState;     // å½±ã‚’æãã¨ãç”¨
 };

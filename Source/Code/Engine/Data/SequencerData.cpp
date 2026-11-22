@@ -1,4 +1,4 @@
-#include "SequencerData.h"
+ï»¿#include "SequencerData.h"
 #include "Engine/Core/Log.h"
 #include "Engine/Data/DataFileKind.h"
 #include <filesystem>
@@ -15,7 +15,7 @@ namespace
 		return "AnimExit";
 	}
 
-	// –¼‘O‚©‚çƒtƒ‰ƒO‚É’¼‚·
+	// åå‰ã‹ã‚‰ãƒ•ãƒ©ã‚°ã«ç›´ã™
 	bool TryParseSequencerFlag(const std::string& s, SequencerFlag& outFlag)
 	{
 		if (s == "AnimExit") { outFlag = SequencerFlag::AnimExit; return true; }
@@ -24,7 +24,7 @@ namespace
 }
 
 
-// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 const SequencerClipData* SequencerData::FindClip(const std::string& clipName) const
 {
 	for (const auto& clip : clips)
@@ -47,7 +47,7 @@ SequencerClipData* SequencerData::FindOrCreateClip(const std::string& clipName)
 	return &clips.back();
 }
 
-// •Û‘¶
+// ä¿å­˜
 nlohmann::ordered_json SequencerData::ToJson() const
 {
 	nlohmann::ordered_json j;
@@ -86,7 +86,7 @@ nlohmann::ordered_json SequencerData::ToJson() const
 	return j;
 }
 
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void SequencerData::FromJson(const nlohmann::json& j)
 {
 	clips.clear();
@@ -108,11 +108,11 @@ void SequencerData::FromJson(const nlohmann::json& j)
 				r.start = jr.value("start", 0.0f);
 				r.end = jr.value("end", 0.0f);
 
-				// ’m‚ç‚È‚¢ƒtƒ‰ƒO–¼‚Í“Ç‚İ”ò‚Î‚·
+				// çŸ¥ã‚‰ãªã„ãƒ•ãƒ©ã‚°åã¯èª­ã¿é£›ã°ã™
 				const std::string flagName = jr.value("flag", "");
 				if (!TryParseSequencerFlag(flagName, r.flag))
 				{
-					Log(u8" Sequencer: •s–¾‚Èƒtƒ‰ƒOu%sv", flagName.c_str());
+					Log(" Sequencer: ä¸æ˜ãªãƒ•ãƒ©ã‚°ã€Œ%sã€", flagName.c_str());
 					continue;
 				}
 				clip.ranges.push_back(r);
@@ -127,11 +127,11 @@ void SequencerData::FromJson(const nlohmann::json& j)
 				p.id = jp.value("id", -1);
 				p.time = jp.value("time", 0.0f);
 
-				// ’m‚ç‚È‚¢ƒtƒ‰ƒO–¼‚Í“Ç‚İ”ò‚Î‚·
+				// çŸ¥ã‚‰ãªã„ãƒ•ãƒ©ã‚°åã¯èª­ã¿é£›ã°ã™
 				const std::string flagName = jp.value("flag", "");
 				if (!TryParseSequencerFlag(flagName, p.flag))
 				{
-					Log(u8" Sequencer: •s–¾‚Èƒtƒ‰ƒOu%sv", flagName.c_str());
+					Log(" Sequencer: ä¸æ˜ãªãƒ•ãƒ©ã‚°ã€Œ%sã€", flagName.c_str());
 					continue;
 				}
 				clip.points.push_back(p);
@@ -142,7 +142,7 @@ void SequencerData::FromJson(const nlohmann::json& j)
 	}
 }
 
-// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 std::string SequencerData::GetFilePath(const std::string& modelPath)
 {
 	return GetModelDataFilePath(modelPath, DataFileKind::Sequencer);

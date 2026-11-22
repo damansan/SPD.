@@ -1,4 +1,4 @@
-#include "PrimitiveRenderer.h"
+Ôªø#include "PrimitiveRenderer.h"
 #include "Engine/Resource/GpuResourceUtils.h"
 
 PrimitiveRenderer::PrimitiveRenderer(ID3D11Device* device)
@@ -54,7 +54,7 @@ void PrimitiveRenderer::Render(
 	dc->IASetInputLayout(inputLayout.Get());
 	dc->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
 
-	// viewProjectionçXêV
+	// viewProjectionÊõ¥Êñ∞
 	DirectX::XMMATRIX V = DirectX::XMLoadFloat4x4(&view);
 	DirectX::XMMATRIX P = DirectX::XMLoadFloat4x4(&projection);
 	CbScene cbScene;

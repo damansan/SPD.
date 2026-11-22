@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
-// ‰ñ”ğ‚Ì•ûŒü
+// å›é¿ã®æ–¹å‘
 enum class PlayerDodgeDirection
 {
 	Front,
@@ -15,29 +15,29 @@ struct PlayerDodgeComponent
 {
 	REFLECT_BEGIN(PlayerDodgeComponent, "Player Dodge")
 
-		// İ’è’l
-		REFLECT_FIELD(float, dodgeSpeed, (8.0f), ("Dodge Speed", 0.0f, 20.0f)) // ‰ñ”ğ’†‚Ì‘¬‚³
-		REFLECT_FIELD(float, minTime, (0.15f), ("Min Time", 0.0f, 2.0f))  // R2‚ğ’Z‚­‰Ÿ‚µ‚½‚Ì’·‚³
-		REFLECT_FIELD(float, maxTime, (0.5f), ("Max Time", 0.0f, 2.0f))  // R2‚ğ‰Ÿ‚µ‘±‚¯‚½‚Ì’·‚³
-		REFLECT_FIELD(float, accelHalfLife, (0.02f), ("Accel Half Life", 0.0f, 1.0f))  // ‰ñ”ğ‚Ì‘¬‚³‚É’B‚·‚é‚Ü‚Å‚Ì”¼Œ¸Šú
-		REFLECT_FIELD(float, turnSpeed, (10.0f), ("Turn Speed", 0.0f, 30.0f)) // ‰ñ”ğ•ûŒü‚ğ‹È‚°‚é‘¬‚³
+		// è¨­å®šå€¤
+		REFLECT_FIELD(float, dodgeSpeed, (8.0f), ("Dodge Speed", 0.0f, 20.0f)) // å›é¿ä¸­ã®é€Ÿã•
+		REFLECT_FIELD(float, minTime, (0.15f), ("Min Time", 0.0f, 2.0f))  // R2ã‚’çŸ­ãæŠ¼ã—ãŸæ™‚ã®é•·ã•
+		REFLECT_FIELD(float, maxTime, (0.5f), ("Max Time", 0.0f, 2.0f))  // R2ã‚’æŠ¼ã—ç¶šã‘ãŸæ™‚ã®é•·ã•
+		REFLECT_FIELD(float, accelHalfLife, (0.02f), ("Accel Half Life", 0.0f, 1.0f))  // å›é¿ã®é€Ÿã•ã«é”ã™ã‚‹ã¾ã§ã®åŠæ¸›æœŸ
+		REFLECT_FIELD(float, turnSpeed, (10.0f), ("Turn Speed", 0.0f, 30.0f)) // å›é¿æ–¹å‘ã‚’æ›²ã’ã‚‹é€Ÿã•
 
-		// ó‘Ô
-		REFLECT_FIELD(bool, isFront,  (false), ("Is Front", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‘O‚Ö‰ñ”ğ
-		REFLECT_FIELD(bool, isBack,   (false), ("Is Back",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // Œã‚ë‚Ö‰ñ”ğ
-		REFLECT_FIELD(bool, isLeft,   (false), ("Is Left",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¶‚Ö‰ñ”ğ
-		REFLECT_FIELD(bool, isRight,  (false), ("Is Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰E‚Ö‰ñ”ğ
-		REFLECT_FIELD(bool, finished, (false), ("Finished", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰ñ”ğ‚ªI‚í‚Á‚½‚©
-		REFLECT_FIELD(bool, faceDodgeDir, (false), ("Face Dodge Dir", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰ñ”ğ•ûŒü‚ğŒü‚¢‚Ä‰ñ”ğ‚·‚é‚©(‘O•û3•ûŒü‚Ì‚Æ‚«)
+		// çŠ¶æ…‹
+		REFLECT_FIELD(bool, isFront,  (false), ("Is Front", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å‰ã¸å›é¿
+		REFLECT_FIELD(bool, isBack,   (false), ("Is Back",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å¾Œã‚ã¸å›é¿
+		REFLECT_FIELD(bool, isLeft,   (false), ("Is Left",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å·¦ã¸å›é¿
+		REFLECT_FIELD(bool, isRight,  (false), ("Is Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å³ã¸å›é¿
+		REFLECT_FIELD(bool, finished, (false), ("Finished", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å›é¿ãŒçµ‚ã‚ã£ãŸã‹
+		REFLECT_FIELD(bool, faceDodgeDir, (false), ("Face Dodge Dir", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å›é¿æ–¹å‘ã‚’å‘ã„ã¦å›é¿ã™ã‚‹ã‹(å‰æ–¹3æ–¹å‘ã®ã¨ã)
 
-		// ‘Ì‚©‚çŒ©‚½‰ñ”ğ•ûŒü
-		REFLECT_FIELD(float, localX,  (0.0f), ("Local X", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰E‚ª +
-		REFLECT_FIELD(float, localZ,  (0.0f), ("Local Z", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‘O‚ª +
-		REFLECT_FIELD(float, elapsed, (0.0f), ("Elapsed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰ñ”ğ‚É“ü‚Á‚Ä‚©‚ç‚ÌŠÔ(•b)
+		// ä½“ã‹ã‚‰è¦‹ãŸå›é¿æ–¹å‘
+		REFLECT_FIELD(float, localX,  (0.0f), ("Local X", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å³ãŒ +
+		REFLECT_FIELD(float, localZ,  (0.0f), ("Local Z", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å‰ãŒ +
+		REFLECT_FIELD(float, elapsed, (0.0f), ("Elapsed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å›é¿ã«å…¥ã£ã¦ã‹ã‚‰ã®æ™‚é–“(ç§’)
 
 		REFLECT_END()
 
-		// “à•”À‘•—p
-		PlayerDodgeDirection direction = PlayerDodgeDirection::Back; // “ü‚Á‚½‚ÉŒˆ‚ß‚½•ûŒü
-	DirectX::XMFLOAT3    dodgeDir = { 0.0f, 0.0f, 0.0f };        // ¡i‚ñ‚Å‚¢‚é•ûŒü
+		// å†…éƒ¨å®Ÿè£…ç”¨
+		PlayerDodgeDirection direction = PlayerDodgeDirection::Back; // å…¥ã£ãŸæ™‚ã«æ±ºã‚ãŸæ–¹å‘
+	DirectX::XMFLOAT3    dodgeDir = { 0.0f, 0.0f, 0.0f };        // ä»Šé€²ã‚“ã§ã„ã‚‹æ–¹å‘
 };

@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 class ComponentRegistryInitializer
 {
 public:
-    // ‘SƒRƒ“ƒ|[ƒlƒ“ƒg‚ğComponentRegistry‚É“o˜^‚·‚é
+    // å…¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ComponentRegistryã«ç™»éŒ²ã™ã‚‹
     static void Initialize();
 };

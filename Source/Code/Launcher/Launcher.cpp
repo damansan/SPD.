@@ -1,34 +1,34 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include <commctrl.h>
 #include <string>
 
-// ƒ^ƒXƒNƒ_ƒCƒAƒƒO(ƒ{ƒ^ƒ“•t‚«‚Ì‘I‘ğ‰æ–Ê)‚ğg‚¤‚½‚ß‚Ìİ’è
+// ã‚¿ã‚¹ã‚¯ãƒ€ã‚¤ã‚¢ãƒ­ã‚°(ãƒœã‚¿ãƒ³ä»˜ãã®é¸æŠç”»é¢)ã‚’ä½¿ã†ãŸã‚ã®è¨­å®š
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 namespace
 {
-	// ‘I‘ğ‰æ–Ê‚Ìƒ{ƒ^ƒ“‚ÌID
+	// é¸æŠç”»é¢ã®ãƒœã‚¿ãƒ³ã®ID
 	enum
 	{
 		kButtonEditor = 100,
 		kButtonGame = 101,
 	};
 
-	// ‹N“®‚·‚éƒAƒvƒŠ‚ğ‘I‘ğ‰æ–Ê‚Å‘I‚Ô
+	// èµ·å‹•ã™ã‚‹ã‚¢ãƒ—ãƒªã‚’é¸æŠç”»é¢ã§é¸ã¶
 	int ShowSelectDialog()
 	{
 		TASKDIALOG_BUTTON buttons[] =
 		{
-			{ kButtonEditor, L"Editor\nƒGƒfƒBƒ^•t‚«‚Å‹N“®‚·‚é" },
-			{ kButtonGame,   L"Game\nƒQ[ƒ€’P‘Ì‚Å‹N“®‚·‚é" },
+			{ kButtonEditor, L"Editor\nã‚¨ãƒ‡ã‚£ã‚¿ä»˜ãã§èµ·å‹•ã™ã‚‹" },
+			{ kButtonGame,   L"Game\nã‚²ãƒ¼ãƒ å˜ä½“ã§èµ·å‹•ã™ã‚‹" },
 		};
 
 		TASKDIALOGCONFIG config = {};
 		config.cbSize = sizeof(config);
 		config.dwFlags = TDF_USE_COMMAND_LINKS | TDF_ALLOW_DIALOG_CANCELLATION;
 		config.pszWindowTitle = L"Launcher";
-		config.pszMainInstruction = L"‹N“®‚·‚éƒAƒvƒŠ‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢";
+		config.pszMainInstruction = L"èµ·å‹•ã™ã‚‹ã‚¢ãƒ—ãƒªã‚’é¸ã‚“ã§ãã ã•ã„";
 		config.pButtons = buttons;
 		config.cButtons = ARRAYSIZE(buttons);
 		config.nDefaultButton = kButtonEditor;
@@ -39,7 +39,7 @@ namespace
 		return (selected == kButtonEditor || selected == kButtonGame) ? selected : 0;
 	}
 
-	// ƒ‰ƒ“ƒ`ƒƒ[‚Æ“¯‚¶ƒtƒHƒ‹ƒ_‚É‚ ‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğì‚é
+	// ãƒ©ãƒ³ãƒãƒ£ãƒ¼ã¨åŒã˜ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’ä½œã‚‹
 	std::wstring GetSiblingPath(const wchar_t* fileName)
 	{
 		wchar_t path[MAX_PATH] = {};
@@ -50,7 +50,7 @@ namespace
 		return dir + fileName;
 	}
 
-	// •ÊƒvƒƒZƒX‚Æ‚µ‚Ä‹N“®‚·‚é
+	// åˆ¥ãƒ—ãƒ­ã‚»ã‚¹ã¨ã—ã¦èµ·å‹•ã™ã‚‹
 	bool Launch(const std::wstring& exePath)
 	{
 		STARTUPINFOW si = {};
@@ -64,7 +64,7 @@ namespace
 			return false;
 		}
 
-		// ‹N“®‚µ‚½ƒvƒƒZƒX‚ÌI—¹‚Í‘Ò‚½‚È‚¢‚Ì‚ÅAƒnƒ“ƒhƒ‹‚Í‚·‚®•Â‚¶‚é
+		// èµ·å‹•ã—ãŸãƒ—ãƒ­ã‚»ã‚¹ã®çµ‚äº†ã¯å¾…ãŸãªã„ã®ã§ã€ãƒãƒ³ãƒ‰ãƒ«ã¯ã™ãé–‰ã˜ã‚‹
 		CloseHandle(pi.hThread);
 		CloseHandle(pi.hProcess);
 		return true;
@@ -81,7 +81,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
 
 	if (!Launch(exePath))
 	{
-		std::wstring message = L"‹N“®‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½:\n" + exePath;
+		std::wstring message = L"èµ·å‹•ã§ãã¾ã›ã‚“ã§ã—ãŸ:\n" + exePath;
 		MessageBoxW(nullptr, message.c_str(), L"3dgp", MB_OK | MB_ICONERROR);
 		return 1;
 	}

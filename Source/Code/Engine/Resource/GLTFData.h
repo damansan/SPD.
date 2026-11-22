@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <DirectXMath.h>
 
 
-// GLTFƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ñ‚¾ƒf[ƒ^
+// GLTFãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ãƒ‡ãƒ¼ã‚¿
 struct GLTFData
 {
-    // ’¸“_ƒf[ƒ^
+    // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
     struct Vertex
     {
         DirectX::XMFLOAT3 position = { 0, 0, 0 };
@@ -18,14 +18,14 @@ struct GLTFData
         DirectX::XMUINT4  boneIndex = { 0, 0, 0, 0 };
     };
 
-    // ƒ{[ƒ“
+    // ãƒœãƒ¼ãƒ³
     struct Bone
     {
         int                 nodeIndex;
         DirectX::XMFLOAT4X4 offsetTransform;
     };
 
-    // ƒm[ƒh
+    // ãƒãƒ¼ãƒ‰
     struct Node
     {
         std::string          name;
@@ -38,15 +38,15 @@ struct GLTFData
         DirectX::XMFLOAT4X4  globalTransform = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
     };
 
-    // ƒeƒNƒXƒ`ƒƒƒf[ƒ^
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿
     struct TextureData
     {
-        std::vector<uint8_t> pixels; // ƒoƒCƒiƒŠƒf[ƒ^
-        std::string          filepath; // ŠO•”ƒtƒ@ƒCƒ‹‚Ìê‡‚ÌƒpƒX
+        std::vector<uint8_t> pixels; // ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿
+        std::string          filepath; // å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´åˆã®ãƒ‘ã‚¹
 
     };
 
-    // ƒ}ƒeƒŠƒAƒ‹ƒf[ƒ^
+    // ãƒãƒ†ãƒªã‚¢ãƒ«ãƒ‡ãƒ¼ã‚¿
     struct MaterialData
     {
         std::string          name;
@@ -55,7 +55,7 @@ struct GLTFData
         float                metallicFactor = 0.0f;
         DirectX::XMFLOAT3    emissiveFactor = { 0, 0, 0 };
 
-        // ƒeƒNƒXƒ`ƒƒƒCƒ“ƒfƒbƒNƒXi-1 ‚Í–¢g—pj
+        // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ï¼ˆ-1 ã¯æœªä½¿ç”¨ï¼‰
         int baseMapIndex = -1;
         int normalMapIndex = -1;
         int metallicRoughnessMapIndex = -1;
@@ -67,7 +67,7 @@ struct GLTFData
         float     alphaCutoff = 0.5f;
     };
 
-    // ƒƒbƒVƒ…ƒf[ƒ^
+    // ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿
     struct MeshData
     {
         std::vector<Vertex>   vertices;
@@ -77,7 +77,7 @@ struct GLTFData
         int materialIndex = 0;
     };
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“ƒL[ƒtƒŒ[ƒ€
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
     struct VectorKeyframe
     {
         float               seconds;
@@ -89,7 +89,7 @@ struct GLTFData
         DirectX::XMFLOAT4   value;
     };
 
-    // ƒm[ƒhƒAƒjƒ[ƒVƒ‡ƒ“
+    // ãƒãƒ¼ãƒ‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     struct NodeAnim
     {
         std::vector<VectorKeyframe>     positionKeyframes;
@@ -97,7 +97,7 @@ struct GLTFData
         std::vector<VectorKeyframe>     scaleKeyframes;
     };
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     struct Animation
     {
         std::string           name;
@@ -105,11 +105,11 @@ struct GLTFData
         std::vector<NodeAnim> nodeAnims;
     };
 
-    // ƒf[ƒ^–{‘Ì
+    // ãƒ‡ãƒ¼ã‚¿æœ¬ä½“
     std::vector<Node>        nodes;
     std::vector<MeshData>    meshes;
     std::vector<MaterialData> materials;
-    std::vector<TextureData> textures;   // ‘SƒeƒNƒXƒ`ƒƒ‚ğ‚±‚±‚ÉW–ñ
+    std::vector<TextureData> textures;   // å…¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã“ã“ã«é›†ç´„
     std::vector<Animation>   animations;
     bool                     hasSkin = false;
 };

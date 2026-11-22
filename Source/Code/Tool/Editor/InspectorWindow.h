@@ -1,20 +1,20 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "EditorContext.h"
 
 class InspectorWindow
 {
 public:
-    // •`‰æ
+    // æç”»
     void Draw(entt::registry& registry, EditorContext& context);
 
 private:
-    // –¼‘O•ÒWUI
+    // åå‰ç·¨é›†UI
     void DrawNameField(entt::registry& registry, EditorContext& context);
 
-    // ƒRƒ“ƒ|[ƒlƒ“ƒgˆê——UI
+    // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€è¦§UI
     void DrawComponents(entt::registry& registry, EditorContext& context);
 
-	// ƒRƒ“ƒ|[ƒlƒ“ƒg’Ç‰ÁUI
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆè¿½åŠ UI
     void DrawAddComponent(entt::registry& registry, EditorContext& context);
 };

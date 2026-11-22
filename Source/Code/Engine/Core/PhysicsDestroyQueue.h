@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <PxPhysicsAPI.h>
 
-// íœ‘Ò‚¿•¨—Actor‚Ìˆê•ÛƒLƒ…[
+// å‰Šé™¤å¾…ã¡ç‰©ç†Actorã®ä¸€æ™‚ä¿æŒã‚­ãƒ¥ãƒ¼
 namespace PhysicsDestroyQueue
 {
     inline std::vector<physx::PxActor*>& GetQueue()
@@ -11,7 +11,7 @@ namespace PhysicsDestroyQueue
         return queue;
     }
 
-    // ‰ğ•ú—\–ñ‚·‚é
+    // è§£æ”¾äºˆç´„ã™ã‚‹
     inline void Push(physx::PxActor* actor)
     {
         if (actor)
@@ -21,14 +21,14 @@ namespace PhysicsDestroyQueue
     }
 
 
-    // íœ‘Ò‚¿Controller‚Ìˆê•ÛƒLƒ…[
+    // å‰Šé™¤å¾…ã¡Controllerã®ä¸€æ™‚ä¿æŒã‚­ãƒ¥ãƒ¼
     inline std::vector<physx::PxController*>& GetControllerQueue()
     {
         static std::vector<physx::PxController*> queue;
         return queue;
     }
 
-    // ‰ğ•ú—\–ñ‚·‚éiControllerj
+    // è§£æ”¾äºˆç´„ã™ã‚‹ï¼ˆControllerï¼‰
     inline void Push(physx::PxController* controller)
     {
         if (controller)

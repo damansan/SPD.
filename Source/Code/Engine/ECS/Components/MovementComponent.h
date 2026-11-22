@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
@@ -6,17 +6,17 @@ struct MovementComponent
 {
 	REFLECT_BEGIN(MovementComponent, "Movement")
 
-		// İ’è’l
+		// è¨­å®šå€¤
 		REFLECT_FIELD(float,             gravity,     (-20.0f),           ("Gravity",   -100.0f, 0.0f         ))  
 		REFLECT_FIELD(DirectX::XMFLOAT3, velocity,    (0.0f, 0.0f, 0.0f), ("Velocity",   0.0f,   0.0f,  0.01f ))
 		REFLECT_FIELD(bool,              isGrounded,  (false),            ("Is Grounded"                      ))
 		REFLECT_FIELD(float,             planarSpeed, (0.0f),             ("Planar Speed", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
 
-		// d—Í‚Ì”{—¦
+		// é‡åŠ›ã®å€ç‡
 		REFLECT_FIELD(float, gravityScale, (1.0f), ("Gravity Scale", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
-		// “–‚½‚è”»’è(‚‚³)‚Ì”{—¦
+		// å½“ãŸã‚Šåˆ¤å®š(é«˜ã•)ã®å€ç‡
 		REFLECT_FIELD(float, heightScale, (1.0f), ("Height Scale", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
-		// “–‚½‚è”»’è (•) ‚Ì”{—¦
+		// å½“ãŸã‚Šåˆ¤å®š (å¹…) ã®å€ç‡
 		REFLECT_FIELD(float, radiusOverride, (0.0f), ("Radius Override", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
 	REFLECT_END()
 };

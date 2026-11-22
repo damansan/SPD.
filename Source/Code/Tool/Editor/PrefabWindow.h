@@ -1,93 +1,93 @@
-#pragma once
+ï»¿#pragma once
 #include "EditorContext.h"
 #include "entt.hpp"
 #include <string>
 #include <filesystem>
 
-// ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‚Ì‘€ìó‘Ô
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã®æ“ä½œçŠ¶æ…‹
 enum class PrefabItemMode
 {
-	None,             // ‰½‚à‚µ‚Ä‚¢‚È‚¢
-	Renaming,         // –¼‘O•ÒW’†
-	ConfirmingDelete, // íœŠm”Fƒ_ƒCƒAƒƒO•\¦’†
+	None,             // ä½•ã‚‚ã—ã¦ã„ãªã„
+	Renaming,         // åå‰ç·¨é›†ä¸­
+	ConfirmingDelete, // å‰Šé™¤ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°è¡¨ç¤ºä¸­
 };
 
-// ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‘€ì‚Ìó‘Ô‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œã®çŠ¶æ…‹ã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 struct PrefabItemState
 {
 	std::filesystem::path selectedPath;
 	PrefabItemMode mode = PrefabItemMode::None;
-	std::filesystem::path targetPath; // ƒŠƒl[ƒ€Eíœ‘ÎÛ‚ÌƒpƒX
-	char editBuffer[256] = {};        // ƒŠƒl[ƒ€‚Ì“ü—Íƒoƒbƒtƒ@
+	std::filesystem::path targetPath; // ãƒªãƒãƒ¼ãƒ ãƒ»å‰Šé™¤å¯¾è±¡ã®ãƒ‘ã‚¹
+	char editBuffer[256] = {};        // ãƒªãƒãƒ¼ãƒ ã®å…¥åŠ›ãƒãƒƒãƒ•ã‚¡
 };
 
 class PrefabWindow
 {
 public:
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(const std::string& rootPath);
 
-	// •`‰æ
+	// æç”»
 	void Draw(entt::registry& registry, EditorContext& context);
 
-	// d•¡‚µ‚È‚¢–¼‘O‚Åì¬
+	// é‡è¤‡ã—ãªã„åå‰ã§ä½œæˆ
 	static std::string GenerateUniqueName(const std::filesystem::path& parentDir, const std::string& baseName);
 
 private:
-	// ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒHƒ‹ƒ_ƒcƒŠ[‚Ì1ƒm[ƒh
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®1ãƒãƒ¼ãƒ‰
 	struct FolderNode
 	{
 		std::filesystem::path path;
 		std::string name;
 		std::vector<FolderNode> children;
 	};
-	// ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚Ì1ƒGƒ“ƒgƒŠ
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®1ã‚¨ãƒ³ãƒˆãƒª
 	struct FileEntry
 	{
 		std::filesystem::path path;
 		std::string filename;
 	};
 
-	// ¶FƒtƒHƒ‹ƒ_ƒcƒŠ[
+	// å·¦ï¼šãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼
 	void DrawFolderTree(FolderNode& node, entt::registry& registry, EditorContext& context);
-	// ‰EFƒtƒ@ƒCƒ‹ˆê——
+	// å³ï¼šãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§
 	void DrawFileGrid(entt::registry& registry, EditorContext& context);
 
-	// Entity‚ğAw’èƒtƒHƒ‹ƒ_‚ÉƒvƒŒƒnƒu‚Æ‚µ‚Ä•Û‘¶‚·‚é
+	// Entityã‚’ã€æŒ‡å®šãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ—ãƒ¬ãƒãƒ–ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 	void SaveEntityAsPrefab(entt::registry& registry, EditorContext& context, entt::entity e, const std::filesystem::path& folder);
-	// Entity‚ğAŠù‘¶‚ÌƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚Éã‘‚«•Û‘¶‚·‚é
+	// Entityã‚’ã€æ—¢å­˜ã®ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¸Šæ›¸ãä¿å­˜ã™ã‚‹
 	void OverwritePrefab(entt::registry& registry, EditorContext& context, entt::entity e, const std::filesystem::path& filePath);
 
-	// ŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒHƒ‹ƒ_ƒcƒŠ[‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+	// é–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 	void RefreshFolderTreeIfNeeded();
 	FolderNode BuildFolderNode(const std::filesystem::path& path);
 
-	// ‘I‘ğƒtƒHƒ‹ƒ_‚ª•Ï‚í‚Á‚½^ŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+	// é¸æŠãƒ•ã‚©ãƒ«ãƒ€ãŒå¤‰ã‚ã£ãŸï¼é–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 	void RefreshFileGridIfNeeded();
 	std::vector<FileEntry> BuildFileGrid(const std::filesystem::path& path);
 
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©‚Ì”»’è
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã©ã†ã‹ã®åˆ¤å®š
 	static bool IsPrefabFile(const std::filesystem::path& path);
 
-	// íœŠm”Fƒ|ƒbƒvƒAƒbƒv
+	// å‰Šé™¤ç¢ºèªãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
 	void DrawDeleteConfirmPopup();
 
-	// ƒŠƒl[ƒ€ŠJnEŠm’è
+	// ãƒªãƒãƒ¼ãƒ é–‹å§‹ãƒ»ç¢ºå®š
 	void BeginRename(const std::filesystem::path& target);
 	void CommitRename();
 
-	// ƒ‹[ƒgƒpƒX
+	// ãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹
 	std::filesystem::path rootPath;
 
-	// ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‘€ì‚Ìó‘Ô
+	// ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œã®çŠ¶æ…‹
 	PrefabItemState itemState;
 
-	// ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒHƒ‹ƒ_ƒcƒŠ[‚Ìƒ‹[ƒg
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ãƒ«ãƒ¼ãƒˆ
 	FolderNode folderTreeCache;
 	std::chrono::steady_clock::time_point lastFolderScanTime{};
 	static constexpr std::chrono::seconds folderScanInterval{ 2 };
 
-	// ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰
 	std::vector<FileEntry> fileGridCache;
 	std::filesystem::path fileGridCachedPath;
 	std::chrono::steady_clock::time_point lastFileGridScanTime{};

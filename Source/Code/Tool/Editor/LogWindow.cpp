@@ -1,10 +1,10 @@
-#include "LogWindow.h"
+ï»¿#include "LogWindow.h"
 
 void LogWindow::Draw()
 {
 	ImGui::Begin("Log");
 
-	// ƒƒO‚ªXV‚³‚ê‚Ä‚¢‚½‚çA•\¦—p‚ÌÊ‚µ‚ğæ‚è’¼‚·
+	// ãƒ­ã‚°ãŒæ›´æ–°ã•ã‚Œã¦ã„ãŸã‚‰ã€è¡¨ç¤ºç”¨ã®å†™ã—ã‚’å–ã‚Šç›´ã™
 	uint64_t version = LogBuffer::Version();
 	if (version != cachedVersion)
 	{
@@ -15,7 +15,7 @@ void LogWindow::Draw()
 	filter.Draw("Filter", -50.0f);
 	ImGui::Separator();
 
-	// ƒtƒBƒ‹ƒ^[‚É‡‚¤ƒƒO‚Ì”Ô†‚¾‚¯‚ğW‚ß‚é
+	// ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã«åˆã†ãƒ­ã‚°ã®ç•ªå·ã ã‘ã‚’é›†ã‚ã‚‹
 	std::vector<int> visible;
 	visible.reserve(cache.size());
 	for (int i = 0; i < static_cast<int>(cache.size()); ++i)
@@ -28,7 +28,7 @@ void LogWindow::Draw()
 
 	ImGui::BeginChild("LogScroll", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
-	// ‰æ–Ê‚ÉŒ©‚¦‚Ä‚¢‚és‚¾‚¯‚ğ•`‰æ‚·‚é
+	// ç”»é¢ã«è¦‹ãˆã¦ã„ã‚‹è¡Œã ã‘ã‚’æç”»ã™ã‚‹
 	ImGuiListClipper clipper;
 	clipper.Begin(static_cast<int>(visible.size()));
 	while (clipper.Step())
@@ -41,7 +41,7 @@ void LogWindow::Draw()
 	}
 	clipper.End();
 
-	// ˆê”Ô‰º‚Ü‚ÅŒ©‚Ä‚¢‚é‚ÍAV‚µ‚¢ƒƒO‚É’Ç]‚·‚é
+	// ä¸€ç•ªä¸‹ã¾ã§è¦‹ã¦ã„ã‚‹æ™‚ã¯ã€æ–°ã—ã„ãƒ­ã‚°ã«è¿½å¾“ã™ã‚‹
 	if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
 	{
 		ImGui::SetScrollHereY(1.0f);

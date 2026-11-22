@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <Windows.h>
 
-// Windows‚Ìƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO
+// Windowsã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 namespace FileDialog
 {
 	bool SaveScene(HWND owner, std::string& path);

@@ -1,4 +1,4 @@
-#include "WaveDemo.h"
+﻿#include "WaveDemo.h"
 
 void WaveDemo::Initialize(
 	ID3D11Device* device,

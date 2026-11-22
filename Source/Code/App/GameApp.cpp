@@ -1,4 +1,4 @@
-#include "GameApp.h"
+ï»¿#include "GameApp.h"
 #include "GameApp.h"
 
 #include "Engine/Core/Log.h"
@@ -13,31 +13,31 @@
 
 namespace
 {
-	// ƒvƒƒWƒFƒNƒgİ’èƒtƒ@ƒCƒ‹
+	// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
 	const char* kProjectSettingsPath = "Data/ProjectSettings.json";
 }
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void GameApp::OnInitialize()
 {
-	// Project‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“o˜^(Engine‚Ì‚à‚Ì‚ÍŠî”Õ‚ª“o˜^Ï‚İ)
+	// Projectã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç™»éŒ²(Engineã®ã‚‚ã®ã¯åŸºç›¤ãŒç™»éŒ²æ¸ˆã¿)
 	GameComponents::Register();
 
 	sceneManager.ChangeScene(std::make_unique<SceneGame>());
 
-	// Å‰‚É“Ç‚İ‚ŞƒV[ƒ“
+	// æœ€åˆã«èª­ã¿è¾¼ã‚€ã‚·ãƒ¼ãƒ³
 	startScenePath = LoadStartScenePath();
 
 #ifndef _DEBUG
-	// ƒŠƒŠ[ƒX‚Íƒ{[ƒ_[ƒŒƒXƒtƒ‹ƒXƒNƒŠ[ƒ“‚Å‹N“®
+	// ãƒªãƒªãƒ¼ã‚¹æ™‚ã¯ãƒœãƒ¼ãƒ€ãƒ¼ãƒ¬ã‚¹ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã§èµ·å‹•
 	graphics.ToggleFullscreen();
 #endif
 }
 
-// ƒV[ƒ“XV‚Ì‘O
+// ã‚·ãƒ¼ãƒ³æ›´æ–°ã®å‰
 void GameApp::OnPreUpdate(float elapsedTime)
 {
-	// ƒEƒBƒ“ƒhƒE‚Ìc‰¡”ä‚É‡‚í‚¹‚ÄAƒQ[ƒ€ƒJƒƒ‰‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“‚ğXV‚·‚é
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç¸¦æ¨ªæ¯”ã«åˆã‚ã›ã¦ã€ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°ã™ã‚‹
 	RECT rc{};
 	GetClientRect(hwnd, &rc);
 	float width = static_cast<float>(rc.right - rc.left);
@@ -48,10 +48,10 @@ void GameApp::OnPreUpdate(float elapsedTime)
 	}
 }
 
-// ƒV[ƒ“XV‚ÌŒã
+// ã‚·ãƒ¼ãƒ³æ›´æ–°ã®å¾Œ
 void GameApp::OnPostUpdate(float elapsedTime)
 {
-	// SceneGame‚ÍÅ‰‚ÌƒV[ƒ“XV‚Å‰Šú‰»‚³‚ê‚é‚Ì‚ÅA‚»‚ÌŒã‚É1‰ñ‚¾‚¯“Ç‚İ‚Ş
+	// SceneGameã¯æœ€åˆã®ã‚·ãƒ¼ãƒ³æ›´æ–°ã§åˆæœŸåŒ–ã•ã‚Œã‚‹ã®ã§ã€ãã®å¾Œã«1å›ã ã‘èª­ã¿è¾¼ã‚€
 	if (startSceneLoaded) return;
 
 	Scene* scene = sceneManager.GetCurrentScene();
@@ -61,31 +61,31 @@ void GameApp::OnPostUpdate(float elapsedTime)
 
 	if (startScenePath.empty()) return;
 
-	// ƒGƒ“ƒeƒBƒeƒB‚Ì–¼‘O‚ÍƒGƒfƒBƒ^ê—p‚È‚Ì‚ÅAó‚¯æ‚ç‚È‚¢
+	// ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®åå‰ã¯ã‚¨ãƒ‡ã‚£ã‚¿å°‚ç”¨ãªã®ã§ã€å—ã‘å–ã‚‰ãªã„
 	if (!SceneSerializer::LoadFromFile(scene->GetRegistry(), startScenePath))
 	{
-		Log(u8"Å‰‚ÌƒV[ƒ“‚ğ“Ç‚ß‚È‚¢: %s", LogPath(startScenePath).c_str());
+		Log("æœ€åˆã®ã‚·ãƒ¼ãƒ³ã‚’èª­ã‚ãªã„: %s", LogPath(startScenePath).c_str());
 	}
 }
 
-// GameView‚É•`‚¢‚½ƒQ[ƒ€‚ğA‰æ–Ê‘S‘Ì‚É“\‚é
+// GameViewã«æã„ãŸã‚²ãƒ¼ãƒ ã‚’ã€ç”»é¢å…¨ä½“ã«è²¼ã‚‹
 void GameApp::OnPresent()
 {
 	ZoneScopedN("PresentTexture");
 	graphics.PresentTexture(gameView.GetOutputSRV());
 }
 
-// ƒvƒƒWƒFƒNƒgİ’è‚©‚çAÅ‰‚É“Ç‚İ‚ŞƒV[ƒ“‚ÌƒpƒX‚ğæ“¾‚·‚é
+// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆè¨­å®šã‹ã‚‰ã€æœ€åˆã«èª­ã¿è¾¼ã‚€ã‚·ãƒ¼ãƒ³ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 std::string GameApp::LoadStartScenePath()
 {
-	// ‹N“®‚É1‰ñ“Ç‚Ş‚¾‚¯‚È‚Ì‚ÅA‚»‚ÌêŒÀ‚è‚Åg‚¤
+	// èµ·å‹•æ™‚ã«1å›èª­ã‚€ã ã‘ãªã®ã§ã€ãã®å ´é™ã‚Šã§ä½¿ã†
 	JsonFileCache<std::string> file;
 	const std::string& path = file.GetOrLoad(kProjectSettingsPath,
 		[](std::string& startScene, const nlohmann::json& j) { startScene = j.value("startScene", ""); });
 
 	if (file.GetStatus(kProjectSettingsPath) == JsonFileStatus::Loaded && path.empty())
 	{
-		Log(u8"ƒvƒƒWƒFƒNƒgİ’è‚É startScene ‚ª–³‚¢");
+		Log("ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆè¨­å®šã« startScene ãŒç„¡ã„");
 	}
 	return path;
 }

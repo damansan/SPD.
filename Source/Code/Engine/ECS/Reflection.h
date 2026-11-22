@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <cstdint>
 #include "entt.hpp"
 
-// ’l‚ÌŒ^
+// å€¤ã®å‹
 enum class ValueType
 {
 	Int,
@@ -14,15 +14,15 @@ enum class ValueType
 	Float3,
 	Float4,
 
-	Unsupported, // ğŒ‚Å“Ç‚ß‚È‚¢Œ^(strong,enum‚È‚Ç)
+	Unsupported, // æ¡ä»¶ã§èª­ã‚ãªã„å‹(strong,enumãªã©)
 };
 
-// ƒtƒB[ƒ‹ƒh‚Ìˆµ‚¢‚ğ•\‚·ƒtƒ‰ƒO
+// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®æ‰±ã„ã‚’è¡¨ã™ãƒ•ãƒ©ã‚°
 enum class FieldFlags : uint32_t
 {
 	None = 0,
-	VisibleOnly = 1 << 0, // ƒGƒfƒBƒ^‚Å•\¦‚Ì‚İ
-	Transient = 1 << 1,   // •Û‘¶‚µ‚È‚¢
+	VisibleOnly = 1 << 0, // ã‚¨ãƒ‡ã‚£ã‚¿ã§è¡¨ç¤ºã®ã¿
+	Transient = 1 << 1,   // ä¿å­˜ã—ãªã„
 };
 inline FieldFlags operator|(FieldFlags a, FieldFlags b)
 {
@@ -33,41 +33,41 @@ inline bool HasFlag(FieldFlags value, FieldFlags flag)
 	return (static_cast<uint32_t>(value) & static_cast<uint32_t>(flag)) != 0;
 }
 
-// ƒtƒB[ƒ‹ƒh1‚Â‚É“Y•t‚·‚é•t‰Áî•ñ
+// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰1ã¤ã«æ·»ä»˜ã™ã‚‹ä»˜åŠ æƒ…å ±
 struct FieldInfo
 {
-	std::string label;      // ƒGƒfƒBƒ^ã‚Ì•\¦–¼
-	float minValue = 0.0f;  // ‰ºŒÀ’l
-	float maxValue = 0.0f;  // ãŒÀ’l
-	float dragSpeed = 0.1f; // ƒhƒ‰ƒbƒO‚Ì•Ï‰»—Ê
+	std::string label;      // ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®è¡¨ç¤ºå
+	float minValue = 0.0f;  // ä¸‹é™å€¤
+	float maxValue = 0.0f;  // ä¸Šé™å€¤
+	float dragSpeed = 0.1f; // ãƒ‰ãƒ©ãƒƒã‚°æ™‚ã®å¤‰åŒ–é‡
 	std::string dragDropPayload;
 	FieldFlags flags = FieldFlags::None;
 };
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg1‚Â‚É“Y•t‚·‚é•t‰Áî•ñ
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ1ã¤ã«æ·»ä»˜ã™ã‚‹ä»˜åŠ æƒ…å ±
 struct TypeInfo
 {
 	std::string category;
 };
 
-// enum‚ÌA1‚Â‚Ì’l‚É•R‚Ã‚­•\¦–¼
+// enumã®ã€1ã¤ã®å€¤ã«ç´ã¥ãè¡¨ç¤ºå
 struct EnumValueInfo
 {
 	std::string label;
 };
 
 
-// ƒtƒB[ƒ‹ƒh1Œ•ª‚Ìî•ñ(ğŒ‚Ì•]‰¿‚âGetter‘I‘ğUI‚Åg‚¤)
+// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰1ä»¶åˆ†ã®æƒ…å ±(æ¡ä»¶ã®è©•ä¾¡ã‚„Getteré¸æŠUIã§ä½¿ã†)
 struct FieldEntry
 {
-	entt::meta_type componentType; // ‘®‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^
-	entt::id_type fieldId = 0;     // entt::metaã‚ÌƒtƒB[ƒ‹ƒhID
-	entt::meta_type nestedType;    // ƒlƒXƒg‚µ‚Ä‚¢‚éê‡‚ÌŒ^
-	entt::id_type subFieldId = 0;  // ƒlƒXƒg‚µ‚Ä‚¢‚éê‡‚ÌƒtƒB[ƒ‹ƒhID
-	std::string componentName;     // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŒ^–¼
-	std::string category;          // ƒJƒeƒSƒŠ
-	std::string fieldLabel;        // ƒtƒB[ƒ‹ƒh‚Ì•\¦–¼
-	std::string fieldName;         // ƒtƒB[ƒ‹ƒh‚ÌƒR[ƒhã‚Ì–¼‘O
+	entt::meta_type componentType; // å±ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹
+	entt::id_type fieldId = 0;     // entt::metaä¸Šã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ID
+	entt::meta_type nestedType;    // ãƒã‚¹ãƒˆã—ã¦ã„ã‚‹å ´åˆã®å‹
+	entt::id_type subFieldId = 0;  // ãƒã‚¹ãƒˆã—ã¦ã„ã‚‹å ´åˆã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ID
+	std::string componentName;     // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹å
+	std::string category;          // ã‚«ãƒ†ã‚´ãƒª
+	std::string fieldLabel;        // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®è¡¨ç¤ºå
+	std::string fieldName;         // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰
 
 	ValueType type = ValueType::Float;
 };
@@ -76,14 +76,14 @@ struct FieldEntry
 class Reflection
 {
 public:
-	// “o˜^Ï‚İ‚ÌƒtƒB[ƒ‹ƒhˆê——‚ğæ“¾‚·‚é
+	// ç™»éŒ²æ¸ˆã¿ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
 	static const std::vector<FieldEntry>& GetAllFields();
 
-	// ƒR[ƒhã‚Ì–¼‘O‚ÅƒtƒB[ƒ‹ƒh‚ğ’T‚·
+	// ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã§ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¢ã™
 	static const FieldEntry* FindField(const std::string& componentName, const std::string& fieldName);
-	// •\¦–¼‚ÅƒtƒB[ƒ‹ƒh‚ğ’T‚·
+	// è¡¨ç¤ºåã§ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¢ã™
 	static const FieldEntry* FindFieldByLabel(const std::string& componentName, const std::string& label);
 
-	// Float2/3/4Œ^‚ÌA¬•ª”‚ğ•Ô‚·(‚»‚êˆÈŠO‚Í0)
+	// Float2/3/4å‹ã®ã€æˆåˆ†æ•°ã‚’è¿”ã™(ãã‚Œä»¥å¤–ã¯0)
 	static int GetComponentCount(ValueType type);
 };

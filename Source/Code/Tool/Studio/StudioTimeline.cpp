@@ -52,14 +52,14 @@ void StudioTimeline::DrawGUI(entt::registry& registry, StudioContext& context)
     // 再生/停止
     if (animator.isPlaying)
     {
-        if (ImGui::Button(u8"■"))
+        if (ImGui::Button("■"))
         {
             animator.isPlaying = false;
         }
     }
     else
     {
-        if (ImGui::Button(u8"▶"))
+        if (ImGui::Button("▶"))
         {
             if (animator.animationTime >= animLength)
                 animator.animationTime = 0.0f;

@@ -1,9 +1,9 @@
-#include "AnimationEditData.h"
+ï»¿#include "AnimationEditData.h"
 #include "Engine/Data/DataFileKind.h"
 
 namespace
 {
-	// ‹æŠÔ‚ÌƒŠƒXƒg‚ğ•Û‘¶—p‚É•ÏŠ·‚·‚é
+	// åŒºé–“ã®ãƒªã‚¹ãƒˆã‚’ä¿å­˜ç”¨ã«å¤‰æ›ã™ã‚‹
 	nlohmann::ordered_json SectionsToJson(const std::vector<AnimationEditSection>& sections)
 	{
 		nlohmann::ordered_json array = nlohmann::json::array();
@@ -18,7 +18,7 @@ namespace
 		return array;
 	}
 
-	// •Û‘¶—p‚ÌŒ`‚©‚ç‹æŠÔ‚ÌƒŠƒXƒg‚ğ“Ç‚İ‚Ş
+	// ä¿å­˜ç”¨ã®å½¢ã‹ã‚‰åŒºé–“ã®ãƒªã‚¹ãƒˆã‚’èª­ã¿è¾¼ã‚€
 	std::vector<AnimationEditSection> SectionsFromJson(const nlohmann::json& jc, const char* key)
 	{
 		std::vector<AnimationEditSection> sections;
@@ -36,7 +36,7 @@ namespace
 	}
 }
 
-// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 const AnimationEditClipData* AnimationEditData::FindClip(const std::string& clipName) const
 {
 	for (const auto& clip : clips)
@@ -46,7 +46,7 @@ const AnimationEditClipData* AnimationEditData::FindClip(const std::string& clip
 	return nullptr;
 }
 
-// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 AnimationEditClipData* AnimationEditData::FindOrCreateClip(const std::string& clipName)
 {
 	for (auto& clip : clips)
@@ -60,7 +60,7 @@ AnimationEditClipData* AnimationEditData::FindOrCreateClip(const std::string& cl
 	return &clips.back();
 }
 
-// •Û‘¶
+// ä¿å­˜
 nlohmann::ordered_json AnimationEditData::ToJson() const
 {
 	nlohmann::ordered_json j;
@@ -84,7 +84,7 @@ nlohmann::ordered_json AnimationEditData::ToJson() const
 	return j;
 }
 
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void AnimationEditData::FromJson(const nlohmann::json& j)
 {
 	rootNodeName = j.value("rootNodeName", "");
@@ -107,7 +107,7 @@ void AnimationEditData::FromJson(const nlohmann::json& j)
 	}
 }
 
-// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 std::string AnimationEditData::GetFilePath(const std::string& modelPath)
 {
 	return GetModelDataFilePath(modelPath, DataFileKind::AnimEdit);

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include "entt.hpp"
 #include "Engine/ECS/Components/ControllerComponent.h"
@@ -6,13 +6,13 @@
 class AdaptiveTriggerToolWindow
 {
 public:
-    // registry ‚©‚ç ControllerComponent ‚ğ’T‚µ‚Ä•\¦‚·‚é
+    // registry ã‹ã‚‰ ControllerComponent ã‚’æ¢ã—ã¦è¡¨ç¤ºã™ã‚‹
     void Draw(entt::registry& registry);
 
-    bool isOpen = false; // ƒƒjƒ…[‚©‚çŠJ•Â‚·‚é
+    bool isOpen = false; // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‹ã‚‰é–‹é–‰ã™ã‚‹
 
 private:
-    // ƒ][ƒ“‚Ìó‘Ô
+    // ã‚¾ãƒ¼ãƒ³ã®çŠ¶æ…‹
     struct ZoneState
     {
         bool  exists = false;

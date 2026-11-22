@@ -1,57 +1,57 @@
-#include "StudioStateParentCanvas.h"
+ï»¿#include "StudioStateParentCanvas.h"
 #include <imgui.h>
 
 void StudioStateParentCanvas::Initialize()
 {
-	// ƒm[ƒhƒGƒfƒBƒ^‚ÌƒRƒ“ƒeƒLƒXƒg‚ğì¬
+	// ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ä½œæˆ
 	canvas.Initialize();
 }
 
-// ƒLƒƒƒ“ƒoƒX‚ğ•`‚­
+// ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æã
 void StudioStateParentCanvas::Draw(StateMachineData& graph)
 {
 	data = &graph;
 
-	// ƒLƒƒƒ“ƒoƒXì¬
+	// ã‚­ãƒ£ãƒ³ãƒã‚¹ä½œæˆ
 	canvas.Begin("StateParentCanvas");
 
-	// íœ‚â“Ç‚İ‚İ‚ÌŒã‚Íƒm[ƒhƒGƒfƒBƒ^‘¤‚Éc‚Á‚½‘I‘ğ‚ğÁ‚·
+	// å‰Šé™¤ã‚„èª­ã¿è¾¼ã¿ã®å¾Œã¯ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿å´ã«æ®‹ã£ãŸé¸æŠã‚’æ¶ˆã™
 	if (clearSelectionRequested)
 	{
 		ed::ClearSelection();
 		clearSelectionRequested = false;
 	}
 
-	// ƒm[ƒh‚Ì‹éŒ`‚Í–ˆƒtƒŒ[ƒ€ì‚è’¼‚·
+	// ãƒãƒ¼ãƒ‰ã®çŸ©å½¢ã¯æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ä½œã‚Šç›´ã™
 	nodeRects.clear();
 
-	// ƒm[ƒh•`‰æ
+	// ãƒãƒ¼ãƒ‰æç”»
 	DrawEntryNode();
 	DrawStateNodes();
 
-	// ˆÊ’u‚Ì”½‰f‚ÍA“Ç‚İ‚İ’¼Œã‚Ì1ƒtƒŒ[ƒ€‚¾‚¯
+	// ä½ç½®ã®åæ˜ ã¯ã€èª­ã¿è¾¼ã¿ç›´å¾Œã®1ãƒ•ãƒ¬ãƒ¼ãƒ ã ã‘
 	needsApplyPositions = false; 
 
-	// ƒŠƒ“ƒN•`‰æ
+	// ãƒªãƒ³ã‚¯æç”»
 	DrawLinks();
 	DrawPendingLink();
 
-	// ƒƒjƒ…[•`‰æ
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼æç”»
 	DrawBackgroundMenu();
 	DrawNodeMenu();
 
-	// “ü—ÍXV
+	// å…¥åŠ›æ›´æ–°
 	UpdateLinkCreation();
 	UpdateSelection();
 
-	// ƒLƒƒƒ“ƒoƒXI—¹
+	// ã‚­ãƒ£ãƒ³ãƒã‚¹çµ‚äº†
 	canvas.End();
 }
 
-// ‘I‘ğ‚µ‚Ä‚¢‚é•¨‚ğíœ
+// é¸æŠã—ã¦ã„ã‚‹ç‰©ã‚’å‰Šé™¤
 void StudioStateParentCanvas::DeleteSelection(StateMachineData& graph)
 {
-	// ‘I‘ğ’†‚ÌƒŠƒ“ƒN‚Æ‘JˆÚæ‚ÌƒGƒ“ƒgƒŠ[‚ğíœ
+	// é¸æŠä¸­ã®ãƒªãƒ³ã‚¯ã¨é·ç§»å…ˆã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‚’å‰Šé™¤
 	if (selectedLinkId != -1)
 	{
 		graph.RemoveTransition(selectedLinkId);
@@ -59,7 +59,7 @@ void StudioStateParentCanvas::DeleteSelection(StateMachineData& graph)
 		return;
 	}
 
-	// ‘I‘ğ’†‚ÌƒXƒe[ƒgíœ (Entry‚Ííœ•s‰Â)
+	// é¸æŠä¸­ã®ã‚¹ãƒ†ãƒ¼ãƒˆå‰Šé™¤ (Entryã¯å‰Šé™¤ä¸å¯)
 	for (int key : selectedNodeKeys)
 	{
 		if (key != StateMachineData::kEntryId)
@@ -71,7 +71,7 @@ void StudioStateParentCanvas::DeleteSelection(StateMachineData& graph)
 	clearSelectionRequested = true;
 }
 
-// “Ç‚İ‚İEV‹Kì¬‚Ì‚Æ‚«‚ÉA‘I‘ğ‚È‚Ç‚ğ–ß‚·
+// èª­ã¿è¾¼ã¿ãƒ»æ–°è¦ä½œæˆã®ã¨ãã«ã€é¸æŠãªã©ã‚’æˆ»ã™
 void StudioStateParentCanvas::Reset()
 {
 	needsApplyPositions = true;
@@ -82,27 +82,27 @@ void StudioStateParentCanvas::Reset()
 	clearSelectionRequested = true;
 }
 
-// ƒCƒ“ƒXƒyƒNƒ^[•`‰æ
+// ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼æç”»
 void StudioStateParentCanvas::DrawInspector(StateMachineData& data)
 {
-	// •`‰æ’†‚¾‚¯Aó‚¯æ‚Á‚½ƒf[ƒ^‚ğw‚·
+	// æç”»ä¸­ã ã‘ã€å—ã‘å–ã£ãŸãƒ‡ãƒ¼ã‚¿ã‚’æŒ‡ã™
 	this->data = &data;
 
-	// ƒŠƒ“ƒN‘I‘ğ
+	// ãƒªãƒ³ã‚¯é¸æŠ
 	if (selectedLinkId != -1)
 	{
 		DrawLinkInspector(selectedLinkId);
 		return;
 	}
 
-	// ƒm[ƒh•¡”‘I‘ğ
+	// ãƒãƒ¼ãƒ‰è¤‡æ•°é¸æŠ
 	if (selectedNodeKeys.size() > 1)
 	{
 		DrawMultiStateInspector();
 		return;
 	}
 
-	// ƒm[ƒh1‚Â‘I‘ğ
+	// ãƒãƒ¼ãƒ‰1ã¤é¸æŠ
 	if (selectedNodeKeys.size() == 1)
 	{
 		int key = selectedNodeKeys[0];
@@ -118,22 +118,22 @@ void StudioStateParentCanvas::DrawInspector(StateMachineData& data)
 		}
 	}
 
-	// –¢‘I‘ğ
+	// æœªé¸æŠ
 	ImGui::TextDisabled("Nothing selected.");
 }
 
-// ƒGƒ“ƒgƒŠ[ƒm[ƒh•`‰æ
+// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒãƒ¼ãƒ‰æç”»
 void StudioStateParentCanvas::DrawEntryNode()
 {
 	ed::NodeId nodeId = ToNodeId(StateMachineData::kEntryId);
 	
-	// “Ç‚İ‚İ’¼Œã‚Íƒf[ƒ^‚ÌˆÊ’u‚Éƒm[ƒh‚ğ”½‰f
+	// èª­ã¿è¾¼ã¿ç›´å¾Œã¯ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã«ãƒãƒ¼ãƒ‰ã‚’åæ˜ 
 	if (needsApplyPositions)
 	{
 		ed::SetNodePosition(nodeId, ImVec2(data->entry.editorPos.x, data->entry.editorPos.y));
 	}
 
-	// Entry‚Í—Î‚Å•`‰æ
+	// Entryã¯ç·‘ã§æç”»
 	ed::PushStyleColor(ed::StyleColor_NodeBg, ImColor(46, 125, 50, 255));
 	ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(27, 94, 32, 255));
 	ed::BeginNode(nodeId);
@@ -142,28 +142,28 @@ void StudioStateParentCanvas::DrawEntryNode()
 	ed::EndNode();
 	ed::PopStyleColor(2);
 
-	// ƒŠƒ“ƒN‚ÌŒvZ‚Ég‚¤‹éŒ`‚ğ‹L˜^
+	// ãƒªãƒ³ã‚¯ã®è¨ˆç®—ã«ä½¿ã†çŸ©å½¢ã‚’è¨˜éŒ²
 	nodeRects[StateMachineData::kEntryId] = { ImGui::GetItemRectMin(), ImGui::GetItemRectMax() };
 
-	// ƒm[ƒh‚ğ“®‚©‚µ‚½‚çAƒf[ƒ^‚ÌˆÊ’u‚É‘‚«–ß‚·
+	// ãƒãƒ¼ãƒ‰ã‚’å‹•ã‹ã—ãŸã‚‰ã€ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã«æ›¸ãæˆ»ã™
 	ImVec2 pos = ed::GetNodePosition(nodeId);
 	data->entry.editorPos = { pos.x, pos.y };
 }
 
-// ƒXƒe[ƒg•`‰æ
+// ã‚¹ãƒ†ãƒ¼ãƒˆæç”»
 void StudioStateParentCanvas::DrawStateNodes()
 {
 	for (auto& s : data->states)
 	{
 		ed::NodeId nodeId = ToNodeId(s.id);
 
-		// “Ç‚İ‚İ’¼Œã‚Íƒf[ƒ^‚ÌˆÊ’u‚Éƒm[ƒh‚ğ”½‰f
+		// èª­ã¿è¾¼ã¿ç›´å¾Œã¯ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã«ãƒãƒ¼ãƒ‰ã‚’åæ˜ 
 		if (needsApplyPositions)
 		{
 			ed::SetNodePosition(nodeId, ImVec2(s.editorPos.x, s.editorPos.y));
 		}
 
-		// State–ˆ‚ÌF‚ğ‘‚­
+		// Stateæ¯ã®è‰²ã‚’æ›¸ã
 		const float* c = s.editorColor;
 		ed::PushStyleColor(ed::StyleColor_NodeBg, ImColor(c[0], c[1], c[2], 1.0f));
 		ed::PushStyleColor(ed::StyleColor_NodeBorder, ImColor(c[0] * 0.6f, c[1] * 0.6f, c[2] * 0.6f, 1.0f));
@@ -173,30 +173,30 @@ void StudioStateParentCanvas::DrawStateNodes()
 		ed::EndNode();
 		ed::PopStyleColor(2);
 
-		// ƒŠƒ“ƒN‚ÌŒvZ‚Ég‚¤‹éŒ`‚ğ‹L˜^
+		// ãƒªãƒ³ã‚¯ã®è¨ˆç®—ã«ä½¿ã†çŸ©å½¢ã‚’è¨˜éŒ²
 		nodeRects[s.id] = { ImGui::GetItemRectMin(), ImGui::GetItemRectMax() };
 
-		// ƒm[ƒh‚ğ“®‚©‚µ‚½‚çAƒf[ƒ^‚ÌˆÊ’u‚É‘‚«–ß‚·
+		// ãƒãƒ¼ãƒ‰ã‚’å‹•ã‹ã—ãŸã‚‰ã€ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã«æ›¸ãæˆ»ã™
 		ImVec2 pos = ed::GetNodePosition(nodeId);
 		s.editorPos = { pos.x, pos.y };
 	}
 }
 
-// ƒŠƒ“ƒN•`‰æ
+// ãƒªãƒ³ã‚¯æç”»
 void StudioStateParentCanvas::DrawLinks()
 {
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
 
-	// ƒNƒŠƒbƒN”»’è—p‚Ìü‚Í–ˆƒtƒŒ[ƒ€ì‚è’¼‚·
+	// ã‚¯ãƒªãƒƒã‚¯åˆ¤å®šç”¨ã®ç·šã¯æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ä½œã‚Šç›´ã™
 	linkSegments.clear();
 
-	// 2ŒÂ‚Ìƒm[ƒh‚ÌŠÔ‚É•¡”ƒŠƒ“ƒN‚ª‚ ‚é‚Æ‚«‰½–{–Ú‚©‹L˜^‚·‚é
+	// 2å€‹ã®ãƒãƒ¼ãƒ‰ã®é–“ã«è¤‡æ•°ãƒªãƒ³ã‚¯ãŒã‚ã‚‹ã¨ãä½•æœ¬ç›®ã‹è¨˜éŒ²ã™ã‚‹
 	std::unordered_map<int64_t, int> laneCounts;
 
-	// ƒŠƒ“ƒN1–{•ª‚ğ•`‰æ
+	// ãƒªãƒ³ã‚¯1æœ¬åˆ†ã‚’æç”»
 	auto drawOne = [&](int fromKey, const StateTransition& t)
 		{
-			// ‘JˆÚŒ³‚Æ‘JˆÚæ‚Ì‘g‚İ‡‚í‚¹‚ğ1‚Â‚Ì’l‚É‚Ü‚Æ‚ß‚Ä‰½–{–Ú‚©‚ğ”‚¦‚é
+			// é·ç§»å…ƒã¨é·ç§»å…ˆã®çµ„ã¿åˆã‚ã›ã‚’1ã¤ã®å€¤ã«ã¾ã¨ã‚ã¦ä½•æœ¬ç›®ã‹ã‚’æ•°ãˆã‚‹
 			int64_t pairKey = (static_cast<int64_t>(fromKey) << 32) | static_cast<uint32_t>(t.toStateId);
 			int lane = laneCounts[pairKey]++;
 
@@ -206,28 +206,28 @@ void StudioStateParentCanvas::DrawLinks()
 			bool selected = (t.id == selectedLinkId);
 			bool invalid = (!t.always && t.condition.IsEmpty());
 
-			// ³í(”’F) ğŒ‚È‚µ(ÔF) ‘I‘ğ’†(‰©F)
+			// æ­£å¸¸(ç™½è‰²) æ¡ä»¶ãªã—(èµ¤è‰²) é¸æŠä¸­(é»„è‰²)
 			ImU32 color = IM_COL32(210, 210, 210, 255);
-			if (invalid)  color = IM_COL32(230, 90, 90, 255);   // ğŒ‚Ìİ’è˜R‚ê
-			if (selected) color = IM_COL32(255, 200, 80, 255);  // ‘I‘ğ’†
+			if (invalid)  color = IM_COL32(230, 90, 90, 255);   // æ¡ä»¶ã®è¨­å®šæ¼ã‚Œ
+			if (selected) color = IM_COL32(255, 200, 80, 255);  // é¸æŠä¸­
 
 			StateGraphDraw::DrawArrow(drawList, start, end, color, selected ? 3.0f : 2.0f);
 
-			// ƒNƒŠƒbƒN”»’è‚Ì‚½‚ß‚É•`‚¢‚½ƒŠƒ“ƒN‚ğ‹L˜^
+			// ã‚¯ãƒªãƒƒã‚¯åˆ¤å®šã®ãŸã‚ã«æã„ãŸãƒªãƒ³ã‚¯ã‚’è¨˜éŒ²
 			linkSegments.push_back({ t.id, start, end });
 		};
 
-	// Entry‚©‚ço‚éƒŠƒ“ƒN
+	// Entryã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& t : data->entry.transitions) drawOne(StateMachineData::kEntryId, t);
 	
-	// ŠeState‚©‚ço‚éƒŠƒ“ƒN
+	// å„Stateã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& s : data->states)
 	{
 		for (const auto& t : s.transitions) drawOne(s.id, t);
 	}
 }
 
-// ì¬’†‚ÌƒŠƒ“ƒN•`‰æ
+// ä½œæˆä¸­ã®ãƒªãƒ³ã‚¯æç”»
 void StudioStateParentCanvas::DrawPendingLink()
 {
 	if (pendingFromKey == -1) return;
@@ -235,28 +235,28 @@ void StudioStateParentCanvas::DrawPendingLink()
 	auto it = nodeRects.find(pendingFromKey);
 	if (it == nodeRects.end()) return;
 
-	// ‘JˆÚŒ³‚Ìƒm[ƒh‚Ì‰‚©‚çAƒ}ƒEƒX‚ÌˆÊ’u‚Ü‚Åü‚ğˆø‚­
+	// é·ç§»å…ƒã®ãƒãƒ¼ãƒ‰ã®ç¸ã‹ã‚‰ã€ãƒã‚¦ã‚¹ã®ä½ç½®ã¾ã§ç·šã‚’å¼•ã
 	ImVec2 mouse = ImGui::GetMousePos();
 	ImVec2 start = StateGraphDraw::GetEdgePoint(it->second.first, it->second.second, mouse);
 	StateGraphDraw::DrawArrow(ImGui::GetWindowDrawList(), start, mouse, IM_COL32(255, 200, 80, 255), 2.0f);
 }
 
-// ”wŒi‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+// èƒŒæ™¯å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 void StudioStateParentCanvas::DrawBackgroundMenu()
 {
 	ed::Suspend();
 
-	// ƒ|ƒbƒv‚ğŠJ‚­ƒŠƒNƒGƒXƒg
+	// ãƒãƒƒãƒ—ã‚’é–‹ããƒªã‚¯ã‚¨ã‚¹ãƒˆ
 	if (ed::ShowBackgroundContextMenu())
 	{
-		pendingCreatePos = ImGui::GetMousePos(); // ƒ}ƒEƒXˆÊ’u•Û‘¶
+		pendingCreatePos = ImGui::GetMousePos(); // ãƒã‚¦ã‚¹ä½ç½®ä¿å­˜
 		ImGui::OpenPopup("StateParentBackgroundMenu");
 	}
 
-	// ƒ|ƒbƒv“à—e
+	// ãƒãƒƒãƒ—å†…å®¹
 	if (ImGui::BeginPopup("StateParentBackgroundMenu"))
 	{
-		// ‰EƒNƒŠƒbƒN‚µ‚½ˆÊ’u‚ÉState‚ğì‚é
+		// å³ã‚¯ãƒªãƒƒã‚¯ã—ãŸä½ç½®ã«Stateã‚’ä½œã‚‹
 		if (ImGui::MenuItem("Create State"))
 		{
 			ImVec2 canvasPos = ed::ScreenToCanvas(pendingCreatePos);
@@ -269,7 +269,7 @@ void StudioStateParentCanvas::DrawBackgroundMenu()
 	ed::Resume();
 }
 
-// ƒm[ƒh‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+// ãƒãƒ¼ãƒ‰å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 void StudioStateParentCanvas::DrawNodeMenu()
 {
 	ed::Suspend();
@@ -277,17 +277,17 @@ void StudioStateParentCanvas::DrawNodeMenu()
 	ed::NodeId nodeId;
 	if (ed::ShowNodeContextMenu(&nodeId))
 	{
-		// ƒƒjƒ…[‚ğ•Â‚¶‚é‚Ü‚Å‚Ç‚Ìƒm[ƒh‚Ìƒƒjƒ…[‚©‚ğ‹L˜^
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é–‰ã˜ã‚‹ã¾ã§ã©ã®ãƒãƒ¼ãƒ‰ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‹ã‚’è¨˜éŒ²
 		contextNodeKey = ToNodeKey(nodeId);
 
-		// ƒ|ƒbƒv‚ğŠJ‚­ƒŠƒNƒGƒXƒg
+		// ãƒãƒƒãƒ—ã‚’é–‹ããƒªã‚¯ã‚¨ã‚¹ãƒˆ
 		ImGui::OpenPopup("StateParentNodeMenu");
 	}
 
-	// ƒ|ƒbƒv“à—e
+	// ãƒãƒƒãƒ—å†…å®¹
 	if (ImGui::BeginPopup("StateParentNodeMenu"))
 	{
-		// ƒŠƒ“ƒNì¬ŠJn
+		// ãƒªãƒ³ã‚¯ä½œæˆé–‹å§‹
 		if (ImGui::MenuItem("Make Link"))
 		{
 			pendingFromKey = contextNodeKey;
@@ -298,12 +298,12 @@ void StudioStateParentCanvas::DrawNodeMenu()
 	ed::Resume();
 }
 
-// ƒŠƒ“ƒNì¬’†‚Ì“ü—Í
+// ãƒªãƒ³ã‚¯ä½œæˆä¸­ã®å…¥åŠ›
 void StudioStateParentCanvas::UpdateLinkCreation()
 {
 	if (pendingFromKey == -1) return;
 
-	// Esc‚Åæ‚èÁ‚µ
+	// Escã§å–ã‚Šæ¶ˆã—
 	if (ImGui::IsKeyPressed(ImGuiKey_Escape))
 	{
 		pendingFromKey = -1;
@@ -313,19 +313,19 @@ void StudioStateParentCanvas::UpdateLinkCreation()
 	// 
 	if (!ImGui::IsMouseClicked(ImGuiMouseButton_Left)) return;
 
-	// ƒNƒŠƒbƒN‚µ‚½ˆÊ’u‚Éƒm[ƒh‚ª‚ ‚ê‚Î‚»‚±‚ğs‚«æ‚É‚·‚é
+	// ã‚¯ãƒªãƒƒã‚¯ã—ãŸä½ç½®ã«ãƒãƒ¼ãƒ‰ãŒã‚ã‚Œã°ãã“ã‚’è¡Œãå…ˆã«ã™ã‚‹
 	ed::NodeId hovered = ed::GetHoveredNode();
 	if (hovered)
 	{
 		int toKey = ToNodeKey(hovered);
 
-		// Entry‚Ö‚ÌƒŠƒ“ƒN‚ÆA©•ª©g‚Ö‚ÌƒŠƒ“ƒN‚Íì‚ç‚È‚¢
+		// Entryã¸ã®ãƒªãƒ³ã‚¯ã¨ã€è‡ªåˆ†è‡ªèº«ã¸ã®ãƒªãƒ³ã‚¯ã¯ä½œã‚‰ãªã„
 		if (toKey != StateMachineData::kEntryId && toKey != pendingFromKey)
 		{
 			int newId = data->AddTransition(pendingFromKey, toKey);
 			if (newId != -1)
 			{
-				// ì‚Á‚½ƒŠƒ“ƒN‚ğ‘I‘ğó‘Ô‚É‚·‚é
+				// ä½œã£ãŸãƒªãƒ³ã‚¯ã‚’é¸æŠçŠ¶æ…‹ã«ã™ã‚‹
 				selectedLinkId = newId;
 				selectedNodeKeys.clear();
 				ed::ClearSelection();
@@ -333,21 +333,21 @@ void StudioStateParentCanvas::UpdateLinkCreation()
 		}
 	}
 
-	// ƒm[ƒhˆÈŠO‚ğƒNƒŠƒbƒN‚µ‚½ê‡‚àAì¬‚ÍI‚í‚é
+	// ãƒãƒ¼ãƒ‰ä»¥å¤–ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸå ´åˆã‚‚ã€ä½œæˆã¯çµ‚ã‚ã‚‹
 	pendingFromKey = -1;
 }
 
-// ‘I‘ğ‚ÌXV
+// é¸æŠã®æ›´æ–°
 void StudioStateParentCanvas::UpdateSelection()
 {
-	// State‚Ìƒm[ƒh‚ğƒ_ƒuƒ‹ƒNƒŠƒbƒN‚µ‚½‚çAq‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+	// Stateã®ãƒãƒ¼ãƒ‰ã‚’ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã—ãŸã‚‰ã€å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 	if (ed::NodeId doubleClicked = ed::GetDoubleClickedNode())
 	{
 		int key = ToNodeKey(doubleClicked);
 		if (key != StateMachineData::kEntryId) openChildRequest = key;
 	}
 
-	// ƒm[ƒh‚Ì‘I‘ğ
+	// ãƒãƒ¼ãƒ‰ã®é¸æŠ
 	int count = ed::GetSelectedObjectCount();
 	std::vector<ed::NodeId> nodeIds(count > 0 ? count : 1);
 	int nodeCount = (count > 0) ? ed::GetSelectedNodes(nodeIds.data(), count) : 0;
@@ -356,7 +356,7 @@ void StudioStateParentCanvas::UpdateSelection()
 	for (int i = 0; i < nodeCount; ++i)
 	{
 		int key = ToNodeKey(nodeIds[i]);
-		// íœ‚µ‚½’¼Œã‚È‚Ç‚ÅAƒf[ƒ^‚É–³‚¢ƒm[ƒh‚ªc‚Á‚Ä‚¢‚Ä‚à‘I‘ğ‚Æ‚µ‚Äˆµ‚í‚È‚¢
+		// å‰Šé™¤ã—ãŸç›´å¾Œãªã©ã§ã€ãƒ‡ãƒ¼ã‚¿ã«ç„¡ã„ãƒãƒ¼ãƒ‰ãŒæ®‹ã£ã¦ã„ã¦ã‚‚é¸æŠã¨ã—ã¦æ‰±ã‚ãªã„
 		if (IsExistingNode(key)) keys.push_back(key);
 	}
 
@@ -367,19 +367,19 @@ void StudioStateParentCanvas::UpdateSelection()
 	}
 	else if (selectedLinkId == -1)
 	{
-		// ƒm[ƒh‚àƒŠƒ“ƒN‚à‘I‚Î‚ê‚Ä‚¢‚È‚¢
+		// ãƒãƒ¼ãƒ‰ã‚‚ãƒªãƒ³ã‚¯ã‚‚é¸ã°ã‚Œã¦ã„ãªã„
 		selectedNodeKeys.clear();
 	}
 
-	// ƒŠƒ“ƒN‚ÌƒNƒŠƒbƒN‚Ì”»’è
+	// ãƒªãƒ³ã‚¯ã®ã‚¯ãƒªãƒƒã‚¯ã®åˆ¤å®š
 	if (pendingFromKey != -1) return;
 	if (!ed::IsBackgroundClicked()) return;
 
-	// ƒm[ƒhƒGƒfƒBƒ^‚Ì’†‚Å‚ÍAƒ}ƒEƒX‚ÌˆÊ’u‚ÍƒLƒƒƒ“ƒoƒX‚ÌÀ•W‚Å•Ô‚é(ü‚ÌÀ•W‚Æ“¯‚¶)
+	// ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ã®ä¸­ã§ã¯ã€ãƒã‚¦ã‚¹ã®ä½ç½®ã¯ã‚­ãƒ£ãƒ³ãƒã‚¹ã®åº§æ¨™ã§è¿”ã‚‹(ç·šã®åº§æ¨™ã¨åŒã˜)
 	ImVec2 mouse = ImGui::GetMousePos();
 	const float hitDistance = 6.0f;
 
-	// ƒNƒŠƒbƒN‚µ‚½ˆÊ’u‚©‚çˆê”Ô‹ß‚¢ƒŠƒ“ƒN‚ğ’T‚·(‰“‚·‚¬‚éê‡‚Í‘I‚Î‚È‚¢)
+	// ã‚¯ãƒªãƒƒã‚¯ã—ãŸä½ç½®ã‹ã‚‰ä¸€ç•ªè¿‘ã„ãƒªãƒ³ã‚¯ã‚’æ¢ã™(é ã™ãã‚‹å ´åˆã¯é¸ã°ãªã„)
 	int hitId = -1;
 	float best = hitDistance;
 	for (const auto& seg : linkSegments)
@@ -392,30 +392,30 @@ void StudioStateParentCanvas::UpdateSelection()
 		}
 	}
 
-	// ü‚Ì‚È‚¢‚Æ‚±‚ë‚ğƒNƒŠƒbƒN‚µ‚½‚ç‘I‘ğ‰ğœ
+	// ç·šã®ãªã„ã¨ã“ã‚ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸã‚‰é¸æŠè§£é™¤
 	selectedLinkId = hitId;
 	if (hitId != -1)
 	{
-		// ƒŠƒ“ƒN‚ğ‘I‚ñ‚¾‚çAƒm[ƒh‚Ì‘I‘ğ‚ÍŠO‚·
+		// ãƒªãƒ³ã‚¯ã‚’é¸ã‚“ã ã‚‰ã€ãƒãƒ¼ãƒ‰ã®é¸æŠã¯å¤–ã™
 		selectedNodeKeys.clear();
 		ed::ClearSelection();
 	}
 }
 
-// ƒf[ƒ^‚É‘¶İ‚·‚éƒm[ƒh‚©
+// ãƒ‡ãƒ¼ã‚¿ã«å­˜åœ¨ã™ã‚‹ãƒãƒ¼ãƒ‰ã‹
 bool StudioStateParentCanvas::IsExistingNode(int key) const
 {
 	if (key == StateMachineData::kEntryId) return true;
 	return std::as_const(*data).FindState(key) != nullptr;
 }
 
-// ƒXƒe[ƒg‚Ìî•ñ
+// ã‚¹ãƒ†ãƒ¼ãƒˆã®æƒ…å ±
 void StudioStateParentCanvas::DrawStateInspector(StateNode& state)
 {
 	ImGui::Text("State");
 
 
-	// ‘I‚ÔState‚ª•Ï‚í‚Á‚½‚çA“ü—Í—“‚ğ¡‚Ì–¼‘O‚Åì‚è’¼‚·
+	// é¸ã¶StateãŒå¤‰ã‚ã£ãŸã‚‰ã€å…¥åŠ›æ¬„ã‚’ä»Šã®åå‰ã§ä½œã‚Šç›´ã™
 	if (nameEditingStateId != state.id)
 	{
 		nameEditingStateId = state.id;
@@ -423,7 +423,7 @@ void StudioStateParentCanvas::DrawStateInspector(StateNode& state)
 		nameError.clear();
 	}
 
-	// –¼‘O
+	// åå‰
 	if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		if (data->RenameState(state.id, nameBuffer))
@@ -436,7 +436,7 @@ void StudioStateParentCanvas::DrawStateInspector(StateNode& state)
 		}
 	}
 
-	// “ü—Í—“‚©‚ç—£‚ê‚½‚çAŠm’è‚µ‚Ä‚¢‚È‚¢•¶š‚Í¡‚Ì–¼‘O‚É–ß‚·
+	// å…¥åŠ›æ¬„ã‹ã‚‰é›¢ã‚ŒãŸã‚‰ã€ç¢ºå®šã—ã¦ã„ãªã„æ–‡å­—ã¯ä»Šã®åå‰ã«æˆ»ã™
 	if (ImGui::IsItemDeactivated() && state.name != nameBuffer)
 	{
 		strncpy_s(nameBuffer, state.name.c_str(), sizeof(nameBuffer) - 1);
@@ -446,51 +446,51 @@ void StudioStateParentCanvas::DrawStateInspector(StateNode& state)
 		ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "%s", nameError.c_str());
 	}
 
-	// F
+	// è‰²
 	ImGui::ColorEdit3("Color", state.editorColor);
 	ImGui::Spacing();
 
-	// o‚Ä‚¢‚­ƒŠƒ“ƒN‚Ìˆê——
+	// å‡ºã¦ã„ããƒªãƒ³ã‚¯ã®ä¸€è¦§
 	DrawLinkList(state.id, state.transitions);
 	ImGui::Spacing();
 
-	// qƒOƒ‰ƒt‚ÖˆÚ“®
+	// å­ã‚°ãƒ©ãƒ•ã¸ç§»å‹•
 	if (ImGui::Button("Open Child Graph", ImVec2(-1.0f, 0.0f)))
 	{
 		openChildRequest = state.id;
 	}
 
-	// íœ
+	// å‰Šé™¤
 	if (StateGraphDraw::DeleteButton("Delete State"))
 	{
 		DeleteSelection(*data);
 	}
 }
 
-// ƒGƒ“ƒgƒŠ[‚Ìİ’è
+// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®è¨­å®š
 void StudioStateParentCanvas::DrawEntryInspector()
 {
 	ImGui::Text("Entry");
 	ImGui::Separator();
 
-	// o‚Ä‚¢‚­ƒŠƒ“ƒN‚Ìˆê——
+	// å‡ºã¦ã„ããƒªãƒ³ã‚¯ã®ä¸€è¦§
 	DrawLinkList(StateMachineData::kEntryId, data->entry.transitions);
 }
 
-// •¡”ƒXƒe[ƒg‚Ì‘I‘ğ
+// è¤‡æ•°ã‚¹ãƒ†ãƒ¼ãƒˆã®é¸æŠæ™‚
 void StudioStateParentCanvas::DrawMultiStateInspector()
 {
 	ImGui::Text("%d States selected", static_cast<int>(selectedNodeKeys.size()));
 	ImGui::Separator();
 
-	// ‚Ü‚Æ‚ß‚Äíœ
+	// ã¾ã¨ã‚ã¦å‰Šé™¤
 	if (StateGraphDraw::DeleteButton("Delete States"))
 	{
 		DeleteSelection(*data);
 	}
 }
 
-// ƒŠƒ“ƒN‚Ìİ’è
+// ãƒªãƒ³ã‚¯ã®è¨­å®š
 void StudioStateParentCanvas::DrawLinkInspector(int linkId)
 {
 	StateTransition* link = data->FindTransition(linkId);
@@ -504,23 +504,23 @@ void StudioStateParentCanvas::DrawLinkInspector(int linkId)
 	ImGui::Text("Link");
 
 
-	// ‘JˆÚŒ³ ¨ ‘JˆÚæ
+	// é·ç§»å…ƒ â†’ é·ç§»å…ˆ
 	ImGui::Text("%s  ->  %s", GetNodeName(fromKey).c_str(), GetNodeName(link->toStateId).c_str());
 
-	// —Dæ“x
+	// å„ªå…ˆåº¦
 	ImGui::Text("Priority: %d / %d", index + 1, count);	ImGui::Spacing();
 
-	// í‚É¬—§
+	// å¸¸ã«æˆç«‹
 	ImGui::Checkbox("Always", &link->always);
 
-	// ƒuƒŒƒ“ƒh
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰
 	ImGui::Checkbox("Blend", &link->blend.enabled);
 	ImGui::BeginDisabled(!link->blend.enabled);
 	ImGui::DragFloat("Blend Duration", &link->blend.duration, 0.01f, 0.0f, 5.0f, "%.2f s");
 	ImGui::EndDisabled();
 	ImGui::Spacing();
 
-	// ğŒ‚Ìó‘Ô
+	// æ¡ä»¶ã®çŠ¶æ…‹
 	if (link->always)
 	{
 		ImGui::TextDisabled("Condition: Always");
@@ -534,33 +534,33 @@ void StudioStateParentCanvas::DrawLinkInspector(int linkId)
 		ImGui::Text("Condition: Set");
 	}
 
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚Å•ÒW‚·‚é
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ç·¨é›†ã™ã‚‹
 	if (ImGui::Button("Edit Condition", ImVec2(-1.0f, 0.0f)))
 	{
 		editConditionRequest = { ConditionTarget::Kind::StateLink, -1, linkId };
 	}
 
-	// íœ
+	// å‰Šé™¤
 	if (StateGraphDraw::DeleteButton("Delete Link"))
 	{
 		DeleteSelection(*data);
 	}
 
-	// “¯‚¶ŠK‘w‚ÌƒŠƒ“ƒN‚©‚çAİ’è‚ğÊ‚·‚½‚ß‚ÌƒŠƒXƒg
+	// åŒã˜éšå±¤ã®ãƒªãƒ³ã‚¯ã‹ã‚‰ã€è¨­å®šã‚’å†™ã™ãŸã‚ã®ãƒªã‚¹ãƒˆ
 	ConditionTarget self{ ConditionTarget::Kind::StateLink, -1, linkId };
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Text("Copy From");
 
-	// ó‚¯Œû‚É—‚Æ‚³‚ê‚½‚çAÊ‚·ˆË—Š‚ğo‚·
+	// å—ã‘å£ã«è½ã¨ã•ã‚ŒãŸã‚‰ã€å†™ã™ä¾é ¼ã‚’å‡ºã™
 	ConditionTarget source = ConditionCopyList::DrawDropTarget(self);
 	if (source.IsValid()) copyRequest = { source, self };
 
-	// Ê‚·Œ³‚ÌƒŠƒXƒg
+	// å†™ã™å…ƒã®ãƒªã‚¹ãƒˆ
 	ConditionCopyList::Draw(ConditionCopyList::CollectParent(*data, self));
 }
 
-// o‚Ä‚¢‚­ƒŠƒ“ƒN‚Ìˆê——
+// å‡ºã¦ã„ããƒªãƒ³ã‚¯ã®ä¸€è¦§
 void StudioStateParentCanvas::DrawLinkList(int fromKey, std::vector<StateTransition>& links)
 {
 	ImGui::Text("Links (priority order)");
@@ -571,7 +571,7 @@ void StudioStateParentCanvas::DrawLinkList(int fromKey, std::vector<StateTransit
 		return;
 	}
 
-	// “ü‚ê‘Ö‚¦‚Í•`‰æ‚ªI‚í‚Á‚Ä‚©‚ç
+	// å…¥ã‚Œæ›¿ãˆã¯æç”»ãŒçµ‚ã‚ã£ã¦ã‹ã‚‰
 	int moveId = -1;
 	int moveOffset = 0;
 
@@ -580,23 +580,23 @@ void StudioStateParentCanvas::DrawLinkList(int fromKey, std::vector<StateTransit
 		const StateTransition& t = links[i];
 		ImGui::PushID(t.id);
 
-		// ã‰º‚Å—Dæ“x‚ğ“ü‚ê‘Ö‚¦‚é
+		// ä¸Šä¸‹ã§å„ªå…ˆåº¦ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 		if (ImGui::ArrowButton("##Up", ImGuiDir_Up)) { moveId = t.id; moveOffset = -1; }
 		ImGui::SameLine();
 		if (ImGui::ArrowButton("##Down", ImGuiDir_Down)) { moveId = t.id; moveOffset = +1; }
 		ImGui::SameLine();
 
-		// ğŒ‚Ìİ’è˜R‚ê‚ÍÔ‚Å•\¦
+		// æ¡ä»¶ã®è¨­å®šæ¼ã‚Œã¯èµ¤ã§è¡¨ç¤º
 		bool invalid = (!t.always && t.condition.IsEmpty());
 		if (invalid) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
 
-		// ƒNƒŠƒbƒN‚Å‚»‚ÌƒŠƒ“ƒN‚ğ‘I‚Ô
+		// ã‚¯ãƒªãƒƒã‚¯ã§ãã®ãƒªãƒ³ã‚¯ã‚’é¸ã¶
 		std::string label = std::to_string(i + 1) + ". -> " + GetNodeName(t.toStateId);
 		if (ImGui::Selectable(label.c_str(), t.id == selectedLinkId))
 		{
 			selectedLinkId = t.id;
 			selectedNodeKeys.clear();
-			clearSelectionRequested = true; // ƒLƒƒƒ“ƒoƒX‘¤‚Ìƒm[ƒh‚Ì‘I‘ğ‚àŠO‚·
+			clearSelectionRequested = true; // ã‚­ãƒ£ãƒ³ãƒã‚¹å´ã®ãƒãƒ¼ãƒ‰ã®é¸æŠã‚‚å¤–ã™
 		}
 
 		if (invalid) ImGui::PopStyleColor();
@@ -610,7 +610,7 @@ void StudioStateParentCanvas::DrawLinkList(int fromKey, std::vector<StateTransit
 	(void)fromKey;
 }
 
-// ƒŠƒ“ƒN‚Ì‘JˆÚŒ³‚ÆA‘JˆÚŒ³‚Ì’†‚Å‚Ì‰½”Ô–Ú‚©‚ğ’T‚·
+// ãƒªãƒ³ã‚¯ã®é·ç§»å…ƒã¨ã€é·ç§»å…ƒã®ä¸­ã§ã®ä½•ç•ªç›®ã‹ã‚’æ¢ã™
 bool StudioStateParentCanvas::FindLinkOwner(int linkId, int& outFromKey, int& outIndex, int& outCount) const
 {
 	auto search = [&](int fromKey, const std::vector<StateTransition>& list)
@@ -636,7 +636,7 @@ bool StudioStateParentCanvas::FindLinkOwner(int linkId, int& outFromKey, int& ou
 	return false;
 }
 
-// ƒm[ƒh‚ÌƒL[‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+// ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 std::string StudioStateParentCanvas::GetNodeName(int key) const
 {
 	if (key == StateMachineData::kEntryId) return "Entry";
@@ -644,10 +644,10 @@ std::string StudioStateParentCanvas::GetNodeName(int key) const
 	return "(missing)";
 }
 
-// fromKey‚©‚çtoStateId‚Ö‚ÌƒŠƒ“ƒN‚ª‚ ‚é‚©
+// fromKeyã‹ã‚‰toStateIdã¸ã®ãƒªãƒ³ã‚¯ãŒã‚ã‚‹ã‹
 bool StudioStateParentCanvas::HasLink(int fromKey, int toStateId) const
 {
-	// ‘JˆÚŒ³‚ÌƒŠƒ“ƒN‚Ìˆê——
+	// é·ç§»å…ƒã®ãƒªãƒ³ã‚¯ã®ä¸€è¦§
 	const std::vector<StateTransition>* list = nullptr;
 	if (fromKey == StateMachineData::kEntryId)
 	{
@@ -666,7 +666,7 @@ bool StudioStateParentCanvas::HasLink(int fromKey, int toStateId) const
 	return false;
 }
 
-// ü‚Ìn“_‚ÆI“_‚ğ‹‚ß‚é
+// ç·šã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’æ±‚ã‚ã‚‹
 bool StudioStateParentCanvas::CalcLinkPoints(int fromKey, int toStateId, int lane, ImVec2& outStart, ImVec2& outEnd) const
 {
 	auto fromIt = nodeRects.find(fromKey);
@@ -681,14 +681,14 @@ bool StudioStateParentCanvas::CalcLinkPoints(int fromKey, int toStateId, int lan
 	return true;
 }
 
-// ƒm[ƒh‚ÌƒL[ ¨ ƒm[ƒhƒGƒfƒBƒ^‚ÌID
+// ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ â†’ ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ã®ID
 ed::NodeId StudioStateParentCanvas::ToNodeId(int key)
 {
 	if (key == StateMachineData::kEntryId) return ed::NodeId(static_cast<uint64_t>(kEntryNodeId));
 	return ed::NodeId(static_cast<uint64_t>(key));
 }
 
-// ƒm[ƒhƒGƒfƒBƒ^‚ÌID ¨ ƒm[ƒh‚ÌƒL[
+// ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ã®ID â†’ ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼
 int StudioStateParentCanvas::ToNodeKey(ed::NodeId nodeId)
 {
 	if (nodeId.Get() == static_cast<uint64_t>(kEntryNodeId)) return StateMachineData::kEntryId;

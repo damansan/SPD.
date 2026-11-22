@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include <string>
 #include <filesystem>
@@ -14,57 +14,57 @@
 class GLTFImporter
 {
 public:
-    // GLTFƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅGLTFData‚ğ•Ô‚·
+    // GLTFãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§GLTFDataã‚’è¿”ã™
     static std::shared_ptr<GLTFData> Load(const std::string& filename);
 
 private:
-    // ƒm[ƒh“Ç‚İ‚İ
+    // ãƒãƒ¼ãƒ‰èª­ã¿è¾¼ã¿
     static void LoadNodes(
         GLTFData& data,
         const tinygltf::Model& gltfModel
     );
 
-    // ƒƒbƒVƒ…“Ç‚İ‚İ
+    // ãƒ¡ãƒƒã‚·ãƒ¥èª­ã¿è¾¼ã¿
     static void LoadMeshes(
         GLTFData& data,
         const tinygltf::Model& gltfModel
     );
 
-    // ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+    // ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
     static void LoadMaterials(
         GLTFData& data,
         const tinygltf::Model& gltfModel,
         const std::filesystem::path& filepath
     );
 
-    // ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
     static void LoadTextures(
         GLTFData& data,
         const tinygltf::Model& gltfModel,
         const std::filesystem::path& filepath
     );
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ““Ç‚İ‚İ
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿
     static void LoadAnimations(
         GLTFData& data,
         const tinygltf::Model& gltfModel
     );
 
-    // ƒXƒLƒjƒ“ƒO”»’è
+    // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°åˆ¤å®š
     static bool CheckHasSkin(const tinygltf::Model& gltfModel);
 
-    // À•WŒn•ÏŠ·ƒwƒ‹ƒp[
+    // åº§æ¨™ç³»å¤‰æ›ãƒ˜ãƒ«ãƒ‘ãƒ¼
     static DirectX::XMFLOAT3   ToXMFLOAT3(const std::vector<double>& v);
     static DirectX::XMFLOAT4   ToXMFLOAT4(const std::vector<double>& v);
     static DirectX::XMFLOAT4X4 ToXMFLOAT4X4(const std::vector<double>& v);
 
-    // ƒ^ƒ“ƒWƒFƒ“ƒgŒvZ
+    // ã‚¿ãƒ³ã‚¸ã‚§ãƒ³ãƒˆè¨ˆç®—
     static void ComputeTangents(
         std::vector<GLTFData::Vertex>& vertices,
         const std::vector<uint32_t>& indices
     );
 
-    // ƒOƒ[ƒoƒ‹ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ŒvZ
+    // ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ è¨ˆç®—
     static void CalcGlobalTransform(
         std::vector<GLTFData::Node>& nodes,
         int nodeIndex,

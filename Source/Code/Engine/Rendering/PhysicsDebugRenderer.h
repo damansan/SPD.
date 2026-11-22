@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include <DirectXMath.h>
@@ -22,14 +22,14 @@ public:
 		const DirectX::XMFLOAT4& lightDirection);
 
 private:
-	// TriangleMesh‚ÌGPUƒLƒƒƒbƒVƒ…
+	// TriangleMeshã®GPUã‚­ãƒ£ãƒƒã‚·ãƒ¥
 	struct TriangleMeshCache
 	{
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 		UINT vertexCount = 0;
 	};
 
-	// ƒLƒƒƒbƒVƒ…‚Ìæ“¾
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®å–å¾—
 	const TriangleMeshCache* GetOrCreateTriangleMeshCache(
 		ID3D11Device* device,
 		const physx::PxTriangleMeshGeometry& geom,

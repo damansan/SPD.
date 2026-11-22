@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include <vector>
 #include <wrl.h>
 #include <d3d11.h>
@@ -10,10 +10,10 @@ public:
 	PrimitiveRenderer() = default;
 	PrimitiveRenderer(ID3D11Device* device);
 
-	// í∏ì_í«â¡
+	// È†ÇÁÇπËøΩÂä†
 	void AddVertex(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT4& color);
 
-	// ï`âÊ
+	// ÊèèÁîª
 	void Render(
 		ID3D11DeviceContext* dc,
 		const DirectX::XMFLOAT4X4& view,

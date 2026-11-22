@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <wrl.h>
 #include <d3d11.h>
@@ -10,26 +10,26 @@ public:
 	ShapeRenderer() = default;
 	ShapeRenderer(ID3D11Device* device);
 
-	// ” •`‰æ
+	// ç®±æç”»
 	void DrawBox(
 		const DirectX::XMFLOAT4X4& transform,
 		const DirectX::XMFLOAT3& size,
 		const DirectX::XMFLOAT4& color);
 
-	// ‹…•`‰æ
+	// çƒæç”»
 	void DrawSphere(
 		const DirectX::XMFLOAT3& center,
 		float radius,
 		const DirectX::XMFLOAT4& color);
 
-	// ƒJƒvƒZƒ‹•`‰æ
+	// ã‚«ãƒ—ã‚»ãƒ«æç”»
 	void DrawCapsule(
 		const DirectX::XMFLOAT4X4& transform,
 		float radius,
 		float halfHeight,
 		const DirectX::XMFLOAT4& color);
 
-	// •`‰æÀs
+	// æç”»å®Ÿè¡Œ
 	void Render(
 		ID3D11DeviceContext* dc,
 		const DirectX::XMFLOAT4X4& view,
@@ -75,20 +75,20 @@ private:
 		DirectX::XMFLOAT4   lightDirection;
 	};
 
-	// GPUƒCƒ“ƒXƒ^ƒ“ƒVƒ“ƒO—p
+	// GPUã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚·ãƒ³ã‚°ç”¨
 	struct InstanceData
 	{
 		DirectX::XMFLOAT4X4 world;
 		DirectX::XMFLOAT4   color;
 	};
 
-	// ƒCƒ“ƒXƒ^ƒ“ƒXƒoƒbƒtƒ@‚ÌŠm•ÛEŠg’£ƒwƒ‹ƒp[
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿ãƒ»æ‹¡å¼µãƒ˜ãƒ«ãƒ‘ãƒ¼
 	void EnsureInstanceBuffer(ID3D11Device* device, UINT requiredCount);
 
-	// •s“§–¾•`‰æ—p‚ÌƒŒƒ“ƒ_[ƒXƒe[ƒg¶¬
+	// ä¸é€æ˜æç”»ç”¨ã®ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆç”Ÿæˆ
 	void CreateRenderStates(ID3D11Device* device);
 
-	// ƒoƒbƒtƒ@¶¬ƒwƒ‹ƒp[
+	// ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆãƒ˜ãƒ«ãƒ‘ãƒ¼
 	void CreateWiredMesh(
 		ID3D11Device* device,
 		const std::vector<DirectX::XMFLOAT3>& positions,
@@ -100,24 +100,24 @@ private:
 		const std::vector<uint16_t>& indices,
 		SolidMesh& mesh);
 
-	// ” 
+	// ç®±
 	void CreateWiredBoxMesh(ID3D11Device* device);
 	void CreateSolidBoxMesh(ID3D11Device* device);
 
-	// ‹…
+	// çƒ
 	void CreateWiredSphereMesh(ID3D11Device* device, int subdivisions);
 	void CreateSolidSphereMesh(ID3D11Device* device, int subdivisions);
 
-	// ”¼‹…
+	// åŠçƒ
 	void CreateWiredHalfSphereMesh(ID3D11Device* device, int subdivisions);
 	void CreateSolidHalfSphereMesh(ID3D11Device* device, int subdivisions);
 
-	// ‰~’Œ
+	// å††æŸ±
 	void CreateWiredCylinderMesh(ID3D11Device* device, int subdivisions);
 	void CreateSolidCylinderMesh(ID3D11Device* device, int subdivisions);
 
 private:
-	// ’PˆÊƒTƒCƒY‚ÌƒƒbƒVƒ…
+	// å˜ä½ã‚µã‚¤ã‚ºã®ãƒ¡ãƒƒã‚·ãƒ¥
 	WiredMesh wiredBoxMesh;
 	WiredMesh wiredSphereMesh;
 	WiredMesh wiredHalfSphereMesh;
@@ -130,24 +130,24 @@ private:
 
 	std::vector<Instance> instances;
 
-	// GPUƒCƒ“ƒXƒ^ƒ“ƒVƒ“ƒO—pƒoƒbƒtƒ@
+	// GPUã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚·ãƒ³ã‚°ç”¨ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D11Buffer> instanceBuffer;
 	UINT instanceBufferCapacity = 0;
 
-	// •s“§–¾•`‰æ—pƒXƒe[ƒg(Wired—p)
+	// ä¸é€æ˜æç”»ç”¨ã‚¹ãƒ†ãƒ¼ãƒˆ(Wiredç”¨)
 	Microsoft::WRL::ComPtr<ID3D11BlendState>        opaqueBlendState;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> opaqueDepthStencilState;
 
-	// ”¼“§–¾•`‰æ—pƒXƒe[ƒg(Solid—p)
+	// åŠé€æ˜æç”»ç”¨ã‚¹ãƒ†ãƒ¼ãƒˆ(Solidç”¨)
 	Microsoft::WRL::ComPtr<ID3D11BlendState>        alphaBlendState;
 
-	// WiredƒVƒF[ƒ_[
+	// Wiredã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> wiredVertexShader;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>  wiredPixelShader;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout>  wiredInputLayout;
 	Microsoft::WRL::ComPtr<ID3D11Buffer>       wiredConstantBuffer;
 
-	// SolidƒVƒF[ƒ_[
+	// Solidã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> solidVertexShader;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>  solidPixelShader;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout>  solidInputLayout;

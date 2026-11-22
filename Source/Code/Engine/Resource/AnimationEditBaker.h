@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include "Engine/Resource/Model.h"
 #include "Engine/Data/AnimationEditData.h"
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ•ÒW‚·‚é
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç·¨é›†ã™ã‚‹
 class AnimationEditBaker
 {
 public:
@@ -13,35 +13,35 @@ public:
 		const std::vector<Model::Node>& nodes,
 		const AnimationEditData& editData);
 
-	// 1ƒNƒŠƒbƒv•ª‚¾‚¯Ä‚­
+	// 1ã‚¯ãƒªãƒƒãƒ—åˆ†ã ã‘ç„¼ã
 	static Model::Animation BakeClip(
 		const Model::Animation& rawAnimation,
 		const std::vector<Model::Node>& nodes,
 		int rootIndex,
 		const AnimationEditClipData* clip);
 
-	// RootNode‚Ì–¼‘O‚ğ’T‚·
+	// RootNodeã®åå‰ã‚’æ¢ã™
 	static std::string FindDefaultRootNodeName(const Model& model);
-	// ƒXƒLƒ“‚Ìƒ{[ƒ“‚É‚È‚Á‚Ä‚¢‚éƒm[ƒh‚Ì”Ô†‚Ìˆê——
+	// ã‚¹ã‚­ãƒ³ã®ãƒœãƒ¼ãƒ³ã«ãªã£ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ã®ç•ªå·ã®ä¸€è¦§
 	static std::vector<int> CollectBoneIndices(const Model& model);
-	// –¼‘O‚©‚çƒ‹[ƒgƒm[ƒh‚Ì”Ô†‚ğ’T‚·
+	// åå‰ã‹ã‚‰ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã®ç•ªå·ã‚’æ¢ã™
 	static int FindNodeIndex(const std::vector<Model::Node>& nodes, const std::string& name);
 
 private:
 
-	// w’è”ÍˆÍ‚¾‚¯c‚µ‚ÄAŠÔ‚ğ0•bn‚Ü‚è‚É‹l‚ß‚é
+	// æŒ‡å®šç¯„å›²ã ã‘æ®‹ã—ã¦ã€æ™‚é–“ã‚’0ç§’å§‹ã¾ã‚Šã«è©°ã‚ã‚‹
 	static void TrimAnimation(Model::Animation& animation, float start, float end);
 
-	// 0ƒtƒŒ[ƒ€–Ú‚Ìƒ‹[ƒgˆÊ’u‚ªAƒoƒCƒ“ƒhƒ|[ƒY‚ÌˆÊ’u‚É‚È‚é‚æ‚¤‚É‚¸‚ç‚·
+	// 0ãƒ•ãƒ¬ãƒ¼ãƒ ç›®ã®ãƒ«ãƒ¼ãƒˆä½ç½®ãŒã€ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºã®ä½ç½®ã«ãªã‚‹ã‚ˆã†ã«ãšã‚‰ã™
 	static void RemoveRootOffset(Model::NodeAnim& rootAnim, const Model::Node& rootNode);
 
-	// ‹æŠÔ‚²‚Æ‚ÉAƒ‹[ƒg‚ÌˆÚ“®—Ê‚É”{—¦‚ğŠ|‚¯‚é
+	// åŒºé–“ã”ã¨ã«ã€ãƒ«ãƒ¼ãƒˆã®ç§»å‹•é‡ã«å€ç‡ã‚’æ›ã‘ã‚‹
 	static void ApplySections(
 		Model::Animation& animation,
 		int rootIndex,
 		const std::vector<AnimationEditSection>& sectionsXZ,
 		const std::vector<AnimationEditSection>& sectionsY);
 
-	// ƒ‹[ƒg‚ğY²‰ñ‚è‚É‰ñ‚·
+	// ãƒ«ãƒ¼ãƒˆã‚’Yè»¸å›ã‚Šã«å›ã™
 	static void ApplyYawOffset(Model::NodeAnim& rootAnim, const Model::Node& rootNode, float yawDegrees);
 };

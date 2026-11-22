@@ -1,4 +1,4 @@
-#include "PhysicsDebugRenderer.h"
+ï»¿#include "PhysicsDebugRenderer.h"
 #include "Engine/ECS/Systems/PhysicsSystem.h"
 #include <string>
 #include <algorithm>
@@ -9,7 +9,7 @@ void PhysicsDebugRenderer::Initialize(ID3D11Device* device)
 	primitiveRenderer = PrimitiveRenderer(device);
 	shapeRenderer = ShapeRenderer(device);
 
-	// ”¼“§–¾ƒuƒŒƒ“ƒhƒXƒe[ƒg
+	// åŠé€æ˜ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆ
 	{
 		D3D11_BLEND_DESC desc = {};
 		desc.RenderTarget[0].BlendEnable = TRUE;
@@ -22,7 +22,7 @@ void PhysicsDebugRenderer::Initialize(ID3D11Device* device)
 		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 		device->CreateBlendState(&desc, blendState.GetAddressOf());
 	}
-	// [“xƒeƒXƒgi‘‚«‚İ‚ ‚èj
+	// æ·±åº¦ãƒ†ã‚¹ãƒˆï¼ˆæ›¸ãè¾¼ã¿ã‚ã‚Šï¼‰
 	{
 		D3D11_DEPTH_STENCIL_DESC desc = {};
 		desc.DepthEnable = TRUE;
@@ -30,7 +30,7 @@ void PhysicsDebugRenderer::Initialize(ID3D11Device* device)
 		desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 		device->CreateDepthStencilState(&desc, depthStencilState.GetAddressOf());
 	}
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒU[iƒ\ƒŠƒbƒhE”w–ÊƒJƒŠƒ“ƒOj
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ï¼ˆã‚½ãƒªãƒƒãƒ‰ãƒ»èƒŒé¢ã‚«ãƒªãƒ³ã‚°ï¼‰
 	{
 		D3D11_RASTERIZER_DESC desc = {};
 		desc.FillMode = D3D11_FILL_SOLID;
@@ -48,7 +48,7 @@ void PhysicsDebugRenderer::Render(
 	const DirectX::XMFLOAT4X4& projection,
 	const DirectX::XMFLOAT4& lightDirection)
 {
-	// PxShape‚ğDraw‚·‚é“à•”ƒ‰ƒ€ƒ_
+	// PxShapeã‚’Drawã™ã‚‹å†…éƒ¨ãƒ©ãƒ ãƒ€
 	physx::PxShape* pxShapes[128] = { nullptr };
 
 	auto drawShape = [&](
@@ -60,7 +60,7 @@ void PhysicsDebugRenderer::Render(
 			const physx::PxGeometry& pxGeometry = pxShape->getGeometry();
 			const physx::PxMat44 pxShapeMat(pxShapeTransform);
 
-			// PhysX‚Ìs—ñ‚ğDirectX‚Ìs—ñ‚É•ÏŠ·
+			// PhysXã®è¡Œåˆ—ã‚’DirectXã®è¡Œåˆ—ã«å¤‰æ›
 			DirectX::XMFLOAT4X4 shapeTransform = {
 				pxShapeMat.column0.x, pxShapeMat.column0.y, pxShapeMat.column0.z, pxShapeMat.column0.w,
 				pxShapeMat.column1.x, pxShapeMat.column1.y, pxShapeMat.column1.z, pxShapeMat.column1.w,
@@ -71,7 +71,7 @@ void PhysicsDebugRenderer::Render(
 				pxShapeMat.column3.x, pxShapeMat.column3.y, pxShapeMat.column3.z
 			};
 
-			// ƒXƒŠ[ƒv’†‚ÍˆÃ‚­•\¦
+			// ã‚¹ãƒªãƒ¼ãƒ—ä¸­ã¯æš—ãè¡¨ç¤º
 			DirectX::XMFLOAT4 color = { 0.0f, 1.0f, 0.0f, 0.3f };
 			if (sleeping)
 			{
@@ -91,7 +91,7 @@ void PhysicsDebugRenderer::Render(
 			}
 			case physx::PxGeometryType::eCAPSULE:
 			{
-				// PhysX‚ÌƒJƒvƒZƒ‹‚ÍX²Œü‚« ¨ Z‰ñ“]‚ÅY²Œü‚«‚É•ÏŠ·
+				// PhysXã®ã‚«ãƒ—ã‚»ãƒ«ã¯Xè»¸å‘ã â†’ Zå›è»¢ã§Yè»¸å‘ãã«å¤‰æ›
 				const auto& g = static_cast<const physx::PxCapsuleGeometry&>(pxGeometry);
 				DirectX::XMMATRIX offset = DirectX::XMMatrixRotationZ(DirectX::XM_PIDIV2);
 				DirectX::XMMATRIX base = DirectX::XMLoadFloat4x4(&shapeTransform);
@@ -130,7 +130,7 @@ void PhysicsDebugRenderer::Render(
 					GetOrCreateTriangleMeshCache(device, g, ST, color);
 				if (!cache) break;
 
-				// •`‰æƒŠƒXƒg‚ÉÏ‚Ş
+				// æç”»ãƒªã‚¹ãƒˆã«ç©ã‚€
 				triangleMeshDrawList.push_back(cache);				
 				break;
 			}
@@ -139,7 +139,7 @@ void PhysicsDebugRenderer::Render(
 			}
 		};
 
-	// Actor‚ğ•`‰æ‚·‚éƒ‰ƒ€ƒ_
+	// Actorã‚’æç”»ã™ã‚‹ãƒ©ãƒ ãƒ€
 	auto drawActor = [&](physx::PxRigidActor* pxActor, float contactOffset)
 		{
 			const physx::PxU32 numShapes = pxActor->getNbShapes();
@@ -157,7 +157,7 @@ void PhysicsDebugRenderer::Render(
 			}
 		};
 
-	// Controller‚ª“à•”‚Å‚ÂActor‚ğA‚ ‚ç‚©‚¶‚ßW‚ß‚Ä‚¨‚­(Static/Dynamicƒ‹[ƒv‚Å“ñd•`‰æ‚µ‚È‚¢‚½‚ß)
+	// ControllerãŒå†…éƒ¨ã§æŒã¤Actorã‚’ã€ã‚ã‚‰ã‹ã˜ã‚é›†ã‚ã¦ãŠã(Static/Dynamicãƒ«ãƒ¼ãƒ—ã§äºŒé‡æç”»ã—ãªã„ãŸã‚)
 	std::vector<physx::PxRigidActor*> controllerActors;
 	if (pxControllerManager)
 	{
@@ -172,7 +172,7 @@ void PhysicsDebugRenderer::Render(
 		}
 	}
 
-	// Static / Dynamic Actor(Controller‚Ìactor‚ÍœŠO‚·‚é)
+	// Static / Dynamic Actor(Controllerã®actorã¯é™¤å¤–ã™ã‚‹)
 	{
 		physx::PxActorTypeFlags flags =
 			physx::PxActorTypeFlag::eRIGID_STATIC |
@@ -208,22 +208,22 @@ void PhysicsDebugRenderer::Render(
 			const float halfHeight = capsuleCtrl->getHeight() * 0.5f;
 			const float contactOffset = ctrl->getContactOffset();
 
-			// ‘«Œ³‚©‚ç’†S‚Ö
+			// è¶³å…ƒã‹ã‚‰ä¸­å¿ƒã¸
 			const physx::PxExtendedVec3 footPos = ctrl->getFootPosition();
 			const float centerY = static_cast<float>(footPos.y) + halfHeight + radius + contactOffset;
 
-			// Å‰‚©‚ç Y ²Œü‚«‚ÌƒJƒvƒZƒ‹‚Æ‚µ‚Ä•`‚­
+			// æœ€åˆã‹ã‚‰ Y è»¸å‘ãã®ã‚«ãƒ—ã‚»ãƒ«ã¨ã—ã¦æã
 			DirectX::XMFLOAT4X4 world;
 			DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranslation(
 				static_cast<float>(footPos.x), centerY, static_cast<float>(footPos.z)));
 
-			// ŠO‘¤F•Ç‚â°‚ÉG‚ê‚Ä~‚Ü‚é‘å‚«‚³
+			// å¤–å´ï¼šå£ã‚„åºŠã«è§¦ã‚Œã¦æ­¢ã¾ã‚‹å¤§ãã•
 			const DirectX::XMFLOAT4 color = { 0.0f, 1.0f, 0.0f, 0.3f };
 			shapeRenderer.DrawCapsule(world, radius + contactOffset, halfHeight, color);
 		}
 	}
 
-	// ƒŒƒCƒLƒƒƒXƒgƒfƒoƒbƒO•\¦
+	// ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
 	{
 		std::vector<DebugRay> debugRays = PhysicsSystem::FetchDebugRays();
 		for (const DebugRay& ray : debugRays)
@@ -233,7 +233,7 @@ void PhysicsDebugRenderer::Render(
 		}
 	}
 
-	// ƒŒƒ“ƒ_[ƒXƒe[ƒgİ’è
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
 	float blendFactor[4] = { 0, 0, 0, 0 };
 	dc->OMSetBlendState(blendState.Get(), blendFactor, 0xFFFFFFFF);
 	dc->OMSetDepthStencilState(depthStencilState.Get(), 0);
@@ -242,10 +242,10 @@ void PhysicsDebugRenderer::Render(
 	shapeRenderer.Render(dc, view, projection,
 		{ lightDirection.x, lightDirection.y, lightDirection.z });
 
-	// PrimitiveRenderer‚ÌƒVƒF[ƒ_[EƒŒƒCƒAƒEƒg‚ğƒZƒbƒg‚µ‚Ä‚©‚çDraw
+	// PrimitiveRendererã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ»ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’ã‚»ãƒƒãƒˆã—ã¦ã‹ã‚‰Draw
 	primitiveRenderer.Render(dc, view, projection);
 
-	// TriangleMeshƒLƒƒƒbƒVƒ…‚ğDrawiprimitiveRenderer.Render‚ÅƒVƒF[ƒ_[‚ªƒZƒbƒgÏ‚İj
+	// TriangleMeshã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’Drawï¼ˆprimitiveRenderer.Renderã§ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãŒã‚»ãƒƒãƒˆæ¸ˆã¿ï¼‰
 	if (!triangleMeshDrawList.empty())
 	{
 		dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
@@ -261,7 +261,7 @@ void PhysicsDebugRenderer::Render(
 	}
 }
 
-// ƒLƒƒƒbƒVƒ…‚Ìæ“¾
+// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®å–å¾—
 const PhysicsDebugRenderer::TriangleMeshCache*
 PhysicsDebugRenderer::GetOrCreateTriangleMeshCache(
 	ID3D11Device* device,
@@ -271,14 +271,14 @@ PhysicsDebugRenderer::GetOrCreateTriangleMeshCache(
 {
 	const physx::PxTriangleMesh* pxMesh = geom.triangleMesh;
 
-	// ‚·‚Å‚ÉƒLƒƒƒbƒVƒ…‚ª‚ ‚ê‚Î‚»‚Ì‚Ü‚Ü•Ô‚·
+	// ã™ã§ã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒã‚ã‚Œã°ãã®ã¾ã¾è¿”ã™
 	auto it = triangleMeshCache.find(pxMesh);
 	if (it != triangleMeshCache.end())
 	{
 		return &it->second;
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚ª‚È‚¢‚Ì‚ÅV‹Kì¬
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒãªã„ã®ã§æ–°è¦ä½œæˆ
 	const physx::PxVec3* verts = pxMesh->getVertices();
 	const void* idxData = pxMesh->getTriangles();
 	const physx::PxU32* idx32 = static_cast<const physx::PxU32*>(idxData);
@@ -288,7 +288,7 @@ PhysicsDebugRenderer::GetOrCreateTriangleMeshCache(
 
 	physx::PxU32 numTri = pxMesh->getNbTriangles();
 
-	// ƒ[ƒ‹ƒh•ÏŠ·Ï‚İ‚Ì’¸“_ƒf[ƒ^‚ğCPU‚Åì¬iƒ‰ƒCƒ“ƒŠƒXƒg: OŠpŒ`1–‡=6’¸“_j
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›æ¸ˆã¿ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’CPUã§ä½œæˆï¼ˆãƒ©ã‚¤ãƒ³ãƒªã‚¹ãƒˆ: ä¸‰è§’å½¢1æš=6é ‚ç‚¹ï¼‰
 	struct CacheVertex
 	{
 		DirectX::XMFLOAT3 position;
@@ -326,7 +326,7 @@ PhysicsDebugRenderer::GetOrCreateTriangleMeshCache(
 
 	if (cpuVerts.empty()) return nullptr;
 
-	// GPUƒoƒbƒtƒ@‚ğì¬
+	// GPUãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆ
 	D3D11_BUFFER_DESC desc = {};
 	desc.ByteWidth = static_cast<UINT>(sizeof(CacheVertex) * cpuVerts.size());
 	desc.Usage = D3D11_USAGE_IMMUTABLE;

@@ -1,4 +1,4 @@
-#include "MetaRegistry.h"
+ï»¿#include "MetaRegistry.h"
 #include <DirectXMath.h>
 #include <filesystem>
 #include <imgui.h>
@@ -7,7 +7,7 @@
 
 using namespace entt::literals;
 
-// “o˜^Ï‚İƒƒ^î•ñ‚©‚çInspectorUI‚ğ©“®•`‰æ
+// ç™»éŒ²æ¸ˆã¿ãƒ¡ã‚¿æƒ…å ±ã‹ã‚‰InspectorUIã‚’è‡ªå‹•æç”»
 void MetaRegistry::DrawMetaFields(entt::meta_type metaType, entt::meta_any instance)
 {
 	if (!metaType) return;
@@ -101,7 +101,7 @@ void MetaRegistry::DrawMetaFields(entt::meta_type metaType, entt::meta_any insta
 		{
 			entt::meta_type enumType = value.type();
 
-			// enum‚ÌŠe’l(REFLECT_ENUM_VALUE‚Å“o˜^‚µ‚½’è”)‚ğAƒ‰ƒxƒ‹•t‚«‚Å—ñ‹“‚·‚é
+			// enumã®å„å€¤(REFLECT_ENUM_VALUEã§ç™»éŒ²ã—ãŸå®šæ•°)ã‚’ã€ãƒ©ãƒ™ãƒ«ä»˜ãã§åˆ—æŒ™ã™ã‚‹
 			std::vector<std::pair<std::string, entt::meta_any>> options;
 			std::string currentLabel = "(Unknown)";
 
@@ -135,13 +135,13 @@ void MetaRegistry::DrawMetaFields(entt::meta_type metaType, entt::meta_any insta
 		}
 		else if (value.type().data().begin() != value.type().data().end())
 		{
-			// REFLECT‚³‚ê‚½\‘¢‘ÌF’†g‚ğ“¯‚¶ŠÖ”‚Å•`‰æ‚·‚é
+			// REFLECTã•ã‚ŒãŸæ§‹é€ ä½“ï¼šä¸­èº«ã‚’åŒã˜é–¢æ•°ã§æç”»ã™ã‚‹
 			if (ImGui::TreeNode(label.c_str()))
 			{
 				DrawMetaFields(value.type(), value.as_ref());
 				ImGui::TreePop();
 
-				// value‚ÍƒRƒs[‚È‚Ì‚ÅA•ÒWŒ‹‰Ê‚ğŒ³‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‘‚«–ß‚·
+				// valueã¯ã‚³ãƒ”ãƒ¼ãªã®ã§ã€ç·¨é›†çµæœã‚’å…ƒã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸æ›¸ãæˆ»ã™
 				metaData.set(instance, value);
 			}
 		}

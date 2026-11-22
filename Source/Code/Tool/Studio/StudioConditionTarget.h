@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 
-// ğŒƒEƒBƒ“ƒhƒE‚Å•ÒW‚·‚éğŒ‚ª‚Ç‚ÌƒŠƒ“ƒN‚©‚ç—ˆ‚½‚à‚Ì‚©
+// æ¡ä»¶ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ç·¨é›†ã™ã‚‹æ¡ä»¶ãŒã©ã®ãƒªãƒ³ã‚¯ã‹ã‚‰æ¥ãŸã‚‚ã®ã‹
 struct ConditionTarget
 {
 	enum class Kind
 	{
-		None,      // ‰½‚à•ÒW‚µ‚Ä‚¢‚È‚¢
-		StateLink, // e‚ÌƒŠƒ“ƒN(ƒGƒ“ƒgƒŠ[ ¨ State E State ¨ State)
-		EntryLink, // q‚ÌƒŠƒ“ƒN(ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv)
-		ClipLink,  // q‚ÌƒŠƒ“ƒN(ƒNƒŠƒbƒv @¨ ƒNƒŠƒbƒv)
+		None,      // ä½•ã‚‚ç·¨é›†ã—ã¦ã„ãªã„
+		StateLink, // è¦ªã®ãƒªãƒ³ã‚¯(ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ State ãƒ» State â†’ State)
+		EntryLink, // å­ã®ãƒªãƒ³ã‚¯(ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—)
+		ClipLink,  // å­ã®ãƒªãƒ³ã‚¯(ã‚¯ãƒªãƒƒãƒ— ã€€â†’ ã‚¯ãƒªãƒƒãƒ—)
 	};
 
 	Kind kind = Kind::None;
-	int stateId = -1; // q‚ÌƒŠƒ“ƒN‚Ì‚Æ‚«F‚Ç‚ÌState‚Ìq‚©
+	int stateId = -1; // å­ã®ãƒªãƒ³ã‚¯ã®ã¨ãï¼šã©ã®Stateã®å­ã‹
 	int linkId = -1;
 
 	bool IsValid() const { return kind != Kind::None; }

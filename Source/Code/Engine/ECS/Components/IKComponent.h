@@ -1,24 +1,24 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include <vector>
 
-// ‘«1–{•ª‚ÌFootIKİ’èî•ñ
+// è¶³1æœ¬åˆ†ã®FootIKè¨­å®šæƒ…å ±
 struct FootIKSettings
 {
-    // ‘«‚Ìƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX
+    // è¶³ã®ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
     int rootBoneIndex = 74; // thigh_l
     int midBoneIndex = 75;  // calf_l
     int endBoneIndex = 76;  // foot_l
 
-    // ƒŒƒCƒLƒƒƒXƒgŠÖ˜A
-    float rayStartOffset = 0.2f;  // ƒŒƒC‚Ìn“_
-    float rayMaxDistance = 0.5f;  // ƒŒƒC‚Ì’·‚³
-    float ankleHeight = 0.1f;     // ‚ß‚è‚İ–h~’l
+    // ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆé–¢é€£
+    float rayStartOffset = 0.2f;  // ãƒ¬ã‚¤ã®å§‹ç‚¹
+    float rayMaxDistance = 0.5f;  // ãƒ¬ã‚¤ã®é•·ã•
+    float ankleHeight = 0.1f;     // ã‚ã‚Šè¾¼ã¿é˜²æ­¢å€¤
 
-    // ‹È‚°‚é•ûŒü
+    // æ›²ã’ã‚‹æ–¹å‘
     bool poleVectorForward = true;
 
-	// IK‚Ìƒ^[ƒQƒbƒgˆÊ’u
+	// IKã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®
     DirectX::XMFLOAT3 targetPos{ 0.0f, 0.0f, 0.0f };
 
     bool hasInitializedTarget = false;
@@ -26,9 +26,9 @@ struct FootIKSettings
 
 struct IKComponent
 {
-    // IK‚ğ—LŒø‚É‚·‚é‚©
+    // IKã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‹
     bool enabled = true; 
 
-    // ‘«‚²‚Æ‚Ìİ’è(‰Šú2–{)
+    // è¶³ã”ã¨ã®è¨­å®š(åˆæœŸ2æœ¬)
     std::vector<FootIKSettings> feet{ FootIKSettings{}, FootIKSettings{} };
 };

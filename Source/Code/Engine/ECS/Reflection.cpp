@@ -1,7 +1,7 @@
-#include "Reflection.h"
+ï»¿#include "Reflection.h"
 #include <DirectXMath.h>
 
-// ’l‚ÌŒ^‚ğ”»•Ê‚·‚éƒwƒ‹ƒp[
+// å€¤ã®å‹ã‚’åˆ¤åˆ¥ã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼
 namespace
 {
 	ValueType ResolveValueType(entt::meta_type type)
@@ -13,11 +13,11 @@ namespace
 		if (type == entt::resolve<DirectX::XMFLOAT3>()) return ValueType::Float3;
 		if (type == entt::resolve<DirectX::XMFLOAT4>()) return ValueType::Float4;
 		
-		// ‚»‚êˆÈŠO(string,enum‚È‚Ç)‚ÍAğŒ‚Å‚Í“Ç‚ß‚È‚¢
+		// ãã‚Œä»¥å¤–(string,enumãªã©)ã¯ã€æ¡ä»¶ã§ã¯èª­ã‚ãªã„
 		return ValueType::Unsupported;
 	}
 
-	// leafŒ^‚©‚Ç‚¤‚©
+	// leafå‹ã‹ã©ã†ã‹
 	bool IsLeafType(entt::meta_type type)
 	{
 		return type == entt::resolve<bool>()
@@ -30,7 +30,7 @@ namespace
 	}
 }
 
-// “o˜^Ï‚İ‚ÌƒtƒB[ƒ‹ƒhˆê——‚ğæ“¾‚·‚é
+// ç™»éŒ²æ¸ˆã¿ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
 const std::vector<FieldEntry>& Reflection::GetAllFields()
 {
 	static std::vector<FieldEntry> fieldEntries;
@@ -57,7 +57,7 @@ const std::vector<FieldEntry>& Reflection::GetAllFields()
 
 				if (!IsLeafType(fieldType) && fieldType && !fieldType.is_enum() && fieldType.data().begin() != fieldType.data().end())
 				{
-					// ƒlƒXƒg‚µ‚½ƒtƒB[ƒ‹ƒhF“à‘¤‚ÌŒ^‚ª‚ÂƒtƒB[ƒ‹ƒh‚ğA1’iŠK‚¾‚¯Œ@‚è‰º‚°‚Ä’Ç‰Á‚·‚é
+					// ãƒã‚¹ãƒˆã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼šå†…å´ã®å‹ãŒæŒã¤ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’ã€1æ®µéšã ã‘æ˜ã‚Šä¸‹ã’ã¦è¿½åŠ ã™ã‚‹
 					for (auto&& [subFieldId, subMetaData] : fieldType.data())
 					{
 						FieldInfo* subFieldInfo = subMetaData.custom();
@@ -65,7 +65,7 @@ const std::vector<FieldEntry>& Reflection::GetAllFields()
 
 						ValueType valueType = ResolveValueType(subMetaData.type());
 						std::string combinedLabel = label + "." + subLabel;
-						// ƒR[ƒhã‚Ì–¼‘O‚àA•\¦–¼‚Æ“¯‚¶‚­ue.qv‚Å‚Â‚È‚®
+						// ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã‚‚ã€è¡¨ç¤ºåã¨åŒã˜ãã€Œè¦ª.å­ã€ã§ã¤ãªã
 						std::string combinedName = std::string(metaData.name()) + "." + std::string(subMetaData.name());
 
 						fieldEntries.push_back(FieldEntry{
@@ -87,7 +87,7 @@ const std::vector<FieldEntry>& Reflection::GetAllFields()
 	return fieldEntries;
 }
 
-// ƒR[ƒhã‚Ì–¼‘O‚ÅƒtƒB[ƒ‹ƒh‚ğ’T‚·
+// ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã§ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¢ã™
 const FieldEntry* Reflection::FindField(const std::string& componentName, const std::string& fieldName)
 {
 	for (const auto& f : GetAllFields())
@@ -96,7 +96,7 @@ const FieldEntry* Reflection::FindField(const std::string& componentName, const 
 	}
 	return nullptr;
 }
-// •\¦–¼‚ÅƒtƒB[ƒ‹ƒh‚ğ’T‚·
+// è¡¨ç¤ºåã§ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¢ã™
 const FieldEntry* Reflection::FindFieldByLabel(const std::string& componentName, const std::string& label)
 {
 	for (const auto& f : GetAllFields())
@@ -106,7 +106,7 @@ const FieldEntry* Reflection::FindFieldByLabel(const std::string& componentName,
 	return nullptr;
 }
 
-// Float2/3/4Œ^‚ÌA¬•ª”‚ğ•Ô‚·(‚»‚êˆÈŠO‚Í0)
+// Float2/3/4å‹ã®ã€æˆåˆ†æ•°ã‚’è¿”ã™(ãã‚Œä»¥å¤–ã¯0)
 int Reflection::GetComponentCount(ValueType type)
 {
 	switch (type)

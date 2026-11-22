@@ -1,12 +1,12 @@
-#include "ShadowMap.h"
+ï»¿#include "ShadowMap.h"
 #include <cassert>
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void ShadowMap::Initialize(ID3D11Device* device)
 {
 	HRESULT hr;
 
-	// –{‘ÌF’i”‚Ô‚ñ‚Ì”z—ñƒeƒNƒXƒ`ƒƒ
+	// æœ¬ä½“ï¼šæ®µæ•°ã¶ã‚“ã®é…åˆ—ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	{
 		D3D11_TEXTURE2D_DESC desc{};
 		desc.Width = RESOLUTION;
@@ -21,7 +21,7 @@ void ShadowMap::Initialize(ID3D11Device* device)
 		assert(SUCCEEDED(hr));
 	}
 
-	// ‘‚­‚Æ‚«F’i‚²‚Æ‚É DSV ‚ğì‚é
+	// æ›¸ãã¨ãï¼šæ®µã”ã¨ã« DSV ã‚’ä½œã‚‹
 	for (UINT i = 0; i < CASCADE_COUNT; i++)
 	{
 		D3D11_DEPTH_STENCIL_VIEW_DESC desc{};
@@ -34,7 +34,7 @@ void ShadowMap::Initialize(ID3D11Device* device)
 		assert(SUCCEEDED(hr));
 	}
 
-	// “Ç‚Ş‚Æ‚«F‘S’i‚Ü‚Æ‚ß‚Ä1‚Â‚Ì SRV
+	// èª­ã‚€ã¨ãï¼šå…¨æ®µã¾ã¨ã‚ã¦1ã¤ã® SRV
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
 		desc.Format = DXGI_FORMAT_R32_FLOAT;
@@ -47,7 +47,7 @@ void ShadowMap::Initialize(ID3D11Device* device)
 		assert(SUCCEEDED(hr));
 	}
 
-	// ”äŠrƒTƒ“ƒvƒ‰[Fu“Ç‚ñ‚¾[“x ‚Æ ©•ª‚Ì[“xv‚Ì”äŠr‚ğ GPU ‚É‚â‚ç‚¹‚é
+	// æ¯”è¼ƒã‚µãƒ³ãƒ—ãƒ©ãƒ¼ï¼šã€Œèª­ã‚“ã æ·±åº¦ ã¨ è‡ªåˆ†ã®æ·±åº¦ã€ã®æ¯”è¼ƒã‚’ GPU ã«ã‚„ã‚‰ã›ã‚‹
 	{
 		D3D11_SAMPLER_DESC desc{};
 		desc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
@@ -65,27 +65,27 @@ void ShadowMap::Initialize(ID3D11Device* device)
 		assert(SUCCEEDED(hr));
 	}
 
-	// ‰e‚ğ•`‚­‚Æ‚«‚Ìƒ‰ƒXƒ^ƒ‰ƒCƒU[
+	// å½±ã‚’æãã¨ãã®ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼
 	{
 		D3D11_RASTERIZER_DESC desc{};
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_BACK;
 		desc.FrontCounterClockwise = FALSE;
-		desc.DepthBias = 0;                // ƒXƒeƒbƒv2‚Å’²®
-		desc.SlopeScaledDepthBias = 0.0f;  // ƒXƒeƒbƒv2‚Å’²®
+		desc.DepthBias = 0;                // ã‚¹ãƒ†ãƒƒãƒ—2ã§èª¿æ•´
+		desc.SlopeScaledDepthBias = 0.0f;  // ã‚¹ãƒ†ãƒƒãƒ—2ã§èª¿æ•´
 		desc.DepthBiasClamp = 0.0f;
-		desc.DepthClipEnable = FALSE;      // ƒ‰ƒCƒg‚Ìè‘O‚É‚Í‚İo‚½•¨‚à’×‚µ‚Ä•`‚­
+		desc.DepthClipEnable = FALSE;      // ãƒ©ã‚¤ãƒˆã®æ‰‹å‰ã«ã¯ã¿å‡ºãŸç‰©ã‚‚æ½°ã—ã¦æã
 		hr = device->CreateRasterizerState(&desc, rasterizerState.GetAddressOf());
 		assert(SUCCEEDED(hr));
 	}
 }
 
-// w’è‚µ‚½’i‚ğ•`‰ææ‚É‚·‚é
+// æŒ‡å®šã—ãŸæ®µã‚’æç”»å…ˆã«ã™ã‚‹
 void ShadowMap::BeginCascade(ID3D11DeviceContext* dc, UINT cascadeIndex)
 {
 	assert(cascadeIndex < CASCADE_COUNT);
 
-	// [“x‚¾‚¯
+	// æ·±åº¦ã ã‘
 	dc->OMSetRenderTargets(0, nullptr, dsvs[cascadeIndex].Get());
 	dc->ClearDepthStencilView(dsvs[cascadeIndex].Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
@@ -97,7 +97,7 @@ void ShadowMap::BeginCascade(ID3D11DeviceContext* dc, UINT cascadeIndex)
 	dc->RSSetViewports(1, &vp);
 }
 
-// •`‰ææ‚ğŠO‚·
+// æç”»å…ˆã‚’å¤–ã™
 void ShadowMap::End(ID3D11DeviceContext* dc)
 {
 	dc->OMSetRenderTargets(0, nullptr, nullptr);

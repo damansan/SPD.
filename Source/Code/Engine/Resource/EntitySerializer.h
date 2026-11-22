@@ -1,30 +1,30 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include <json.hpp>
 
 class EntitySerializer
 {
 public:
-	// Entity1‚Â‚ğAƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğƒL[‚É‚µ‚½JSON‚Ö•ÏŠ·‚·‚é
+	// Entity1ã¤ã‚’ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’ã‚­ãƒ¼ã«ã—ãŸJSONã¸å¤‰æ›ã™ã‚‹
 	static nlohmann::json SerializeEntity(entt::registry& registry, entt::entity e);
 
-	// JSON‚Ì“à—e‚ğAEntity‚Ö”½‰f‚·‚é
+	// JSONã®å†…å®¹ã‚’ã€Entityã¸åæ˜ ã™ã‚‹
 	static void DeserializeEntity(entt::registry& registry, entt::entity e, const nlohmann::json& data);
 
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚ğ“Ç‚Ş
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚€
 	static const nlohmann::json* LoadPrefabFile(const std::string& path);
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚É‘‚­
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ã
 	static bool SavePrefabFile(const std::string& path, const nlohmann::json& data);
 
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚©‚çEntity‚ğ¶¬‚·‚éB¬Œ÷‚µ‚½‚ç‚»‚ÌEntity‚ğA¸”s‚µ‚½‚çentt::null‚ğ•Ô‚·
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰Entityã‚’ç”Ÿæˆã™ã‚‹ã€‚æˆåŠŸã—ãŸã‚‰ãã®Entityã‚’ã€å¤±æ•—ã—ãŸã‚‰entt::nullã‚’è¿”ã™
 	static entt::entity InstantiatePrefab(entt::registry& registry, const std::string& prefabPath);
 
-	// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†g(JSON)‚©‚çEntity‚ğ¶¬‚·‚éB•œŒ³’†‚ÉƒGƒ‰[‚ª‹N‚«‚½‚çAì‚è‚©‚¯‚ÌEntity‚ğ”jŠü‚µ‚Äentt::null‚ğ•Ô‚·
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­èº«(JSON)ã‹ã‚‰Entityã‚’ç”Ÿæˆã™ã‚‹ã€‚å¾©å…ƒä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ã€ä½œã‚Šã‹ã‘ã®Entityã‚’ç ´æ£„ã—ã¦entt::nullã‚’è¿”ã™
 	static entt::entity CreateFromComponents(entt::registry& registry, const nlohmann::json& components);
 
 private:
-	// entt::meta_any 1‚Â•ª‚ÌƒtƒB[ƒ‹ƒh’l‚ğAJSON‚Ö•ÏŠ·‚·‚é
+	// entt::meta_any 1ã¤åˆ†ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å€¤ã‚’ã€JSONã¸å¤‰æ›ã™ã‚‹
 	static nlohmann::json SerializeMetaAny(entt::meta_any& value);
-	// JSON‚Ì’l‚ğAentt::metaŒo—R‚ÅƒtƒB[ƒ‹ƒh‚Ö‘‚«–ß‚·
+	// JSONã®å€¤ã‚’ã€entt::metaçµŒç”±ã§ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¸æ›¸ãæˆ»ã™
 	static void DeserializeMetaAny(entt::meta_data metaData, entt::meta_any& instance, const nlohmann::json& value);
 };

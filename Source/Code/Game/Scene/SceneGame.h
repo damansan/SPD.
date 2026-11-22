@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/Core/Scene.h"
 
-// ƒQ[ƒ€ƒvƒŒƒCŒn
+// ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ç³»
 #include "Engine/ECS/Systems/ControllerSystem.h"
 #include "Game/ECS/Systems/GameInputSystem.h"
 
 
-// PlayerŠÖŒW
+// Playeré–¢ä¿‚
 #include "Game/ECS/Systems/PlayerIntentSystem.h"
 #include "Game/ECS/Systems/PlayerLocomotionSystem.h"
 #include "Game/ECS/Systems/PlayerWallSenseSystem.h"
@@ -34,14 +34,14 @@
 
 #include "Engine/ECS/Systems/StateMachineSystem.h"
 
-// •`‰æŒn
+// æç”»ç³»
 #include "Engine/ECS/Systems/RenderSystem.h"
 #include "Engine/Rendering/SkyBox.h"
 #include "Engine/Rendering/PostProcess.h"
 #include "Engine/Rendering/LightManager.h"
 #include "Engine/Rendering/PhysicsDebugRenderer.h"
 
-// ƒfƒ‚
+// ãƒ‡ãƒ¢
 #include "Game/Demo/WaveDemo.h"
 
 class SceneGame : public Scene
@@ -53,16 +53,16 @@ public:
 	void Render(const SceneContext& context)override;
 
 private:
-	void UpdateGameplay(float elapsedTime, const SceneContext& context);  // ƒQ[ƒ€ƒvƒŒƒCŒn
-	void UpdateAnimation(float elapsedTime, const SceneContext& context); // ƒAƒjƒ[ƒVƒ‡ƒ“Œn
-	void UpdateResources(float elapsedTime, const SceneContext& context); // ƒŠƒ\[ƒXŒn
-	void UpdateCamera(float elapsedTime, const SceneContext& context);    // ƒJƒƒ‰
+	void UpdateGameplay(float elapsedTime, const SceneContext& context);  // ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ç³»
+	void UpdateAnimation(float elapsedTime, const SceneContext& context); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç³»
+	void UpdateResources(float elapsedTime, const SceneContext& context); // ãƒªã‚½ãƒ¼ã‚¹ç³»
+	void UpdateCamera(float elapsedTime, const SceneContext& context);    // ã‚«ãƒ¡ãƒ©
 
-	// ƒQ[ƒ€ƒvƒŒƒCŒn
+	// ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ç³»
 	ControllerSystem  controllerSystem;
 	GameInputSystem   gameInputSystem;
 	 
-	// PlayerŠÖŒW
+	// Playeré–¢ä¿‚
 	PlayerIntentSystem playerIntentSystem;
 	PlayerLocomotionSystem playerLocomotionSystem;
 	PlayerWallSenseSystem  playerWallSenseSystem;
@@ -90,7 +90,7 @@ private:
 
 	StateMachineSystem stateMachineSystem;
 
-	// •`‰æŒn
+	// æç”»ç³»
 	RenderSystem         renderSystem;
 	SkyBox                skyBox;
 	PostProcess           postProcess;
@@ -98,9 +98,9 @@ private:
 	PhysicsDebugRenderer  physicsDebugRenderer;
 
 private:
-	// ƒfƒ‚—p
+	// ãƒ‡ãƒ¢ç”¨
 	WaveDemo waveDemo;
 
-	// ƒfƒoƒbƒO•`‰æØ‚è‘Ö‚¦ƒtƒ‰ƒO
+	// ãƒ‡ãƒãƒƒã‚°æç”»åˆ‡ã‚Šæ›¿ãˆãƒ•ãƒ©ã‚°
 	bool DrawDebug = true;
 };

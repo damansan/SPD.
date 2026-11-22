@@ -1,19 +1,19 @@
-#include "ViewportWindow.h"
+ï»¿#include "ViewportWindow.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void ViewportWindow::Initialize(UINT width, UINT height)
 {
     debugCamera.Initialize(static_cast<float>(width), static_cast<float>(height));
 }
 
-// ImGui•`‰æ
+// ImGuiæç”»
 void ViewportWindow::Draw(GameView& gameView, const std::function<void()>& drawMenus)
 {
     ImGui::Begin("Game", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-    // ƒƒjƒ…[ƒo[
+    // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼
     if (ImGui::BeginMenuBar())
     {
         if (drawMenus)
@@ -24,11 +24,11 @@ void ViewportWindow::Draw(GameView& gameView, const std::function<void()>& drawM
         ImGui::EndMenuBar();
     }
 
-    // Gameê—p‚ÌDockSpace
+    // Gameå°‚ç”¨ã®DockSpace
     ImGuiID dockSpaceId = ImGui::GetID("GameDockSpace");
     ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
 
-    // ‰‰ñƒtƒŒ[ƒ€‚¾‚¯ƒfƒtƒHƒ‹ƒgƒŒƒCƒAƒEƒg‚ğ‘g‚Ş
+    // åˆå›ãƒ•ãƒ¬ãƒ¼ãƒ ã ã‘ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’çµ„ã‚€
     if (firstDockSetup)
     {
         firstDockSetup = false;
@@ -59,13 +59,13 @@ void ViewportWindow::Draw(GameView& gameView, const std::function<void()>& drawM
     }
 
 
-    // Viewportƒpƒlƒ‹
+    // Viewportãƒ‘ãƒãƒ«
     ImGui::Begin("Viewport");
 
     ImVec2 region = ImGui::GetContentRegionAvail();
     if (region.x > 1 && region.y > 1)
     {
-        // “¯‚¶Viewport‚É•`‚­‚Ì‚ÅA—¼•û‚ÌƒJƒƒ‰‚É“¯‚¶c‰¡”ä‚ğ“–‚Ä‚é
+        // åŒã˜Viewportã«æãã®ã§ã€ä¸¡æ–¹ã®ã‚«ãƒ¡ãƒ©ã«åŒã˜ç¸¦æ¨ªæ¯”ã‚’å½“ã¦ã‚‹
         float aspect = region.x / region.y;
         gameView.SetAspect(aspect);
         debugCamera.SetPerspectiveFov(
@@ -78,7 +78,7 @@ void ViewportWindow::Draw(GameView& gameView, const std::function<void()>& drawM
 
     ImGui::Image(reinterpret_cast<ImTextureID>(gameView.GetOutputSRV()), region);
 
-    // ƒJƒƒ‰‘€ì‚ÌŠJn”»’è‚ÍViewport’P‘Ì‚Ìƒzƒo[‚¾‚¯‚ğŒ©‚é
+    // ã‚«ãƒ¡ãƒ©æ“ä½œã®é–‹å§‹åˆ¤å®šã¯Viewportå˜ä½“ã®ãƒ›ãƒãƒ¼ã ã‘ã‚’è¦‹ã‚‹
     viewportHovered = ImGui::IsWindowHovered();
 
     ImGui::End(); // Viewport

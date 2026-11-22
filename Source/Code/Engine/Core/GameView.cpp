@@ -1,29 +1,29 @@
-#include "GameView.h"
+ï»¿#include "GameView.h"
 #include <cassert>
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void GameView::Initialize(ID3D11Device* dev, UINT width, UINT height)
 {
     device = dev;
 
-    // ƒJƒƒ‰‰Šú‰»
+    // ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
     camera.Initialize(static_cast<float>(width), static_cast<float>(height));
 
     ResizeRenderTarget(width, height);
 }
 
-// iBeginEEndEResizeRenderTarget ‚Í GameWindow.cpp ‚Ì’†g‚ğ‚»‚Ì‚Ü‚Üj
+// ï¼ˆBeginãƒ»Endãƒ»ResizeRenderTarget ã¯ GameWindow.cpp ã®ä¸­èº«ã‚’ãã®ã¾ã¾ï¼‰
 
-// •`‰ææ‚ÌØ‚è‘Ö‚¦
+// æç”»å…ˆã®åˆ‡ã‚Šæ›¿ãˆ
 void GameView::Begin(ID3D11DeviceContext* dc)
 {
     if (!dc) return;
 
-    // Œ»İ‚Ìƒrƒ…[ƒ|[ƒg‚ğ•Û‘¶
+    // ç¾åœ¨ã®ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’ä¿å­˜
     UINT numVP = 1;
     dc->RSGetViewports(&numVP, &savedViewport);
 
-    // ©‘O‚Ìƒrƒ…[ƒ|[ƒg‚ğƒZƒbƒg
+    // è‡ªå‰ã®ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’ã‚»ãƒƒãƒˆ
     D3D11_VIEWPORT vp{};
     vp.Width = static_cast<float>(renderWidth);
     vp.Height = static_cast<float>(renderHeight);
@@ -31,10 +31,10 @@ void GameView::Begin(ID3D11DeviceContext* dc)
     vp.MaxDepth = 1.0f;
     dc->RSSetViewports(1, &vp);
 
-    // •`‰ææ‚ğ©‘ORTV‚ÉØ‚è‘Ö‚¦
+    // æç”»å…ˆã‚’è‡ªå‰RTVã«åˆ‡ã‚Šæ›¿ãˆ
     dc->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
 
-    // ƒNƒŠƒA
+    // ã‚¯ãƒªã‚¢
     float clear[4] = { 0.2f, 0.2f, 0.5f, 1.0f };
     dc->ClearRenderTargetView(rtv.Get(), clear);
     dc->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -43,16 +43,16 @@ void GameView::End(ID3D11DeviceContext* dc)
 {
     if (!dc) return;
 
-    // ƒrƒ…[ƒ|[ƒg‚ğŒ³‚É–ß‚·
+    // ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’å…ƒã«æˆ»ã™
     dc->RSSetViewports(1, &savedViewport);
 
-    // •`‰ææ‚ğƒƒCƒ“‚É–ß‚·
+    // æç”»å…ˆã‚’ãƒ¡ã‚¤ãƒ³ã«æˆ»ã™
     ID3D11RenderTargetView* nullRTV = nullptr;
     dc->OMSetRenderTargets(1, &nullRTV, nullptr);
 }
 
 
-// ƒeƒNƒXƒ`ƒƒ‚ÌÄ¶¬
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å†ç”Ÿæˆ
 void GameView::ResizeRenderTarget(UINT width, UINT height)
 {
     if (!device) return;
@@ -61,7 +61,7 @@ void GameView::ResizeRenderTarget(UINT width, UINT height)
     renderWidth = width;
     renderHeight = height;
 
-    // ŒÃ‚¢ƒŠƒ\[ƒX‚ğ‰ğ•ú
+    // å¤ã„ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾
     srv.Reset();
     rtv.Reset();
     renderTexture.Reset();
@@ -73,7 +73,7 @@ void GameView::ResizeRenderTarget(UINT width, UINT height)
 
     HRESULT hr;
 
-    // ƒJƒ‰[ƒeƒNƒXƒ`ƒƒÄ¶¬
+    // ã‚«ãƒ©ãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£å†ç”Ÿæˆ
     {
         D3D11_TEXTURE2D_DESC desc{};
         desc.Width = renderWidth;
@@ -93,7 +93,7 @@ void GameView::ResizeRenderTarget(UINT width, UINT height)
         assert(SUCCEEDED(hr));
     }
 
-    // [“xƒeƒNƒXƒ`ƒƒÄ¶¬
+    // æ·±åº¦ãƒ†ã‚¯ã‚¹ãƒãƒ£å†ç”Ÿæˆ
     {
         D3D11_TEXTURE2D_DESC desc{};
         desc.Width = renderWidth;
@@ -111,7 +111,7 @@ void GameView::ResizeRenderTarget(UINT width, UINT height)
         assert(SUCCEEDED(hr));
     }
 
-    // •\¦—pƒeƒNƒXƒ`ƒƒÄ¶¬
+    // è¡¨ç¤ºç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£å†ç”Ÿæˆ
     {
         D3D11_TEXTURE2D_DESC desc{};
         desc.Width = renderWidth;
@@ -132,7 +132,7 @@ void GameView::ResizeRenderTarget(UINT width, UINT height)
     }
 }
 
-// •\¦æ‚Ìc‰¡”ä‚É‡‚í‚¹‚ÄAƒQ[ƒ€ƒJƒƒ‰‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“‚ğXV‚·‚é
+// è¡¨ç¤ºå…ˆã®ç¸¦æ¨ªæ¯”ã«åˆã‚ã›ã¦ã€ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°ã™ã‚‹
 void GameView::SetAspect(float aspect)
 {
     camera.SetPerspectiveFov(

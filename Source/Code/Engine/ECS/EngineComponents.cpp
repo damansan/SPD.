@@ -1,4 +1,4 @@
-#include "EngineComponents.h"
+ï»¿#include "EngineComponents.h"
 #include "Engine/Resource/ComponentRegistry.h"
 
 #include "Engine/ECS/Components/CategoryComponent.h"
@@ -30,21 +30,21 @@ void EngineComponents::Register()
 	REGISTER_COMPONENT_TYPE(AnimationSpeedComponent, "Animation Speed");
 	REGISTER_COMPONENT_TYPE(StateMachineComponent, "State Machine");
 
-	// •¨—Fí•Ê(PhysicsBodyType)‚ğ‘ã•\‚Æ‚µ‚Ä“o˜^‚µA
-	// ŠO‚·‚Æ‚«‚Íí•Ê‚²‚Æ‚É•t—^‚³‚ê‚½ŒÂ•Ê‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚à‚Ü‚Æ‚ß‚ÄŠO‚·
+	// ç‰©ç†ï¼šç¨®åˆ¥(PhysicsBodyType)ã‚’ä»£è¡¨ã¨ã—ã¦ç™»éŒ²ã—ã€
+	// å¤–ã™ã¨ãã¯ç¨®åˆ¥ã”ã¨ã«ä»˜ä¸ã•ã‚ŒãŸå€‹åˆ¥ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚‚ã¾ã¨ã‚ã¦å¤–ã™
 	ComponentRegistry::Register({
 		"PhysicsBodyTypeComponent",
 		"Physics",
-		// Add: PhysicsBodyTypeComponent‚Ì‚İ•t—^(í•Ê–¢‘I‘ğó‘Ô)
+		// Add: PhysicsBodyTypeComponentã®ã¿ä»˜ä¸(ç¨®åˆ¥æœªé¸æŠçŠ¶æ…‹)
 		[](entt::registry& reg, entt::entity e)
 		{
 			if (!reg.any_of<PhysicsBodyTypeComponent>(e))
 				reg.emplace<PhysicsBodyTypeComponent>(e);
 		},
-		// Remove: ‹¤’ÊƒRƒ“ƒ|[ƒlƒ“ƒg‚Æ•R‚Ã‚¢‚½ŒÂ•Ê‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ—¼•ûíœ
+		// Remove: å…±é€šã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¨ç´ã¥ã„ãŸå€‹åˆ¥ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä¸¡æ–¹å‰Šé™¤
 		[](entt::registry& reg, entt::entity e)
 		{
-			// À‘Ì(PxActor/PxController)‚Ì”jŠü—\–ñ‚ÍAon_destroy‚Ì’Ê’m‚Å©“®“I‚És‚í‚ê‚é
+			// å®Ÿä½“(PxActor/PxController)ã®ç ´æ£„äºˆç´„ã¯ã€on_destroyã®é€šçŸ¥ã§è‡ªå‹•çš„ã«è¡Œã‚ã‚Œã‚‹
 			if (reg.any_of<StaticBodyComponent>(e))
 				reg.remove<StaticBodyComponent>(e);
 

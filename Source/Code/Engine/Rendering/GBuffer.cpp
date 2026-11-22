@@ -1,9 +1,9 @@
-#include "GBuffer.h"
+ï»¿#include "GBuffer.h"
 #include "Engine/Utility/misc.h"
 
 void GBuffer::Initialize(ID3D11Device* device, UINT width, UINT height)
 {
-    // Šù‘¶ƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ä‚©‚çÄ¶¬
+    // æ—¢å­˜ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¦ã‹ã‚‰å†ç”Ÿæˆ
     for (UINT i = 0; i < BUFFER_COUNT; i++)
     {
         rtvs[i].Reset();
@@ -11,10 +11,10 @@ void GBuffer::Initialize(ID3D11Device* device, UINT width, UINT height)
         rtvPtrs[i] = nullptr;
     }
 
-    // GBuffer‚ÌƒtƒH[ƒ}ƒbƒg’è‹`
+    // GBufferã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå®šç¾©
     DXGI_FORMAT formats[BUFFER_COUNT] =
     {
-        DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, // Albedoi‘‚­‚Æ‚« sRGB ‚ÖA“Ç‚Ş‚Æ‚«ƒŠƒjƒA‚Ö GPU ‚ª•ÏŠ·j
+        DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, // Albedoï¼ˆæ›¸ãã¨ã sRGB ã¸ã€èª­ã‚€ã¨ããƒªãƒ‹ã‚¢ã¸ GPU ãŒå¤‰æ›ï¼‰
         DXGI_FORMAT_R16G16B16A16_FLOAT,  // Normal
         DXGI_FORMAT_R32G32B32A32_FLOAT,  // Position
         DXGI_FORMAT_R8G8B8A8_UNORM,      // Roughness/Metallic
@@ -24,7 +24,7 @@ void GBuffer::Initialize(ID3D11Device* device, UINT width, UINT height)
 
     for (UINT i = 0; i < BUFFER_COUNT; i++)
     {
-        // ƒeƒNƒXƒ`ƒƒ¶¬
+        // ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
         D3D11_TEXTURE2D_DESC texDesc{};
         texDesc.Width = width;
         texDesc.Height = height;
@@ -41,39 +41,39 @@ void GBuffer::Initialize(ID3D11Device* device, UINT width, UINT height)
             &texDesc, nullptr, tex.GetAddressOf());
         _ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-        // RTV¶¬
+        // RTVç”Ÿæˆ
         hr = device->CreateRenderTargetView(
             tex.Get(), nullptr, rtvs[i].GetAddressOf());
         _ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-        // SRV¶¬
+        // SRVç”Ÿæˆ
         hr = device->CreateShaderResourceView(
             tex.Get(), nullptr, srvs[i].GetAddressOf());
         _ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-        // rawƒ|ƒCƒ“ƒ^”z—ñ‚ÉƒZƒbƒg
+        // rawãƒã‚¤ãƒ³ã‚¿é…åˆ—ã«ã‚»ãƒƒãƒˆ
         rtvPtrs[i] = rtvs[i].Get();
     }
 }
 
-// GeometryƒpƒXŠJn
+// Geometryãƒ‘ã‚¹é–‹å§‹
 void GBuffer::BeginGeometryPass(
     ID3D11DeviceContext* dc,
     ID3D11DepthStencilView* dsv)
 {
-    // ‘SGBuffer‚ğƒNƒŠƒA
+    // å…¨GBufferã‚’ã‚¯ãƒªã‚¢
     float black[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     for (UINT i = 0; i < BUFFER_COUNT; i++)
         dc->ClearRenderTargetView(rtvs[i].Get(), black);
 
-    // Gƒoƒbƒtƒ@‚ÌRTV‚ğƒZƒbƒgi[“x‚Í‹¤—Lj
+    // Gãƒãƒƒãƒ•ã‚¡ã®RTVã‚’ã‚»ãƒƒãƒˆï¼ˆæ·±åº¦ã¯å…±æœ‰ï¼‰
     dc->OMSetRenderTargets(BUFFER_COUNT, rtvPtrs, dsv);
 }
 
-// GeometryƒpƒXI—¹
+// Geometryãƒ‘ã‚¹çµ‚äº†
 void GBuffer::EndGeometryPass(ID3D11DeviceContext* dc)
 {
-    // RTV‚Ì‘©”›‚ğ‰ğœ
+    // RTVã®æŸç¸›ã‚’è§£é™¤
     ID3D11RenderTargetView* nullRTVs[BUFFER_COUNT] = {};
     dc->OMSetRenderTargets(BUFFER_COUNT, nullRTVs, nullptr);
 }

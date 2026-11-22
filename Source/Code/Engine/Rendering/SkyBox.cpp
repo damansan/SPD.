@@ -1,4 +1,4 @@
-#include "SkyBox.h"
+ï»¿#include "SkyBox.h"
 #include "Engine/Resource/GpuResourceUtils.h"
 #include "Engine/Utility/misc.h"
 #include <filesystem>
@@ -7,12 +7,12 @@ void SkyBox::Initialize(
 	ID3D11Device* device,
 	const std::string& folderPath) 
 {
-	// ––”ö‚ÉƒXƒ‰ƒbƒVƒ…‚ª‚È‚¯‚ê‚Î’Ç‰Á
+	// æœ«å°¾ã«ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ãŒãªã‘ã‚Œã°è¿½åŠ 
 	std::string folder = folderPath;
 	if (!folder.empty() && folder.back() != '/' && folder.back() != '\\')
 		folder += '/';
 
-	// ƒLƒ…[ƒuƒ}ƒbƒv“Ç‚Ýž‚Ý
+	// ã‚­ãƒ¥ãƒ¼ãƒ–ãƒžãƒƒãƒ—èª­ã¿è¾¼ã¿
 	GpuResourceUtils::LoadDDSTexture(
 		device, folder + "specular_pmrem.dds", skyTexture);
 
@@ -22,7 +22,7 @@ void SkyBox::Initialize(
 	GpuResourceUtils::LoadDDSTexture(
 		device, folder + "lut_ggx.dds", lutGgx);
 
-	// ƒXƒJƒCƒ{ƒbƒNƒX•`‰æ—piskybox.dds‚ª‚ ‚ê‚ÎŽg‚¤A–³‚©‚Á‚½‚çspecular_pmrem.dds‚ðŽg‚¤j
+	// ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹æç”»ç”¨ï¼ˆskybox.ddsãŒã‚ã‚Œã°ä½¿ã†ã€ç„¡ã‹ã£ãŸã‚‰specular_pmrem.ddsã‚’ä½¿ã†ï¼‰
 	if (std::filesystem::exists(folder + "skybox.dds"))
 	{
 		GpuResourceUtils::LoadDDSTexture(
@@ -33,14 +33,14 @@ void SkyBox::Initialize(
 		skyBoxTexture = skyTexture;
 	}
 
-	// “ü—ÍƒŒƒCƒAƒEƒgiPOSITION‚Ì‚Ýj
+	// å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆï¼ˆPOSITIONã®ã¿ï¼‰
 	const D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
 		  D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	// ’¸“_ƒVƒF[ƒ_[“Ç‚Ýž‚Ý
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	GpuResourceUtils::LoadVertexShader(
 		device,
 		"Data/Shader/SkyBox_VS.cso",
@@ -49,21 +49,21 @@ void SkyBox::Initialize(
 		vertexShader
 	);
 
-	// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[“Ç‚Ýž‚Ý
+	// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	GpuResourceUtils::LoadPixelShader(
 		device,
 		"Data/Shader/SkyBox_PS.cso",
 		pixelShader
 	);
 
-	// ’è”ƒoƒbƒtƒ@¶¬
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	GpuResourceUtils::CreateConstantBuffer(
 		device,
 		sizeof(CbSkyBox),
 		cbSkyBox
 	);
 
-	// ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg¶¬
+	// ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆç”Ÿæˆ
 	D3D11_SAMPLER_DESC samplerDesc{};
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	//samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -77,14 +77,14 @@ void SkyBox::Initialize(
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	device->CreateSamplerState(&samplerDesc, samplerState.GetAddressOf());
 
-	// [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg¶¬
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆç”Ÿæˆ
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 	dsDesc.DepthEnable = TRUE;
-	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; // ‘‚«ž‚ÝOFF
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL; // LESS_EQUAL‚Å1.0‚ð’Ê‚·
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO; // æ›¸ãè¾¼ã¿OFF
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL; // LESS_EQUALã§1.0ã‚’é€šã™
 	device->CreateDepthStencilState(&dsDesc, depthStencilState.GetAddressOf());
 
-	// ’PˆÊ—§•û‘Ì‚Ì’¸“_ƒf[ƒ^
+	// å˜ä½ç«‹æ–¹ä½“ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	const DirectX::XMFLOAT3 vertices[] =
 	{
 		{ -1.0f,  1.0f, -1.0f },
@@ -97,19 +97,19 @@ void SkyBox::Initialize(
 		{ -1.0f, -1.0f,  1.0f },
 	};
 
-	// ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
 	const UINT indices[] =
 	{
-		0, 1, 2,  0, 2, 3, // ã–Ê
-		4, 6, 5,  4, 7, 6, // ‰º–Ê
-		0, 4, 5,  0, 5, 1, // ‘O–Ê
-		2, 6, 7,  2, 7, 3, // Œã–Ê
-		0, 3, 7,  0, 7, 4, // ¶–Ê
-		1, 5, 6,  1, 6, 2, // ‰E–Ê
+		0, 1, 2,  0, 2, 3, // ä¸Šé¢
+		4, 6, 5,  4, 7, 6, // ä¸‹é¢
+		0, 4, 5,  0, 5, 1, // å‰é¢
+		2, 6, 7,  2, 7, 3, // å¾Œé¢
+		0, 3, 7,  0, 7, 4, // å·¦é¢
+		1, 5, 6,  1, 6, 2, // å³é¢
 	};
 	indexCount = ARRAYSIZE(indices);
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC vbDesc{};
 	vbDesc.ByteWidth = sizeof(vertices);
 	vbDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -119,7 +119,7 @@ void SkyBox::Initialize(
 	vbData.pSysMem = vertices;
 	device->CreateBuffer(&vbDesc, &vbData, vertexBuffer.GetAddressOf());
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC ibDesc{};
 	ibDesc.ByteWidth = sizeof(indices);
 	ibDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -139,36 +139,36 @@ void SkyBox::Render(
 	if (!enabled) return;
 	if (!skyTexture) return;
 
-	// ’è”ƒoƒbƒtƒ@XV
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡æ›´æ–°
 	CbSkyBox cbData{};
 	cbData.view = view;
 	cbData.projection = projection;
 	cbData.cameraPosition = { cameraPosition.x, cameraPosition.y,cameraPosition.z, 0.0f };
 	dc->UpdateSubresource(cbSkyBox.Get(), 0, nullptr, &cbData, 0, 0);
 
-	// ƒVƒF[ƒ_[Ý’è
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	dc->VSSetShader(vertexShader.Get(), nullptr, 0);
 	dc->PSSetShader(pixelShader.Get(), nullptr, 0);
 	dc->IASetInputLayout(inputLayout.Get());
 
-	// ’è”ƒoƒbƒtƒ@Ý’è
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	dc->VSSetConstantBuffers(0, 1, cbSkyBox.GetAddressOf());
 
-	// ƒeƒNƒXƒ`ƒƒÝ’èit10ƒXƒƒbƒgj
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®šï¼ˆt10ã‚¹ãƒ­ãƒƒãƒˆï¼‰
 	//dc->PSSetShaderResources(10, 1, skyTexture.GetAddressOf());
 	dc->PSSetShaderResources(10, 1, skyBoxTexture.GetAddressOf());
 	dc->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 
-	// [“xƒXƒe[ƒgÝ’èi‘‚«ž‚ÝOFFj
+	// æ·±åº¦ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®šï¼ˆæ›¸ãè¾¼ã¿OFFï¼‰
 	dc->OMSetDepthStencilState(depthStencilState.Get(), 0);
 
-	// ’¸“_EƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@Ý’è
+	// é ‚ç‚¹ãƒ»ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(DirectX::XMFLOAT3);
 	UINT offset = 0;
 	dc->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
 	dc->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// •`‰æ
+	// æç”»
 	dc->DrawIndexed(indexCount, 0, 0);
 }

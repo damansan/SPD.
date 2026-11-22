@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
-// ƒvƒŒƒCƒ„[‚ÌˆÚ“®ŒvZ
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•è¨ˆç®—
 namespace PlayerMovementUtils
 {
-	// ƒXƒeƒBƒbƒN“ü—Í‚ÆƒJƒƒ‰‚Ì‘O•û/‰E•ûŒü‚©‚çAƒ[ƒ‹ƒhÀ•WŒn‚Ì‘¬“xƒxƒNƒgƒ‹‚ÆA
-	// ƒXƒeƒBƒbƒN‚Ì“|‚µ‹ï‡‚ğ‹‚ß‚é
+	// ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›ã¨ã‚«ãƒ¡ãƒ©ã®å‰æ–¹/å³æ–¹å‘ã‹ã‚‰ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³»ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã¨ã€
+	// ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å€’ã—å…·åˆã‚’æ±‚ã‚ã‚‹
 	struct WorldVelocityResult
 	{
 		DirectX::XMFLOAT3 velocity{ 0.0f, 0.0f, 0.0f };
-		float inputLength = 0.0f; // ƒXƒeƒBƒbƒN‚Ì“|‚µ‹ï‡
+		float inputLength = 0.0f; // ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å€’ã—å…·åˆ
 	};
 
 	WorldVelocityResult StickToWorldVelocity(
@@ -27,21 +27,21 @@ namespace PlayerMovementUtils
 		float elapsedTime,
 		float acceleration = -1.0f);
 
-	// ƒ[ƒ‹ƒhÀ•WŒn‚ÌˆÚ“®•ûŒü‚©‚çAY²‰ñ“]Šp‚ğ‹‚ß‚é
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³»ã®ç§»å‹•æ–¹å‘ã‹ã‚‰ã€Yè»¸å›è»¢è§’ã‚’æ±‚ã‚ã‚‹
 	float CalcFacingYaw(float worldDirX, float worldDirZ);
 
-	// ŠŠ‚ç‚©‚É‰ñ“]‚³‚¹‚é
+	// æ»‘ã‚‰ã‹ã«å›è»¢ã•ã›ã‚‹
 	float RotateTowards(float currentYaw, float targetYaw, float turnSpeed, float elapsedTime);
 
-	// fromYaw ‚©‚ç toYaw ‚Ö‚ÌŠp“x·
+	// fromYaw ã‹ã‚‰ toYaw ã¸ã®è§’åº¦å·®
 	float AngleDiff(float fromYaw, float toYaw);
 
-	// Yaw ‚©‚ç…•½•ûŒü‚Ì‘O•ûƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+	// Yaw ã‹ã‚‰æ°´å¹³æ–¹å‘ã®å‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 	DirectX::XMFLOAT3 YawToForward(float yaw);
 
-	// current ‚ğ target ‚ÖAÅ‘å maxStep ‚¾‚¯‹ß‚Ã‚¯‚é
+	// current ã‚’ target ã¸ã€æœ€å¤§ maxStep ã ã‘è¿‘ã¥ã‘ã‚‹
 	float MoveTowards(float current, float target, float maxStep);
 
-	// current ‚ğ target ‚ÖAw”“I‚É‹ß‚Ã‚¯‚é(halfLife •b‚Å·‚ª”¼•ª‚É‚È‚éBƒtƒŒ[ƒ€ƒŒ[ƒg”ñˆË‘¶)
+	// current ã‚’ target ã¸ã€æŒ‡æ•°çš„ã«è¿‘ã¥ã‘ã‚‹(halfLife ç§’ã§å·®ãŒåŠåˆ†ã«ãªã‚‹ã€‚ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆéä¾å­˜)
 	float Damper(float current, float target, float halfLife, float elapsedTime);
 }

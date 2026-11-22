@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/ECS/Reflect.h"
 
-// ƒGƒ“ƒeƒBƒeƒB‚Ì‘®«‚ğ•t—^‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®å±æ€§ã‚’ä»˜ä¸ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 enum class EntityCategory
 {
     None, Player, Enemy, Stage, Object, Camera

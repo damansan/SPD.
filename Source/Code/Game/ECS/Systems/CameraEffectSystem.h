@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Game/ECS/Components/CameraEffectComponent.h"
 #include "Game/ECS/Components/GameCameraComponent.h"
 
-// ‰‰o‚Ì‚«‚Á‚©‚¯
+// æ¼”å‡ºã®ãã£ã‹ã‘
 struct CameraEffectTrigger
 {
-	float speed = 0.0f;    // …•½‚Ì‘¬‚³
-	bool  running = false; // ‘–‚Á‚Ä‚¢‚é(runSpeed ˆÈã)
+	float speed = 0.0f;    // æ°´å¹³ã®é€Ÿã•
+	bool  running = false; // èµ°ã£ã¦ã„ã‚‹(runSpeed ä»¥ä¸Š)
 
-	bool wallRunning = false; // •Ç‘–‚è’†
-	bool wallKicked = false;  // •Ç‚ğR‚Á‚½
-	bool wallRight = false;   // •Ç‚ª‰E‚É‚ ‚é‚©
+	bool wallRunning = false; // å£èµ°ã‚Šä¸­
+	bool wallKicked = false;  // å£ã‚’è¹´ã£ãŸ
+	bool wallRight = false;   // å£ãŒå³ã«ã‚ã‚‹ã‹
 
-	float velocityY = 0.0f;  // c‚Ì‘¬‚³
-	bool  isGround = false;  // ’…’n‚µ‚Ä‚¢‚é
+	float velocityY = 0.0f;  // ç¸¦ã®é€Ÿã•
+	bool  isGround = false;  // ç€åœ°ã—ã¦ã„ã‚‹
 
-	bool  sliding = false; // ƒXƒ‰ƒCƒh’†
-	float slideSpeed = 0.0f;  // ŠŠ‚é‘¬‚³
+	bool  sliding = false; // ã‚¹ãƒ©ã‚¤ãƒ‰ä¸­
+	float slideSpeed = 0.0f;  // æ»‘ã‚‹é€Ÿã•
 };
 
 
@@ -27,19 +27,19 @@ public:
 	void Update(entt::registry& registry, float elapsedTime);
 
 private:
-	// ƒvƒŒƒCƒ„[‚ğŒ©‚ÄA‚«‚Á‚©‚¯‚ğì‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¦‹ã¦ã€ãã£ã‹ã‘ã‚’ä½œã‚‹
 	CameraEffectTrigger BuildTrigger(entt::registry& registry, const CameraEffectComponent& effect, entt::entity player);
 
-	// ‘¬‚³‚Å FOV ‚ğL‚°‚é
+	// é€Ÿã•ã§ FOV ã‚’åºƒã’ã‚‹
 	void FovEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, float elapsedTime);
-	// ‘–‚èo‚µ‚É¶‰E‚Ö—h‚ç‚·
+	// èµ°ã‚Šå‡ºã—ã«å·¦å³ã¸æºã‚‰ã™
 	void RunBobEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, const GameCameraComponent& cam, float elapsedTime);
-	// •ÇR‚è‚Å¬‚³‚­—h‚ç‚·
+	// å£è¹´ã‚Šã§å°ã•ãæºã‚‰ã™
 	void KickShakeEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, const GameCameraComponent& cam, float elapsedTime);
-	// ’…’n‚Å—h‚ç‚·
+	// ç€åœ°ã§æºã‚‰ã™
 	void LandShakeEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, const GameCameraComponent& cam, float elapsedTime);
-	// ƒXƒ‰ƒCƒh’†‚Í‰º‚°‘±‚¯‚é
+	// ã‚¹ãƒ©ã‚¤ãƒ‰ä¸­ã¯ä¸‹ã’ç¶šã‘ã‚‹
 	void SlideDropEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, float elapsedTime);
-	// •Ç‘–‚è’†ŒX‚¯‚é
+	// å£èµ°ã‚Šä¸­å‚¾ã‘ã‚‹
 	void WallTiltEffect(CameraEffectComponent& effect, const CameraEffectTrigger& trigger, float elapsedTime);
 };

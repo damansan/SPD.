@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <d3d11.h>
 
@@ -18,13 +18,13 @@ public:
     StudioModelViewer() = default;
     ~StudioModelViewer() = default;
 
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(ID3D11Device* device, ResourceManager* resourceManager);
 
-    // XV
+    // æ›´æ–°
     void Update(float elapsedTime, StudioContext& context) override;
 
-    // 3D•`‰æ
+    // 3Dæç”»
     void OnRender(
         ID3D11DeviceContext* dc,
         const DirectX::XMFLOAT4X4& view,
@@ -38,21 +38,21 @@ public:
         entt::registry& registry,
         StudioContext& context) override;
 
-    // ƒ‚ƒfƒ‹‚ğƒ[ƒh‚µ‚Äregistry‚ÉEntity‚ğì‚é
+    // ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦registryã«Entityã‚’ä½œã‚‹
     void LoadModel(entt::registry& registry, const std::string& path);
 
 private:
-    // ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO‚ğŠJ‚¢‚ÄƒpƒX‚ğ•Ô‚·
+    // ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‹ã„ã¦ãƒ‘ã‚¹ã‚’è¿”ã™
     std::string OpenFileDialog();
 
 
-    // Œ»İƒ[ƒh’†‚Ìƒ‚ƒfƒ‹ƒpƒX
+    // ç¾åœ¨ãƒ­ãƒ¼ãƒ‰ä¸­ã®ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹
     std::string currentModelPath;
 
-    // ƒ[ƒhÏ‚İƒ‚ƒfƒ‹‚ÌEntity
+    // ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã®Entity
     entt::entity modelEntity = entt::null;
 
-    // ƒfƒoƒCƒX‚ÆƒŠƒ\[ƒXƒ}ƒl[ƒWƒƒ
+    // ãƒ‡ãƒã‚¤ã‚¹ã¨ãƒªã‚½ãƒ¼ã‚¹ãƒãƒãƒ¼ã‚¸ãƒ£
     ID3D11Device* device = nullptr;
     ResourceManager* resourceManager = nullptr;
 };

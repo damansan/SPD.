@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <windows.h>
 #include <d3d11.h>
 
@@ -17,20 +17,20 @@ public:
 	ImGuiManager() = default;
 	~ImGuiManager();
 
-	ImGuiManager(const ImGuiManager&) = delete;				   // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	ImGuiManager& operator=(const ImGuiManager&) = delete;	   // ƒRƒs[‘ã“ü‹Ö~
-	ImGuiManager(ImGuiManager&&) noexcept = delete;			   // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	ImGuiManager& operator=(ImGuiManager&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~
+	ImGuiManager(const ImGuiManager&) = delete;				   // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	ImGuiManager& operator=(const ImGuiManager&) = delete;	   // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+	ImGuiManager(ImGuiManager&&) noexcept = delete;			   // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	ImGuiManager& operator=(ImGuiManager&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢
 
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* dc);
-    // ƒtƒŒ[ƒ€ŠJn
+    // ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹
     void BeginFrame();
-    // ƒtƒŒ[ƒ€I—¹/•`‰æ
+    // ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†/æç”»
     void EndFrame();
-    // I—¹‰»
+    // çµ‚äº†åŒ–
     void Shutdown();
 
-    // ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒWˆ—
+    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
     bool HandleMessage(HWND hWnd, UINT msg, WPARAM wparam, LPARAM lparam);
 };

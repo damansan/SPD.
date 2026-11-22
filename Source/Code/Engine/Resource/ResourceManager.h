@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <memory>
 #include <unordered_map>
@@ -13,26 +13,26 @@ public:
     ResourceManager() = default;
     ~ResourceManager() = default;
 
-    ResourceManager(const ResourceManager&) = delete;                // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-    ResourceManager& operator=(const ResourceManager&) = delete;     // ƒRƒs[‘ã“ü‹Ö~
-    ResourceManager(ResourceManager&&) noexcept = delete;            // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-    ResourceManager& operator=(ResourceManager&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~ 
+    ResourceManager(const ResourceManager&) = delete;                // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+    ResourceManager& operator=(const ResourceManager&) = delete;     // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+    ResourceManager(ResourceManager&&) noexcept = delete;            // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+    ResourceManager& operator=(ResourceManager&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢ 
 
-    // ƒ‚ƒfƒ‹æ“¾(ƒLƒƒƒbƒVƒ…Ï‚İ‚È‚çg‚¢‰ñ‚·j
+    // ãƒ¢ãƒ‡ãƒ«å–å¾—(ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ¸ˆã¿ãªã‚‰ä½¿ã„å›ã™ï¼‰
     std::shared_ptr<Model> GetModel(
         ID3D11Device* device,
         const std::string& filename
     );
 
-    // ƒLƒƒƒbƒVƒ…íœ
+    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥å‰Šé™¤
     void ReleaseModel(const std::string& filename);
 
-    // ‘SƒLƒƒƒbƒVƒ…íœ
+    // å…¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥å‰Šé™¤
     void ReleaseAll();
 
 private:
-    // ƒ‚ƒfƒ‹ƒLƒƒƒbƒVƒ…
+    // ãƒ¢ãƒ‡ãƒ«ã‚­ãƒ£ãƒƒã‚·ãƒ¥
     std::unordered_map<std::string, std::shared_ptr<Model>> modelCache;
-    // ƒAƒjƒ[ƒVƒ‡ƒ“•ÒW
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç·¨é›†
     JsonFileCache<AnimationEditData> editCache;
 };

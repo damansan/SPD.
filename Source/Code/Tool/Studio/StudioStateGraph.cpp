@@ -1,4 +1,4 @@
-#include "StudioStateGraph.h"
+ï»¿#include "StudioStateGraph.h"
 #include <algorithm>
 #include <imgui.h>
 #include <json.hpp>
@@ -11,7 +11,7 @@
 
 namespace
 {
-	// Ÿ‚Éì‚éƒEƒBƒ“ƒhƒE‚Ì‚¿å‚ğAStudio‚Ìƒrƒ…[ƒ|[ƒg‚É‚·‚é
+	// æ¬¡ã«ä½œã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æŒã¡ä¸»ã‚’ã€Studioã®ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã«ã™ã‚‹
 	void SetNextWindowOwner(ImGuiID ownerViewportId)
 	{
 		if (ownerViewportId == 0) return;
@@ -21,7 +21,7 @@ namespace
 		ImGui::SetNextWindowClass(&windowClass);
 	}
 
-	// ReturnˆÈŠO‚Ìƒm[ƒh‚ª‚ ‚é‚©(Ê‚·‚ÆÁ‚¦‚Ä‚µ‚Ü‚¤•¨‚ª‚ ‚é‚©)
+	// Returnä»¥å¤–ã®ãƒãƒ¼ãƒ‰ãŒã‚ã‚‹ã‹(å†™ã™ã¨æ¶ˆãˆã¦ã—ã¾ã†ç‰©ãŒã‚ã‚‹ã‹)
 	bool HasNodesBesidesReturn(const ConditionGraph& condition)
 	{
 		return !condition.variableNodes.empty()
@@ -34,21 +34,21 @@ namespace
 
 void StudioStateGraph::Initialize()
 {
-	// eŠK‘wƒLƒƒƒ“ƒoƒX‰Šú‰»
+	// è¦ªéšå±¤ã‚­ãƒ£ãƒ³ãƒã‚¹åˆæœŸåŒ–
 	parentCanvas.Initialize();
-	// ğŒ‚ÌƒLƒƒƒ“ƒoƒX‰Šú‰»
+	// æ¡ä»¶ã®ã‚­ãƒ£ãƒ³ãƒã‚¹åˆæœŸåŒ–
 	conditionCanvas.Initialize();
 }
 
 void StudioStateGraph::DrawGUI(entt::registry& registry, StudioContext& context)
 {
-	// q‚ÌƒEƒBƒ“ƒhƒE‚É“n‚·ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìˆê——
+	// å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«æ¸¡ã™ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸€è¦§
 	RefreshAnimationNames(registry);
 
 	std::string panelName = "StateGraph##" + std::to_string(windowId);
 	bool open = ImGui::Begin(panelName.c_str());
 
-	// StaticModel‚Í’e‚­
+	// StaticModelã¯å¼¾ã
 	if (open && !HasAnimatedModel(registry))
 	{
 		ImGui::Text("No skinned model.");
@@ -64,15 +64,15 @@ void StudioStateGraph::DrawGUI(entt::registry& registry, StudioContext& context)
 			columnWidthInitialized = true;
 		}
 
-		// ¶FƒOƒ‰ƒt
+		// å·¦ï¼šã‚°ãƒ©ãƒ•
 		parentCanvas.Draw(data);
 
 		ImGui::NextColumn();
 
-		// ‰EFƒCƒ“ƒXƒyƒNƒ^[
+		// å³ï¼šã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼
 		parentCanvas.DrawInspector(data);
 
-		// ‘I‘ğ‚µ‚Ä‚¢‚é•¨‚Ìíœ(•¶š‚ğ“ü—Í’†‚ÍADeleteƒL[‚ğ•¶š‚Ìíœ‚Ég‚¤‚Ì‚Åœ‚­)
+		// é¸æŠã—ã¦ã„ã‚‹ç‰©ã®å‰Šé™¤(æ–‡å­—ã‚’å…¥åŠ›ä¸­ã¯ã€Deleteã‚­ãƒ¼ã‚’æ–‡å­—ã®å‰Šé™¤ã«ä½¿ã†ã®ã§é™¤ã)
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows) &&
 			!ImGui::GetIO().WantTextInput &&
 			ImGui::IsKeyPressed(ImGuiKey_Delete))
@@ -82,45 +82,45 @@ void StudioStateGraph::DrawGUI(entt::registry& registry, StudioContext& context)
 
 		ImGui::Columns(1);
 
-		// eŠK‘w‚©‚çqŠK‘w‚ÌƒLƒƒƒ“ƒoƒX‚ğŠJ‚­ˆË—Š‚ª‚ ‚ê‚ÎŠJ‚­
+		// è¦ªéšå±¤ã‹ã‚‰å­éšå±¤ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’é–‹ãä¾é ¼ãŒã‚ã‚Œã°é–‹ã
 		int openRequest = parentCanvas.ConsumeOpenChildRequest();
 		if (openRequest != -1) OpenChildWindow(openRequest);
 
-		// e‚ÌƒŠƒ“ƒN‚ÌğŒ‚ğ•ÒW‚·‚éˆË—Š‚ª‚ ‚ê‚ÎŠJ‚­
+		// è¦ªã®ãƒªãƒ³ã‚¯ã®æ¡ä»¶ã‚’ç·¨é›†ã™ã‚‹ä¾é ¼ãŒã‚ã‚Œã°é–‹ã
 		ConditionTarget conditionRequest = parentCanvas.ConsumeEditConditionRequest();
 		if (conditionRequest.IsValid()) OpenConditionWindow(conditionRequest);
 
-		// e‚ÌƒŠƒ“ƒN‚Ìİ’è‚ğÊ‚·ˆË—Š
+		// è¦ªã®ãƒªãƒ³ã‚¯ã®è¨­å®šã‚’å†™ã™ä¾é ¼
 		ConditionCopyRequest copyRequest = parentCanvas.ConsumeCopyRequest();
 		if (copyRequest.IsValid()) RequestCopy(copyRequest);
 	}
 
 	ImGui::End();
 
-	// qŠK‘wƒEƒBƒ“ƒhƒE
+	// å­éšå±¤ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	DrawChildWindows(context.studioViewportId);
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	DrawConditionWindow(context.studioViewportId);
 
-	// ã‘‚«‚ÌŠm”F
+	// ä¸Šæ›¸ãã®ç¢ºèª
 	DrawCopyConfirmPopup();
 }
 
-// ƒ‚ƒfƒ‹‚ª•Ï‚í‚Á‚½‚Æ‚«‚ÉŒÄ‚Ô
+// ãƒ¢ãƒ‡ãƒ«ãŒå¤‰ã‚ã£ãŸã¨ãã«å‘¼ã¶
 void StudioStateGraph::OnModelChanged(StudioContext& context)
 {
-	// ‘I‘ğ‚È‚Ç‚ğ–ß‚·
+	// é¸æŠãªã©ã‚’æˆ»ã™
 	parentCanvas.Reset();
 	childCanvases.clear();
 	CloseConditionWindow();
 	pendingCopy = {};
 	openCopyConfirm = false;
 
-	// ‚±‚Ìƒ‚ƒfƒ‹‚ÌƒOƒ‰ƒt‚ğ“Ç‚Ş
+	// ã“ã®ãƒ¢ãƒ‡ãƒ«ã®ã‚°ãƒ©ãƒ•ã‚’èª­ã‚€
 	Load(context);
 }
 
-// ƒc[ƒ‹ƒo[
+// ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 void StudioStateGraph::DrawToolbar(StudioContext& context)
 {
 	if (ImGui::Button("Save"))
@@ -138,12 +138,12 @@ void StudioStateGraph::DrawToolbar(StudioContext& context)
 		ImGui::TextDisabled("%s", path.c_str());
 	}
 
-	// ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‘‚«‚Ì¸”s‚È‚Ç
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿æ›¸ãã®å¤±æ•—ãªã©
 	if (!message.empty())
 	{
 		ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "%s", message.c_str());
 	}
-	// ŒŸØƒGƒ‰[
+	// æ¤œè¨¼ã‚¨ãƒ©ãƒ¼
 	if (hasErrors)
 	{
 		ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f), "Validation errors. See Log.");
@@ -153,13 +153,13 @@ void StudioStateGraph::DrawToolbar(StudioContext& context)
 }
 
 
-// •Û‘¶
+// ä¿å­˜
 void StudioStateGraph::Save(StudioContext& context)
 {
 	if (context.currentModelPath.empty()) return;
 	const std::string path = StateMachineData::GetFilePath(context.currentModelPath);
 
-	// ì‚è‚©‚¯‚Å‚à•Û‘¶‚Í‚Å‚«‚éAƒGƒ‰[‚Ì—L–³‚Íƒc[ƒ‹ƒo[‚É•\¦‚·‚é
+	// ä½œã‚Šã‹ã‘ã§ã‚‚ä¿å­˜ã¯ã§ãã‚‹ã€ã‚¨ãƒ©ãƒ¼ã®æœ‰ç„¡ã¯ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«è¡¨ç¤ºã™ã‚‹
 	hasErrors = !data.Validate(path);
 
 	GraphFile file;
@@ -171,25 +171,25 @@ void StudioStateGraph::Save(StudioContext& context)
 
 	message = saved ? "" : "Failed to save file.";
 }
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void StudioStateGraph::Load(StudioContext& context)
 {
 	if (context.currentModelPath.empty()) return;
 	const std::string path = StateMachineData::GetFilePath(context.currentModelPath);
 
-	// –³‚¢‚Ì‚Íu‚Ü‚¾ì‚Á‚Ä‚¢‚È‚¢v‚¾‚¯‚È‚Ì‚ÅAƒƒO‚Ío‚³‚È‚¢
+	// ç„¡ã„ã®ã¯ã€Œã¾ã ä½œã£ã¦ã„ãªã„ã€ã ã‘ãªã®ã§ã€ãƒ­ã‚°ã¯å‡ºã•ãªã„
 	const GraphFile& file = fileCache.GetOrLoad(path,
 		[&path](GraphFile& f, const nlohmann::json& j) { f.valid = f.data.FromJson(j, path); },
 		JsonMissingLog::Silent);
 	const JsonFileStatus status = fileCache.GetStatus(path);
 
-	// ŒŸØ‚ÅƒGƒ‰[‚ª‚ ‚Á‚Ä‚àA’¼‚·‚½‚ß‚É“Ç‚İ‚ñ‚¾ó‘Ô‚ÅŠJ‚­
+	// æ¤œè¨¼ã§ã‚¨ãƒ©ãƒ¼ãŒã‚ã£ã¦ã‚‚ã€ç›´ã™ãŸã‚ã«èª­ã¿è¾¼ã‚“ã çŠ¶æ…‹ã§é–‹ã
 	data = file.data;
 	hasErrors = (status == JsonFileStatus::Loaded) && !file.valid;
 	message = (status == JsonFileStatus::Broken) ? "Invalid json." : "";
 }
 
-// ƒ‚ƒfƒ‹‚ª‚Á‚Ä‚¢‚éƒAƒjƒ[ƒVƒ‡ƒ“‚Ì–¼‘O‚Ìˆê——‚ğì‚è’¼‚·
+// ãƒ¢ãƒ‡ãƒ«ãŒæŒã£ã¦ã„ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®åå‰ã®ä¸€è¦§ã‚’ä½œã‚Šç›´ã™
 void StudioStateGraph::RefreshAnimationNames(entt::registry& registry)
 {
 	animationNames.clear();
@@ -206,17 +206,17 @@ void StudioStateGraph::RefreshAnimationNames(entt::registry& registry)
 	}
 }
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚Å‚«‚éƒ‚ƒfƒ‹‚©
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã§ãã‚‹ãƒ¢ãƒ‡ãƒ«ã‹
 bool StudioStateGraph::HasAnimatedModel(entt::registry& registry)
 {
 	auto view = registry.view<SkinnedMeshComponent, AnimatorComponent>();
 	return view.begin() != view.end();
 }
 
-// q‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+// å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 void StudioStateGraph::OpenChildWindow(int stateId)
 {
-	// ‚·‚Å‚ÉŠJ‚¢‚Ä‚¢‚ê‚ÎAV‚µ‚­ŠJ‚©‚¸‚Éè‘O‚Éo‚·
+	// ã™ã§ã«é–‹ã„ã¦ã„ã‚Œã°ã€æ–°ã—ãé–‹ã‹ãšã«æ‰‹å‰ã«å‡ºã™
 	for (const auto& child : childCanvases)
 	{
 		if (child->GetStateId() == stateId)
@@ -232,14 +232,14 @@ void StudioStateGraph::OpenChildWindow(int stateId)
 	focusChildStateId = stateId;
 }
 
-// ŠJ‚¢‚Ä‚¢‚éq‚ÌƒEƒBƒ“ƒhƒE‚ğ•`‚­
+// é–‹ã„ã¦ã„ã‚‹å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æã
 void StudioStateGraph::DrawChildWindows(ImGuiID ownerViewportId)
 {
 	for (auto it = childCanvases.begin(); it != childCanvases.end(); )
 	{
 		StudioStateChildCanvas& child = **it;
 
-		// State‚ªÁ‚¦‚Ä‚¢‚ê‚Î•Â‚¶‚é
+		// StateãŒæ¶ˆãˆã¦ã„ã‚Œã°é–‰ã˜ã‚‹
 		const StateNode* state = std::as_const(data).FindState(child.GetStateId());
 		if (!state)
 		{
@@ -247,16 +247,16 @@ void StudioStateGraph::DrawChildWindows(ImGuiID ownerViewportId)
 			continue;
 		}
 
-		// •\¦‚ÍState–¼AID‚ÍState‚ÌID‚Åì‚é
+		// è¡¨ç¤ºã¯Stateåã€IDã¯Stateã®IDã§ä½œã‚‹
 		std::string title = "Child: " + state->name +
 			"###StateChild_" + std::to_string(windowId) + "_" + std::to_string(state->id);
 
-		// ƒ^ƒCƒgƒ‹ƒo[‚ğState‚ÌF‚É‚·‚é
+		// ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã‚’Stateã®è‰²ã«ã™ã‚‹
 		const float* c = state->editorColor;
 		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(c[0] * 0.7f, c[1] * 0.7f, c[2] * 0.7f, 1.0f));
 		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(c[0], c[1], c[2], 1.0f));
 
-		// ŠJ‚¢‚½’¼Œã‚¾‚¯‘å‚«‚³‚ğŒˆ‚ß‚é
+		// é–‹ã„ãŸç›´å¾Œã ã‘å¤§ãã•ã‚’æ±ºã‚ã‚‹
 		ImGui::SetNextWindowSize(ImVec2(700.0f, 450.0f), ImGuiCond_FirstUseEver);
 		if (focusChildStateId == state->id)
 		{
@@ -264,7 +264,7 @@ void StudioStateGraph::DrawChildWindows(ImGuiID ownerViewportId)
 			focusChildStateId = -1;
 		}
 
-		// ƒAƒvƒŠ‚ÌŠO‚Éo‚µ‚½‚Æ‚«AStudio‚æ‚èè‘O‚Éo‚é‚æ‚¤‚É‚·‚é
+		// ã‚¢ãƒ—ãƒªã®å¤–ã«å‡ºã—ãŸã¨ãã€Studioã‚ˆã‚Šæ‰‹å‰ã«å‡ºã‚‹ã‚ˆã†ã«ã™ã‚‹
 		SetNextWindowOwner(ownerViewportId);
 
 		bool open = true;
@@ -277,48 +277,48 @@ void StudioStateGraph::DrawChildWindows(ImGuiID ownerViewportId)
 		}
 		ImGui::End();
 
-		// q‚ÌƒŠƒ“ƒN‚ÌğŒ‚ğ•ÒW‚·‚éˆË—Š‚ª‚ ‚ê‚ÎŠJ‚­
+		// å­ã®ãƒªãƒ³ã‚¯ã®æ¡ä»¶ã‚’ç·¨é›†ã™ã‚‹ä¾é ¼ãŒã‚ã‚Œã°é–‹ã
 		ConditionTarget conditionRequest = child.ConsumeEditConditionRequest();
 		if (conditionRequest.IsValid()) OpenConditionWindow(conditionRequest);
 
-		// q‚ÌƒŠƒ“ƒN‚Ìİ’è‚ğÊ‚·ˆË—Š
+		// å­ã®ãƒªãƒ³ã‚¯ã®è¨­å®šã‚’å†™ã™ä¾é ¼
 		ConditionCopyRequest copyRequest = child.ConsumeCopyRequest();
 		if (copyRequest.IsValid()) RequestCopy(copyRequest);
 
-		// ~‚Å•Â‚¶‚ç‚ê‚½‚çAˆê——‚©‚çŠO‚·
+		// Ã—ã§é–‰ã˜ã‚‰ã‚ŒãŸã‚‰ã€ä¸€è¦§ã‹ã‚‰å¤–ã™
 		if (!open) it = childCanvases.erase(it);
 		else ++it;
 	}
 }
 
-// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 void StudioStateGraph::OpenConditionWindow(const ConditionTarget& target)
 {
-	// •Ê‚ÌƒŠƒ“ƒN‚ÉØ‚è‘Ö‚¦‚é‚Æ‚«‚ÍAÀ‘Ì‚ª“¯‚¶êŠ‚Å‚à•K‚¸‰æ–Ê‚ğƒŠƒZƒbƒg‚·‚é
+	// åˆ¥ã®ãƒªãƒ³ã‚¯ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ã¨ãã¯ã€å®Ÿä½“ãŒåŒã˜å ´æ‰€ã§ã‚‚å¿…ãšç”»é¢ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 	if (target != conditionTarget) conditionPointer = nullptr;
 
 	conditionTarget = target;
 	focusConditionWindow = true;
 }
 
-// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğ•`‚­
+// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æã
 void StudioStateGraph::DrawConditionWindow(ImGuiID ownerViewportId)
 {
 	if (!conditionTarget.IsValid()) return;
 
-	// •ÒW‚·‚éğŒ‚ÌÀ‘Ì‚ğA–ˆƒtƒŒ[ƒ€’T‚µ’¼‚·
+	// ç·¨é›†ã™ã‚‹æ¡ä»¶ã®å®Ÿä½“ã‚’ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ¢ã—ç›´ã™
 	std::string description;
 	ImVec4 color;
 	ConditionGraph* condition = ResolveCondition(conditionTarget, description, color);
 
-	// ƒŠƒ“ƒN‚ªÁ‚¦‚Ä‚¢‚½‚ç•Â‚¶‚é
+	// ãƒªãƒ³ã‚¯ãŒæ¶ˆãˆã¦ã„ãŸã‚‰é–‰ã˜ã‚‹
 	if (!condition)
 	{
 		CloseConditionWindow();
 		return;
 	}
 
-	// À‘Ì‚ÌêŠ‚ª•Ï‚í‚Á‚½‚çğŒ‚Ì‰æ–Ê‚ğƒŠƒZƒbƒg‚·‚é
+	// å®Ÿä½“ã®å ´æ‰€ãŒå¤‰ã‚ã£ãŸã‚‰æ¡ä»¶ã®ç”»é¢ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 	if (condition != conditionPointer)
 	{
 		conditionCanvas.SetTarget(condition);
@@ -327,11 +327,11 @@ void StudioStateGraph::DrawConditionWindow(ImGuiID ownerViewportId)
 
 	std::string title = "Condition: " + description + "###StateCondition_" + std::to_string(windowId);
 
-	// ƒ^ƒCƒgƒ‹ƒo[‚ğAƒŠƒ“ƒN‚Ì‚¿å‚ÌState‚ÌF‚É‚·‚é
+	// ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã‚’ã€ãƒªãƒ³ã‚¯ã®æŒã¡ä¸»ã®Stateã®è‰²ã«ã™ã‚‹
 	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(color.x * 0.7f, color.y * 0.7f, color.z * 0.7f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, color);
 
-	// ŠJ‚¢‚½’¼Œã‚¾‚¯‘å‚«‚³‚ğŒˆ‚ß‚é
+	// é–‹ã„ãŸç›´å¾Œã ã‘å¤§ãã•ã‚’æ±ºã‚ã‚‹
 	ImGui::SetNextWindowSize(ImVec2(800.0f, 500.0f), ImGuiCond_FirstUseEver);
 	if (focusConditionWindow)
 	{
@@ -339,7 +339,7 @@ void StudioStateGraph::DrawConditionWindow(ImGuiID ownerViewportId)
 		focusConditionWindow = false;
 	}
 
-	// ƒAƒvƒŠ‚ÌŠO‚Éo‚µ‚½‚Æ‚«AStudio‚æ‚èè‘O‚Éo‚é‚æ‚¤‚É‚·‚é
+	// ã‚¢ãƒ—ãƒªã®å¤–ã«å‡ºã—ãŸã¨ãã€Studioã‚ˆã‚Šæ‰‹å‰ã«å‡ºã‚‹ã‚ˆã†ã«ã™ã‚‹
 	SetNextWindowOwner(ownerViewportId);
 
 	bool open = true;
@@ -348,7 +348,7 @@ void StudioStateGraph::DrawConditionWindow(ImGuiID ownerViewportId)
 
 	if (visible)
 	{
-		// ¶FğŒ‚ÌƒLƒƒƒ“ƒoƒXA‰EFğŒ‚ÌƒCƒ“ƒXƒyƒNƒ^[
+		// å·¦ï¼šæ¡ä»¶ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ã€å³ï¼šæ¡ä»¶ã®ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼
 		ImGui::Columns(2, "StateConditionColumns", true);
 		if (!conditionColumnInitialized)
 		{
@@ -364,11 +364,11 @@ void StudioStateGraph::DrawConditionWindow(ImGuiID ownerViewportId)
 	}
 	ImGui::End();
 
-	// ~‚Å•Â‚¶‚ç‚ê‚½
+	// Ã—ã§é–‰ã˜ã‚‰ã‚ŒãŸ
 	if (!open) CloseConditionWindow();
 }
 
-// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
+// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
 void StudioStateGraph::CloseConditionWindow()
 {
 	conditionTarget = {};
@@ -376,14 +376,14 @@ void StudioStateGraph::CloseConditionWindow()
 	conditionCanvas.SetTarget(nullptr);
 }
 
-// •ÒW‚·‚éğŒ‚ÌÀ‘Ì‚ğ’T‚·
+// ç·¨é›†ã™ã‚‹æ¡ä»¶ã®å®Ÿä½“ã‚’æ¢ã™
 ConditionGraph* StudioStateGraph::ResolveCondition(const ConditionTarget& target, std::string& outTitle, ImVec4& outColor)
 {
 	switch (target.kind)
 	{
 	case ConditionTarget::Kind::StateLink:
 	{
-		// e‚ÌƒŠƒ“ƒNF‘JˆÚŒ³ ¨ ‘JˆÚæ
+		// è¦ªã®ãƒªãƒ³ã‚¯ï¼šé·ç§»å…ƒ â†’ é·ç§»å…ˆ
 		StateTransition* t = data.FindTransition(target.linkId);
 		if (!t) return nullptr;
 
@@ -398,7 +398,7 @@ ConditionGraph* StudioStateGraph::ResolveCondition(const ConditionTarget& target
 	case ConditionTarget::Kind::EntryLink:
 	case ConditionTarget::Kind::ClipLink:
 	{
-		// q‚ÌƒŠƒ“ƒNFState–¼ / Œ³ ¨ æ
+		// å­ã®ãƒªãƒ³ã‚¯ï¼šStateå / å…ƒ â†’ å…ˆ
 		StateNode* state = data.FindState(target.stateId);
 		if (!state) return nullptr;
 
@@ -442,10 +442,10 @@ ConditionGraph* StudioStateGraph::ResolveCondition(const ConditionTarget& target
 	}
 }
 
-// e‚ÌƒŠƒ“ƒN‚ÌID‚©‚çA‘JˆÚŒ³‚Ì–¼‘O‚ÆF‚ğ’T‚·
+// è¦ªã®ãƒªãƒ³ã‚¯ã®IDã‹ã‚‰ã€é·ç§»å…ƒã®åå‰ã¨è‰²ã‚’æ¢ã™
 bool StudioStateGraph::FindTransitionSource(int transitionId, std::string& outName, ImVec4& outColor) const
 {
-	// Entry‚©‚ço‚éƒŠƒ“ƒN
+	// Entryã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& t : data.entry.transitions)
 	{
 		if (t.id != transitionId) continue;
@@ -454,7 +454,7 @@ bool StudioStateGraph::FindTransitionSource(int transitionId, std::string& outNa
 		return true;
 	}
 
-	// ŠeState‚©‚ço‚éƒŠƒ“ƒN
+	// å„Stateã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& s : data.states)
 	{
 		for (const auto& t : s.transitions)
@@ -468,7 +468,7 @@ bool StudioStateGraph::FindTransitionSource(int transitionId, std::string& outNa
 	return false;
 }
 
-// ƒŠƒ“ƒN‚Ìİ’è‚ÌêŠ‚ğ’T‚·
+// ãƒªãƒ³ã‚¯ã®è¨­å®šã®å ´æ‰€ã‚’æ¢ã™
 bool StudioStateGraph::ResolveLinkSettings(const ConditionTarget& target, LinkSettingsRef& out)
 {
 	out = {};
@@ -477,7 +477,7 @@ bool StudioStateGraph::ResolveLinkSettings(const ConditionTarget& target, LinkSe
 	{
 	case ConditionTarget::Kind::StateLink:
 	{
-		// e‚ÌƒŠƒ“ƒNFğŒAalwaysAƒuƒŒƒ“ƒh
+		// è¦ªã®ãƒªãƒ³ã‚¯ï¼šæ¡ä»¶ã€alwaysã€ãƒ–ãƒ¬ãƒ³ãƒ‰
 		StateTransition* t = data.FindTransition(target.linkId);
 		if (!t) return false;
 		out = { &t->condition, &t->always, &t->blend };
@@ -486,7 +486,7 @@ bool StudioStateGraph::ResolveLinkSettings(const ConditionTarget& target, LinkSe
 
 	case ConditionTarget::Kind::EntryLink:
 	{
-		// q‚ÌƒGƒ“ƒgƒŠ[‚ÌƒŠƒ“ƒNFğŒAalways(ƒuƒŒƒ“ƒh‚Íe‚ÌƒŠƒ“ƒN‚ª‚Â‚Ì‚Å–³‚¢)
+		// å­ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ãƒªãƒ³ã‚¯ï¼šæ¡ä»¶ã€always(ãƒ–ãƒ¬ãƒ³ãƒ‰ã¯è¦ªã®ãƒªãƒ³ã‚¯ãŒæŒã¤ã®ã§ç„¡ã„)
 		StateNode* state = data.FindState(target.stateId);
 		if (!state) return false;
 		for (auto& l : state->child.entryLinks)
@@ -500,7 +500,7 @@ bool StudioStateGraph::ResolveLinkSettings(const ConditionTarget& target, LinkSe
 
 	case ConditionTarget::Kind::ClipLink:
 	{
-		// q‚ÌƒNƒŠƒbƒv‚ÌƒŠƒ“ƒNFğŒAalwaysAƒuƒŒƒ“ƒh
+		// å­ã®ã‚¯ãƒªãƒƒãƒ—ã®ãƒªãƒ³ã‚¯ï¼šæ¡ä»¶ã€alwaysã€ãƒ–ãƒ¬ãƒ³ãƒ‰
 		StateNode* state = data.FindState(target.stateId);
 		if (!state) return false;
 		for (auto& l : state->child.clipLinks)
@@ -517,13 +517,13 @@ bool StudioStateGraph::ResolveLinkSettings(const ConditionTarget& target, LinkSe
 	}
 }
 
-// Ê‚·ˆË—Š‚ğó‚¯æ‚é
+// å†™ã™ä¾é ¼ã‚’å—ã‘å–ã‚‹
 void StudioStateGraph::RequestCopy(const ConditionCopyRequest& request)
 {
 	LinkSettingsRef dst;
 	if (!ResolveLinkSettings(request.target, dst)) return;
 
-	// æ‚ÉReturnˆÈŠO‚Ìƒm[ƒh‚ª‚ ‚ê‚ÎAŠm”F‚µ‚Ä‚©‚çÊ‚·
+	// å…ˆã«Returnä»¥å¤–ã®ãƒãƒ¼ãƒ‰ãŒã‚ã‚Œã°ã€ç¢ºèªã—ã¦ã‹ã‚‰å†™ã™
 	if (HasNodesBesidesReturn(*dst.condition))
 	{
 		pendingCopy = request;
@@ -534,45 +534,45 @@ void StudioStateGraph::RequestCopy(const ConditionCopyRequest& request)
 	CopyLinkSettings(request);
 }
 
-// Ê‚·
+// å†™ã™
 void StudioStateGraph::CopyLinkSettings(const ConditionCopyRequest& request)
 {
 	if (request.source == request.target) return;
 
-	// Šm”F‚ÌŠÔ‚ÉƒŠƒ“ƒN‚ªÁ‚¦‚Ä‚¢‚éê‡‚à‚ ‚é‚Ì‚ÅA‚±‚±‚Å’T‚µ’¼‚·
+	// ç¢ºèªã®é–“ã«ãƒªãƒ³ã‚¯ãŒæ¶ˆãˆã¦ã„ã‚‹å ´åˆã‚‚ã‚ã‚‹ã®ã§ã€ã“ã“ã§æ¢ã—ç›´ã™
 	LinkSettingsRef src, dst;
 	if (!ResolveLinkSettings(request.source, src)) return;
 	if (!ResolveLinkSettings(request.target, dst)) return;
 
-	// ğŒ‚Æalways‚ğÊ‚·
+	// æ¡ä»¶ã¨alwaysã‚’å†™ã™
 	*dst.condition = *src.condition;
 	*dst.always = *src.always;
 
-	// ƒuƒŒƒ“ƒh‚ÍA—¼•û‚ª‚Á‚Ä‚¢‚é‚Æ‚«‚¾‚¯Ê‚·
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ã¯ã€ä¸¡æ–¹ãŒæŒã£ã¦ã„ã‚‹ã¨ãã ã‘å†™ã™
 	if (src.blend && dst.blend) *dst.blend = *src.blend;
 
-	// Ê‚µ‚½æ‚ğğŒƒEƒBƒ“ƒhƒE‚ÅŠJ‚¢‚Ä‚¢‚ê‚ÎA‰æ–Ê‚ğ•t‚¯’¼‚·
+	// å†™ã—ãŸå…ˆã‚’æ¡ä»¶ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§é–‹ã„ã¦ã„ã‚Œã°ã€ç”»é¢ã‚’ä»˜ã‘ç›´ã™
 	if (conditionTarget == request.target) conditionPointer = nullptr;
 }
 
-// ã‘‚«‚ÌŠm”F‚Ìƒ|ƒbƒvƒAƒbƒv
+// ä¸Šæ›¸ãã®ç¢ºèªã®ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
 void StudioStateGraph::DrawCopyConfirmPopup()
 {
-	// Studio‚ÌƒEƒBƒ“ƒhƒE‚²‚Æ‚É–¼‘O‚ğ•ª‚¯‚é
+	// Studioã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã”ã¨ã«åå‰ã‚’åˆ†ã‘ã‚‹
 	std::string popupName = "Copy Link Settings##" + std::to_string(windowId);
 
-	// ˆË—Š‚ª—ˆ‚Ä‚¢‚ê‚ÎŠJ‚­
+	// ä¾é ¼ãŒæ¥ã¦ã„ã‚Œã°é–‹ã
 	if (openCopyConfirm)
 	{
 		ImGui::OpenPopup(popupName.c_str());
 		openCopyConfirm = false;
 	}
 
-	// ‰æ–Ê‚Ì’†‰›‚Éo‚·
+	// ç”»é¢ã®ä¸­å¤®ã«å‡ºã™
 	ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 	if (!ImGui::BeginPopupModal(popupName.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) return;
 
-	// Œ³‚Ææ‚Ì–¼‘O
+	// å…ƒã¨å…ˆã®åå‰
 	std::string fromTitle, toTitle;
 	ImVec4 unused;
 	bool exists = ResolveCondition(pendingCopy.source, fromTitle, unused) != nullptr

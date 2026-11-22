@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <unordered_map>
 #include <functional>
@@ -14,10 +14,10 @@ private:
 	static std::unordered_map<std::string, std::function<void(entt::registry&, entt::entity)>> registry;
 };
 
-//// Œ^–¼‚ğAƒR[ƒhã‚Ì–¼‘O‚©‚ç©“®‚Å•t‚¯‚Ä“Æ©•`‰æ‚ğ“o˜^‚·‚é
+//// å‹åã‚’ã€ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã‹ã‚‰è‡ªå‹•ã§ä»˜ã‘ã¦ç‹¬è‡ªæç”»ã‚’ç™»éŒ²ã™ã‚‹
 //#define REGISTER_INSPECTOR(Type, DrawFunc) \
 //    ComponentInspectorRegistry::Register(#Type, DrawFunc)
 
-// •`‰æŠÖ”(ƒ‰ƒ€ƒ_)‚Ì’†‚É { } ‚ÅˆÍ‚Ü‚ê‚½ƒJƒ“ƒ}‚ª‚ ‚Á‚Ä‚à‚æ‚¢‚æ‚¤‚ÉA‰Â•Ï’·ˆø”‚Åó‚¯æ‚é
+// æç”»é–¢æ•°(ãƒ©ãƒ ãƒ€)ã®ä¸­ã« { } ã§å›²ã¾ã‚ŒãŸã‚«ãƒ³ãƒãŒã‚ã£ã¦ã‚‚ã‚ˆã„ã‚ˆã†ã«ã€å¯å¤‰é•·å¼•æ•°ã§å—ã‘å–ã‚‹
 #define REGISTER_INSPECTOR(Type, ...) \
     ComponentInspectorRegistry::Register(#Type, __VA_ARGS__)

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <set>
 #include <string>
 #include <vector>
@@ -9,25 +9,25 @@
 struct AnimatorComponent;
 struct StateMachineComponent;
 
-// “Ç‚İ‚ñ‚¾ƒOƒ‰ƒt‚ÆA‚»‚ÌŒ‹‰Ê
+// èª­ã¿è¾¼ã‚“ã ã‚°ãƒ©ãƒ•ã¨ã€ãã®çµæœ
 struct LoadedStateMachine
 {
 	StateMachineData data;
-	bool loaded = false; // JSON‚Æ‚µ‚Ä“Ç‚İ‚ß‚½‚©
-	bool valid = false;  // ŒŸØ‚ğ’Ê‚Á‚½‚©
+	bool loaded = false; // JSONã¨ã—ã¦èª­ã¿è¾¼ã‚ãŸã‹
+	bool valid = false;  // æ¤œè¨¼ã‚’é€šã£ãŸã‹
 };
 
-// Stateƒ}ƒVƒ“(State‚Ì‘JˆÚ‚ÆAƒAƒjƒ[ƒVƒ‡ƒ“‚ÌØ‚è‘Ö‚¦)
+// Stateãƒã‚·ãƒ³(Stateã®é·ç§»ã¨ã€ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆ)
 class StateMachineSystem
 {
 public:
-	// State‚Ì‘JˆÚ‚ğŒˆ‚ß‚é (ƒQ[ƒ€ƒvƒŒƒC‚ÌŠeSystem‚æ‚è‘O‚ÉŒÄ‚Ô)
+	// Stateã®é·ç§»ã‚’æ±ºã‚ã‚‹ (ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ã®å„Systemã‚ˆã‚Šå‰ã«å‘¼ã¶)
 	void UpdateState(entt::registry& registry);
 
-	// Ä¶‚·‚éƒNƒŠƒbƒv‚ğŒˆ‚ß‚é (ƒQ[ƒ€ƒvƒŒƒC‚ÌŠeSystem‚æ‚è‘O‚ÉŒÄ‚Ô)
+	// å†ç”Ÿã™ã‚‹ã‚¯ãƒªãƒƒãƒ—ã‚’æ±ºã‚ã‚‹ (ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ã®å„Systemã‚ˆã‚Šå‰ã«å‘¼ã¶)
 	void UpdateAnimation(entt::registry& registry);
 
-	// g—p‚·‚éState–¼‚ğ\‚·‚é(ƒOƒ‰ƒt‚Ì“Ç‚İ‚İ‚ÉA‘¶İ‚·‚é‚©‚ğŠm‚©‚ß‚é)
+	// ä½¿ç”¨ã™ã‚‹Stateåã‚’ç”³å‘Šã™ã‚‹(ã‚°ãƒ©ãƒ•ã®èª­ã¿è¾¼ã¿æ™‚ã«ã€å­˜åœ¨ã™ã‚‹ã‹ã‚’ç¢ºã‹ã‚ã‚‹)
 	template<typename UserComponent>
 	static void RequireState(const std::string& stateName, const std::string& user)
 	{
@@ -37,41 +37,41 @@ public:
 
 private:
 	
-	// ƒGƒ“ƒeƒBƒeƒB‚ªA\‚µ‚½System‚Ì‘ÎÛ‚©(UserComponent‚ğ‚Á‚Ä‚¢‚é‚©)
+	// ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒã€ç”³å‘Šã—ãŸSystemã®å¯¾è±¡ã‹(UserComponentã‚’æŒã£ã¦ã„ã‚‹ã‹)
 	using UsesStateFunc = bool(*)(const entt::registry& registry, entt::entity entity);
 
-	// \‚³‚ê‚½State–¼‚ÆA\‚µ‚½‘¤‚Ì–¼‘O
+	// ç”³å‘Šã•ã‚ŒãŸStateåã¨ã€ç”³å‘Šã—ãŸå´ã®åå‰
 	struct RequiredState
 	{
 		std::string stateName;
 		std::string user;
-		UsesStateFunc usesState = nullptr; // \‚µ‚½System‚Ì‘ÎÛ‚©
+		UsesStateFunc usesState = nullptr; // ç”³å‘Šã—ãŸSystemã®å¯¾è±¡ã‹
 	};
 	static std::vector<RequiredState>& GetRequiredStates();
-	// \‚ğˆê——‚É‘«‚·
+	// ç”³å‘Šã‚’ä¸€è¦§ã«è¶³ã™
 	static void AddRequiredState(const std::string& stateName, const std::string& user, UsesStateFunc usesState);
 
-	// \‚³‚ê‚½State–¼‚ªA‚±‚ÌƒGƒ“ƒeƒBƒeƒB‚ÌƒOƒ‰ƒt‚É‚ ‚é‚©‚ğŠm‚©‚ß‚é
+	// ç”³å‘Šã•ã‚ŒãŸStateåãŒã€ã“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ã‚°ãƒ©ãƒ•ã«ã‚ã‚‹ã‹ã‚’ç¢ºã‹ã‚ã‚‹
 	void CheckRequiredStates(const StateMachineData& data, const std::string& path, const entt::registry& registry, entt::entity entity);
 
 
-	// ƒOƒ‰ƒt‚ğæ“¾‚·‚é (“Ç‚İ‚ß‚È‚¢EŒŸØƒGƒ‰[‚Ìê‡‚Ínullptr)
+	// ã‚°ãƒ©ãƒ•ã‚’å–å¾—ã™ã‚‹ (èª­ã¿è¾¼ã‚ãªã„ãƒ»æ¤œè¨¼ã‚¨ãƒ©ãƒ¼ã®å ´åˆã¯nullptr)
 	const StateMachineData* Load(const std::string& path);
 
-	// ğŒ‚ª¬—§‚µ‚½Å‰‚Ì‘JˆÚ‚ğ•Ô‚·(—Dæ“x‡)
+	// æ¡ä»¶ãŒæˆç«‹ã—ãŸæœ€åˆã®é·ç§»ã‚’è¿”ã™(å„ªå…ˆåº¦é †)
 	static const StateTransition* FindPassedTransition(
 		const std::vector<StateTransition>& transitions, entt::registry& registry, entt::entity entity);
 
-	// State‚É“ü‚é
+	// Stateã«å…¥ã‚‹
 	static void EnterState(StateMachineComponent& sm, const StateNode& state, const StateTransition& via);
 
-	// ƒNƒŠƒbƒv‚ğÄ¶‚·‚é
+	// ã‚¯ãƒªãƒƒãƒ—ã‚’å†ç”Ÿã™ã‚‹
 	static void PlayClip(AnimatorComponent& animator, const ClipNode& clip, const BlendSetting& blend);
 
 	JsonFileCache<LoadedStateMachine> graphCache;
 
-	// g‚¦‚È‚¢‚±‚Æ‚ğLog‚É•ñÏ‚İ‚ÌƒpƒX
+	// ä½¿ãˆãªã„ã“ã¨ã‚’Logã«å ±å‘Šæ¸ˆã¿ã®ãƒ‘ã‚¹
 	std::set<std::string> reportedPaths;
-	// uState‚ª–³‚¢v‚Æ•ñÏ‚İ‚Ì‘g
+	// ã€ŒStateãŒç„¡ã„ã€ã¨å ±å‘Šæ¸ˆã¿ã®çµ„
 	std::set<std::string> reportedMissingStates;
 };

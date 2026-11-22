@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "Engine/ECS/Reflect.h"
 
-// ƒtƒ‰ƒO‚Ìí—Ş
+// ãƒ•ãƒ©ã‚°ã®ç¨®é¡
 enum class SequencerFlag
 {
-	AnimExit,   // ƒAƒjƒ[ƒVƒ‡ƒ“I—¹ƒtƒ‰ƒO
+	AnimExit,   // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†ãƒ•ãƒ©ã‚°
 
 
-	// í—Ş‚ª‘‚¦‚½‚ç‚±‚±‚É’Ç‰Á‚µ‚Ä‚¢‚­
+	// ç¨®é¡ãŒå¢—ãˆãŸã‚‰ã“ã“ã«è¿½åŠ ã—ã¦ã„ã
 
 	Count
 };
@@ -17,7 +17,7 @@ struct SequencerComponent
 {
 	REFLECT_BEGIN(SequencerComponent, "Sequencer")
 
-		// Šeƒtƒ‰ƒO
+		// å„ãƒ•ãƒ©ã‚°
 		REFLECT_FIELD(bool, animExit,   (false), ("Anim Exit",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
 
 

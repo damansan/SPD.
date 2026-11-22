@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include <vector>
@@ -32,22 +32,22 @@ class StudioWindow
 public:
     void Initialize(ID3D11Device* device, StudioSharedContext* shared, UINT width = 1920, UINT height = 1080);
 
-    // XV
+    // æ›´æ–°
     void Update(float elapsedTime);
 
-    // •`‰æ
+    // æç”»
     void Render();
 
-    // ImGui•`‰æ
+    // ImGuiæç”»
     void DrawWindow(const char* windowName = "Studio");
 
-    // context‚Ö‚ÌƒAƒNƒZƒX
+    // contextã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
     StudioContext& GetContext() { return context; }
 
-    // ƒAƒZƒbƒg“Ç‚İ‚İ
+    // ã‚¢ã‚»ãƒƒãƒˆèª­ã¿è¾¼ã¿
     void LoadAsset(const std::string& assetPath);
 
-    // íœƒŠƒNƒGƒXƒg
+    // å‰Šé™¤ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
     bool IsCloseRequested() const { return closeRequested; }
     void SetWindowId(int id) 
     {
@@ -62,12 +62,12 @@ public:
     int  GetWindowId()  const { return windowId; }
 
 private:
-    // •`‰ææ‚ÌØ‚è‘Ö‚¦
+    // æç”»å…ˆã®åˆ‡ã‚Šæ›¿ãˆ
     void Begin();
     void End();
     void ResizeRenderTarget();
 
-    // Å‘å‰»ƒ{ƒ^ƒ“
+    // æœ€å¤§åŒ–ãƒœã‚¿ãƒ³
     void DrawMaximizeButton();
 
     Microsoft::WRL::ComPtr<ID3D11Texture2D>          renderTexture;
@@ -76,15 +76,15 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Texture2D>          depthTexture;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView>   dsv;
 
-    // •\¦—p
+    // è¡¨ç¤ºç”¨
     Microsoft::WRL::ComPtr<ID3D11Texture2D>          outputTexture;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>   outputRtv;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> outputSrv;
 
-    // ƒJƒƒ‰
+    // ã‚«ãƒ¡ãƒ©
     StudioCamera camera;
 
-    // ƒAƒ^ƒbƒ`ƒƒ“ƒgŠÔ‹¤—Lƒf[ƒ^
+    // ã‚¢ã‚¿ãƒƒãƒãƒ¡ãƒ³ãƒˆé–“å…±æœ‰ãƒ‡ãƒ¼ã‚¿
     StudioContext context;
 
     entt::registry    studioRegistry;
@@ -96,7 +96,7 @@ private:
     
     StudioSharedContext* shared = nullptr;
 
-    // ‹@”\
+    // æ©Ÿèƒ½
     StudioModelViewer stadoiModelViewer;
     StudioAnimator    studioAnimator;
     StudioTimeline    studioTimeline;
@@ -105,7 +105,7 @@ private:
     StudioAnimationSpeed studioAnimationSpeed;
     StudioAnimationEdit  studioAnimationEdit;
 
-    // ƒEƒBƒ“ƒhƒEó‘Ô
+    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦çŠ¶æ…‹
     int   windowId = 0;
     UINT  renderWidth = 1920;
     UINT  renderHeight = 1080;
@@ -115,17 +115,17 @@ private:
     bool  isFirstFrame = true;
     bool  firstDockSetup = true;
 
-    // ƒrƒ…[ƒ|[ƒg•Û‘¶
+    // ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆä¿å­˜
     D3D11_VIEWPORT savedViewport = {};
     int            renderSkipCount = 0;
 
 
 
-    // Å‘å‰»
-    bool   maximized = false;        // Å‘å‰»‚µ‚Ä‚¢‚é‚©
-    bool   applyWindowRect = false;  // Ÿ‚ÌƒtƒŒ[ƒ€‚ÅˆÊ’u‚Æ‘å‚«‚³‚ğ•Ï‚¦‚é‚©
-    ImVec2 applyPos{};               // •Ï‚¦‚éæ‚ÌˆÊ’u(Å‘å‰»’†‚ÍAÅ‘å‰»‚µ‚½ˆÊ’u)
-    ImVec2 applySize{};              // •Ï‚¦‚éæ‚Ì‘å‚«‚³(Å‘å‰»’†‚ÍAÅ‘å‰»‚µ‚½‘å‚«‚³)
-    ImVec2 restorePos{};             // Œ³‚É–ß‚·ˆÊ’u
-    ImVec2 restoreSize{};            // Œ³‚É–ß‚·‘å‚«‚³
+    // æœ€å¤§åŒ–
+    bool   maximized = false;        // æœ€å¤§åŒ–ã—ã¦ã„ã‚‹ã‹
+    bool   applyWindowRect = false;  // æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ä½ç½®ã¨å¤§ãã•ã‚’å¤‰ãˆã‚‹ã‹
+    ImVec2 applyPos{};               // å¤‰ãˆã‚‹å…ˆã®ä½ç½®(æœ€å¤§åŒ–ä¸­ã¯ã€æœ€å¤§åŒ–ã—ãŸä½ç½®)
+    ImVec2 applySize{};              // å¤‰ãˆã‚‹å…ˆã®å¤§ãã•(æœ€å¤§åŒ–ä¸­ã¯ã€æœ€å¤§åŒ–ã—ãŸå¤§ãã•)
+    ImVec2 restorePos{};             // å…ƒã«æˆ»ã™ä½ç½®
+    ImVec2 restoreSize{};            // å…ƒã«æˆ»ã™å¤§ãã•
 };

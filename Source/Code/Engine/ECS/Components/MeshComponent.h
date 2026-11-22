@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "Engine/ECS/Reflect.h"
 
@@ -6,12 +6,12 @@ struct MeshComponent
 {
 	REFLECT_BEGIN(MeshComponent, "Mesh")
 	
-		// ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX
+		// ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 		REFLECT_FIELD(std::string, modelPath, (""), ("Model", 0.0f, 0.0f, 0.1f, "MODEL_PATH")) 
 		
 	REFLECT_END()
 
-		std::string previousPath; // ‘OƒtƒŒ[ƒ€‚ÌƒpƒX‚ğ‹L˜^
+		std::string previousPath; // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒ‘ã‚¹ã‚’è¨˜éŒ²
 
 	MeshComponent() = default;
 	MeshComponent(const std::string& path) : modelPath(path) {}

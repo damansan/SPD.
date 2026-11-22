@@ -1,10 +1,10 @@
-#include "StudioAnimationEdit.h"
+ï»¿#include "StudioAnimationEdit.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/Resource/Model.h"
 #include <algorithm>
 #include <cmath>
 
-// ƒgƒŠƒ~ƒ“ƒO‚Ìƒgƒ‰ƒbƒN
+// ãƒˆãƒªãƒŸãƒ³ã‚°ã®ãƒˆãƒ©ãƒƒã‚¯
 bool StudioAnimationEdit::DrawTrimTrack(const std::string& clipName, float rawLength, float frameStep)
 {
 	float start = 0.0f;
@@ -17,12 +17,12 @@ bool StudioAnimationEdit::DrawTrimTrack(const std::string& clipName, float rawLe
 	const float top = ImGui::GetCursorScreenPos().y + margin;
 	const float bottom = top + trackHeight;
 
-	// Œ³‚Ì’·‚³‘S‘ÌiˆÃ‚¢‘Ñj
+	// å…ƒã®é•·ã•å…¨ä½“ï¼ˆæš—ã„å¸¯ï¼‰
 	drawList->AddRectFilled(ImVec2(timeline.GetLeft(), top), ImVec2(timeline.GetRight(), bottom), IM_COL32(50, 52, 56, 255), 3.0f);
-	// g‚¤”ÍˆÍi–¾‚é‚¢‘Ñj
+	// ä½¿ã†ç¯„å›²ï¼ˆæ˜ã‚‹ã„å¸¯ï¼‰
 	drawList->AddRectFilled(ImVec2(timeline.TimeToX(start), top), ImVec2(timeline.TimeToX(end), bottom), IM_COL32(79, 195, 247, 200), 3.0f);
 
-	// ”ÍˆÍ‚Ì’[‚Ìƒsƒ“
+	// ç¯„å›²ã®ç«¯ã®ãƒ”ãƒ³
 	const float minLength = StudioTimelineWidget::MinLength(frameStep);
 	bool changed = false;
 	if (timeline.DrawRangeHandles("##TrimRange", bottom, frameStep, minLength, start, end))
@@ -30,20 +30,20 @@ bool StudioAnimationEdit::DrawTrimTrack(const std::string& clipName, float rawLe
 		changed = SetTrimRange(clipName, rawLength, start, end);
 	}
 
-	// ‘Ñ‚Æƒsƒ“‚Ì“ª‚Ì•ª‚Ì‚‚³‚ğŠm•Û‚·‚é
+	// å¸¯ã¨ãƒ”ãƒ³ã®é ­ã®åˆ†ã®é«˜ã•ã‚’ç¢ºä¿ã™ã‚‹
 	ImGui::Dummy(ImVec2(0.0f, margin + trackHeight + StudioTimelineWidget::RangeHandleHeight + margin));
 
 	return changed;
 }
 
-// ƒgƒŠƒ~ƒ“ƒO‚Ìƒ{ƒ^ƒ“
+// ãƒˆãƒªãƒŸãƒ³ã‚°ã®ãƒœã‚¿ãƒ³
 bool StudioAnimationEdit::DrawTrimButtons(const std::string& clipName, float rawLength, float frameStep, float pinTime)
 {
 	float start = 0.0f;
 	float end = 0.0f;
 	GetTrimRange(clipName, rawLength, start, end);
 
-	// Å’á1ƒtƒŒ[ƒ€•ª‚Ì’·‚³‚ğc‚·
+	// æœ€ä½1ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†ã®é•·ã•ã‚’æ®‹ã™
 	const float minLength = StudioTimelineWidget::MinLength(frameStep);
 	const float tolerance = minLength * 0.5f;
 
@@ -68,13 +68,13 @@ bool StudioAnimationEdit::DrawTrimButtons(const std::string& clipName, float raw
 	return changed;
 }
 
-// ƒgƒŠƒ~ƒ“ƒO‚Ì”’l
+// ãƒˆãƒªãƒŸãƒ³ã‚°ã®æ•°å€¤
 bool StudioAnimationEdit::DrawTrimSettings(const Model& model, AnimationEditClipData& clip)
 {
 	const float rawLength = FindRawLength(model, clip.clipName);
 	const float frameStep = CalcFrameStep(model, clip.clipName);
 	const float minLength = StudioTimelineWidget::MinLength(frameStep);
-	const float dragSpeed = minLength; // 1‰ñ‚Ìƒhƒ‰ƒbƒO‚Å1ƒtƒŒ[ƒ€‚¸‚Â“®‚©‚·
+	const float dragSpeed = minLength; // 1å›ã®ãƒ‰ãƒ©ãƒƒã‚°ã§1ãƒ•ãƒ¬ãƒ¼ãƒ ãšã¤å‹•ã‹ã™
 
 	float start = clip.trimStart;
 	float end = (clip.trimEnd < 0.0f) ? rawLength : clip.trimEnd;
@@ -85,21 +85,21 @@ bool StudioAnimationEdit::DrawTrimSettings(const Model& model, AnimationEditClip
 
 	if (changed)
 	{
-		// ƒtƒŒ[ƒ€‚É‹z‚¢•t‚©‚¹‚Ä‚©‚ç‘‚«–ß‚·
+		// ãƒ•ãƒ¬ãƒ¼ãƒ ã«å¸ã„ä»˜ã‹ã›ã¦ã‹ã‚‰æ›¸ãæˆ»ã™
 		start = StudioTimelineWidget::SnapToFrame(start, frameStep, rawLength);
 		end = StudioTimelineWidget::SnapToFrame(end, frameStep, rawLength);
 		clip.trimStart = start;
-		clip.trimEnd = (end >= rawLength - 0.0001f) ? -1.0f : end; // ÅŒã‚Ü‚Å‚È‚çuÅŒã‚Ü‚Åv‚Æ‚µ‚Ä•Û‘¶
+		clip.trimEnd = (end >= rawLength - 0.0001f) ? -1.0f : end; // æœ€å¾Œã¾ã§ãªã‚‰ã€Œæœ€å¾Œã¾ã§ã€ã¨ã—ã¦ä¿å­˜
 	}
 
-	// ƒtƒŒ[ƒ€‚Æ’·‚³‚Ì•\¦
+	// ãƒ•ãƒ¬ãƒ¼ãƒ ã¨é•·ã•ã®è¡¨ç¤º
 	ImGui::TextDisabled("F%d - F%d", StudioTimelineWidget::ToFrame(start, frameStep), StudioTimelineWidget::ToFrame(end, frameStep));
 	ImGui::TextDisabled("Length %.3f s (raw %.3f s)", end - start, rawLength);
 
 	return changed;
 }
 
-// g‚¤”ÍˆÍ‚Ì’†‚Å‚ği‚ß‚é
+// ä½¿ã†ç¯„å›²ã®ä¸­ã§æ™‚åˆ»ã‚’é€²ã‚ã‚‹
 void StudioAnimationEdit::AdvanceRangePlayback(AnimatorComponent& animator, StudioContext& context, float start, float end)
 {
 	const float rangeLength = end - start;
@@ -109,7 +109,7 @@ void StudioAnimationEdit::AdvanceRangePlayback(AnimatorComponent& animator, Stud
 		return;
 	}
 
-	// •Ê‚Ìƒpƒlƒ‹‚ÌÄ¶‚ªn‚Ü‚Á‚½‚çA‚»‚¿‚ç‚ğ—Dæ‚µ‚Ä~‚Ü‚é
+	// åˆ¥ã®ãƒ‘ãƒãƒ«ã®å†ç”ŸãŒå§‹ã¾ã£ãŸã‚‰ã€ãã¡ã‚‰ã‚’å„ªå…ˆã—ã¦æ­¢ã¾ã‚‹
 	if (animator.isPlaying)
 	{
 		rangePlaying = false;
@@ -118,7 +118,7 @@ void StudioAnimationEdit::AdvanceRangePlayback(AnimatorComponent& animator, Stud
 
 	float t = animator.animationTime + ImGui::GetIO().DeltaTime * animator.playSpeed;
 
-	// ”ÍˆÍ‚ÌI‚í‚è‚ğ‰z‚¦‚½‚çA‰z‚¦‚½•ª‚ğc‚µ‚Ä Start ‘¤‚Ö–ß‚·
+	// ç¯„å›²ã®çµ‚ã‚ã‚Šã‚’è¶ŠãˆãŸã‚‰ã€è¶ŠãˆãŸåˆ†ã‚’æ®‹ã—ã¦ Start å´ã¸æˆ»ã™
 	if (t >= end) t = start + std::fmod(t - start, rangeLength);
 	if (t < start) t = start;
 
@@ -126,7 +126,7 @@ void StudioAnimationEdit::AdvanceRangePlayback(AnimatorComponent& animator, Stud
 	context.requestPoseUpdate = true;
 }
 
-// ”ÍˆÍ‚ğæ‚èo‚·
+// ç¯„å›²ã‚’å–ã‚Šå‡ºã™
 void StudioAnimationEdit::GetTrimRange(const std::string& clipName, float rawLength, float& outStart, float& outEnd) const
 {
 	outStart = 0.0f;
@@ -139,13 +139,13 @@ void StudioAnimationEdit::GetTrimRange(const std::string& clipName, float rawLen
 	}
 }
 
-// ”ÍˆÍ‚ğ‘‚«‚Ş
+// ç¯„å›²ã‚’æ›¸ãè¾¼ã‚€
 bool StudioAnimationEdit::SetTrimRange(const std::string& clipName, float rawLength, float start, float end)
 {
-	// ÅŒã‚Ü‚Å‚È‚çu-1iÅŒã‚Ü‚Åjv‚Æ‚µ‚Ä•Û‘¶‚·‚é
+	// æœ€å¾Œã¾ã§ãªã‚‰ã€Œ-1ï¼ˆæœ€å¾Œã¾ã§ï¼‰ã€ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 	const float storedEnd = (end >= rawLength - 0.0001f) ? -1.0f : end;
 
-	// •Ï‚í‚ç‚È‚¢‚È‚çAİ’è‚ğì‚ç‚¸‚ÉI‚í‚é
+	// å¤‰ã‚ã‚‰ãªã„ãªã‚‰ã€è¨­å®šã‚’ä½œã‚‰ãšã«çµ‚ã‚ã‚‹
 	const AnimationEditClipData* existing = editData.FindClip(clipName);
 	const float oldStart = existing ? existing->trimStart : 0.0f;
 	const float oldEnd = existing ? existing->trimEnd : -1.0f;

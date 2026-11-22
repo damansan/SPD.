@@ -19,7 +19,8 @@
     <ClCompile>
             <AdditionalIncludeDirectories>$(RootDir)Source\Code;$(RootDir)External\imgui-docking;$(RootDir)External\imgui-docking\backends;$(RootDir)External\entt-main\single_include\entt;$(RootDir)External\GLTF;$(RootDir)External\tracy-0.13.1\public;$(RootDir)External\json-3.12.0\single_include\nlohmann;$(RootDir)External\DualSense-Windows-main\VS19_Solution\DualSenseWindows\include;$(RootDir)External\imgui-node-editor-master;$(RootDir)External\imgui-node-editor-master\external;$(RootDir)External\DirectXTK-main\Inc;$(RootDir)External\DirectXTex-may2026\DirectXTex;$(RootDir)External\cereal-master\include;$(RootDir)External\PhysX\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;TRACY_ENABLE;DS5W_USE_LIB;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-		<LanguageStandard>stdcpp17</LanguageStandard>
+		<LanguageStandard>stdcpp20</LanguageStandard>
+		<AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
 		<ConformanceMode>false</ConformanceMode>
 		<MultiProcessorCompilation>true</MultiProcessorCompilation>
 		<SDLCheck>true</SDLCheck>

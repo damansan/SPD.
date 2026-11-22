@@ -1,46 +1,46 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/ECS/Reflect.h"
 
-// ƒXƒeƒBƒbƒN‚Ìó‘Ô
+// ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®çŠ¶æ…‹
 struct StickState
 {
 	REFLECT_BEGIN(StickState, "Stick State")
 
 		REFLECT_FIELD(float, x, (0.0f), ("X", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
 		REFLECT_FIELD(float, y, (0.0f), ("Y", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient))
-		REFLECT_FIELD(bool, hasInput, (false), ("Has Input", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “ü—Í‚ª‚ ‚Á‚½‚©‚Ç‚¤‚©
+		REFLECT_FIELD(bool, hasInput, (false), ("Has Input", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…¥åŠ›ãŒã‚ã£ãŸã‹ã©ã†ã‹
 
 		REFLECT_END()
 };
 
-// ƒ{ƒ^ƒ“‚Ìó‘Ô
+// ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹
 struct ButtonState
 {
 	REFLECT_BEGIN(ButtonState, "Button State")
 
-		REFLECT_FIELD(bool, pressed, (false), ("Pressed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “ü—Í‚ª‚ ‚Á‚½‚©‚Ç‚¤‚©
-		REFLECT_FIELD(bool, held, (false), ("Held", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰Ÿ‚µ‚Á‚Ï‚È‚µ’†
-		REFLECT_FIELD(bool, released, (false), ("Released", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¡ƒtƒŒ[ƒ€—£‚³‚ê‚½
+		REFLECT_FIELD(bool, pressed, (false), ("Pressed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…¥åŠ›ãŒã‚ã£ãŸã‹ã©ã†ã‹
+		REFLECT_FIELD(bool, held, (false), ("Held", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æŠ¼ã—ã£ã±ãªã—ä¸­
+		REFLECT_FIELD(bool, released, (false), ("Released", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä»Šãƒ•ãƒ¬ãƒ¼ãƒ é›¢ã•ã‚ŒãŸ
 
 		REFLECT_END()
 
-		// “à•”—pF‘OƒtƒŒ[ƒ€‚Ì‰Ÿ‰ºó‘Ô
+		// å†…éƒ¨ç”¨ï¼šå‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®æŠ¼ä¸‹çŠ¶æ…‹
 		bool wasHeld = false;
 };
 
-// ƒgƒŠƒK[‚Ìó‘Ô
+// ãƒˆãƒªã‚¬ãƒ¼ã®çŠ¶æ…‹
 struct TriggerState
 {
 	REFLECT_BEGIN(TriggerState, "Trigger State")
 
-		REFLECT_FIELD(float, value, (0.0f), ("Value", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “ü—Í’l(0.0`1.0)
-		REFLECT_FIELD(bool, pressed, (false), ("Pressed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¡ƒtƒŒ[ƒ€V‚µ‚­‰Ÿ‚³‚ê‚½
-		REFLECT_FIELD(bool, held, (false), ("Held", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰Ÿ‚µ‚Á‚Ï‚È‚µ’†
-		REFLECT_FIELD(bool, released, (false), ("Released", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¡ƒtƒŒ[ƒ€—£‚³‚ê‚½
+		REFLECT_FIELD(float, value, (0.0f), ("Value", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…¥åŠ›å€¤(0.0ï½1.0)
+		REFLECT_FIELD(bool, pressed, (false), ("Pressed", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä»Šãƒ•ãƒ¬ãƒ¼ãƒ æ–°ã—ãæŠ¼ã•ã‚ŒãŸ
+		REFLECT_FIELD(bool, held, (false), ("Held", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æŠ¼ã—ã£ã±ãªã—ä¸­
+		REFLECT_FIELD(bool, released, (false), ("Released", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä»Šãƒ•ãƒ¬ãƒ¼ãƒ é›¢ã•ã‚ŒãŸ
 
 		REFLECT_END()
 
-		// “à•”—pF‘OƒtƒŒ[ƒ€‚Ì‰Ÿ‰ºó‘Ô
+		// å†…éƒ¨ç”¨ï¼šå‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®æŠ¼ä¸‹çŠ¶æ…‹
 		bool wasHeld = false;
 };
 
@@ -48,19 +48,19 @@ struct GameInputComponent
 {
 	REFLECT_BEGIN(GameInputComponent, "Input")
 
-		// ƒXƒeƒBƒbƒN
-		REFLECT_FIELD(StickState, moveStick,   (), ("Move Stick"))   // ¶ƒXƒeƒBƒbƒN
-		REFLECT_FIELD(StickState, cameraStick, (), ("Camera Stick")) // ‰EƒXƒeƒBƒbƒN
+		// ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+		REFLECT_FIELD(StickState, moveStick,   (), ("Move Stick"))   // å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+		REFLECT_FIELD(StickState, cameraStick, (), ("Camera Stick")) // å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯
 
-		// ƒgƒŠƒK[
+		// ãƒˆãƒªã‚¬ãƒ¼
 		REFLECT_FIELD(TriggerState, lockOnTrigger, (), ("Lock On Trigger")) // L2
 		REFLECT_FIELD(TriggerState, grabTrigger,   (), ("Grab Trigger"))    // R2
 
-		// ƒ{ƒ^ƒ“
-		REFLECT_FIELD(ButtonState, jump,        (), ("Jump"))         // ~
-		REFLECT_FIELD(ButtonState, dodge,       (), ("Dodge"))        // Z
-		REFLECT_FIELD(ButtonState, lightAttack, (), ("Light Attack")) //  
-		REFLECT_FIELD(ButtonState, heavyAttack, (), ("Heavy Attack")) // ¢
+		// ãƒœã‚¿ãƒ³
+		REFLECT_FIELD(ButtonState, jump,        (), ("Jump"))         // Ã—
+		REFLECT_FIELD(ButtonState, dodge,       (), ("Dodge"))        // ã€‡
+		REFLECT_FIELD(ButtonState, lightAttack, (), ("Light Attack")) // â–¡
+		REFLECT_FIELD(ButtonState, heavyAttack, (), ("Heavy Attack")) // â–³
 
 		REFLECT_FIELD(ButtonState, wire, (), ("Wire")) // R1
 

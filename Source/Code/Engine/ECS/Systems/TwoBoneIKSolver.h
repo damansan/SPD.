@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
-// 2BoneIKƒ\ƒ‹ƒo[
-// root-mid-end ‚Ì3ŠÖß‚ğAtarget(‘«ñ‚ğ’u‚«‚½‚¢ˆÊ’u)‚É“Í‚©‚¹‚é
+// 2BoneIKã‚½ãƒ«ãƒãƒ¼
+// root-mid-end ã®3é–¢ç¯€ã‚’ã€target(è¶³é¦–ã‚’ç½®ããŸã„ä½ç½®)ã«å±Šã‹ã›ã‚‹
 namespace TwoBoneIKSolver
 {
     struct Result
     {
-        DirectX::XMFLOAT3 midPosition;      // ‰ğ‚¢‚½Œã‚Ìmid(•G)‚Ìƒ[ƒ‹ƒhˆÊ’u
-        DirectX::XMFLOAT4 rootRotation;     // ‰ğ‚¢‚½Œã‚Ìroot(˜)‚Ìƒ[ƒ‹ƒh‰ñ“]
-        DirectX::XMFLOAT4 midRotation;      // ‰ğ‚¢‚½Œã‚Ìmid(•G)‚Ìƒ[ƒ‹ƒh‰ñ“]
-        DirectX::XMFLOAT3 endPosition;      // ÀÛ‚É’u‚©‚ê‚½end(‘«ñ)‚ÌˆÊ’u(ƒNƒ‰ƒ“ƒvŒã‚Ìtarget)
+        DirectX::XMFLOAT3 midPosition;      // è§£ã„ãŸå¾Œã®mid(è†)ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ä½ç½®
+        DirectX::XMFLOAT4 rootRotation;     // è§£ã„ãŸå¾Œã®root(è…°)ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å›è»¢
+        DirectX::XMFLOAT4 midRotation;      // è§£ã„ãŸå¾Œã®mid(è†)ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å›è»¢
+        DirectX::XMFLOAT3 endPosition;      // å®Ÿéš›ã«ç½®ã‹ã‚ŒãŸend(è¶³é¦–)ã®ä½ç½®(ã‚¯ãƒ©ãƒ³ãƒ—å¾Œã®target)
     };
 
-    // root, mid, end : Œ»İ(IK“K—p‘O)‚Ì3ŠÖß‚Ìƒ[ƒ‹ƒhˆÊ’u
-    // rootRotation, midRotation : Œ»İ‚Ìroot, mid‚Ìƒ[ƒ‹ƒh‰ñ“](ƒNƒH[ƒ^ƒjƒIƒ“)
-    // target : end(‘«ñ)‚ğ“Í‚©‚¹‚½‚¢ƒ[ƒ‹ƒhÀ•W
-    // poleVector : mid(•G)‚ğŒü‚¯‚½‚¢•ûŒü‚Ìƒ[ƒ‹ƒhÀ•W(ˆÊ’u‚Å‚Í‚È‚­•ûŒü‚ğ¦‚·1“_)
+    // root, mid, end : ç¾åœ¨(IKé©ç”¨å‰)ã®3é–¢ç¯€ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ä½ç½®
+    // rootRotation, midRotation : ç¾åœ¨ã®root, midã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å›è»¢(ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³)
+    // target : end(è¶³é¦–)ã‚’å±Šã‹ã›ãŸã„ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
+    // poleVector : mid(è†)ã‚’å‘ã‘ãŸã„æ–¹å‘ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™(ä½ç½®ã§ã¯ãªãæ–¹å‘ã‚’ç¤ºã™1ç‚¹)
     Result Solve(
         const DirectX::XMFLOAT3& root,
         const DirectX::XMFLOAT3& mid,
@@ -26,6 +26,6 @@ namespace TwoBoneIKSolver
         const DirectX::XMFLOAT3& target,
         const DirectX::XMFLOAT3& poleVector);
 
-    // fromƒxƒNƒgƒ‹‚ğtoƒxƒNƒgƒ‹‚ÉŒü‚¯‚ÄAÅ’Z‰ñ“]‚ÌƒNƒH[ƒ^ƒjƒIƒ“‚ğ‹‚ß‚é
+    // fromãƒ™ã‚¯ãƒˆãƒ«ã‚’toãƒ™ã‚¯ãƒˆãƒ«ã«å‘ã‘ã¦ã€æœ€çŸ­å›è»¢ã®ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’æ±‚ã‚ã‚‹
     DirectX::XMVECTOR RotationFromToRotation(DirectX::FXMVECTOR from, DirectX::FXMVECTOR to);
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include <DirectXMath.h>
@@ -9,53 +9,53 @@
 class LightManager
 {
 public:
-    // ƒ‰ƒCƒg\‘¢‘Ì
+    // ãƒ©ã‚¤ãƒˆæ§‹é€ ä½“
     struct DirectionalLight
     {
-        DirectX::XMFLOAT4 direction; // xyz=•ûŒü w=–¢g—p
-        DirectX::XMFLOAT4 color;     // xyz=F w=‹­“x
+        DirectX::XMFLOAT4 direction; // xyz=æ–¹å‘ w=æœªä½¿ç”¨
+        DirectX::XMFLOAT4 color;     // xyz=è‰² w=å¼·åº¦
     };
 
     struct PointLight
     {
-        DirectX::XMFLOAT4 position;  // xyz=ˆÊ’u w=”ÍˆÍ
-        DirectX::XMFLOAT4 color;     // xyz=F w=‹­“x
+        DirectX::XMFLOAT4 position;  // xyz=ä½ç½® w=ç¯„å›²
+        DirectX::XMFLOAT4 color;     // xyz=è‰² w=å¼·åº¦
     };
 
-    // ’è”ƒoƒbƒtƒ@\‘¢‘Ì
+    // å®šæ•°ãƒãƒƒãƒ•ã‚¡æ§‹é€ ä½“
     struct CbLights
     {
         DirectionalLight directionalLight;
         PointLight       pointLights[MAX_POINT_LIGHTS];
         int              pointLightCount;
-        float            iblIntensity;  // IBL‚Ì‹­‚³
-        DirectX::XMFLOAT2 padding;      // 16ƒoƒCƒgƒAƒ‰ƒCƒ“ƒƒ“ƒg—p
+        float            iblIntensity;  // IBLã®å¼·ã•
+        DirectX::XMFLOAT2 padding;      // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆç”¨
     };
 
 public:
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(ID3D11Device* device);
 
-    // •½sŒõŒ¹‚Ìİ’è
+    // å¹³è¡Œå…‰æºã®è¨­å®š
     void SetDirectionalLight(
         const DirectX::XMFLOAT3& direction,
         const DirectX::XMFLOAT3& color,
         float intensity);
 
-    // ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ì’Ç‰Á
+    // ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®è¿½åŠ 
     void AddPointLight(
         const DirectX::XMFLOAT3& position,
         const DirectX::XMFLOAT3& color,
         float range,
         float intensity);
 
-    // ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ì‘Síœ
+    // ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®å…¨å‰Šé™¤
     void ClearPointLights();
 
-    // ’è”ƒoƒbƒtƒ@‚ğGPU‚É“]‘—‚µ‚ÄƒXƒƒbƒg‚ÉƒZƒbƒg
+    // å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚’GPUã«è»¢é€ã—ã¦ã‚¹ãƒ­ãƒƒãƒˆã«ã‚»ãƒƒãƒˆ
     void Bind(ID3D11DeviceContext* dc);
 
-    // ƒQƒbƒ^[
+    // ã‚²ãƒƒã‚¿ãƒ¼
     const DirectionalLight& GetDirectionalLight() const { return directionalLight; }
 
 private:

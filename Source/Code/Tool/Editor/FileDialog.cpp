@@ -1,4 +1,4 @@
-#include "FileDialog.h"
+ï»¿#include "FileDialog.h"
 #include <commdlg.h>
 #include <filesystem>
 
@@ -12,7 +12,7 @@ namespace
 			&& text.compare(text.size() - suffix.size(), suffix.size(), suffix) == 0;
 	}
 
-	// Šg’£q‚ğu.scene.jsonv‚É‘µ‚¦‚é
+	// æ‹¡å¼µå­ã‚’ã€Œ.scene.jsonã€ã«æƒãˆã‚‹
 	std::string EnsureSceneExtension(std::string path)
 	{
 		const std::string sceneExtension = ".scene.json";
@@ -26,7 +26,7 @@ namespace FileDialog
 {
 	bool SaveScene(HWND owner, std::string& path)
 	{
-		// •Û‘¶æ‚Ì‰ŠúƒtƒHƒ‹ƒ_i–³‚¯‚ê‚Îì‚éjBƒ_ƒCƒAƒƒO‚É‚Íâ‘ÎƒpƒX‚Å“n‚·
+		// ä¿å­˜å…ˆã®åˆæœŸãƒ•ã‚©ãƒ«ãƒ€ï¼ˆç„¡ã‘ã‚Œã°ä½œã‚‹ï¼‰ã€‚ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«ã¯çµ¶å¯¾ãƒ‘ã‚¹ã§æ¸¡ã™
 		std::error_code ec;
 		std::filesystem::create_directories("Data/Scene", ec);
 		std::string initialDir = std::filesystem::absolute("Data/Scene").string();
@@ -42,15 +42,15 @@ namespace FileDialog
 		ofn.nMaxFile = MAX_PATH;
 		ofn.lpstrInitialDir = initialDir.c_str();
 		ofn.lpstrTitle = "Save Scene";
-		// OFN_NOCHANGEDIRFƒ_ƒCƒAƒƒO‚ªAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ•Ï‚¦‚È‚¢‚æ‚¤‚É‚·‚éi‘Š‘ÎƒpƒX‚ğg‚Á‚Ä‚¢‚é‚½‚ßj
+		// OFN_NOCHANGEDIRï¼šãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãŒã€ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰ãˆãªã„ã‚ˆã†ã«ã™ã‚‹ï¼ˆç›¸å¯¾ãƒ‘ã‚¹ã‚’ä½¿ã£ã¦ã„ã‚‹ãŸã‚ï¼‰
 		ofn.Flags = OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST;
 
 		if (!GetSaveFileNameA(&ofn)) return false;
 
 		std::string selected = EnsureSceneExtension(fileName);
 
-		// Šg’£q‚ğ•â‚Á‚½Œã‚Ìƒtƒ@ƒCƒ‹‚ªŠù‚É‚ ‚ê‚ÎAã‘‚«‚ÌŠm”F‚ğo‚·
-		// iƒ_ƒCƒAƒƒO•W€‚ÌŠm”F‚ÍA•â‚¤‘O‚Ì–¼‘O‚Å”»’è‚³‚ê‚é‚½‚ßAg‚í‚È‚¢j
+		// æ‹¡å¼µå­ã‚’è£œã£ãŸå¾Œã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ—¢ã«ã‚ã‚Œã°ã€ä¸Šæ›¸ãã®ç¢ºèªã‚’å‡ºã™
+		// ï¼ˆãƒ€ã‚¤ã‚¢ãƒ­ã‚°æ¨™æº–ã®ç¢ºèªã¯ã€è£œã†å‰ã®åå‰ã§åˆ¤å®šã•ã‚Œã‚‹ãŸã‚ã€ä½¿ã‚ãªã„ï¼‰
 		if (std::filesystem::exists(selected))
 		{
 			std::string message = "'" + std::filesystem::path(selected).filename().string()

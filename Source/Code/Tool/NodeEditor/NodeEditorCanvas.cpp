@@ -1,4 +1,4 @@
-#include "NodeEditorCanvas.h"
+﻿#include "NodeEditorCanvas.h"
 
 NodeEditorCanvas::~NodeEditorCanvas()
 {

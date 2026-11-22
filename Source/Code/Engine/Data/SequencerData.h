@@ -1,28 +1,28 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <json.hpp>
 #include "Engine/ECS/Components/SequencerComponent.h"
 
 
-// ”ÍˆÍ : ŠJn‚©‚çI—¹‚ÌŠÔí‚Étrue‚ğ•Ô‚·
+// ç¯„å›² : é–‹å§‹ã‹ã‚‰çµ‚äº†ã®é–“å¸¸ã«trueã‚’è¿”ã™
 struct SequencerRange
 {
 	int id = -1;
-	float start = 0.0f; // ŠJn
-	float end = 0.0f;   // I—¹
+	float start = 0.0f; // é–‹å§‹æ™‚åˆ»
+	float end = 0.0f;   // çµ‚äº†æ™‚åˆ»
 	SequencerFlag flag = SequencerFlag::AnimExit;
 };
 
-// uŠÔ : ’Ê‰ß‚µ‚½‚»‚ÌƒtƒŒ[ƒ€‚¾‚¯true
+// ç¬é–“ : é€šéã—ãŸãã®ãƒ•ãƒ¬ãƒ¼ãƒ ã ã‘true
 struct SequencerPoint
 {
 	int id = -1;
-	float time = 0.0f; // 
+	float time = 0.0f; // æ™‚åˆ»
 	SequencerFlag flag = SequencerFlag::AnimExit;
 };
 
-// 1ƒNƒŠƒbƒv•ª‚ÌRange/Point‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+// 1ã‚¯ãƒªãƒƒãƒ—åˆ†ã®Range/Pointã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 struct SequencerClipData
 {
 	std::string clipName;
@@ -33,21 +33,21 @@ struct SequencerClipData
 	int GenerateId() { return nextId++; }
 };
 
-// ƒ‚ƒfƒ‹1‘Ì•ªA‘SƒNƒŠƒbƒv‚ÌSequencerİ’è‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+// ãƒ¢ãƒ‡ãƒ«1ä½“åˆ†ã€å…¨ã‚¯ãƒªãƒƒãƒ—ã®Sequencerè¨­å®šã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 class SequencerData
 {
 public:
 	std::vector<SequencerClipData> clips;
 
-	// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+	// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 	const SequencerClipData* FindClip(const std::string& clipName) const;
 	SequencerClipData* FindClip(const std::string& clipName);
 	SequencerClipData* FindOrCreateClip(const std::string& clipName);
 
-	// •Û‘¶/“Ç‚İ‚İ
+	// ä¿å­˜/èª­ã¿è¾¼ã¿
 	nlohmann::ordered_json ToJson() const;
 	void FromJson(const nlohmann::json& j);
 
-	// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+	// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 	static std::string GetFilePath(const std::string& modelPath);
 };

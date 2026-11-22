@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 namespace EngineComponents
 {
-	// Engine‚ª‚ÂƒRƒ“ƒ|[ƒlƒ“ƒg‚ğAComponentRegistry‚Ö“o˜^‚·‚é
+	// EngineãŒæŒã¤ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã€ComponentRegistryã¸ç™»éŒ²ã™ã‚‹
 	void Register();
 }

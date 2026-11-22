@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IStudioAttachment.h"
 #include "Engine/Data/AnimationSpeedData.h"
 #include <imgui.h>
@@ -14,37 +14,37 @@ public:
 
 	void SetWindowId(int id) { windowId = id; }
 
-	// ImGui•`‰æ
+	// ImGuiæç”»
 	void DrawGUI(entt::registry& registry, StudioContext& context) override;
 
 private:
-	// == “à•”ó‘Ô == //
+	// == å†…éƒ¨çŠ¶æ…‹ == //
 	int windowId = 0;
 
-	AnimationSpeedData animationSpeedData;        // •ÒW’†‚Ì‘¬“xƒJ[ƒuƒf[ƒ^
-	std::string selectedClipName;                 // ¡•ÒW‚µ‚Ä‚¢‚éƒNƒŠƒbƒv–¼
-	std::vector<std::string> availableAnimations; // ƒ‚ƒfƒ‹‚ª‚ÂƒAƒjƒ[ƒVƒ‡ƒ“–¼ˆê——
+	AnimationSpeedData animationSpeedData;        // ç·¨é›†ä¸­ã®é€Ÿåº¦ã‚«ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿
+	std::string selectedClipName;                 // ä»Šç·¨é›†ã—ã¦ã„ã‚‹ã‚¯ãƒªãƒƒãƒ—å
+	std::vector<std::string> availableAnimations; // ãƒ¢ãƒ‡ãƒ«ãŒæŒã¤ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åä¸€è¦§
 
-	int selectedPointId = -1;     // ‘I‘ğ’†‚ÌPoint‚ÌID
-	std::string loadedModelPath;  // ÅŒã‚É“Ç‚İ‚ñ‚¾ƒ‚ƒfƒ‹ƒpƒX
+	int selectedPointId = -1;     // é¸æŠä¸­ã®Pointã®ID
+	std::string loadedModelPath;  // æœ€å¾Œã«èª­ã¿è¾¼ã‚“ã ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹
 
-	// == ƒOƒ‰ƒt•`‰æ == //
-	void DrawToolbar(AnimationSpeedClipData& clip);                                       // ƒc[ƒ‹ƒo[
-	void DrawSpeedGraph(AnimationSpeedClipData& clip, float previewTime, float clipLength); // ‘¬“xƒJ[ƒu‚ÌƒOƒ‰ƒt•`‰æ
-	void DrawDetailPanel(AnimationSpeedClipData& clip, const std::string& modelPath);       // Ú×ƒpƒlƒ‹
+	// == ã‚°ãƒ©ãƒ•æç”» == //
+	void DrawToolbar(AnimationSpeedClipData& clip);                                       // ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
+	void DrawSpeedGraph(AnimationSpeedClipData& clip, float previewTime, float clipLength); // é€Ÿåº¦ã‚«ãƒ¼ãƒ–ã®ã‚°ãƒ©ãƒ•æç”»
+	void DrawDetailPanel(AnimationSpeedClipData& clip, const std::string& modelPath);       // è©³ç´°ãƒ‘ãƒãƒ«
 
-	// == íœ == //
-	void DeletePoint(AnimationSpeedClipData& clip, int id); // Pointíœ(isEndpoint‚Ííœ•s‰Â)
-	void DrawDeleteButton(const char* label, const std::function<void()>& onDelete); // íœƒ{ƒ^ƒ“
+	// == å‰Šé™¤ == //
+	void DeletePoint(AnimationSpeedClipData& clip, int id); // Pointå‰Šé™¤(isEndpointã¯å‰Šé™¤ä¸å¯)
+	void DrawDeleteButton(const char* label, const std::function<void()>& onDelete); // å‰Šé™¤ãƒœã‚¿ãƒ³
 
-	// == À•W•ÏŠ·ƒwƒ‹ƒp[ == //
-	static float TimeToNormalized(float time, float clipLength);       // •b”‚ğ0.0`1.0‚É
-	static float NormalizedToTime(float normalized, float clipLength); // 0.0`1.0‚ğ•b”‚É
+	// == åº§æ¨™å¤‰æ›ãƒ˜ãƒ«ãƒ‘ãƒ¼ == //
+	static float TimeToNormalized(float time, float clipLength);       // ç§’æ•°ã‚’0.0ï½1.0ã«
+	static float NormalizedToTime(float normalized, float clipLength); // 0.0ï½1.0ã‚’ç§’æ•°ã«
 
-	// == •Û‘¶ == //
-	void Save(const std::string& modelPath); // •Û‘¶
-	static std::string GetAnimationSpeedFilePath(const std::string& modelPath); // ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+	// == ä¿å­˜ == //
+	void Save(const std::string& modelPath); // ä¿å­˜
+	static std::string GetAnimationSpeedFilePath(const std::string& modelPath); // ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 
-	// == ‚»‚Ì‘¼ == //
-	void RefreshAvailableAnimations(entt::registry& registry); // ƒAƒjƒ[ƒVƒ‡ƒ“ˆê——‚ğXV‚·‚é
+	// == ãã®ä»– == //
+	void RefreshAvailableAnimations(entt::registry& registry); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸€è¦§ã‚’æ›´æ–°ã™ã‚‹
 };

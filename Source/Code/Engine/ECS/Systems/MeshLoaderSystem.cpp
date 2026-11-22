@@ -1,4 +1,4 @@
-#include "MeshLoaderSystem.h"
+ï»¿#include "MeshLoaderSystem.h"
 
 void MeshLoaderSystem::Update(
     entt::registry& registry,
@@ -6,13 +6,13 @@ void MeshLoaderSystem::Update(
     ResourceManager& resourceManager)
 {
 
-    // ©•ª‚ªì‚Á‚½”h¶‚ğŠO‚·
+    // è‡ªåˆ†ãŒä½œã£ãŸæ´¾ç”Ÿã‚’å¤–ã™
     auto removeDerived = [&](entt::entity entity)
         {
             registry.remove<MeshLoadedTag, SkinnedMeshComponent, StaticMeshComponent>(entity);
         };
 
-    // Mesh ‚ªŠO‚³‚ê‚Ä‚¢‚½‚çA”h¶‚àŠO‚·
+    // Mesh ãŒå¤–ã•ã‚Œã¦ã„ãŸã‚‰ã€æ´¾ç”Ÿã‚‚å¤–ã™
     auto orphanView = registry.view<MeshLoadedTag>(entt::exclude<MeshComponent>);
     const std::vector<entt::entity> orphans(orphanView.begin(), orphanView.end());
     for (auto entity : orphans)
@@ -20,7 +20,7 @@ void MeshLoaderSystem::Update(
         removeDerived(entity);
     }
 
-    // ƒpƒX‚ª•Ï‚í‚Á‚Ä‚¢‚½‚çA”h¶‚ğŠO‚µ‚ÄÄƒ[ƒh‚³‚¹‚é
+    // ãƒ‘ã‚¹ãŒå¤‰ã‚ã£ã¦ã„ãŸã‚‰ã€æ´¾ç”Ÿã‚’å¤–ã—ã¦å†ãƒ­ãƒ¼ãƒ‰ã•ã›ã‚‹
     auto loadedView = registry.view<MeshComponent, MeshLoadedTag>();
     for (auto entity : loadedView)
     {
@@ -31,32 +31,32 @@ void MeshLoaderSystem::Update(
         }
     }
 
-    // MeshComponent‚ğ‚Â‚ªMeshLoadedTag‚Ì‚È‚¢Entity‚ğæ“¾
+    // MeshComponentã‚’æŒã¤ãŒMeshLoadedTagã®ãªã„Entityã‚’å–å¾—
     auto view = registry.view<MeshComponent>(entt::exclude<MeshLoadedTag>);
 
     for (auto entity : view)
     {
         auto& mesh = view.get<MeshComponent>(entity);
 
-        // ƒ‚ƒfƒ‹ƒpƒX‚ª‹ó‚È‚çƒXƒLƒbƒv
+        // ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ãŒç©ºãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
         if (mesh.modelPath.empty()) 
         {
             continue;
         }
 
-        // ƒ‚ƒfƒ‹“Ç‚İ‚İiƒLƒƒƒbƒVƒ…—˜—pj
+        // ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿ï¼ˆã‚­ãƒ£ãƒƒã‚·ãƒ¥åˆ©ç”¨ï¼‰
         auto model = resourceManager.GetModel(device, mesh.modelPath);
         if (!model) continue;
 
-        // ƒXƒLƒjƒ“ƒO—L–³‚Å©“®”»’è
+        // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°æœ‰ç„¡ã§è‡ªå‹•åˆ¤å®š
         if (model->HasSkin())
         {
-            // ƒXƒLƒjƒ“ƒO‚ ‚è  SkinnedMeshComponent •t—^
+            // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ã‚ã‚Š  SkinnedMeshComponent ä»˜ä¸
             auto& skinned = registry.emplace<SkinnedMeshComponent>(entity);
             skinned.model = model;
             skinned.modelPath = mesh.modelPath;
 
-            // ƒ{[ƒ“s—ñ‰Šú‰»iƒƒbƒVƒ…‚²‚Æj
+            // ãƒœãƒ¼ãƒ³è¡Œåˆ—åˆæœŸåŒ–ï¼ˆãƒ¡ãƒƒã‚·ãƒ¥ã”ã¨ï¼‰
             const auto& meshes = model->GetMeshes();
             skinned.boneTransforms.resize(meshes.size());
             for (int m = 0; m < (int)meshes.size(); m++)
@@ -69,15 +69,15 @@ void MeshLoaderSystem::Update(
         }
         else
         {
-            // ƒXƒLƒjƒ“ƒO‚È‚µ ¨ StaticMeshComponent•t—^
+            // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ãªã— â†’ StaticMeshComponentä»˜ä¸
             auto& staticMesh = registry.emplace<StaticMeshComponent>(entity);
             staticMesh.model = model;
         }
 
-        // ƒ[ƒhŠ®—¹‚É previousPath ‚ğXV
+        // ãƒ­ãƒ¼ãƒ‰å®Œäº†æ™‚ã« previousPath ã‚’æ›´æ–°
         mesh.previousPath = mesh.modelPath;
 
-        // ƒ[ƒhÏ‚İƒtƒ‰ƒO‚ğ•t—^
+        // ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ•ãƒ©ã‚°ã‚’ä»˜ä¸
         registry.emplace<MeshLoadedTag>(entity);
     }
 }

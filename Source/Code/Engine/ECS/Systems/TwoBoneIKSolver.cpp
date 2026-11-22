@@ -1,4 +1,4 @@
-#include "TwoBoneIKSolver.h"
+ï»¿#include "TwoBoneIKSolver.h"
 #include <algorithm>
 #include <cmath>
 
@@ -6,48 +6,48 @@ namespace TwoBoneIKSolver
 {
 	namespace
 	{
-		// ˆÀ‘S‚Èacos(•‚“®¬”‚ÌŒë·‚Åx‚ª[-1,1]‚ğ‚í‚¸‚©‚É’´‚¦‚é‚±‚Æ‚ª‚ ‚é‚½‚ß)
+		// å®‰å…¨ãªacos(æµ®å‹•å°æ•°ã®èª¤å·®ã§xãŒ[-1,1]ã‚’ã‚ãšã‹ã«è¶…ãˆã‚‹ã“ã¨ãŒã‚ã‚‹ãŸã‚)
 		float SafeAcos(float x)
 		{
 			return std::acos(std::clamp(x, -1.0f, 1.0f));
 		}
 
-		// 3•Ó‚Ì’·‚³(a, b, c)‚©‚ç¬‚éOŠpŒ`‚ÌA•ÓaE•Ób‚É‹²‚Ü‚ê‚½Šp(=•Óc‚Ì‘ÎŠp)‚ğ‹‚ß‚é
-		// —]Œ·’è—: c^2 = a^2 + b^2 - 2ab*cos(C)  ¨  C = acos((a^2+b^2-c^2) / (2ab))
+		// 3è¾ºã®é•·ã•(a, b, c)ã‹ã‚‰æˆã‚‹ä¸‰è§’å½¢ã®ã€è¾ºaãƒ»è¾ºbã«æŒŸã¾ã‚ŒãŸè§’(=è¾ºcã®å¯¾è§’)ã‚’æ±‚ã‚ã‚‹
+		// ä½™å¼¦å®šç†: c^2 = a^2 + b^2 - 2ab*cos(C)  â†’  C = acos((a^2+b^2-c^2) / (2ab))
 		float TriangleAngle(float a, float b, float oppositeC)
 		{
 			float denom = 2.0f * a * b;
 			if (denom < 1e-6f)
 			{
-				// ƒ{[ƒ“’·‚ª‚Ù‚Ú0‚Ì‚æ‚¤‚ÈˆÙí’l‚Ì•ÛŒ¯
+				// ãƒœãƒ¼ãƒ³é•·ãŒã»ã¼0ã®ã‚ˆã†ãªç•°å¸¸å€¤ã®ä¿é™º
 				return 0.0f;
 			}
 			float cosAngle = (a * a + b * b - oppositeC * oppositeC) / denom;
 			return SafeAcos(cosAngle);
 		}
 
-		// root-targetŠÔ‚Ì‹——£‚ğAÀÛ‚É“Í‚­”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚·‚é
+		// root-targeté–“ã®è·é›¢ã‚’ã€å®Ÿéš›ã«å±Šãç¯„å›²ã«ã‚¯ãƒ©ãƒ³ãƒ—ã™ã‚‹
 		float ClampTargetLength(float rawLength, float upperLen, float lowerLen)
 		{
-			// L‚Ñ‚«‚Á‚½ó‘Ô(ƒƒbƒN)‚ğ–h‚®‚½‚ßA‚í‚¸‚©‚É“à‘¤‚É—]—T‚ğ‚½‚¹‚é
+			// ä¼¸ã³ãã£ãŸçŠ¶æ…‹(ãƒ­ãƒƒã‚¯)ã‚’é˜²ããŸã‚ã€ã‚ãšã‹ã«å†…å´ã«ä½™è£•ã‚’æŒãŸã›ã‚‹
 			constexpr float epsilon = 0.001f;
 			float maxLength = upperLen + lowerLen - epsilon;
 			float minLength = std::abs(upperLen - lowerLen) + epsilon;
 			return std::clamp(rawLength, minLength, maxLength);
 		}
 
-		// root¨target•ûŒü‚ğ²‚ÉApoleVector‚ªæ‚Á‚Ä‚¢‚éu‹È‚°•½–Êv‚Ì–@ü‚ğ‹‚ß‚é
-		// ‚±‚Ì–@ü‚ğ²‚ÉmidŠÖß‚ğ‰ñ“]‚³‚¹‚é‚±‚Æ‚ÅA•G‚ª‘_‚Á‚½•ûŒü‚É‹È‚ª‚é
+		// rootâ†’targetæ–¹å‘ã‚’è»¸ã«ã€poleVectorãŒä¹—ã£ã¦ã„ã‚‹ã€Œæ›²ã’å¹³é¢ã€ã®æ³•ç·šã‚’æ±‚ã‚ã‚‹
+		// ã“ã®æ³•ç·šã‚’è»¸ã«midé–¢ç¯€ã‚’å›è»¢ã•ã›ã‚‹ã“ã¨ã§ã€è†ãŒç‹™ã£ãŸæ–¹å‘ã«æ›²ãŒã‚‹
 		DirectX::XMVECTOR CalcBendAxis(
-			DirectX::FXMVECTOR rootToTarget, // ³‹K‰»Ï‚İ‚Å‚È‚­‚Ä‚æ‚¢
-			DirectX::FXMVECTOR rootToPole)   // ³‹K‰»Ï‚İ‚Å‚È‚­‚Ä‚æ‚¢
+			DirectX::FXMVECTOR rootToTarget, // æ­£è¦åŒ–æ¸ˆã¿ã§ãªãã¦ã‚ˆã„
+			DirectX::FXMVECTOR rootToPole)   // æ­£è¦åŒ–æ¸ˆã¿ã§ãªãã¦ã‚ˆã„
 		{
 			DirectX::XMVECTOR axis = DirectX::XMVector3Cross(rootToTarget, rootToPole);
 			float lengthSq = DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(axis));
 			if (lengthSq < 1e-8f)
 			{
-				// rootToTarget‚ÆrootToPole‚ª‚Ù‚Ú•½s(poleVector‚ª–ğ‚É—§‚½‚È‚¢ˆÊ’u‚É‚ ‚é)
-				// •ÛŒ¯‚Æ‚µ‚Ä“K“–‚È‚’¼²‚ğì‚é
+				// rootToTargetã¨rootToPoleãŒã»ã¼å¹³è¡Œ(poleVectorãŒå½¹ã«ç«‹ãŸãªã„ä½ç½®ã«ã‚ã‚‹)
+				// ä¿é™ºã¨ã—ã¦é©å½“ãªå‚ç›´è»¸ã‚’ä½œã‚‹
 				DirectX::XMVECTOR fallback = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 				axis = DirectX::XMVector3Cross(rootToTarget, fallback);
 				if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(axis)) < 1e-8f)
@@ -59,7 +59,7 @@ namespace TwoBoneIKSolver
 			return DirectX::XMVector3Normalize(axis);
 		}
 
-		// Œ»İ‚Ìdirection‚ğAaxisü‚è‚Éangle•ª‚¾‚¯‰ñ“]‚³‚¹‚½ƒxƒNƒgƒ‹‚ğ•Ô‚·
+		// ç¾åœ¨ã®directionã‚’ã€axiså‘¨ã‚Šã«angleåˆ†ã ã‘å›è»¢ã•ã›ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’è¿”ã™
 		DirectX::XMVECTOR RotateAroundAxis(DirectX::FXMVECTOR direction, DirectX::FXMVECTOR axis, float angle)
 		{
 			DirectX::XMVECTOR rotationQuat = DirectX::XMQuaternionRotationAxis(axis, angle);
@@ -67,7 +67,7 @@ namespace TwoBoneIKSolver
 		}
 	}
 
-	// fromƒxƒNƒgƒ‹‚ğtoƒxƒNƒgƒ‹‚ÉŒü‚¯‚ÄAÅ’Z‰ñ“]‚ÌƒNƒH[ƒ^ƒjƒIƒ“‚ğ‹‚ß‚é
+	// fromãƒ™ã‚¯ãƒˆãƒ«ã‚’toãƒ™ã‚¯ãƒˆãƒ«ã«å‘ã‘ã¦ã€æœ€çŸ­å›è»¢ã®ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’æ±‚ã‚ã‚‹
 	DirectX::XMVECTOR RotationFromToRotation(DirectX::FXMVECTOR from, DirectX::FXMVECTOR to)
 	{
 		DirectX::XMVECTOR fromN = DirectX::XMVector3Normalize(from);
@@ -77,12 +77,12 @@ namespace TwoBoneIKSolver
 
 		if (dot > 0.9999f)
 		{
-			// ‚Ù‚Ú“¯‚¶Œü‚«: ‰ñ“]•s—v
+			// ã»ã¼åŒã˜å‘ã: å›è»¢ä¸è¦
 			return DirectX::XMQuaternionIdentity();
 		}
 		if (dot < -0.9999f)
 		{
-			// ‚Ù‚Ú³”½‘Î: ”CˆÓ‚Ì‚’¼²‚Å180“x‰ñ“]
+			// ã»ã¼æ­£åå¯¾: ä»»æ„ã®å‚ç›´è»¸ã§180åº¦å›è»¢
 			DirectX::XMVECTOR fallback = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 			DirectX::XMVECTOR axis = DirectX::XMVector3Cross(fromN, fallback);
 			if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(axis)) < 1e-8f)
@@ -113,11 +113,11 @@ namespace TwoBoneIKSolver
 		DirectX::XMVECTOR targetV = DirectX::XMLoadFloat3(&target);
 		DirectX::XMVECTOR poleV = DirectX::XMLoadFloat3(&poleVector);
 
-		// Še•Ó‚ÌƒxƒNƒgƒ‹‚Æ’·‚³
-		DirectX::XMVECTOR ab = DirectX::XMVectorSubtract(midV, rootV);    // root¨mid (ã‚Ìœ)
-		DirectX::XMVECTOR bc = DirectX::XMVectorSubtract(endV, midV);     // mid¨end (‰º‚Ìœ)
-		DirectX::XMVECTOR ac = DirectX::XMVectorSubtract(endV, rootV);    // root¨end (Œ»İ‚Ìp¨‚Å‚Ì‘ÎŠp)
-		DirectX::XMVECTOR at = DirectX::XMVectorSubtract(targetV, rootV); // root¨target
+		// å„è¾ºã®ãƒ™ã‚¯ãƒˆãƒ«ã¨é•·ã•
+		DirectX::XMVECTOR ab = DirectX::XMVectorSubtract(midV, rootV);    // rootâ†’mid (ä¸Šã®éª¨)
+		DirectX::XMVECTOR bc = DirectX::XMVectorSubtract(endV, midV);     // midâ†’end (ä¸‹ã®éª¨)
+		DirectX::XMVECTOR ac = DirectX::XMVectorSubtract(endV, rootV);    // rootâ†’end (ç¾åœ¨ã®å§¿å‹¢ã§ã®å¯¾è§’)
+		DirectX::XMVECTOR at = DirectX::XMVectorSubtract(targetV, rootV); // rootâ†’target
 
 		float upperLen = DirectX::XMVectorGetX(DirectX::XMVector3Length(ab));
 		float lowerLen = DirectX::XMVectorGetX(DirectX::XMVector3Length(bc));
@@ -126,34 +126,34 @@ namespace TwoBoneIKSolver
 
 		float targetLen = ClampTargetLength(rawTargetLen, upperLen, lowerLen);
 
-		// ‹È‚°•½–Ê‚Ì²(root¨target ‚Æ root¨poleVector ‚ªæ‚é•½–Ê‚Ì–@ü)
+		// æ›²ã’å¹³é¢ã®è»¸(rootâ†’target ã¨ rootâ†’poleVector ãŒä¹—ã‚‹å¹³é¢ã®æ³•ç·š)
 		DirectX::XMVECTOR bendAxis = CalcBendAxis(at, DirectX::XMVectorSubtract(poleV, rootV));
 
-		// midŠÖß‚ÌŠp“x: Œ»İ‚ÌŠp“x ¨ targetLen‚É‘Î‰‚·‚éŠp“xA‚Ö‚Ì·•ª‚ğ‹‚ß‚é
+		// midé–¢ç¯€ã®è§’åº¦: ç¾åœ¨ã®è§’åº¦ â†’ targetLenã«å¯¾å¿œã™ã‚‹è§’åº¦ã€ã¸ã®å·®åˆ†ã‚’æ±‚ã‚ã‚‹
 		float oldMidAngle = TriangleAngle(upperLen, lowerLen, acLen);
 		float newMidAngle = TriangleAngle(upperLen, lowerLen, targetLen);
 		float deltaMidAngle = newMidAngle - oldMidAngle;
 
-		// midŠÖß‚ğbendAxisü‚è‚ÉdeltaMidAngle‚¾‚¯‰ñ“]‚³‚¹‚é
+		// midé–¢ç¯€ã‚’bendAxiså‘¨ã‚Šã«deltaMidAngleã ã‘å›è»¢ã•ã›ã‚‹
 		DirectX::XMVECTOR midDeltaRotation = DirectX::XMQuaternionRotationAxis(bendAxis, deltaMidAngle);
 		DirectX::XMVECTOR midRotationV = DirectX::XMLoadFloat4(&midRotation);
 		DirectX::XMVECTOR bentMidRotationV = DirectX::XMQuaternionMultiply(midRotationV, midDeltaRotation);
 
-		// midŠÖß‚ğ‰ñ‚µ‚½‚±‚Æ‚ÅAbc(mid¨end)‚ÌŒü‚«‚àˆê‚É•Ï‚í‚é
+		// midé–¢ç¯€ã‚’å›ã—ãŸã“ã¨ã§ã€bc(midâ†’end)ã®å‘ãã‚‚ä¸€ç·’ã«å¤‰ã‚ã‚‹
 		DirectX::XMVECTOR newBc = RotateAroundAxis(bc, bendAxis, deltaMidAngle);
-		DirectX::XMVECTOR newAc = DirectX::XMVectorAdd(ab, newBc); // root¨V‚µ‚¢end ‚Ì•ûŒüE‹——£(’·‚³ = targetLen ‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸)
+		DirectX::XMVECTOR newAc = DirectX::XMVectorAdd(ab, newBc); // rootâ†’æ–°ã—ã„end ã®æ–¹å‘ãƒ»è·é›¢(é•·ã• = targetLen ã«ãªã£ã¦ã„ã‚‹ã¯ãš)
 
-		// newAc(‹È‚°‚½Œã‚Ìroot¨end)‚ğAat(root¨target)‚Ì•ûŒü‚ÉŒü‚¯‚é‰ñ“]‚ğ‹‚ß‚é
+		// newAc(æ›²ã’ãŸå¾Œã®rootâ†’end)ã‚’ã€at(rootâ†’target)ã®æ–¹å‘ã«å‘ã‘ã‚‹å›è»¢ã‚’æ±‚ã‚ã‚‹
 		DirectX::XMVECTOR aimRotation = RotationFromToRotation(newAc, at);
 
-		// root‰ñ“]‚ÉaimRotation‚ğãæ‚¹‚·‚é
+		// rootå›è»¢ã«aimRotationã‚’ä¸Šä¹—ã›ã™ã‚‹
 		DirectX::XMVECTOR rootRotationV = DirectX::XMLoadFloat4(&rootRotation);
 		DirectX::XMVECTOR newRootRotationV = DirectX::XMQuaternionMultiply(rootRotationV, aimRotation);
 
-		// root‚ª‰ñ‚ê‚Îmid, end‚àˆê‚É‰ñ‚é‚Ì‚ÅAmid‚Ì‰ñ“]‚É‚à“¯‚¶•ª‚ğãæ‚¹‚·‚é
+		// rootãŒå›ã‚Œã°mid, endã‚‚ä¸€ç·’ã«å›ã‚‹ã®ã§ã€midã®å›è»¢ã«ã‚‚åŒã˜åˆ†ã‚’ä¸Šä¹—ã›ã™ã‚‹
 		DirectX::XMVECTOR finalMidRotationV = DirectX::XMQuaternionMultiply(bentMidRotationV, aimRotation);
 
-		// ÅI“I‚Èmid, end‚Ìƒ[ƒ‹ƒhˆÊ’u‚ğ‹‚ß‚é
+		// æœ€çµ‚çš„ãªmid, endã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ä½ç½®ã‚’æ±‚ã‚ã‚‹
 		DirectX::XMVECTOR finalAb = DirectX::XMVector3Rotate(ab, aimRotation);
 		DirectX::XMVECTOR finalMidPositionV = DirectX::XMVectorAdd(rootV, finalAb);
 

@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 namespace GameInspectors 
 {
-	// Project‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“Æ©ƒCƒ“ƒXƒyƒNƒ^[‚ğ“o˜^‚·‚é
+	// Projectã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç‹¬è‡ªã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã‚’ç™»éŒ²ã™ã‚‹
 	void Register();
 }

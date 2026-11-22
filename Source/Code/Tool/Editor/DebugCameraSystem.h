@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/Camera.h"
 #include "Engine/ECS/Components/FreeCameraComponent.h"
@@ -6,13 +6,13 @@
 class DebugCameraSystem
 {
 public:
-    // ƒtƒŠ[ƒJƒƒ‰‚ÌXV
+    // ãƒ•ãƒªãƒ¼ã‚«ãƒ¡ãƒ©ã®æ›´æ–°
     void Update(entt::registry& registry, float elapsedTime, bool viewportHovered);
 
-    // Camera ƒNƒ‰ƒX‚ÉŒ‹‰Ê‚ğ”½‰f
+    // Camera ã‚¯ãƒ©ã‚¹ã«çµæœã‚’åæ˜ 
     void ApplyToCamera(entt::registry& registry, Camera& camera);
 
 private:
-    // ƒtƒŠ[ƒJƒƒ‰XVˆ—
+    // ãƒ•ãƒªãƒ¼ã‚«ãƒ¡ãƒ©æ›´æ–°å‡¦ç†
     void UpdateFreeCamera(FreeCameraComponent& free, float elapsedTime, bool viewportHovered);
 };

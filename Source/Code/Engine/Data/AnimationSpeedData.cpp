@@ -1,7 +1,7 @@
-#include "AnimationSpeedData.h"
+ï»¿#include "AnimationSpeedData.h"
 #include <algorithm>
 
-// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 AnimationSpeedClipData* AnimationSpeedData::FindOrCreateClip(const std::string& clipName)
 {
 	for (auto& clip : clips)
@@ -12,7 +12,7 @@ AnimationSpeedClipData* AnimationSpeedData::FindOrCreateClip(const std::string& 
 	AnimationSpeedClipData newClip;
 	newClip.clipName = clipName;
 
-	// n’[/I’[‚ÌŒÅ’èƒ|ƒCƒ“ƒg‚ğ1.0”{‚Å”z’u‚µ‚Ä‚¨‚­
+	// å§‹ç«¯/çµ‚ç«¯ã®å›ºå®šãƒã‚¤ãƒ³ãƒˆã‚’1.0å€ã§é…ç½®ã—ã¦ãŠã
 	AnimationSpeedPoint startPoint;
 	startPoint.id = newClip.GenerateId();
 	startPoint.time = 0.0f;
@@ -31,23 +31,23 @@ AnimationSpeedClipData* AnimationSpeedData::FindOrCreateClip(const std::string& 
 	return &clips.back();
 }
 
-// ³‹K‰»ŠÔ‚É‚¨‚¯‚é‘¬“x‚ğüŒ`•âŠ®‚Å‹‚ß‚é
+// æ­£è¦åŒ–æ™‚é–“ã«ãŠã‘ã‚‹é€Ÿåº¦ã‚’ç·šå½¢è£œå®Œã§æ±‚ã‚ã‚‹
 float AnimationSpeedClipData::EvaluateSpeed(float normalizedTime) const
 {
 	if (points.empty()) return 1.0f;
 
-	// ƒ\[ƒg—pˆê”z—ñ
+	// ã‚½ãƒ¼ãƒˆç”¨ä¸€æ™‚é…åˆ—
 	std::vector<const AnimationSpeedPoint*> sorted;
 	sorted.reserve(points.size());
 	for (const auto& p : points) sorted.push_back(&p);
 	std::sort(sorted.begin(), sorted.end(),
 		[](const AnimationSpeedPoint* a, const AnimationSpeedPoint* b) { return a->time < b->time; });
 
-	// —¼’[
+	// ä¸¡ç«¯
 	if (normalizedTime <= sorted.front()->time) return sorted.front()->speed;
 	if (normalizedTime >= sorted.back()->time)  return sorted.back()->speed;
 
-	// ‹²‚ñ‚Å‚¢‚é2“_‚ğ’T‚µ‚ÄüŒ`•âŠÔ
+	// æŒŸã‚“ã§ã„ã‚‹2ç‚¹ã‚’æ¢ã—ã¦ç·šå½¢è£œé–“
 	for (size_t i = 0; i + 1 < sorted.size(); ++i)
 	{
 		const AnimationSpeedPoint* a = sorted[i];
@@ -63,7 +63,7 @@ float AnimationSpeedClipData::EvaluateSpeed(float normalizedTime) const
 	return 1.0f;
 }
 
-// •Û‘¶
+// ä¿å­˜
 nlohmann::ordered_json AnimationSpeedData::ToJson() const
 {
 	nlohmann::ordered_json j;
@@ -92,7 +92,7 @@ nlohmann::ordered_json AnimationSpeedData::ToJson() const
 	return j;
 }
 
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void AnimationSpeedData::FromJson(const nlohmann::json& j)
 {
 	clips.clear();

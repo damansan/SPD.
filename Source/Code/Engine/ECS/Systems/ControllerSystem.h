@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma comment(lib, "Xinput.lib")
 
 #include <windows.h>
@@ -24,38 +24,38 @@ public:
     ControllerSystem(ControllerSystem&&) = delete;
     ControllerSystem& operator=(ControllerSystem&&) = delete;
 
-    // XV
+    // æ›´æ–°
     void Update(entt::registry& registry, float elapsedTime);
 
-    // İ’è‚Ö‚ÌQÆ
+    // è¨­å®šã¸ã®å‚ç…§
     ControllerSettings& GetSettings() { return settings; }
     const ControllerSettings& GetSettings() const { return settings; }
 
 private:
-    // Xbox “ü—Í‚ğControllerComponent‚É‘‚­
+    // Xbox å…¥åŠ›ã‚’ControllerComponentã«æ›¸ã
     void UpdateXboxInput(ControllerComponent& ctrl);
 
-    // PS5 “ü—Í‚ğControllerComponent‚É‘‚­(‹¤—Lƒoƒbƒtƒ@‚©‚ç‘‚­)
+    // PS5 å…¥åŠ›ã‚’ControllerComponentã«æ›¸ã(å…±æœ‰ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰æ›¸ã)
     void UpdatePS5Input(const DS5W::DS5InputState& snapshot, ControllerComponent& ctrl);
 
-	// ƒgƒŠƒK[‚ÌƒqƒXƒeƒŠƒVƒX”»’è
+	// ãƒˆãƒªã‚¬ãƒ¼ã®ãƒ’ã‚¹ãƒ†ãƒªã‚·ã‚¹åˆ¤å®š
     bool UpdateTriggerDigital(float triggerValue, float pressThreshold, float releaseThreshold, TriggerHysteresisState& state);
 
-    // AdaptiveTrigger::TriggerEffect‚©‚çDS5W::TriggerEffect‚Ö‚Ì•ÏŠ·
+    // AdaptiveTrigger::TriggerEffectã‹ã‚‰DS5W::TriggerEffectã¸ã®å¤‰æ›
     void ApplyTriggerEffect(DS5W::TriggerEffect& dst, const AdaptiveTrigger::TriggerEffect& src, float currentPosition);
 
-    // 2‚Â‚ÌTriggerEffect‚ª“¯‚¶“à—e‚©‚Ç‚¤‚©”äŠr‚·‚é
+    // 2ã¤ã®TriggerEffectãŒåŒã˜å†…å®¹ã‹ã©ã†ã‹æ¯”è¼ƒã™ã‚‹
     bool IsSameTriggerEffect(const DS5W::TriggerEffect& a, const DS5W::TriggerEffect& b);
 
 
 
-    // ê—pƒXƒŒƒbƒhƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg(PS5‚Æ‚Ì’ÊM‚ğŒJ‚è•Ô‚·)
+    // å°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ(PS5ã¨ã®é€šä¿¡ã‚’ç¹°ã‚Šè¿”ã™)
     void DS5ThreadFunc();
 
-    // PS5 Ú‘±s(ê—pƒXƒŒƒbƒh‚©‚çŒÄ‚Ô)
+    // PS5 æ¥ç¶šè©¦è¡Œ(å°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å‘¼ã¶)
     void TryConnectPS5();
 
-    // PS5 o—Í‘—Miê—pƒXƒŒƒbƒh‚©‚çŒÄ‚Ôj
+    // PS5 å‡ºåŠ›é€ä¿¡ï¼ˆå°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å‘¼ã¶ï¼‰
     void SendPS5Output(const AdaptiveTrigger::TriggerEffect& left, const AdaptiveTrigger::TriggerEffect& right, float leftPos, float rightPos);
 
 
@@ -63,7 +63,7 @@ private:
     bool         xboxConnected = false;
     XINPUT_STATE xboxState = {};
 
-    // PS5ê—pƒXƒŒƒbƒh
+    // PS5å°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰
     std::thread       ds5Thread;
     std::atomic<bool> ds5ThreadRunning{ false };
 
@@ -76,18 +76,18 @@ private:
     DS5W::TriggerEffect lastLeftEffect = {};
     DS5W::TriggerEffect lastRightEffect = {};
 
-    // ƒƒCƒ“ƒXƒŒƒbƒh‚Æê—p‚ÌƒXƒŒƒbƒh‚Ì‹´“n‚µ
+    // ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã¨å°‚ç”¨ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®æ©‹æ¸¡ã—
     std::mutex ds5Mutex;
 
-    // ê—pƒXƒŒƒbƒh‚©‚çƒƒCƒ“ƒXƒŒƒbƒh‚ÖÅV‚Ì“ü—Íó‘Ô
+    // å°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã¸æœ€æ–°ã®å…¥åŠ›çŠ¶æ…‹
     bool                 ds5ConnectedShared = false;
     DS5W::DS5InputState  ds5InputStateShared = {};
 
-    // ƒƒCƒ“ƒXƒŒƒbƒh‹óê—pƒXƒŒƒbƒh‚Ös‚¢‚½‚¢ƒgƒŠƒK[ƒGƒtƒFƒNƒg
+    // ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ç©ºå°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã¸è¡Œã„ãŸã„ãƒˆãƒªã‚¬ãƒ¼ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
     AdaptiveTrigger::TriggerEffect ds5RequestedLeftEffect = {};
     AdaptiveTrigger::TriggerEffect ds5RequestedRightEffect = {};
 
-    // İ’è’l
+    // è¨­å®šå€¤
     ControllerSettings settings;
 
 };

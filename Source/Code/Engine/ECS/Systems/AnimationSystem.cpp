@@ -1,10 +1,10 @@
-#include "AnimationSystem.h"
+ï»¿#include "AnimationSystem.h"
 #include "tracy/Tracy.hpp"
 #include "Engine/Resource/SkeletonUtils.h"
 #include "Engine/ECS/Components/TransformComponent.h"
 #include "Engine/ECS/Components/MovementComponent.h"
 
-// XV
+// æ›´æ–°
 void AnimationSystem::Update(
 	entt::registry& registry,
 	float elapsedTime)
@@ -19,30 +19,30 @@ void AnimationSystem::Update(
 		{
 			ZoneScopedN("AnimationSystem::Entity");
 
-			// ƒ‚ƒfƒ‹‚ª–³Œø‚È‚ç‰½‚à‚µ‚È‚¢
+			// ãƒ¢ãƒ‡ãƒ«ãŒç„¡åŠ¹ãªã‚‰ä½•ã‚‚ã—ãªã„
 			if (!skinned.model) return;
 
-			// Inspector ‚ÉÀÛ‚Ég‚Á‚Ä‚¢‚éƒ‹[ƒgƒm[ƒh‚ğ•\¦‚·‚é
+			// Inspector ã«å®Ÿéš›ã«ä½¿ã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹
 			const int rootMotionNodeIndex = skinned.model->GetRootNodeIndex();
 			animator.activeRootMotionNode = (rootMotionNodeIndex >= 0) ? skinned.model->GetRootNodeName() : "";
 
 			if (!animator.isPlaying)
 			{
-				// ~‚Ü‚Á‚Ä‚¢‚éŠÔ‚ÍA‰½‚à’Ê‰ß‚µ‚Ä‚¢‚È‚¢
+				// æ­¢ã¾ã£ã¦ã„ã‚‹é–“ã¯ã€ä½•ã‚‚é€šéã—ã¦ã„ãªã„
 				animator.stepFromTime = animator.animationTime;
 				animator.stepToTime = animator.animationTime;
 				animator.stepWrapped = false;
 				return;
 			}
 
-			// ‘JˆÚ‚µ‚½’¼Œã‚È‚çA‘O‚ÌƒtƒŒ[ƒ€‚ÌÅIƒ|[ƒY‚ğu¬‚º‚éŒ³v‚Æ‚µ‚Ä•Û‘¶‚·‚é
+			// é·ç§»ã—ãŸç›´å¾Œãªã‚‰ã€å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®æœ€çµ‚ãƒãƒ¼ã‚ºã‚’ã€Œæ··ãœã‚‹å…ƒã€ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 			if (animator.blendSnapshotPending)
 			{
 				animator.blendSnapshotPending = false;
 
 				if (skinned.localPositions.empty())
 				{
-					// ‚Ü‚¾ˆê“x‚àƒ|[ƒY‚ğì‚Á‚Ä‚¢‚È‚¢‚Ì‚ÅA¬‚º‚éŒ³‚ª–³‚¢
+					// ã¾ã ä¸€åº¦ã‚‚ãƒãƒ¼ã‚ºã‚’ä½œã£ã¦ã„ãªã„ã®ã§ã€æ··ãœã‚‹å…ƒãŒç„¡ã„
 					animator.isBlending = false;
 				}
 				else
@@ -56,7 +56,7 @@ void AnimationSystem::Update(
 			const auto& animations = skinned.model->GetPlaybackAnimations(animator.usePreview);
 			if (animations.empty()) return;
 
-			// Ä¶‚·‚éƒNƒŠƒbƒv‚ğŒˆ‚ß‚é
+			// å†ç”Ÿã™ã‚‹ã‚¯ãƒªãƒƒãƒ—ã‚’æ±ºã‚ã‚‹
 			int animIndex = FindAnimationIndex(animations, animator.currentAnimation);
 			if (animIndex < 0)
 			{
@@ -65,27 +65,27 @@ void AnimationSystem::Update(
 			}
 			const auto& animation = animations[animIndex];
 
-			// ŠÔ‚ği‚ß‚é
+			// æ™‚é–“ã‚’é€²ã‚ã‚‹
 			const ClipTimeStep step = AdvanceClipTime(animator, animation, elapsedTime);
 			
-			// ¡‰ñÄ¶‚µ‚½‹æŠÔ‚ğc‚·
+			// ä»Šå›å†ç”Ÿã—ãŸåŒºé–“ã‚’æ®‹ã™
 			animator.stepFromTime = animator.clipStarted ? -1.0f : step.oldTime;
 			animator.stepToTime = step.newTime;
 			animator.stepWrapped = step.oldTime > step.newTime;
 			animator.clipStarted = false;
 
-			// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚ÌˆÚ“®—Ê
+			// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ç§»å‹•é‡
 			animator.rootMotionDelta = (rootMotionNodeIndex >= 0) 
 				? CalcRootMotionDelta(*skinned.model, animation, rootMotionNodeIndex, step.oldTime, step.newTime)
 				: DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f };
 
-			// ƒ|[ƒY‚ğì‚é
+			// ãƒãƒ¼ã‚ºã‚’ä½œã‚‹
 			CalcBoneTransforms(
 				*skinned.model, animation, animator.animationTime,
 				skinned.localPositions, skinned.localRotations, skinned.localScales,
 				rootMotionNodeIndex);
 
-			// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“—R—ˆ‚Ì‘¬“x
+			// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç”±æ¥ã®é€Ÿåº¦
 			auto* transform = registry.try_get<TransformComponent>(entity);
 			auto* movement = registry.try_get<MovementComponent>(entity);
 
@@ -97,13 +97,13 @@ void AnimationSystem::Update(
 				velocity.writeY = animator.useRootMotionY;
 			}
 
-			// ƒNƒƒXƒtƒF[ƒh
+			// ã‚¯ãƒ­ã‚¹ãƒ•ã‚§ãƒ¼ãƒ‰
 			if (animator.isBlending)
 			{
 				UpdateCrossfade(animator, skinned, elapsedTime);
 			}
 
-			// ‘¬“x‚ğ‘‚­
+			// é€Ÿåº¦ã‚’æ›¸ã
 			if (velocity.valid && movement)
 			{
 				movement->velocity.x = velocity.value.x;
@@ -111,7 +111,7 @@ void AnimationSystem::Update(
 				if (velocity.writeY) movement->velocity.y = velocity.value.y;
 			}
 
-			// ƒXƒLƒjƒ“ƒO
+			// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°
 			SkeletonUtils::CalcGlobalTransforms(
 				skinned.model->GetNodes(), skinned.localPositions, skinned.localRotations, skinned.localScales,
 				skinned.nodeGlobalTransforms);
@@ -121,7 +121,7 @@ void AnimationSystem::Update(
 		});
 }
 
-// ŠÔ‚ği‚ß‚¸‚ÉAw’è‚µ‚½‚Ìƒ|[ƒY‚¾‚¯ŒvZ‚·‚é
+// æ™‚é–“ã‚’é€²ã‚ãšã«ã€æŒ‡å®šã—ãŸæ™‚åˆ»ã®ãƒãƒ¼ã‚ºã ã‘è¨ˆç®—ã™ã‚‹
 void AnimationSystem::EvaluatePose(entt::registry& registry)
 {
 	ZoneScoped;
@@ -132,7 +132,7 @@ void AnimationSystem::EvaluatePose(entt::registry& registry)
 		{
 			if (!skinned.model) return;
 
-			// Inspector ‚ÉÀÛ‚Ég‚Á‚Ä‚¢‚éƒ‹[ƒgƒm[ƒh‚ğ•\¦‚·‚é
+			// Inspector ã«å®Ÿéš›ã«ä½¿ã£ã¦ã„ã‚‹ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ã‚’è¡¨ç¤ºã™ã‚‹
 			const int rootMotionNodeIndex = skinned.model->GetRootNodeIndex();
 			animator.activeRootMotionNode = (rootMotionNodeIndex >= 0) ? skinned.model->GetRootNodeName() : "";
 
@@ -158,7 +158,7 @@ void AnimationSystem::EvaluatePose(entt::registry& registry)
 		});
 }
 
-// –¼‘O‚©‚çƒNƒŠƒbƒv‚Ì”Ô†‚ğ’T‚·
+// åå‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã®ç•ªå·ã‚’æ¢ã™
 int AnimationSystem::FindAnimationIndex(const std::vector<Model::Animation>& animations, const std::string& name)
 {
 	for (int i = 0; i < (int)animations.size(); i++)
@@ -168,7 +168,7 @@ int AnimationSystem::FindAnimationIndex(const std::vector<Model::Animation>& ani
 	return -1;
 }
 
-// ƒNƒŠƒbƒv‚ÌŠÔ‚ğ1ƒtƒŒ[ƒ€•ªi‚ß‚é
+// ã‚¯ãƒªãƒƒãƒ—ã®æ™‚é–“ã‚’1ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†é€²ã‚ã‚‹
 AnimationSystem::ClipTimeStep AnimationSystem::AdvanceClipTime(AnimatorComponent& animator, const Model::Animation& animation, float elapsedTime)
 {
 	const float length = animation.secondsLength;
@@ -180,7 +180,7 @@ AnimationSystem::ClipTimeStep AnimationSystem::AdvanceClipTime(AnimatorComponent
 
 	if (animator.loop)
 	{
-		// ƒ‹[ƒvFI‚í‚è‚ğ‰z‚¦‚½‚çA‰z‚¦‚½•ª‚¾‚¯“ª‚©‚ç
+		// ãƒ«ãƒ¼ãƒ—ï¼šçµ‚ã‚ã‚Šã‚’è¶ŠãˆãŸã‚‰ã€è¶ŠãˆãŸåˆ†ã ã‘é ­ã‹ã‚‰
 		if (animator.animationTime > length)
 		{
 			animator.animationTime -= length;
@@ -189,7 +189,7 @@ AnimationSystem::ClipTimeStep AnimationSystem::AdvanceClipTime(AnimatorComponent
 	}
 	else
 	{
-		// ƒ‹[ƒv‚µ‚È‚¢FI‚í‚è‚Å~‚ß‚é
+		// ãƒ«ãƒ¼ãƒ—ã—ãªã„ï¼šçµ‚ã‚ã‚Šã§æ­¢ã‚ã‚‹
 		if (animator.animationTime >= length)
 		{
 			animator.animationTime = length;
@@ -202,7 +202,7 @@ AnimationSystem::ClipTimeStep AnimationSystem::AdvanceClipTime(AnimatorComponent
 	return step;
 }
 
-// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚Ìƒ[ƒJƒ‹‚ÌˆÚ“®—Ê‚ğAƒ[ƒ‹ƒh‚Ì‘¬“x‚É•ÏŠ·‚·‚é
+// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ­ãƒ¼ã‚«ãƒ«ã®ç§»å‹•é‡ã‚’ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®é€Ÿåº¦ã«å¤‰æ›ã™ã‚‹
 DirectX::XMFLOAT3 AnimationSystem::ToWorldVelocity(const DirectX::XMFLOAT3& localDelta, const TransformComponent& transform, float elapsedTime, bool useY)
 {
 	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(
@@ -218,24 +218,24 @@ DirectX::XMFLOAT3 AnimationSystem::ToWorldVelocity(const DirectX::XMFLOAT3& loca
 		worldDelta.z / elapsedTime };
 }
 
-// ƒNƒƒXƒtƒF[ƒhF•Û‘¶‚µ‚½ƒ|[ƒY‚©‚çA¡‚Ìƒ|[ƒY‚Ö¬‚º‚é
+// ã‚¯ãƒ­ã‚¹ãƒ•ã‚§ãƒ¼ãƒ‰ï¼šä¿å­˜ã—ãŸãƒãƒ¼ã‚ºã‹ã‚‰ã€ä»Šã®ãƒãƒ¼ã‚ºã¸æ··ãœã‚‹
 void AnimationSystem::UpdateCrossfade(AnimatorComponent& animator, SkinnedMeshComponent& skinned, float elapsedTime)
 {
-	// ¬‚º‚éŒ³‚Ìƒ|[ƒY‚ÆA¡‚Ìƒ|[ƒY‚Ìƒ{[ƒ“”‚ªˆá‚¤ê‡‚ÍA¬‚º‚é‚Ì‚ğ‚â‚ß‚é
+	// æ··ãœã‚‹å…ƒã®ãƒãƒ¼ã‚ºã¨ã€ä»Šã®ãƒãƒ¼ã‚ºã®ãƒœãƒ¼ãƒ³æ•°ãŒé•ã†å ´åˆã¯ã€æ··ãœã‚‹ã®ã‚’ã‚„ã‚ã‚‹
 	if (animator.blendFromPositions.size() != skinned.localPositions.size())
 	{
 		animator.isBlending = false;
 		return;
 	}
 
-	// i‚İ‹ï‡‚ği‚ß‚é
+	// é€²ã¿å…·åˆã‚’é€²ã‚ã‚‹
 	animator.blendRate += (animator.blendTime > 0.0f) ? (elapsedTime / animator.blendTime) : 1.0f;
 
-	// i‚İ‹ï‡‚Íˆê’è‚Ì‘¬‚³‚Åi‚ßA¬‚º‚éŠ„‡‚É‚¾‚¯ŠÉ‹}‚ğ•t‚¯‚é
+	// é€²ã¿å…·åˆã¯ä¸€å®šã®é€Ÿã•ã§é€²ã‚ã€æ··ãœã‚‹å‰²åˆã«ã ã‘ç·©æ€¥ã‚’ä»˜ã‘ã‚‹
 	const float linear = std::clamp(animator.blendRate, 0.0f, 1.0f);
 	const float rate = linear * linear * (3.0f - 2.0f * linear);
 	
-	// ¬‚º‚éŒ³ ¨ ¡‚Ìƒ|[ƒY
+	// æ··ãœã‚‹å…ƒ â†’ ä»Šã®ãƒãƒ¼ã‚º
 	BlendPoses(
 		animator.blendFromPositions, animator.blendFromRotations, animator.blendFromScales,
 		skinned.localPositions, skinned.localRotations, skinned.localScales,
@@ -248,7 +248,7 @@ void AnimationSystem::UpdateCrossfade(AnimatorComponent& animator, SkinnedMeshCo
 	}
 }
 
-// ƒL[ƒtƒŒ[ƒ€•âŠÔiˆÊ’uj
+// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆä½ç½®ï¼‰
 DirectX::XMFLOAT3 AnimationSystem::InterpolatePosition(
 	const std::vector<Model::VectorKeyframe>& keyframes,
 	float time)
@@ -258,7 +258,7 @@ DirectX::XMFLOAT3 AnimationSystem::InterpolatePosition(
 		return keyframes[0].value;
 	}
 
-	// ‘OŒã‚ÌƒL[ƒtƒŒ[ƒ€‚ğ’T‚·
+	// å‰å¾Œã®ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ¢ã™
 	for (int i = 0; i < (int)keyframes.size() - 1; i++)
 	{
 		if (time <= keyframes[i + 1].seconds)
@@ -277,11 +277,11 @@ DirectX::XMFLOAT3 AnimationSystem::InterpolatePosition(
 			return result;
 		}
 	}
-	// ––”ö‚ğ•Ô‚·
+	// æœ«å°¾ã‚’è¿”ã™
 	return keyframes.back().value;
 }
 
-// ƒL[ƒtƒŒ[ƒ€•âŠÔi‰ñ“]j
+// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆå›è»¢ï¼‰
 DirectX::XMFLOAT4 AnimationSystem::InterpolateRotation(
 	const std::vector<Model::QuaternionKeyframe>& keyframes,
 	float time)
@@ -312,7 +312,7 @@ DirectX::XMFLOAT4 AnimationSystem::InterpolateRotation(
 	return keyframes.back().value;
 }
 
-// ƒL[ƒtƒŒ[ƒ€•âŠÔiƒXƒP[ƒ‹j
+// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆã‚¹ã‚±ãƒ¼ãƒ«ï¼‰
 DirectX::XMFLOAT3 AnimationSystem::InterpolateScale(
 	const std::vector<Model::VectorKeyframe>& keyframes,
 	float time)
@@ -343,7 +343,7 @@ DirectX::XMFLOAT3 AnimationSystem::InterpolateScale(
 	return keyframes.back().value;
 }
 
-// ƒm[ƒh‚ÌƒOƒ[ƒoƒ‹s—ñ‚ğÄ‹AŒvZ‚µ‚Äƒ{[ƒ“s—ñ‚É‘‚«‚Ş
+// ãƒãƒ¼ãƒ‰ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’å†å¸°è¨ˆç®—ã—ã¦ãƒœãƒ¼ãƒ³è¡Œåˆ—ã«æ›¸ãè¾¼ã‚€
 void AnimationSystem::CalcBoneTransforms(
 	Model& model,
 	const Model::Animation& animation,
@@ -365,7 +365,7 @@ void AnimationSystem::CalcBoneTransforms(
 		outRotations[i] = nodes[i].rotation;
 		outScales[i] = nodes[i].scale;
 
-		// ƒL[ƒtƒŒ[ƒ€‚ª‚ ‚ê‚Î•âŠÔ‚µ‚Äã‘‚«
+		// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ãŒã‚ã‚Œã°è£œé–“ã—ã¦ä¸Šæ›¸ã
 		if (i < (int)animation.nodeAnims.size())
 		{
 			const auto& nodeAnim = animation.nodeAnims[i];
@@ -384,7 +384,7 @@ void AnimationSystem::CalcBoneTransforms(
 			}
 		}
 
-		// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‘ÎÛƒm[ƒh‚ÍƒoƒCƒ“ƒhƒ|[ƒY‚ÌˆÊ’u‚ÉŒÅ’è‚·‚é
+		// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³å¯¾è±¡ãƒãƒ¼ãƒ‰ã¯ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºã®ä½ç½®ã«å›ºå®šã™ã‚‹
 		if (i == rootMotionNodeIndex)
 		{
 			outPositions[i] = nodes[i].position;
@@ -392,7 +392,7 @@ void AnimationSystem::CalcBoneTransforms(
 	}
 }
 
-// 2‚Â‚Ìƒ|[ƒY‚ğrate‚Å•âŠÔ‚·‚é
+// 2ã¤ã®ãƒãƒ¼ã‚ºã‚’rateã§è£œé–“ã™ã‚‹
 void AnimationSystem::BlendPoses(
 	const std::vector<DirectX::XMFLOAT3>& posA,
 	const std::vector<DirectX::XMFLOAT4>& rotA,
@@ -428,14 +428,14 @@ void AnimationSystem::BlendPoses(
 	outScales = std::move(tempScale);
 }
 
-// w’è‚Ìƒ[ƒJƒ‹ˆÊ’u‚ğ‹‚ß‚é
+// æŒ‡å®šæ™‚åˆ»ã®ãƒ­ãƒ¼ã‚«ãƒ«ä½ç½®ã‚’æ±‚ã‚ã‚‹
 DirectX::XMFLOAT3 AnimationSystem::CalcNodeLocalPosition(
 	const Model::Animation& animation,
 	int nodeIndex,
 	const Model::Node& node,
 	float time)
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ª–³‚¯‚ê‚ÎƒoƒCƒ“ƒhƒ|[ƒY‚ÌˆÊ’u‚ğ•Ô‚·
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒç„¡ã‘ã‚Œã°ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºã®ä½ç½®ã‚’è¿”ã™
 	if (nodeIndex >= (int)animation.nodeAnims.size())
 	{
 		return node.position;
@@ -450,7 +450,7 @@ DirectX::XMFLOAT3 AnimationSystem::CalcNodeLocalPosition(
 	return InterpolatePosition(nodeAnim.positionKeyframes, time);
 }
 
-// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚ÌˆÚ“®—Ê‚ğŒvZ‚·‚é
+// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ç§»å‹•é‡ã‚’è¨ˆç®—ã™ã‚‹
 DirectX::XMFLOAT3 AnimationSystem::CalcRootMotionDelta(
 	const Model& model,
 	const Model::Animation& animation,
@@ -460,7 +460,7 @@ DirectX::XMFLOAT3 AnimationSystem::CalcRootMotionDelta(
 {
 	const auto& node = model.GetNodes()[rootMotionNodeIndex];
 
-	// ƒ|[ƒYæ“¾—p‚Ìƒ‰ƒ€ƒ_
+	// ãƒãƒ¼ã‚ºå–å¾—ç”¨ã®ãƒ©ãƒ ãƒ€
 	auto getPos = [&](float t)
 		{
 			return CalcNodeLocalPosition(animation, rootMotionNodeIndex, node, t);
@@ -470,7 +470,7 @@ DirectX::XMFLOAT3 AnimationSystem::CalcRootMotionDelta(
 
 	if (oldTime > newTime)
 	{
-		// ƒ‹[ƒv‚µ‚½Fi‚Ş‘O‚©‚çƒNƒŠƒbƒv‚ÌÅŒã‚Ü‚Å { ƒNƒŠƒbƒv‚Ì“ª‚©‚çi‚ñ‚¾Œã‚Ü‚Å
+		// ãƒ«ãƒ¼ãƒ—ã—ãŸï¼šé€²ã‚€å‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã®æœ€å¾Œã¾ã§ ï¼‹ ã‚¯ãƒªãƒƒãƒ—ã®é ­ã‹ã‚‰é€²ã‚“ã å¾Œã¾ã§
 		DirectX::XMFLOAT3 beginPos = getPos(0.0f);
 		DirectX::XMFLOAT3 oldPos = getPos(oldTime);
 		DirectX::XMFLOAT3 endPos = getPos(animation.secondsLength);

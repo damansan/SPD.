@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <windows.h>
 #include "Engine/Utility/high_resolution_timer.h"
 #include "Engine/Core/Graphics.h"
@@ -8,8 +8,8 @@
 #include "Engine/Core/PhysX.h"
 #include "Engine/Resource/ResourceManager.h"
 
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠî”Õ
-// –ˆƒtƒŒ[ƒ€‚Ì—¬‚ê‚ğŒˆ‚ßA”h¶ƒNƒ‰ƒX(EditorApp / GameApp)‚ª’†g‚ğ‘«‚·“ü‚èŒû‚ğ‚Â
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®åŸºç›¤
+// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æµã‚Œã‚’æ±ºã‚ã€æ´¾ç”Ÿã‚¯ãƒ©ã‚¹(EditorApp / GameApp)ãŒä¸­èº«ã‚’è¶³ã™å…¥ã‚Šå£ã‚’æŒã¤
 class Application
 {
 public:
@@ -21,48 +21,48 @@ public:
 	Application(Application&&) noexcept = delete;
 	Application& operator=(Application&&) noexcept = delete;
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize();
 
-	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒ‹[ƒvp
+	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ«ãƒ¼ãƒ—p
 	int Run();
 
-	// ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
 	LRESULT HandleMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 protected:
-	// ===== ”h¶ƒNƒ‰ƒX‚ª’†g‚ğ‘«‚·“ü‚èŒû =====
+	// ===== æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ãŒä¸­èº«ã‚’è¶³ã™å…¥ã‚Šå£ =====
 	virtual void OnInitialize() {}
 	virtual void OnFinalize() {}
 
-	// ƒV[ƒ“XV‚Ì‘OEŒã(ŒÅ’èƒ^ƒCƒ€ƒXƒeƒbƒv‚²‚Æ)
+	// ã‚·ãƒ¼ãƒ³æ›´æ–°ã®å‰ãƒ»å¾Œ(å›ºå®šã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—ã”ã¨)
 	virtual void OnPreUpdate(float elapsedTime) {}
 	virtual void OnPostUpdate(float elapsedTime) {}
 
-	// –ˆƒtƒŒ[ƒ€1‰ñ(ImGui‚È‚Ç)
+	// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 1å›(ImGuiãªã©)
 	virtual void OnFrame() {}
 
-	// GameView‚É•`‚¢‚½ƒQ[ƒ€‚ğA‰æ–Ê‚Öo‚·
+	// GameViewã«æã„ãŸã‚²ãƒ¼ãƒ ã‚’ã€ç”»é¢ã¸å‡ºã™
 	virtual void OnPresent() = 0;
 
-	// ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ìİ’è
+	// ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¨­å®š
 	PostProcessSettings postProcessSettings;
 
-	// ƒƒbƒZ[ƒW(ˆ—‚µ‚½ê‡‚Ítrue‚ğ•Ô‚·)
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸(å‡¦ç†ã—ãŸå ´åˆã¯trueã‚’è¿”ã™)
 	virtual bool OnMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) { return false; }
 
-	// •`‰æ‚Ég‚¤ƒJƒƒ‰(Šù’è‚ÍƒQ[ƒ€ƒJƒƒ‰)
+	// æç”»ã«ä½¿ã†ã‚«ãƒ¡ãƒ©(æ—¢å®šã¯ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©)
 	virtual Camera& GetRenderCamera() { return gameView.GetCamera(); }
 
-	// Game‚Ö‚Ì“ü—Í‚ğó‚¯•t‚¯‚Ä‚æ‚¢‚©(Šù’è‚Íí‚Éó‚¯•t‚¯‚é)
+	// Gameã¸ã®å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã¦ã‚ˆã„ã‹(æ—¢å®šã¯å¸¸ã«å—ã‘ä»˜ã‘ã‚‹)
 	virtual bool IsGameInputActive() const { return true; }
-	// ƒfƒoƒbƒO•`‰æ‚ğ‹–‰Â‚·‚é‚©(Šù’è‚Í•s‹–‰ÂBƒGƒfƒBƒ^‚¾‚¯‹–‰Â‚·‚é)
+	// ãƒ‡ãƒãƒƒã‚°æç”»ã‚’è¨±å¯ã™ã‚‹ã‹(æ—¢å®šã¯ä¸è¨±å¯ã€‚ã‚¨ãƒ‡ã‚£ã‚¿ã ã‘è¨±å¯ã™ã‚‹)
 	virtual bool IsDebugDrawAllowed() const { return false; }
 
-	// SceneContext‚ğÅVó‘Ô‚ÉXV‚·‚é
+	// SceneContextã‚’æœ€æ–°çŠ¶æ…‹ã«æ›´æ–°ã™ã‚‹
 	void UpdateSceneContext();
 
-	// ===== Šî”Õ‚ÌƒT[ƒrƒX =====
+	// ===== åŸºç›¤ã®ã‚µãƒ¼ãƒ“ã‚¹ =====
 	HWND hwnd;
 	high_resolution_timer timer;
 	Graphics graphics;

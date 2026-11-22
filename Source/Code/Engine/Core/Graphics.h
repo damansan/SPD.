@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 
@@ -9,75 +9,75 @@ public:
 	Graphics() = default;
 	~Graphics() = default;
 
-	Graphics(const Graphics&) = delete;                // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	Graphics& operator=(const Graphics&) = delete;     // ƒRƒs[‘ã“ü‹Ö~
-	Graphics(Graphics&&) noexcept = delete;            // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	Graphics& operator=(Graphics&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~
+	Graphics(const Graphics&) = delete;                // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	Graphics& operator=(const Graphics&) = delete;     // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+	Graphics(Graphics&&) noexcept = delete;            // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	Graphics& operator=(Graphics&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(HWND hWnd);
-	// ‰æ–ÊƒNƒŠƒA
+	// ç”»é¢ã‚¯ãƒªã‚¢
 	void Clear(float r, float g, float b, float a);
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgİ’è
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆè¨­å®š
 	void SetRenderTargets();
-	// w’èƒeƒNƒXƒ`ƒƒ‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚ÅƒoƒbƒNƒoƒbƒtƒ@‚Ö•`‰æ
+	// æŒ‡å®šãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã§ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã¸æç”»
 	void PresentTexture(ID3D11ShaderResourceView* srv);
-	// ‰æ–ÊƒvƒŒƒ[ƒ“ƒg
+	// ç”»é¢ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆ
 	void Present(bool vsync = false);
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“Ø‚è‘Ö‚¦
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 	void ToggleFullscreen();
-	// ƒoƒbƒtƒ@Ä¶¬
+	// ãƒãƒƒãƒ•ã‚¡å†ç”Ÿæˆ
 	void ResizeBuffers();
 
-	// I—¹ˆ—
+	// çµ‚äº†å‡¦ç†
 	void Cleanup();
 
-	// ‰æ–ÊƒŠƒTƒCƒYİ’è
+	// ç”»é¢ãƒªã‚µã‚¤ã‚ºè¨­å®š
 	void SetResizing(bool value) { isResizing = value; }
-	// ‰æ–ÊƒŠƒTƒCƒY’†‚©æ“¾
+	// ç”»é¢ãƒªã‚µã‚¤ã‚ºä¸­ã‹å–å¾—
 	bool GetResizing() const { return isResizing; }
 
-	// ‰æ–Ê•æ“¾
+	// ç”»é¢å¹…å–å¾—
 	float GetScreenWidth() const { return screenWidth; }
-	// ‰æ–Ê‚‚³æ“¾
+	// ç”»é¢é«˜ã•å–å¾—
 	float GetScreenHeight() const { return screenHeight; }
 
-	// ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹æ“¾
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«å–å¾—
 	HWND GetWindowHandle() const { return hWnd; }
 
-	// ƒfƒoƒCƒXæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹å–å¾—
 	ID3D11Device* GetDevice() { return device.Get(); }
-	// ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆå–å¾—
 	ID3D11DeviceContext* GetDeviceContext() { return immediateContext.Get(); }
 
-	// Graphics.h ‚É’Ç‰Á
+	// Graphics.h ã«è¿½åŠ 
 	ID3D11RenderTargetView* GetRenderTargetView() { return renderTargetView.Get(); }
 	ID3D11DepthStencilView* GetDepthStencilView() { return depthStencilView.Get(); }
 private:
-	HWND hWnd = nullptr; // •`‰æ‘ÎÛƒEƒBƒ“ƒhƒE
+	HWND hWnd = nullptr; // æç”»å¯¾è±¡ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 
-	Microsoft::WRL::ComPtr<ID3D11Device>           device;           // ƒfƒoƒCƒX
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    immediateContext; // ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg
-	Microsoft::WRL::ComPtr<IDXGISwapChain>         swapChain;        // ƒXƒƒbƒvƒ`ƒFƒCƒ“
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTargetView; // ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒrƒ…[
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depthStencilView; // [“xƒXƒeƒ“ƒVƒ‹
+	Microsoft::WRL::ComPtr<ID3D11Device>           device;           // ãƒ‡ãƒã‚¤ã‚¹
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    immediateContext; // ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+	Microsoft::WRL::ComPtr<IDXGISwapChain>         swapChain;        // ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTargetView; // ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depthStencilView; // æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«
 
-	// •`‰æ—Ìˆæ
+	// æç”»é ˜åŸŸ
 	D3D11_VIEWPORT viewport{};
 
-	// ‰æ–ÊƒTƒCƒY
+	// ç”»é¢ã‚µã‚¤ã‚º
 	float screenWidth = 0.0f;
 	float screenHeight = 0.0f;
 
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“‚©
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‹
 	bool isFullscreen = false;
-	// ƒŠƒTƒCƒY’†‚©
+	// ãƒªã‚µã‚¤ã‚ºä¸­ã‹
 	bool isResizing = false;
 
-	// ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÌˆÊ’u‚ÆƒTƒCƒY•Û‘¶
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰æ™‚ã®ä½ç½®ã¨ã‚µã‚¤ã‚ºä¿å­˜
 	RECT windowedRect{};
 
-	// PresentTexture—pƒŠƒ\[ƒX‚Ì‰Šú‰»
+	// PresentTextureç”¨ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–
 	void InitializePresentResources();
 
 	Microsoft::WRL::ComPtr<ID3D11VertexShader>    presentVS;

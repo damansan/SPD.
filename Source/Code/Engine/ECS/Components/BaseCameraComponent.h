@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
-// ƒJƒƒ‰ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‹¤’Êƒf[ƒ^
+// ã‚«ãƒ¡ãƒ©ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å…±é€šãƒ‡ãƒ¼ã‚¿
 struct BaseCameraComponent
 {
     DirectX::XMFLOAT3 currentEye = { 0.0f, 5.0f, 10.0f };

@@ -87,7 +87,7 @@ bool StudioTimelineWidget::DrawToolbar(bool& isPlaying, float time, float frameS
 {
 	bool changed = false;
 
-	if (ImGui::Button(isPlaying ? u8"■" : u8"▶", ImVec2(28.0f, 0.0f)))
+	if (ImGui::Button(isPlaying ? "■" : "▶", ImVec2(28.0f, 0.0f)))
 	{
 		isPlaying = !isPlaying;
 		changed = true;

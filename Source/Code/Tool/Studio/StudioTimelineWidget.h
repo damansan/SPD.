@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <imgui.h>
 #include <vector>
 
@@ -8,81 +8,81 @@ struct StudioContext;
 class StudioTimelineWidget
 {
 public:
-	// –Ú·‚è‚ğ•`‚¢‚ÄAƒsƒ“‚Ìƒhƒ‰ƒbƒO‚ğˆ—‚·‚é
+	// ç›®ç››ã‚Šã‚’æã„ã¦ã€ãƒ”ãƒ³ã®ãƒ‰ãƒ©ãƒƒã‚°ã‚’å‡¦ç†ã™ã‚‹
 	bool Begin(const char* id, float clipLength, float frameStep, float& inOutTime);
 	
-	// ƒhƒ‰ƒbƒO‚µ‚½‚ç animator ‚ğ~‚ß‚Äƒ|[ƒY‚¾‚¯XV‚·‚é
+	// ãƒ‰ãƒ©ãƒƒã‚°ã—ãŸã‚‰ animator ã‚’æ­¢ã‚ã¦ãƒãƒ¼ã‚ºã ã‘æ›´æ–°ã™ã‚‹
 	bool BeginWithAnimator(const char* id, float clipLength, float frameStep, AnimatorComponent& animator, StudioContext& context);
-	// animator ‚ğÄ¶‚·‚éƒ{ƒ^ƒ“
+	// animator ã‚’å†ç”Ÿã™ã‚‹ãƒœã‚¿ãƒ³
 	static void DrawAnimatorToolbar(AnimatorComponent& animator, float clipLength, float frameStep);
 
-	// ƒgƒ‰ƒbƒN‚ğ•`‚«I‚¦‚½‚çŒÄ‚Ô
+	// ãƒˆãƒ©ãƒƒã‚¯ã‚’æãçµ‚ãˆãŸã‚‰å‘¼ã¶
 	void End();
 
-	// Ä¶ƒ{ƒ^ƒ“‚ÆŒ»İ
+	// å†ç”Ÿãƒœã‚¿ãƒ³ã¨ç¾åœ¨æ™‚åˆ»
 	static bool DrawToolbar(bool& isPlaying, float time, float frameStep);
-	// ƒtƒŒ[ƒ€‚É‹z‚¢•t‚©‚¹‚é
+	// ãƒ•ãƒ¬ãƒ¼ãƒ ã«å¸ã„ä»˜ã‹ã›ã‚‹
 	static float SnapToFrame(float t, float frameStep, float clipLength);
 
-	// ”ÍˆÍ‚ÌÅ’á‚Ì’·‚³
+	// ç¯„å›²ã®æœ€ä½ã®é•·ã•
 	static float MinLength(float frameStep) { return (frameStep > 0.0f) ? frameStep : 0.001f; }
-	// ‚©‚çƒtƒŒ[ƒ€‚Ì”Ô†
+	// æ™‚åˆ»ã‹ã‚‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç•ªå·
 	static int ToFrame(float t, float frameStep);
 
-	// ƒ^ƒCƒ€ƒ‰ƒCƒ“ã‚Ì”ÍˆÍ
+	// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ä¸Šã®ç¯„å›²
 	struct TimeSpan
 	{
 		float start = 0.0f;
 		float end = 0.0f;
 	};
 
-	// d‚È‚ç‚È‚¢”ÍˆÍ‚Ì•À‚Ñ‚ÅAindex ”Ô–Ú‚ª“®‚¯‚éŠ
+	// é‡ãªã‚‰ãªã„ç¯„å›²ã®ä¸¦ã³ã§ã€index ç•ªç›®ãŒå‹•ã‘ã‚‹æ‰€
 	static void GetSpanLimits(const std::vector<TimeSpan>& spans, int index, float clipLength, float& outLower, float& outUpper);
-	// pinTime ‚ÉV‚µ‚¢”ÍˆÍ‚ğ’Ç‰Á‚Å‚«‚é‚©
+	// pinTime ã«æ–°ã—ã„ç¯„å›²ã‚’è¿½åŠ ã§ãã‚‹ã‹
 	static bool FindAddEnd(const std::vector<TimeSpan>& spans, float pinTime, float clipLength, float minLength, float& outEnd);
 
-	// ”ÍˆÍ‚Ì’[‚Ìƒsƒ“
+	// ç¯„å›²ã®ç«¯ã®ãƒ”ãƒ³
 	bool DrawRangeHandles(const char* id, float handleY, float frameStep, float minLength, float& inOutStart, float& inOutEnd,
 		float lowerLimit = 0.0f, float upperLimit = -1.0f, float lineTopY = -1.0f);
 
-	// ƒsƒ“‚ÌŒü‚«
+	// ãƒ”ãƒ³ã®å‘ã
 	enum class PinDirection
 	{
-		Down, // “ª‚ªãA‚Æ‚ª‚Á‚½æ‚ª‰º
-		Up,   // “ª‚ª‰ºA‚Æ‚ª‚Á‚½æ‚ªã
+		Down, // é ­ãŒä¸Šã€ã¨ãŒã£ãŸå…ˆãŒä¸‹
+		Up,   // é ­ãŒä¸‹ã€ã¨ãŒã£ãŸå…ˆãŒä¸Š
 	};
 
-	// ƒsƒ“‚ğ1–{•`‚­
+	// ãƒ”ãƒ³ã‚’1æœ¬æã
 	static void DrawPin(ImDrawList* drawList, float x, float tipY, float headHeight, float radius, ImU32 color, PinDirection direction);
 
-	static constexpr float RangeHandleHeight = 16.0f; // ”ÍˆÍ‚Ì’[‚Ìƒsƒ“‚Ì“ª‚Ì‚‚³
+	static constexpr float RangeHandleHeight = 16.0f; // ç¯„å›²ã®ç«¯ã®ãƒ”ãƒ³ã®é ­ã®é«˜ã•
 
-	// ‚ÆXÀ•W‚Ì•ÏŠ·
+	// æ™‚åˆ»ã¨Xåº§æ¨™ã®å¤‰æ›
 	float TimeToX(float t) const;
 	float XToTime(float x) const;
 
-	// ƒgƒ‰ƒbƒN‚ğ•`‚¯‚é¶‰E‚Ì’[
+	// ãƒˆãƒ©ãƒƒã‚¯ã‚’æã‘ã‚‹å·¦å³ã®ç«¯
 	float GetLeft() const { return left; }
 	float GetRight() const { return left + width; }
 
 private:
-	static constexpr float PinHeadHeight = 16.0f; // –Ú·‚è‚Ìã‚ÉAƒsƒ“‚Ì“ª‚ğ’u‚­—]”’
-	static constexpr float RulerHeight = 24.0f;   // –Ú·‚è‚Ì‘Ñ‚Ì‚‚³
-	static constexpr float LeftPadding = 12.0f;   // ¶‚Ì—]”’
-	static constexpr float RightPadding = 28.0f;  // ‰E‚Ì—]”’
+	static constexpr float PinHeadHeight = 16.0f; // ç›®ç››ã‚Šã®ä¸Šã«ã€ãƒ”ãƒ³ã®é ­ã‚’ç½®ãä½™ç™½
+	static constexpr float RulerHeight = 24.0f;   // ç›®ç››ã‚Šã®å¸¯ã®é«˜ã•
+	static constexpr float LeftPadding = 12.0f;   // å·¦ã®ä½™ç™½
+	static constexpr float RightPadding = 28.0f;  // å³ã®ä½™ç™½
 
-	float left = 0.0f;   // 0•b‚ÌˆÊ’u
-	float width = 1.0f;  // 0•b‚©‚çÅŒã‚Ü‚Å‚Ì•
-	float top = 0.0f;    // –Ú·‚è‚Ìã’[
-	float length = 1.0f; // ƒNƒŠƒbƒv‚Ì’·‚³
-	float time = 0.0f;   // ƒsƒ“‚Ì
+	float left = 0.0f;   // 0ç§’ã®ä½ç½®
+	float width = 1.0f;  // 0ç§’ã‹ã‚‰æœ€å¾Œã¾ã§ã®å¹…
+	float top = 0.0f;    // ç›®ç››ã‚Šã®ä¸Šç«¯
+	float length = 1.0f; // ã‚¯ãƒªãƒƒãƒ—ã®é•·ã•
+	float time = 0.0f;   // ãƒ”ãƒ³ã®æ™‚åˆ»
 
-	// –Ú·‚è
+	// ç›®ç››ã‚Š
 	void DrawRuler(ImDrawList* drawList, float frameStep) const;
-	// ƒsƒ“‚Ì“ª
+	// ãƒ”ãƒ³ã®é ­
 	void DrawPinHead(ImDrawList* drawList) const;
 	void DrawRangeHandle(ImDrawList* drawList, float x, float handleY, float lineTopY, bool highlighted) const;
 
-	// ”ÍˆÍ‚Ì’[‚Ìƒsƒ“‚ğ‚Â‚©‚ß‚é•‚Ì”¼•ª
+	// ç¯„å›²ã®ç«¯ã®ãƒ”ãƒ³ã‚’ã¤ã‹ã‚ã‚‹å¹…ã®åŠåˆ†
 	static constexpr float RangeHandleHalfWidth = 7.0f;
 };

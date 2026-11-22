@@ -1,4 +1,4 @@
-#include "ComponentInspectorRegistry.h"
+﻿#include "ComponentInspectorRegistry.h"
 
 std::unordered_map<std::string, std::function<void(entt::registry&, entt::entity)>> ComponentInspectorRegistry::registry;
 

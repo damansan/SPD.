@@ -1,0 +1,605 @@
+{
+    "entities": [
+        {
+            "name": "Controller",
+            "prefab": "Data/Prefab/System/Controller.prefab.json"
+        },
+        {
+            "name": "FreeCamera",
+            "prefab": "Data/Prefab/Camera/FreeCamera.prefab.json"
+        },
+        {
+            "name": "GameCamera",
+            "prefab": "Data/Prefab/Camera/GameCamera.prefab.json"
+        },
+        {
+            "name": "Map_Robot3",
+            "overrides": {
+                "PlayerSlideComponent": {
+                    "heightScale": 0.10000000149011612
+                }
+            },
+            "prefab": "Data/Prefab/Player/Map_Robot3.prefab.json"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -5.0,
+                        -5.0,
+                        5.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        10.0,
+                        5.0,
+                        20.0
+                    ]
+                }
+            },
+            "name": "Start_Floor"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -5.0,
+                        -4.0,
+                        -14.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        10.0,
+                        5.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "Start_Hinder"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -5.0,
+                        -5.0,
+                        -15.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        10.0,
+                        1.0,
+                        20.0
+                    ]
+                }
+            },
+            "name": "2_Floor"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        4.0,
+                        -4.0,
+                        -30.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        7.0,
+                        16.0
+                    ]
+                }
+            },
+            "name": "2_WallRun"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -1.3623112440109253,
+                        -5.0,
+                        -41.50052261352539
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.6981316804885864,
+                        0.0
+                    ],
+                    "scale": [
+                        8.0,
+                        4.0,
+                        15.0
+                    ]
+                }
+            },
+            "name": "3_Floor"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        4.0,
+                        -1.0,
+                        -46.0
+                    ],
+                    "rotation": [
+                        0.0,
+                        0.6981316804885864,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        4.0,
+                        15.0
+                    ]
+                }
+            },
+            "name": "3_Wall"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -4.664739608764648,
+                        -5.0,
+                        -57.8714599609375
+                    ],
+                    "rotation": [
+                        0.0,
+                        2.4434609413146973,
+                        0.0
+                    ],
+                    "scale": [
+                        5.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "4_WallRin1"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -8.534634590148926,
+                        -5.0,
+                        -61.074893951416016
+                    ],
+                    "rotation": [
+                        0.0,
+                        2.7925267219543457,
+                        0.0
+                    ],
+                    "scale": [
+                        5.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "4_WallRun2"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -13.226993560791016,
+                        -5.0,
+                        -62.76999282836914
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.1415927410125732,
+                        0.0
+                    ],
+                    "scale": [
+                        5.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "4_WallRun3"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -18.138532638549805,
+                        -5.0,
+                        -62.7557258605957
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.4906585216522217,
+                        0.0
+                    ],
+                    "scale": [
+                        5.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "4_WallRun4"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -22.854604721069336,
+                        -5.0,
+                        -61.098480224609375
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.83972430229187,
+                        0.0
+                    ],
+                    "scale": [
+                        6.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "4_WallRun5"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -24.647424697875977,
+                        -10.0,
+                        -59.58494567871094
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.8397231101989746,
+                        0.0
+                    ],
+                    "scale": [
+                        25.0,
+                        10.0,
+                        10.0
+                    ]
+                }
+            },
+            "name": "5_Floor"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -34.96279525756836,
+                        -1.0,
+                        -50.936893463134766
+                    ],
+                    "rotation": [
+                        0.0,
+                        3.8397231101989746,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        2.0,
+                        10.0
+                    ]
+                }
+            },
+            "name": "5_Hinder"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -43.18614959716797,
+                        -2.5,
+                        -45.175758361816406
+                    ],
+                    "rotation": [
+                        0.0,
+                        4.363323211669922,
+                        0.0
+                    ],
+                    "scale": [
+                        15.0,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "6_WallRun1"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -40.798824310302734,
+                        -4.0,
+                        -29.95833969116211
+                    ],
+                    "rotation": [
+                        0.0,
+                        4.363322734832764,
+                        0.0
+                    ],
+                    "scale": [
+                        14.25,
+                        10.0,
+                        1.0
+                    ]
+                }
+            },
+            "name": "6_WallRun2"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -56.68476104736328,
+                        -10.0,
+                        -18.591245651245117
+                    ],
+                    "rotation": [
+                        0.0,
+                        4.363322734832764,
+                        0.0
+                    ],
+                    "scale": [
+                        40.0,
+                        10.0,
+                        12.0
+                    ]
+                }
+            },
+            "name": "7_Floor"
+        },
+        {
+            "components": {
+                "CategoryComponent": {
+                    "category": "None"
+                },
+                "MaterialComponent": {
+                    "shadingModel": "Grid"
+                },
+                "MeshComponent": {
+                    "modelPath": "Data/Model/UEdefault/Cube.glb"
+                },
+                "PhysicsBodyTypeComponent": {
+                    "type": "Static"
+                },
+                "TransformComponent": {
+                    "position": [
+                        -62.39667892456055,
+                        1.0,
+                        -2.8981282711029053
+                    ],
+                    "rotation": [
+                        0.0,
+                        4.363323211669922,
+                        0.0
+                    ],
+                    "scale": [
+                        3.0,
+                        3.0,
+                        12.0
+                    ]
+                }
+            },
+            "name": "7_Hinder"
+        }
+    ],
+    "settings": {},
+    "version": 1
+}

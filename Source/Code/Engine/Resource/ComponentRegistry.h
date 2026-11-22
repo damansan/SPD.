@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -7,12 +7,12 @@
 
 struct ComponentInfo
 {
-    std::string typeName;    // ¯•Êq(ƒR[ƒhã‚ÌŒ^–¼)B•Û‘¶‚ÌƒL[‚É‚àg‚¤
-    std::string displayName; // ƒGƒfƒBƒ^ã‚Ì•\¦–¼
+    std::string typeName;    // è­˜åˆ¥å­(ã‚³ãƒ¼ãƒ‰ä¸Šã®å‹å)ã€‚ä¿å­˜ã®ã‚­ãƒ¼ã«ã‚‚ä½¿ã†
+    std::string displayName; // ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®è¡¨ç¤ºå
     std::function<void(entt::registry&, entt::entity)> add;
     std::function<void(entt::registry&, entt::entity)> remove;
     std::function<bool(entt::registry&, entt::entity)> has;
-    // ƒGƒ“ƒeƒBƒeƒB‚ª‚ÂƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌÀ‘Ô‚ğmeta_any‚Æ‚µ‚Äæ“¾‚·‚é
+    // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒæŒã¤ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å®Ÿæ…‹ã‚’meta_anyã¨ã—ã¦å–å¾—ã™ã‚‹
     std::function<entt::meta_any(entt::registry&, entt::entity)> getMeta;
 };
 
@@ -23,7 +23,7 @@ public:
     static const std::vector<std::string>& GetTypeNames();
     static const ComponentInfo* Get(const std::string& typeName);
 
-    // Œ^1‚Â•ª‚ğA•W€‚Ì•t‚¯ŠO‚µˆ—‚Å“o˜^‚·‚é
+    // å‹1ã¤åˆ†ã‚’ã€æ¨™æº–ã®ä»˜ã‘å¤–ã—å‡¦ç†ã§ç™»éŒ²ã™ã‚‹
     template<typename T>
     static void RegisterType(const std::string& typeName, const std::string& displayName)
     {
@@ -47,6 +47,6 @@ private:
     static std::vector<std::string> typeNames;
 };
 
-// Œ^–¼‚ğAƒR[ƒhã‚Ì–¼‘O‚©‚ç©“®‚Å•t‚¯‚Ä“o˜^‚·‚é
+// å‹åã‚’ã€ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã‹ã‚‰è‡ªå‹•ã§ä»˜ã‘ã¦ç™»éŒ²ã™ã‚‹
 #define REGISTER_COMPONENT_TYPE(Type, DisplayName) \
     ComponentRegistry::RegisterType<Type>(#Type, DisplayName)

@@ -1,4 +1,4 @@
-#include "IKSystem.h"
+ï»¿#include "IKSystem.h"
 #include "Engine/ECS/Systems/TwoBoneIKSolver.h"
 #include "Engine/Resource/SkeletonUtils.h"
 #include "Engine/ECS/Systems/PhysicsSystem.h"
@@ -6,16 +6,16 @@
 
 namespace
 {
-	// ƒ[ƒ‹ƒh‰ñ“]‚ðAe‚Ìƒ[ƒ‹ƒh‰ñ“]‚ðŠî€‚É‚µ‚½ƒ[ƒJƒ‹‰ñ“]‚É•ÏŠ·‚·‚é
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å›žè»¢ã‚’ã€è¦ªã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å›žè»¢ã‚’åŸºæº–ã«ã—ãŸãƒ­ãƒ¼ã‚«ãƒ«å›žè»¢ã«å¤‰æ›ã™ã‚‹
 	DirectX::XMVECTOR WorldToLocalRotation(DirectX::FXMVECTOR worldRotation, DirectX::FXMVECTOR parentWorldRotation)
 	{
 		DirectX::XMVECTOR parentInverse = DirectX::XMQuaternionInverse(parentWorldRotation);
-		// worldRotation = localRotation * parentWorldRotation ‚È‚Ì‚Å
+		// worldRotation = localRotation * parentWorldRotation ãªã®ã§
 		// localRotation = worldRotation * (parentWorldRotation)^-1
 		return DirectX::XMQuaternionMultiply(worldRotation, parentInverse);
 	}
 
-	// XMFLOAT4X4(ƒ[ƒ‹ƒhs—ñ)‚©‚çAˆÊ’u‚Æ‰ñ“](ƒNƒH[ƒ^ƒjƒIƒ“)‚ðŽæ‚èo‚·
+	// XMFLOAT4X4(ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—)ã‹ã‚‰ã€ä½ç½®ã¨å›žè»¢(ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³)ã‚’å–ã‚Šå‡ºã™
 	void DecomposePosRot(const DirectX::XMFLOAT4X4& world, DirectX::XMFLOAT3& outPos, DirectX::XMFLOAT4& outRot)
 	{
 		DirectX::XMMATRIX m = DirectX::XMLoadFloat4x4(&world);
@@ -48,10 +48,10 @@ void IKSystem::Update(entt::registry& registry, physx::PxScene* pxScene)
 		});
 }
 
-// 1–{‚Ì‘«‚ÌFootIKˆ—
+// 1æœ¬ã®è¶³ã®FootIKå‡¦ç†
 void IKSystem::SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& skinned, physx::PxScene* pxScene, const DirectX::XMFLOAT4X4& entityWorldMatrix)
 {
-	// ƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX
+	// ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	const int rootIndex = footSettings.rootBoneIndex;
 	const int midIndex = footSettings.midBoneIndex;
 	const int endIndex = footSettings.endBoneIndex;
@@ -65,14 +65,14 @@ void IKSystem::SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& s
 		return;
 	}
 
-	// Œ»Ý‚Ìƒ[ƒ‹ƒhˆÊ’uE‰ñ“]‚ðŽæ‚èo‚·
+	// ç¾åœ¨ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ä½ç½®ãƒ»å›žè»¢ã‚’å–ã‚Šå‡ºã™
 	DirectX::XMFLOAT3 rootPos, midPos, endPos;
 	DirectX::XMFLOAT4 rootRot, midRot, endRot;
 	DecomposePosRot(globals[rootIndex], rootPos, rootRot);
 	DecomposePosRot(globals[midIndex], midPos, midRot);
 	DecomposePosRot(globals[endIndex], endPos, endRot);
 
-	// ‰‰ñ‚¾‚¯AŒ»Ý‚Ì‘«ŽñˆÊ’u‚ðtargetPos‚Ì‰Šú’l‚Æ‚µ‚ÄŽg‚¤
+	// åˆå›žã ã‘ã€ç¾åœ¨ã®è¶³é¦–ä½ç½®ã‚’targetPosã®åˆæœŸå€¤ã¨ã—ã¦ä½¿ã†
 	if (!footSettings.hasInitializedTarget)
 	{
 		footSettings.targetPos = endPos;
@@ -81,48 +81,48 @@ void IKSystem::SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& s
 
 	DirectX::XMFLOAT3 targetPos = footSettings.targetPos;
 
-	// ‘«Žñ‚Ì­‚µã‚©‚ç‚Ü‚Á‚·‚®‰º‚ÖƒŒƒC‚ð”ò‚Î‚µA’n–Ê‚Ì–@ü‚ðŽæ“¾‚·‚é
-	// endPos‚Íƒ‚ƒfƒ‹‹óŠÔ‚ÌÀ•W‚È‚Ì‚ÅAƒŒƒC‚ð”ò‚Î‚·‘O‚Éƒ[ƒ‹ƒh‹óŠÔ‚Ö•ÏŠ·‚·‚é
+	// è¶³é¦–ã®å°‘ã—ä¸Šã‹ã‚‰ã¾ã£ã™ãä¸‹ã¸ãƒ¬ã‚¤ã‚’é£›ã°ã—ã€åœ°é¢ã®æ³•ç·šã‚’å–å¾—ã™ã‚‹
+	// endPosã¯ãƒ¢ãƒ‡ãƒ«ç©ºé–“ã®åº§æ¨™ãªã®ã§ã€ãƒ¬ã‚¤ã‚’é£›ã°ã™å‰ã«ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã¸å¤‰æ›ã™ã‚‹
 	DirectX::XMVECTOR endPosModel = DirectX::XMLoadFloat3(&endPos);
 	DirectX::XMMATRIX entityWorld = DirectX::XMLoadFloat4x4(&entityWorldMatrix);
 	DirectX::XMVECTOR endPosWorldV = DirectX::XMVector3TransformCoord(endPosModel, entityWorld);
 
 	DirectX::XMFLOAT3 rayOrigin;
 	DirectX::XMStoreFloat3(&rayOrigin, endPosWorldV);
-	rayOrigin.y += footSettings.rayStartOffset; // ‚ß‚èž‚Ü‚È‚¢‚æ‚¤‚É­‚µã‚°‚é
+	rayOrigin.y += footSettings.rayStartOffset; // ã‚ã‚Šè¾¼ã¾ãªã„ã‚ˆã†ã«å°‘ã—ä¸Šã’ã‚‹
 	DirectX::XMFLOAT3 rayDirection = { 0.0f, -1.0f, 0.0f };
 	float rayMaxDistance = footSettings.rayMaxDistance;
 
-	// ƒŒƒC‚ð”ò‚Î‚·
+	// ãƒ¬ã‚¤ã‚’é£›ã°ã™
 	RaycastHitResult groundHit = PhysicsSystem::Raycast(
 		pxScene, rayOrigin, rayDirection, rayMaxDistance, PhysicsLayer::Static);
 
 	if (groundHit.hit)
 	{
-		// ’n–Ê‚©‚ç‘«Žñ‚Ü‚Å‚Ì‚‚³•ªA’n–Ê‚Ì“–‚½‚èˆÊ’u‚æ‚èŽ‚¿ã‚°‚é(‚ß‚èž‚Ý–hŽ~)
+		// åœ°é¢ã‹ã‚‰è¶³é¦–ã¾ã§ã®é«˜ã•åˆ†ã€åœ°é¢ã®å½“ãŸã‚Šä½ç½®ã‚ˆã‚ŠæŒã¡ä¸Šã’ã‚‹(ã‚ã‚Šè¾¼ã¿é˜²æ­¢)
 		DirectX::XMFLOAT3 hitPos = groundHit.position;
 		hitPos.y += footSettings.ankleHeight;
 
-		// groundHit.position‚Íƒ[ƒ‹ƒhÀ•W‚È‚Ì‚ÅAƒ‚ƒfƒ‹‹óŠÔ‚É•ÏŠ·‚µ‚Ä‚©‚çtargetPos‚Æ‚µ‚ÄŽg‚¤
-		// (’n–Ê‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚ÍAtargetPos‚ÍÅ‰‚É‘ã“ü‚µ‚½footSettings.targetPos‚Ì‚Ü‚Ü)
+		// groundHit.positionã¯ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ãªã®ã§ã€ãƒ¢ãƒ‡ãƒ«ç©ºé–“ã«å¤‰æ›ã—ã¦ã‹ã‚‰targetPosã¨ã—ã¦ä½¿ã†
+		// (åœ°é¢ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆã¯ã€targetPosã¯æœ€åˆã«ä»£å…¥ã—ãŸfootSettings.targetPosã®ã¾ã¾)
 		DirectX::XMVECTOR hitPosWorldV = DirectX::XMLoadFloat3(&hitPos);
 		DirectX::XMMATRIX entityWorldInverse = DirectX::XMMatrixInverse(nullptr, entityWorld);
 		DirectX::XMVECTOR hitPosModelV = DirectX::XMVector3TransformCoord(hitPosWorldV, entityWorldInverse);
 		DirectX::XMStoreFloat3(&targetPos, hitPosModelV);
 	}
 
-	// poleVector: •G‚ð‘O•û(ƒ‚ƒfƒ‹‚ÌZ+•ûŒü‚ð‰¼’è)‚ÉŒü‚¯‚é
+	// poleVector: è†ã‚’å‰æ–¹(ãƒ¢ãƒ‡ãƒ«ã®Z+æ–¹å‘ã‚’ä»®å®š)ã«å‘ã‘ã‚‹
 	DirectX::XMFLOAT3 poleVector = rootPos;
 	poleVector.z += footSettings.poleVectorForward ? -1.0f : 1.0f;
 
-	// 2BoneIK‚ð‰ð‚­
+	// 2BoneIKã‚’è§£ã
 	TwoBoneIKSolver::Result result = TwoBoneIKSolver::Solve(
 		rootPos, midPos, endPos,
 		rootRot, midRot,
 		targetPos, poleVector);
 
-	// ƒ[ƒ‹ƒh‰ñ“] ¨ ƒ[ƒJƒ‹‰ñ“] ‚É•ÏŠ·‚µ‚Ä‘‚«–ß‚·
-	// root‚Ìe(pelvis)‚Ìƒ[ƒ‹ƒh‰ñ“]‚Í‚Ü‚¾•Ï‚í‚Á‚Ä‚¢‚È‚¢‚Ì‚ÅA‚»‚Ì‚Ü‚ÜŽg‚¦‚é
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å›žè»¢ â†’ ãƒ­ãƒ¼ã‚«ãƒ«å›žè»¢ ã«å¤‰æ›ã—ã¦æ›¸ãæˆ»ã™
+	// rootã®è¦ª(pelvis)ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å›žè»¢ã¯ã¾ã å¤‰ã‚ã£ã¦ã„ãªã„ã®ã§ã€ãã®ã¾ã¾ä½¿ãˆã‚‹
 	DirectX::XMVECTOR pelvisWorldRot;
 	{
 		DirectX::XMFLOAT3 dummyPos;
@@ -140,11 +140,11 @@ void IKSystem::SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& s
 	DirectX::XMStoreFloat4(&skinned.localRotations[rootIndex], newRootLocal);
 	DirectX::XMStoreFloat4(&skinned.localRotations[midIndex], newMidLocal);
 
-	// ‘«Žñ: ’n–Ê‚Ì–@ü‚É‡‚í‚¹‚ÄA…•½‚©‚ç‚ÌƒYƒŒ•ª‚¾‚¯Œ³‚ÌŒü‚«(endRot)‚Éãæ‚¹‚·‚é
+	// è¶³é¦–: åœ°é¢ã®æ³•ç·šã«åˆã‚ã›ã¦ã€æ°´å¹³ã‹ã‚‰ã®ã‚ºãƒ¬åˆ†ã ã‘å…ƒã®å‘ã(endRot)ã«ä¸Šä¹—ã›ã™ã‚‹
 	DirectX::XMVECTOR groundUp = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	DirectX::XMVECTOR groundDeltaRotation = groundHit.hit
 		? TwoBoneIKSolver::RotationFromToRotation(groundUp, DirectX::XMLoadFloat3(&groundHit.normal))
-		: DirectX::XMQuaternionIdentity(); // ’n–Ê‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚ÎAŒ³‚ÌŒü‚«‚Ì‚Ü‚Ü‰½‚à‚µ‚È‚¢
+		: DirectX::XMQuaternionIdentity(); // åœ°é¢ãŒè¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã€å…ƒã®å‘ãã®ã¾ã¾ä½•ã‚‚ã—ãªã„
 
 	DirectX::XMVECTOR newEndWorld = DirectX::XMQuaternionMultiply(DirectX::XMLoadFloat4(&endRot), groundDeltaRotation);
 	DirectX::XMVECTOR newEndLocal = WorldToLocalRotation(
@@ -152,7 +152,7 @@ void IKSystem::SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& s
 
 	DirectX::XMStoreFloat4(&skinned.localRotations[endIndex], newEndLocal);
 
-	// IK‚Å‰ñ“]‚ª•Ï‚í‚Á‚½‚Ì‚ÅAƒOƒ[ƒoƒ‹s—ñ‚ðÄŒvŽZ‚·‚é
+	// IKã§å›žè»¢ãŒå¤‰ã‚ã£ãŸã®ã§ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’å†è¨ˆç®—ã™ã‚‹
 	SkeletonUtils::CalcGlobalTransforms(
 		skinned.model->GetNodes(),
 		skinned.localPositions, skinned.localRotations, skinned.localScales,

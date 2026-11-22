@@ -1,13 +1,13 @@
-#include "Model.h"
+ï»¿#include "Model.h"
 #include "Engine/Resource/AnimationEditBaker.h"
 #include <algorithm>
 
 namespace
 {
-	// ‘Î‰•\‚ğg‚Á‚ÄA•Ğ•û‚Ì‚ğ‚à‚¤•Ğ•û‚É’¼‚·
+	// å¯¾å¿œè¡¨ã‚’ä½¿ã£ã¦ã€ç‰‡æ–¹ã®æ™‚åˆ»ã‚’ã‚‚ã†ç‰‡æ–¹ã«ç›´ã™
 	float MapTime(const std::vector<float>& from, const std::vector<float>& to, float t)
 	{
-		// ‘Î‰•\‚ª–³‚¯‚ê‚ÎA“¯‚¶
+		// å¯¾å¿œè¡¨ãŒç„¡ã‘ã‚Œã°ã€åŒã˜æ™‚åˆ»
 		if (from.empty() || from.size() != to.size()) return t;
 
 		if (t <= from.front()) return to.front();
@@ -24,7 +24,7 @@ namespace
 		return to.back();
 	}
 
-	// ƒNƒŠƒbƒv‚Ì•À‚Ñ‚©‚çA–¼‘O‚Å’T‚·
+	// ã‚¯ãƒªãƒƒãƒ—ã®ä¸¦ã³ã‹ã‚‰ã€åå‰ã§æ¢ã™
 	const Model::Animation* FindByName(const std::vector<Model::Animation>& animations, const std::string& name)
 	{
 		for (const auto& anim : animations)
@@ -36,7 +36,7 @@ namespace
 }
 
 
-// “ü—ÍƒŒƒCƒAƒEƒg’è‹`
+// å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆå®šç¾©
 const std::vector<D3D11_INPUT_ELEMENT_DESC> Model::InputElementDescs =
 {
     { "POSITION",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -47,7 +47,7 @@ const std::vector<D3D11_INPUT_ELEMENT_DESC> Model::InputElementDescs =
     { "BONES",      0, DXGI_FORMAT_R32G32B32A32_UINT,  0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
 
-// –¼‘O‚©‚çƒNƒŠƒbƒv‚ğ’T‚·
+// åå‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã‚’æ¢ã™
 const Model::Animation* Model::FindAnimation(const std::string& name) const
 {
 	return FindByName(animations, name);
@@ -61,12 +61,12 @@ const Model::Animation* Model::FindPreviewAnimation(const std::string& name) con
 	return FindByName(previewAnimations, name);
 }
 
-// •ÒWİ’è‚ğƒvƒŒƒrƒ…[—p‚É“K—p‚·‚é
+// ç·¨é›†è¨­å®šã‚’ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã«é©ç”¨ã™ã‚‹
 void Model::ApplyAnimationEditPreview(const AnimationEditData& editData)
 {
 	EnsureRawAnimations();
 
-	// ƒJƒbƒg‚¾‚¯‚ğŠO‚·
+	// ã‚«ãƒƒãƒˆã ã‘ã‚’å¤–ã™
 	AnimationEditData preview = editData;
 	for (auto& clip : preview.clips)
 	{
@@ -76,52 +76,52 @@ void Model::ApplyAnimationEditPreview(const AnimationEditData& editData)
 
 	previewAnimations = AnimationEditBaker::Bake(rawAnimations, nodes, preview);
 }
-// ƒvƒŒƒrƒ…[—p‚ğÁ‚·
+// ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã‚’æ¶ˆã™
 void Model::ClearAnimationPreview()
 {
 	previewAnimations.clear();
 }
 
-// Ä¶‚Ég‚¤ƒNƒŠƒbƒv‚Ì•À‚Ñ
+// å†ç”Ÿã«ä½¿ã†ã‚¯ãƒªãƒƒãƒ—ã®ä¸¦ã³
 const std::vector<Model::Animation>& Model::GetPlaybackAnimations(bool usePreview) const
 {
 	return (usePreview && !previewAnimations.empty()) ? previewAnimations : animations;
 }
 
-// •ÒWİ’è‚ğÄ‚«‚Ş
+// ç·¨é›†è¨­å®šã‚’ç„¼ãè¾¼ã‚€
 void Model::ApplyAnimationEdit(const AnimationEditData& editData)
 {
 	EnsureRawAnimations();
 
     animations = AnimationEditBaker::Bake(rawAnimations, nodes, editData);
 
-	// Ä‚«‚İ‚Æ“¯‚¶ƒ{[ƒ“‚ğAƒ‰ƒ“ƒ^ƒCƒ€‚Å‚àŒÅ’è‚·‚é‚½‚ß‚ÉŠo‚¦‚Ä‚¨‚­
+	// ç„¼ãè¾¼ã¿ã¨åŒã˜ãƒœãƒ¼ãƒ³ã‚’ã€ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã§ã‚‚å›ºå®šã™ã‚‹ãŸã‚ã«è¦šãˆã¦ãŠã
 	rootNodeName = editData.rootNodeName;
 	rootNodeIndex = AnimationEditBaker::FindNodeIndex(nodes, rootNodeName);
 }
 
-// ¶ƒf[ƒ^‚ª‚Ü‚¾T‚¦‚ç‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA¡‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğT‚¦‚é
+// ç”Ÿãƒ‡ãƒ¼ã‚¿ãŒã¾ã æ§ãˆã‚‰ã‚Œã¦ã„ãªã‘ã‚Œã°ã€ä»Šã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ§ãˆã‚‹
 void Model::EnsureRawAnimations()
 {
-	// ‰‰ñ‚ÌÄ‚«‚İ‚æ‚è‘O‚È‚çAanimations ‚Í‚Ü‚¾‰ÁH‚³‚ê‚Ä‚¢‚È‚¢¶ƒf[ƒ^
+	// åˆå›ã®ç„¼ãè¾¼ã¿ã‚ˆã‚Šå‰ãªã‚‰ã€animations ã¯ã¾ã åŠ å·¥ã•ã‚Œã¦ã„ãªã„ç”Ÿãƒ‡ãƒ¼ã‚¿
 	if (rawAnimations.empty())
 	{
 		rawAnimations = animations;
 	}
 }
 
-// Ä‚«‚İŒã‚©‚ç¶ƒf[ƒ^‚É
+// ç„¼ãè¾¼ã¿å¾Œã‹ã‚‰ç”Ÿãƒ‡ãƒ¼ã‚¿ã«
 float Model::Animation::ToRawTime(float bakedTime) const
 {
 	return MapTime(bakedTimes, rawTimes, bakedTime);
 }
-// ¶ƒf[ƒ^‚©‚çÄ‚«‚İŒã‚É
+// ç”Ÿãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç„¼ãè¾¼ã¿å¾Œã«
 float Model::Animation::ToBakedTime(float rawTime) const
 {
 	return MapTime(rawTimes, bakedTimes, rawTime);
 }
 
-// 1ƒtƒŒ[ƒ€‚Ì•b”
+// 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç§’æ•°
 float Model::Animation::CalcFrameStep() const
 {
 	size_t maxKeys = 0;

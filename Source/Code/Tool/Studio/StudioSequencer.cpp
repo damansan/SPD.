@@ -1,4 +1,4 @@
-#include "StudioSequencer.h"
+ï»¿#include "StudioSequencer.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include <algorithm>
@@ -6,12 +6,12 @@
 
 namespace
 {
-	// Point / Range ‚ÌF
+	// Point / Range ã®è‰²
 	const ImU32 ItemColor =     IM_COL32(129, 199, 132, 255);
 	const ImU32 ItemDimColor =  IM_COL32(129, 199, 132, 140);
 	const ImU32 SelectedColor = IM_COL32(255, 213, 79, 255); 
 
-	// s‚Ì‘å‚«‚³‚ÆF
+	// è¡Œã®å¤§ãã•ã¨è‰²
 	const float LaneMargin = 2.0f;
 	const float PointLaneHeight = 28.0f;
 	const float RangeLaneHeight = 24.0f;
@@ -19,15 +19,15 @@ namespace
 	const ImU32 LaneColor = IM_COL32(43, 45, 49, 255);
 	const ImU32 LaneSelectedColor = IM_COL32(56, 58, 64, 255);
 
-	// s‚ÌˆÊ’u
+	// è¡Œã®ä½ç½®
 	struct Lane
 	{
-		float cursorX = 0.0f; // •`‚«n‚ß‚½‚Æ‚«‚ÌƒJ[ƒ\ƒ‹‚Ì X ˆÊ’u
+		float cursorX = 0.0f; // æãå§‹ã‚ãŸã¨ãã®ã‚«ãƒ¼ã‚½ãƒ«ã® X ä½ç½®
 		float top = 0.0f;
 		float bottom = 0.0f;
 	};
 	
-	// s‚Ì”wŒi‚ğ•`‚¢‚ÄAˆÊ’u‚ğ•Ô‚·
+	// è¡Œã®èƒŒæ™¯ã‚’æã„ã¦ã€ä½ç½®ã‚’è¿”ã™
 	Lane BeginLane(const StudioTimelineWidget& timeline, float height, ImU32 color)
 	{
 		const ImVec2 cursor = ImGui::GetCursorScreenPos();
@@ -41,14 +41,14 @@ namespace
 		return lane;
 	}
 
-	// s‚Ì‰º‚ÉƒJ[ƒ\ƒ‹‚ği‚ß‚é
+	// è¡Œã®ä¸‹ã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’é€²ã‚ã‚‹
 	void EndLane(const Lane& lane, float extra)
 	{
 		ImGui::SetCursorScreenPos(ImVec2(lane.cursorX, lane.bottom + extra + LaneMargin));
 		ImGui::Dummy(ImVec2(0.0f, 0.0f));
 	}
 
-	// ƒJƒbƒg‚³‚ê‚½•”•ª‚É‚È‚¢‚©iPointj
+	// ã‚«ãƒƒãƒˆã•ã‚ŒãŸéƒ¨åˆ†ã«ãªã„ã‹ï¼ˆPointï¼‰
 	bool IsPointVisible(const Model::Animation& animation, float rawTime)
 	{
 		const float rawStart = animation.ToRawTime(0.0f);
@@ -56,7 +56,7 @@ namespace
 		return rawTime >= rawStart - 0.0001f && rawTime <= rawEnd + 0.0001f;
 	}
 
-	// ‘S•”‚ªƒJƒbƒg‚³‚ê‚½•”•ª‚É‚È‚¢‚©iRangej
+	// å…¨éƒ¨ãŒã‚«ãƒƒãƒˆã•ã‚ŒãŸéƒ¨åˆ†ã«ãªã„ã‹ï¼ˆRangeï¼‰
 	bool IsRangeVisible(const Model::Animation& animation, float rawStartTime, float rawEndTime)
 	{
 		const float rawStart = animation.ToRawTime(0.0f);
@@ -64,7 +64,7 @@ namespace
 		return rawEndTime > rawStart + 0.0001f && rawStartTime < rawEnd - 0.0001f;
 	}
 
-	// “¯‚¶ƒgƒ‰ƒbƒN‚Ì Range ‚ğAƒ^ƒCƒ€ƒ‰ƒCƒ“‚Ì‚Ì”ÍˆÍ‚Ì•À‚Ñ‚É‚·‚é
+	// åŒã˜ãƒˆãƒ©ãƒƒã‚¯ã® Range ã‚’ã€ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ã®æ™‚åˆ»ã®ç¯„å›²ã®ä¸¦ã³ã«ã™ã‚‹
 	std::vector<StudioTimelineWidget::TimeSpan> CollectSpans(const SequencerClipData& clip, SequencerFlag flag, const Model::Animation& animation, int targetId, int& outTargetIndex)
 	{
 		std::vector<StudioTimelineWidget::TimeSpan> spans;
@@ -79,7 +79,7 @@ namespace
 		return spans;
 	}
 
-	// Range ‚ª“®‚¯‚é”ÍˆÍ
+	// Range ãŒå‹•ã‘ã‚‹ç¯„å›²
 	void GetRangeLimits(const SequencerClipData& clip, const SequencerRange& target, const Model::Animation& animation, float& outLower, float& outUpper)
 	{
 		int index = -1;
@@ -87,7 +87,7 @@ namespace
 		StudioTimelineWidget::GetSpanLimits(spans, index, animation.secondsLength, outLower, outUpper);
 	}
 
-	// id ‚©‚ç Range ‚ğ’T‚·
+	// id ã‹ã‚‰ Range ã‚’æ¢ã™
 	SequencerRange* FindRange(SequencerClipData* clip, int id)
 	{
 		if (!clip) return nullptr;
@@ -98,7 +98,7 @@ namespace
 		return nullptr;
 	}
 
-	// id ‚©‚ç Point ‚ğ’T‚·
+	// id ã‹ã‚‰ Point ã‚’æ¢ã™
 	SequencerPoint* FindPoint(SequencerClipData* clip, int id)
 	{
 		if (!clip) return nullptr;
@@ -110,7 +110,7 @@ namespace
 	}
 }
 
-// ImGui•`‰æ
+// ImGuiæç”»
 void StudioSequencer::DrawGUI(entt::registry& registry, StudioContext& context)
 {
 	if (!context.showSequencer) return;
@@ -136,7 +136,7 @@ void StudioSequencer::DrawGUI(entt::registry& registry, StudioContext& context)
 		return;
 	}
 
-	// ƒ‚ƒfƒ‹‚ªØ‚è‘Ö‚í‚Á‚½‚çA‚»‚Ìƒ‚ƒfƒ‹—p‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ’¼‚·
+	// ãƒ¢ãƒ‡ãƒ«ãŒåˆ‡ã‚Šæ›¿ã‚ã£ãŸã‚‰ã€ãã®ãƒ¢ãƒ‡ãƒ«ç”¨ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ç›´ã™
 	if (loadedModelPath != context.currentModelPath)
 	{
 		Load(context.currentModelPath);
@@ -149,7 +149,7 @@ void StudioSequencer::DrawGUI(entt::registry& registry, StudioContext& context)
 		return;
 	}
 
-	// ƒNƒŠƒbƒv‚ª•Ï‚í‚Á‚½‚çAPoint / Range ‚Ì‘I‘ğ‚ğŠO‚·
+	// ã‚¯ãƒªãƒƒãƒ—ãŒå¤‰ã‚ã£ãŸã‚‰ã€Point / Range ã®é¸æŠã‚’å¤–ã™
 	if (selectedClipName != animator.currentAnimation)
 	{
 		selectedClipName = animator.currentAnimation;
@@ -160,14 +160,14 @@ void StudioSequencer::DrawGUI(entt::registry& registry, StudioContext& context)
 	const std::string& clipName = animator.currentAnimation;
 	const float detailWidth = 260.0f;
 
-	// ¶Fƒ^ƒCƒ€ƒ‰ƒCƒ“
+	// å·¦ï¼šã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 	ImGui::BeginChild("SequencerTimeline", ImVec2(-detailWidth, 0.0f));
 	bool changed = DrawTimelineArea(*skinned.model, animator, context);
 	ImGui::EndChild();
 
 	ImGui::SameLine();
 
-	// ‰EFÚ×
+	// å³ï¼šè©³ç´°
 	ImGui::BeginChild("SequencerDetail", ImVec2(detailWidth, 0.0f), true);
 	changed |= DrawDetailArea(*skinned.model, clipName, context.currentModelPath);
 	ImGui::EndChild();
@@ -180,16 +180,16 @@ void StudioSequencer::DrawGUI(entt::registry& registry, StudioContext& context)
 	ImGui::End();
 }
 
-// ƒ^ƒCƒ€ƒ‰ƒCƒ“
+// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 bool StudioSequencer::DrawTimelineArea(const Model& model, AnimatorComponent& animator, StudioContext& context)
 {
 	const std::string& clipName = animator.currentAnimation;
 
-	// Ä‚«‚İŒã‚ÌƒNƒŠƒbƒv‚Ì’·‚³
+	// ç„¼ãè¾¼ã¿å¾Œã®ã‚¯ãƒªãƒƒãƒ—ã®é•·ã•
 	const Model::Animation* animation = model.FindAnimation(clipName);
 	const float length = animation ? animation->secondsLength : 0.0f;
 
-	// 1ƒtƒŒ[ƒ€‚Ì•b”‚Í¶ƒf[ƒ^‚©‚ç‹‚ß‚é
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç§’æ•°ã¯ç”Ÿãƒ‡ãƒ¼ã‚¿ã‹ã‚‰æ±‚ã‚ã‚‹
 	const Model::Animation* raw = model.FindRawAnimation(clipName);
 	const float frameStep = raw ? raw->CalcFrameStep() : 0.0f;
 
@@ -197,13 +197,13 @@ bool StudioSequencer::DrawTimelineArea(const Model& model, AnimatorComponent& an
 	auto toViewTime = [&](float animatorTime) { return preview ? animation->ToBakedTime(animatorTime) : animatorTime; };
 	auto toAnimatorTime = [&](float viewTime) { return preview ? animation->ToRawTime(viewTime) : viewTime; };
 
-	// ƒ^ƒCƒ€ƒ‰ƒCƒ“‚Ì
+	// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ã®æ™‚åˆ»
 	float viewTime = toViewTime(animator.animationTime);
 
-	// Ä¶ƒ{ƒ^ƒ“‚ÆŒ»İ
+	// å†ç”Ÿãƒœã‚¿ãƒ³ã¨ç¾åœ¨æ™‚åˆ»
 	if (StudioTimelineWidget::DrawToolbar(animator.isPlaying, viewTime, frameStep))
 	{
-		// ÅŒã‚Ü‚ÅÄ¶‚µ‚«‚Á‚½ó‘Ô‚©‚çÄ¶‚µ‚½‚çA“ª‚É–ß‚·
+		// æœ€å¾Œã¾ã§å†ç”Ÿã—ãã£ãŸçŠ¶æ…‹ã‹ã‚‰å†ç”Ÿã—ãŸã‚‰ã€é ­ã«æˆ»ã™
 		if (animator.isPlaying && viewTime >= length)
 		{
 			animator.animationTime = toAnimatorTime(0.0f);
@@ -211,7 +211,7 @@ bool StudioSequencer::DrawTimelineArea(const Model& model, AnimatorComponent& an
 		animator.isEnd = false;
 	}
 
-	// ƒ^ƒCƒ€ƒ‰ƒCƒ“
+	// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 	if (timeline.Begin("##SequencerRuler", length, frameStep, viewTime))
 	{
 		animator.animationTime = toAnimatorTime(viewTime);
@@ -220,7 +220,7 @@ bool StudioSequencer::DrawTimelineArea(const Model& model, AnimatorComponent& an
 		context.requestPoseUpdate = true;
 	}
 
-	// ƒtƒ‰ƒO‚²‚Æ‚Ìƒgƒ‰ƒbƒN
+	// ãƒ•ãƒ©ã‚°ã”ã¨ã®ãƒˆãƒ©ãƒƒã‚¯
 	bool changed = false;
 	for (int i = 0; i < (int)SequencerFlag::Count; i++)
 	{
@@ -229,26 +229,26 @@ bool StudioSequencer::DrawTimelineArea(const Model& model, AnimatorComponent& an
 
 	timeline.End();
 
-	// Ä¶ˆÊ’u‚Å‘€ì‚·‚éƒ{ƒ^ƒ“
+	// å†ç”Ÿä½ç½®ã§æ“ä½œã™ã‚‹ãƒœã‚¿ãƒ³
 	const float pinTime = StudioTimelineWidget::SnapToFrame(viewTime, frameStep, length);
 	changed |= DrawItemButtons(model, clipName, pinTime, frameStep);
 
 	return changed;
 }
 
-// ”’l
+// æ•°å€¤
 bool StudioSequencer::DrawDetailArea(const Model& model, const std::string& clipName, const std::string& modelPath)
 {
 	ImGui::Text("Clip: %s", clipName.c_str());
 	ImGui::TextDisabled("Track: %s", GetFlagName(selectedTrack));
 	ImGui::Separator();
 
-	// ‘I‚ñ‚Å‚¢‚é Point / Range ‚ÌÚ×
+	// é¸ã‚“ã§ã„ã‚‹ Point / Range ã®è©³ç´°
 	bool changed = DrawSelectedItem(model, clipName);
 
 	ImGui::Separator();
 
-	// •Û‘¶
+	// ä¿å­˜
 	if (ImGui::Button("Save"))
 	{
 		Save(modelPath);
@@ -261,7 +261,7 @@ bool StudioSequencer::DrawDetailArea(const Model& model, const std::string& clip
 
 	return changed;
 }
-// Ú×
+// è©³ç´°
 bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& clipName)
 {
 	const Model::Animation* animation = model.FindAnimation(clipName);
@@ -283,7 +283,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 
 	ImGui::Text(point ? "Point" : "Range");
 
-	// •Ê‚Ìƒgƒ‰ƒbƒN‚ÖˆÚ‚·
+	// åˆ¥ã®ãƒˆãƒ©ãƒƒã‚¯ã¸ç§»ã™
 	const SequencerFlag currentFlag = point ? point->flag : range->flag;
 	if (ImGui::BeginCombo("Track", GetFlagName(currentFlag)))
 	{
@@ -292,7 +292,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 			const SequencerFlag flag = (SequencerFlag)i;
 			const bool isCurrent = (flag == currentFlag);
 
-			// Range ‚ÍAˆÚ‚µ‚½æ‚Ì Range ‚Æd‚È‚éƒgƒ‰ƒbƒN‚Í‘I‚×‚È‚¢
+			// Range ã¯ã€ç§»ã—ãŸå…ˆã® Range ã¨é‡ãªã‚‹ãƒˆãƒ©ãƒƒã‚¯ã¯é¸ã¹ãªã„
 			bool blocked = false;
 			if (range && !isCurrent)
 			{
@@ -315,7 +315,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 				if (point) point->flag = flag;
 				else       range->flag = flag;
 
-				selectedTrack = flag; // ˆÚ‚µ‚½æ‚Ìƒgƒ‰ƒbƒN‚ğŠJ‚­
+				selectedTrack = flag; // ç§»ã—ãŸå…ˆã®ãƒˆãƒ©ãƒƒã‚¯ã‚’é–‹ã
 				changed = true;
 			}
 			ImGui::EndDisabled();
@@ -326,7 +326,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 	}
 
 
-	// 
+	// æ™‚åˆ»
 	if (point)
 	{
 		float time = animation->ToBakedTime(point->time);
@@ -343,7 +343,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 		float start = animation->ToBakedTime(range->start);
 		float end = animation->ToBakedTime(range->end);
 
-		// “¯‚¶ƒgƒ‰ƒbƒN‚Ì—×‚Ì Range ‚É‚Ô‚Â‚©‚ç‚È‚¢”ÍˆÍ
+		// åŒã˜ãƒˆãƒ©ãƒƒã‚¯ã®éš£ã® Range ã«ã¶ã¤ã‹ã‚‰ãªã„ç¯„å›²
 		float lower = 0.0f;
 		float upper = length;
 		GetRangeLimits(*clip, *range, *animation, lower, upper);
@@ -354,7 +354,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 
 		if (rangeChanged)
 		{
-			// ƒtƒŒ[ƒ€‚É‹z‚¢•t‚©‚¹‚Ä‚©‚çA—×‚Ì Range ‚ÆÅ’á‚Ì’·‚³‚ğç‚é
+			// ãƒ•ãƒ¬ãƒ¼ãƒ ã«å¸ã„ä»˜ã‹ã›ã¦ã‹ã‚‰ã€éš£ã® Range ã¨æœ€ä½ã®é•·ã•ã‚’å®ˆã‚‹
 			start = std::clamp(StudioTimelineWidget::SnapToFrame(start, frameStep, length), lower, end - minLength);
 			end = std::clamp(StudioTimelineWidget::SnapToFrame(end, frameStep, length), start + minLength, upper);
 
@@ -367,7 +367,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 			StudioTimelineWidget::ToFrame(animation->ToBakedTime(range->end), frameStep));
 	}
 
-	// íœ
+	// å‰Šé™¤
 	if (ImGui::Button("Delete"))
 	{
 		const int id = selectedId;
@@ -382,7 +382,7 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 			list.erase(std::remove_if(list.begin(), list.end(), [id](const SequencerRange& r) { return r.id == id; }), list.end());
 		}
 
-		// Á‚µ‚½‚à‚Ì‚ğw‚µ‚½‚Ü‚Ü‚É‚È‚ç‚È‚¢‚æ‚¤‚ÉA‘I‘ğ‚ğŠO‚·
+		// æ¶ˆã—ãŸã‚‚ã®ã‚’æŒ‡ã—ãŸã¾ã¾ã«ãªã‚‰ãªã„ã‚ˆã†ã«ã€é¸æŠã‚’å¤–ã™
 		selectedType = SelectionType::None;
 		selectedId = -1;
 		changed = true;
@@ -391,13 +391,13 @@ bool StudioSequencer::DrawSelectedItem(const Model& model, const std::string& cl
 	return changed;
 }
 
-// ƒgƒ‰ƒbƒN‚Ì•`‰æ
+// ãƒˆãƒ©ãƒƒã‚¯ã®æç”»
 bool StudioSequencer::DrawTrack(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep)
 {
 	const int index = (int)flag;
 	const bool trackSelected = (selectedTrack == flag);
 
-	// Œ©o‚µFƒtƒ‰ƒO–¼
+	// è¦‹å‡ºã—ï¼šãƒ•ãƒ©ã‚°å
 	ImGui::PushID(index);
 	ImGui::SetCursorScreenPos(ImVec2(timeline.GetLeft(), ImGui::GetCursorScreenPos().y));
 
@@ -410,7 +410,7 @@ bool StudioSequencer::DrawTrack(SequencerFlag flag, const Model& model, const st
 	}
 	ImGui::PopID();
 
-	// si‘I‚ñ‚Å‚¢‚éƒtƒ‰ƒO‚¾‚¯ŠJ‚­j
+	// è¡Œï¼ˆé¸ã‚“ã§ã„ã‚‹ãƒ•ãƒ©ã‚°ã ã‘é–‹ãï¼‰
 	bool changed = false;
 	if (trackSelected)
 	{
@@ -424,7 +424,7 @@ bool StudioSequencer::DrawTrack(SequencerFlag flag, const Model& model, const st
 	return changed;
 }
 
-// Point ‚Ìs
+// Point ã®è¡Œ
 bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep)
 {
 	const Lane lane = BeginLane(timeline, PointLaneHeight, (selectedTrack == flag) ? LaneSelectedColor : LaneColor);
@@ -437,8 +437,8 @@ bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, cons
 	{
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		const float length = animation->secondsLength;
-		const float halfWidth = 7.0f;          // ‚Â‚©‚ß‚é•‚Ì”¼•ª
-		const float tipY = lane.top + 14.0f;   // ƒsƒ“‚Ì‚Æ‚ª‚Á‚½æ
+		const float halfWidth = 7.0f;          // ã¤ã‹ã‚ã‚‹å¹…ã®åŠåˆ†
+		const float tipY = lane.top + 14.0f;   // ãƒ”ãƒ³ã®ã¨ãŒã£ãŸå…ˆ
 
 		ImGui::PushID((int)flag);
 		ImGui::PushID("Points");
@@ -452,7 +452,7 @@ bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, cons
 			ImGui::SetCursorScreenPos(ImVec2(x - halfWidth, lane.top));
 			ImGui::InvisibleButton("##Point", ImVec2(halfWidth * 2.0f, lane.bottom - lane.top));
 
-			// ‰Ÿ‚µ‚½uŠÔ‚É‘I‚Ô
+			// æŠ¼ã—ãŸç¬é–“ã«é¸ã¶
 			if (ImGui::IsItemActivated())
 			{
 				selectedTrack = flag;
@@ -460,7 +460,7 @@ bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, cons
 				selectedId = p.id;
 			}
 
-			// ƒhƒ‰ƒbƒO‚Å“®‚©‚·
+			// ãƒ‰ãƒ©ãƒƒã‚°ã§å‹•ã‹ã™
 			if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 			{
 				const float t = StudioTimelineWidget::SnapToFrame(timeline.XToTime(ImGui::GetIO().MousePos.x), frameStep, length);
@@ -473,7 +473,7 @@ bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, cons
 			}
 			ImGui::PopID();
 
-			// ƒsƒ“
+			// ãƒ”ãƒ³
 			const bool selected = (selectedType == SelectionType::Point && selectedId == p.id);
 			const ImU32 color = selected ? SelectedColor : ItemColor;
 			const float drawX = timeline.TimeToX(animation->ToBakedTime(p.time));
@@ -489,7 +489,7 @@ bool StudioSequencer::DrawPointLane(SequencerFlag flag, const Model& model, cons
 	return changed;
 }
 
-// Range ‚Ìs
+// Range ã®è¡Œ
 bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, const std::string& clipName, float frameStep)
 {
 	const Lane lane = BeginLane(timeline, RangeLaneHeight, (selectedTrack == flag) ? LaneSelectedColor : LaneColor);
@@ -510,12 +510,12 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 		{
 			if (r.flag != flag || !IsRangeVisible(*animation, r.start, r.end)) continue;
 
-			// ƒJƒbƒg‚Ì”ÍˆÍ‚©‚ç‚Í‚İo‚µ‚½•”•ª‚ÍA’[‚ÉŠñ‚¹‚Ä•`‚­
+			// ã‚«ãƒƒãƒˆã®ç¯„å›²ã‹ã‚‰ã¯ã¿å‡ºã—ãŸéƒ¨åˆ†ã¯ã€ç«¯ã«å¯„ã›ã¦æã
 			const float x0 = timeline.TimeToX(animation->ToBakedTime(r.start));
 			const float x1 = timeline.TimeToX(animation->ToBakedTime(r.end));
 			const bool selected = (selectedType == SelectionType::Range && selectedId == r.id);
 
-			// ƒNƒŠƒbƒN‚Å‘I‚Ôi‘Ñ‚ğ‚Â‚©‚ñ‚Å“®‚©‚·‘€ì‚Í–³‚µj
+			// ã‚¯ãƒªãƒƒã‚¯ã§é¸ã¶ï¼ˆå¸¯ã‚’ã¤ã‹ã‚“ã§å‹•ã‹ã™æ“ä½œã¯ç„¡ã—ï¼‰
 			ImGui::PushID(r.id);
 			ImGui::SetCursorScreenPos(ImVec2(x0, lane.top));
 			ImGui::InvisibleButton("##Range", ImVec2((std::max)(x1 - x0, 1.0f), lane.bottom - lane.top));
@@ -527,10 +527,10 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 			}
 			ImGui::PopID();
 
-			// ‘Ñ
+			// å¸¯
 			drawList->AddRectFilled(ImVec2(x0, lane.top + 3.0f), ImVec2(x1, lane.bottom - 3.0f), selected ? ItemColor : ItemDimColor, 3.0f);
 
-			// ƒtƒ‰ƒO–¼i“ü‚è‚«‚é•‚ª‚ ‚é‚Æ‚«‚¾‚¯j
+			// ãƒ•ãƒ©ã‚°åï¼ˆå…¥ã‚Šãã‚‹å¹…ãŒã‚ã‚‹ã¨ãã ã‘ï¼‰
 			const char* name = GetFlagName(flag);
 			const ImVec2 textSize = ImGui::CalcTextSize(name);
 			if (textSize.x + 6.0f < x1 - x0)
@@ -540,7 +540,7 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 		}
 		ImGui::PopID();
 
-		// ‘I‚ñ‚Å‚¢‚é Range ‚Ì’[‚Ìƒsƒ“i‚±‚Ìƒgƒ‰ƒbƒN‚Ì Range ‚ğ‘I‚ñ‚Å‚¢‚é‚Æ‚«‚¾‚¯j
+		// é¸ã‚“ã§ã„ã‚‹ Range ã®ç«¯ã®ãƒ”ãƒ³ï¼ˆã“ã®ãƒˆãƒ©ãƒƒã‚¯ã® Range ã‚’é¸ã‚“ã§ã„ã‚‹ã¨ãã ã‘ï¼‰
 		if (selectedType == SelectionType::Range && selectedTrack == flag)
 		{
 			SequencerRange* r = FindRange(clip, selectedId);
@@ -549,7 +549,7 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 				float start = animation->ToBakedTime(r->start);
 				float end = animation->ToBakedTime(r->end);
 
-				// “¯‚¶ƒgƒ‰ƒbƒN‚Ì—×‚Ì Range ‚É‚Ô‚Â‚©‚Á‚½‚ç~‚Ü‚é
+				// åŒã˜ãƒˆãƒ©ãƒƒã‚¯ã®éš£ã® Range ã«ã¶ã¤ã‹ã£ãŸã‚‰æ­¢ã¾ã‚‹
 				float lower = 0.0f;
 				float upper = length;
 				GetRangeLimits(*clip, *r, *animation, lower, upper);
@@ -557,7 +557,7 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 				const float minLength = StudioTimelineWidget::MinLength(frameStep);
 				if (timeline.DrawRangeHandles("##RangeHandles", lane.bottom, frameStep, minLength, start, end, lower, upper, lane.top))
 				{
-					// ¶ƒf[ƒ^‚Ì•b‚É–ß‚µ‚Ä‘‚«‚Ş
+					// ç”Ÿãƒ‡ãƒ¼ã‚¿ã®ç§’ã«æˆ»ã—ã¦æ›¸ãè¾¼ã‚€
 					r->start = animation->ToRawTime(start);
 					r->end = animation->ToRawTime(end);
 					changed = true;
@@ -567,12 +567,12 @@ bool StudioSequencer::DrawRangeLane(SequencerFlag flag, const Model& model, cons
 		ImGui::PopID();
 	}
 
-	// ‘Ñ‚ÆARange ‚Ì’[‚Ìƒsƒ“‚Ì•ª‚Ì‚‚³‚ğŠm•Û‚·‚é
+	// å¸¯ã¨ã€Range ã®ç«¯ã®ãƒ”ãƒ³ã®åˆ†ã®é«˜ã•ã‚’ç¢ºä¿ã™ã‚‹
 	EndLane(lane, StudioTimelineWidget::RangeHandleHeight);
 	return changed;
 }
 
-// •Â‚¶‚Ä‚¢‚é‚Æ‚«‚Ì×‚¢s
+// é–‰ã˜ã¦ã„ã‚‹ã¨ãã®ç´°ã„è¡Œ
 void StudioSequencer::DrawCollapsedLane(SequencerFlag flag, const Model& model, const std::string& clipName)
 {
 	const Lane lane = BeginLane(timeline, CollapsedLaneHeight, LaneColor);
@@ -585,7 +585,7 @@ void StudioSequencer::DrawCollapsedLane(SequencerFlag flag, const Model& model, 
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		const float midY = (lane.top + lane.bottom) * 0.5f;
 
-		// ã”¼•ªFPoint ‚ğ’Z‚¢cü‚Å
+		// ä¸ŠåŠåˆ†ï¼šPoint ã‚’çŸ­ã„ç¸¦ç·šã§
 		for (const auto& p : clip->points)
 		{
 			if (p.flag != flag || !IsPointVisible(*animation, p.time)) continue;
@@ -593,7 +593,7 @@ void StudioSequencer::DrawCollapsedLane(SequencerFlag flag, const Model& model, 
 			drawList->AddLine(ImVec2(x, lane.top + 2.0f), ImVec2(x, midY - 1.0f), ItemColor, 1.5f);
 		}
 
-		// ‰º”¼•ªFRange ‚ğ×‚¢‘Ñ‚Å
+		// ä¸‹åŠåˆ†ï¼šRange ã‚’ç´°ã„å¸¯ã§
 		for (const auto& r : clip->ranges)
 		{
 			if (r.flag != flag || !IsRangeVisible(*animation, r.start, r.end)) continue;
@@ -606,7 +606,7 @@ void StudioSequencer::DrawCollapsedLane(SequencerFlag flag, const Model& model, 
 	EndLane(lane, 0.0f);
 }
 
-// ƒ{ƒ^ƒ“
+// ãƒœã‚¿ãƒ³
 bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& clipName, float pinTime, float frameStep)
 {
 	const Model::Animation* animation = model.FindAnimation(clipName);
@@ -614,15 +614,15 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 
 	const float length = animation->secondsLength;
 	const float minLength = StudioTimelineWidget::MinLength(frameStep);
-	const float tolerance = minLength * 0.5f; // ¬”‚ÌŒë·‚Æ‚µ‚Ä‹–‚·—Ê
+	const float tolerance = minLength * 0.5f; // å°æ•°ã®èª¤å·®ã¨ã—ã¦è¨±ã™é‡
 
-	// Ä¶ˆÊ’u‚ğA¶ƒf[ƒ^‚Ì•b‚É’¼‚·
+	// å†ç”Ÿä½ç½®ã‚’ã€ç”Ÿãƒ‡ãƒ¼ã‚¿ã®ç§’ã«ç›´ã™
 	const float rawPin = animation->ToRawTime(pinTime);
 
 	SequencerClipData* clip = sequencerData.FindClip(clipName);
 	bool changed = false;
 
-	// Point ’Ç‰Á
+	// Point è¿½åŠ 
 	if (ImGui::Button("Add Point"))
 	{
 		clip = sequencerData.FindOrCreateClip(clipName);
@@ -638,7 +638,7 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 		changed = true;
 	}
 
-	// Range’Ç‰Á
+	// Rangeè¿½åŠ 
 	int unusedIndex = -1;
 	const std::vector<StudioTimelineWidget::TimeSpan> spans = clip
 		? CollectSpans(*clip, selectedTrack, *animation, -1, unusedIndex)
@@ -666,11 +666,11 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 	}
 	ImGui::EndDisabled();
 
-	// ‘I‚ñ‚Å‚¢‚é‚à‚Ì‚ğÄ¶ˆÊ’u‚É‡‚í‚¹‚é
+	// é¸ã‚“ã§ã„ã‚‹ã‚‚ã®ã‚’å†ç”Ÿä½ç½®ã«åˆã‚ã›ã‚‹
 	if (selectedType == SelectionType::Point)
 	{
 		ImGui::SameLine();
-		ImGui::Dummy(ImVec2(16.0f, 0.0f)); // ’Ç‰Áƒ{ƒ^ƒ“‚Æ‚ÌŠÔ‚ğ‹ó‚¯‚é
+		ImGui::Dummy(ImVec2(16.0f, 0.0f)); // è¿½åŠ ãƒœã‚¿ãƒ³ã¨ã®é–“ã‚’ç©ºã‘ã‚‹
 		ImGui::SameLine();
 
 		if (ImGui::Button("Set Time"))
@@ -701,7 +701,7 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 		ImGui::Dummy(ImVec2(16.0f, 0.0f));
 		ImGui::SameLine();
 
-		// Set StartF‘O‚Ì Range ‚ÉH‚¢‚Ü‚¸AI‚í‚è‚Æ‚ÌŠÔ‚ğ1ƒtƒŒ[ƒ€c‚·
+		// Set Startï¼šå‰ã® Range ã«é£Ÿã„è¾¼ã¾ãšã€çµ‚ã‚ã‚Šã¨ã®é–“ã‚’1ãƒ•ãƒ¬ãƒ¼ãƒ æ®‹ã™
 		ImGui::BeginDisabled(!r || pinTime < lower - tolerance || pinTime > end - minLength + tolerance);
 		if (ImGui::Button("Set Start"))
 		{
@@ -712,7 +712,7 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 
 		ImGui::SameLine();
 
-		// Set EndFŒã‚ë‚Ì Range ‚ÉH‚¢‚Ü‚¸An‚Ü‚è‚Æ‚ÌŠÔ‚ğ1ƒtƒŒ[ƒ€c‚·
+		// Set Endï¼šå¾Œã‚ã® Range ã«é£Ÿã„è¾¼ã¾ãšã€å§‹ã¾ã‚Šã¨ã®é–“ã‚’1ãƒ•ãƒ¬ãƒ¼ãƒ æ®‹ã™
 		ImGui::BeginDisabled(!r || pinTime > upper + tolerance || pinTime < start + minLength - tolerance);
 		if (ImGui::Button("Set End"))
 		{
@@ -725,28 +725,28 @@ bool StudioSequencer::DrawItemButtons(const Model& model, const std::string& cli
 	return changed;
 }
 
-// ƒtƒ‰ƒO‚Ì•\¦–¼
+// ãƒ•ãƒ©ã‚°ã®è¡¨ç¤ºå
 const char* StudioSequencer::GetFlagName(SequencerFlag flag)
 {
-	// í—Ş‚ª‘‚¦‚½‚ç‚±‚±‚É‚à’Ç‰Á‚·‚é
+	// ç¨®é¡ãŒå¢—ãˆãŸã‚‰ã“ã“ã«ã‚‚è¿½åŠ ã™ã‚‹
 	static const char* names[] =
 	{
 		"AnimExit",
 	};
 
-	// names ‚Ì—v‘f”‚ÆASequencerFlag ‚ÌŒÂ”‚ªH‚¢ˆá‚Á‚Ä‚¢‚½‚çAƒrƒ‹ƒh‚ÉƒGƒ‰[‚É‚·‚é
+	// names ã®è¦ç´ æ•°ã¨ã€SequencerFlag ã®å€‹æ•°ãŒé£Ÿã„é•ã£ã¦ã„ãŸã‚‰ã€ãƒ“ãƒ«ãƒ‰æ™‚ã«ã‚¨ãƒ©ãƒ¼ã«ã™ã‚‹
 	static_assert(sizeof(names) / sizeof(names[0]) == (size_t)SequencerFlag::Count,
-		"SequencerFlag ‚Æ names ‚Ì”‚ªˆê’v‚µ‚Ü‚¹‚ñ");
+		"SequencerFlag ã¨ names ã®æ•°ãŒä¸€è‡´ã—ã¾ã›ã‚“");
 
 	const int index = (int)flag;
 	if (index < 0 || index >= (int)SequencerFlag::Count) return "?";
 	return names[index];
 }
 
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void StudioSequencer::Load(const std::string& modelPath)
 {
-	// –³‚¢E‰ó‚ê‚Ä‚¢‚é‚Æ‚«‚Í‰Šú’l‚ª•Ô‚éB–³‚­‚Ä•’Ê‚Ìƒtƒ@ƒCƒ‹‚È‚Ì‚ÅAƒƒO‚Ío‚³‚È‚¢
+	// ç„¡ã„ãƒ»å£Šã‚Œã¦ã„ã‚‹ã¨ãã¯åˆæœŸå€¤ãŒè¿”ã‚‹ã€‚ç„¡ãã¦æ™®é€šã®ãƒ•ã‚¡ã‚¤ãƒ«ãªã®ã§ã€ãƒ­ã‚°ã¯å‡ºã•ãªã„
 	sequencerData = fileCache.GetOrLoad(SequencerData::GetFilePath(modelPath),
 		[](SequencerData& data, const nlohmann::json& j) { data.FromJson(j); }, JsonMissingLog::Silent);
 
@@ -755,7 +755,7 @@ void StudioSequencer::Load(const std::string& modelPath)
 	selectedType = SelectionType::None;
 	selectedId = -1;
 }
-// •Û‘¶
+// ä¿å­˜
 void StudioSequencer::Save(const std::string& modelPath)
 {
 	if (modelPath.empty()) return;

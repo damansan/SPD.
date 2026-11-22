@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/Rendering/PostProcessSettings.h"
 
-// ƒ|ƒXƒgƒGƒtƒFƒNƒg’²®ƒc[ƒ‹
+// ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆèª¿æ•´ãƒ„ãƒ¼ãƒ«
 class PostProcessToolWindow
 {
 public:
-	// ’²®‰æ–Ê‚ğ•`‚­
+	// èª¿æ•´ç”»é¢ã‚’æã
 	void Draw(PostProcessSettings& settings);
 
-	// •\¦‚µ‚Ä‚¢‚é‚©
+	// è¡¨ç¤ºã—ã¦ã„ã‚‹ã‹
 	bool isOpen = false;
 };

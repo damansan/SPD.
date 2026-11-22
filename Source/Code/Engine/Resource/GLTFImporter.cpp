@@ -1,4 +1,4 @@
-#include "GLTFImporter.h"
+ï»¿#include "GLTFImporter.h"
 #include "Engine/Utility/misc.h"
 #include <filesystem>
 #include <stack>
@@ -11,7 +11,7 @@
 #include "tiny_gltf.h"
 
 
-// ‰æ‘œ“Ç‚İ‚İ–³Œø‰»
+// ç”»åƒèª­ã¿è¾¼ã¿ç„¡åŠ¹åŒ–
 static bool NullLoadImageData(
 	tinygltf::Image*, const int, std::string*,
 	std::string*, int, int, const unsigned char*, int, void*)
@@ -19,7 +19,7 @@ static bool NullLoadImageData(
 	return true;
 }
 
-// GLTFƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅGLTFData‚ğ•Ô‚·
+// GLTFãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§GLTFDataã‚’è¿”ã™
 std::shared_ptr<GLTFData> GLTFImporter::Load(const std::string& filename)
 {
 	tinygltf::TinyGLTF loader;
@@ -58,7 +58,7 @@ std::shared_ptr<GLTFData> GLTFImporter::Load(const std::string& filename)
 	return data;
 }
 
-// ƒm[ƒh“Ç‚İ‚İ
+// ãƒãƒ¼ãƒ‰èª­ã¿è¾¼ã¿
 void GLTFImporter::LoadNodes(
 	GLTFData& data,
 	const tinygltf::Model& gltfModel)
@@ -82,7 +82,7 @@ void GLTFImporter::LoadNodes(
 			DirectX::XMStoreFloat4(&node.rotation, R);
 			DirectX::XMStoreFloat3(&node.position, T);
 
-			// ‰EèŒn¨¶èŒn•ÏŠ·
+			// å³æ‰‹ç³»â†’å·¦æ‰‹ç³»å¤‰æ›
 			node.position.z = -node.position.z;
 			node.rotation.x = -node.rotation.x;
 			node.rotation.y = -node.rotation.y;
@@ -109,7 +109,7 @@ void GLTFImporter::LoadNodes(
 		data.nodes.push_back(node);
 	}
 
-	// eƒCƒ“ƒfƒbƒNƒXİ’è
+	// è¦ªã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹è¨­å®š
 	for (int i = 0; i < (int)data.nodes.size(); i++)
 	{
 		for (int child : data.nodes[i].childIndices)
@@ -118,7 +118,7 @@ void GLTFImporter::LoadNodes(
 		}
 	}
 
-	// ƒOƒ[ƒoƒ‹ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ŒvZ
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ è¨ˆç®—
 	DirectX::XMFLOAT4X4 identity = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 	for (int i = 0; i < (int)data.nodes.size(); i++)
 	{
@@ -129,7 +129,7 @@ void GLTFImporter::LoadNodes(
 	}
 }
 
-// ƒƒbƒVƒ…“Ç‚İ‚İ
+// ãƒ¡ãƒƒã‚·ãƒ¥èª­ã¿è¾¼ã¿
 void GLTFImporter::LoadMeshes(
 	GLTFData& data,
 	const tinygltf::Model& gltfModel)
@@ -142,7 +142,7 @@ void GLTFImporter::LoadMeshes(
 		{
 			GLTFData::MeshData mesh;
 
-			// nodeIndex ‚ğ‹tˆø‚«
+			// nodeIndex ã‚’é€†å¼•ã
 			for (int n = 0; n < (int)gltfModel.nodes.size(); n++)
 			{
 				if (gltfModel.nodes[n].mesh == meshIdx)
@@ -219,8 +219,8 @@ void GLTFImporter::LoadMeshes(
 				const float* src = reinterpret_cast<const float*>(
 					buf.data.data() + bv.byteOffset + acc.byteOffset);
 
-				// Šm”F—pFƒEƒFƒCƒg‚ÌŒ^‚Æ”z’u
-				Log(u8"[WEIGHTS_0] componentType=%d type=%d count=%zu byteStride=%zu vertices=%zu",
+				// ç¢ºèªç”¨ï¼šã‚¦ã‚§ã‚¤ãƒˆã®å‹ã¨é…ç½®
+				Log("[WEIGHTS_0] componentType=%d type=%d count=%zu byteStride=%zu vertices=%zu",
 					acc.componentType, acc.type, acc.count, bv.byteStride, mesh.vertices.size());
 
 				for (size_t i = 0; i < acc.count; i++)
@@ -240,7 +240,7 @@ void GLTFImporter::LoadMeshes(
 
 				if (acc.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_BYTE)
 				{
-					// uint8_t Œ^i1ƒoƒCƒg~4j
+					// uint8_t å‹ï¼ˆ1ãƒã‚¤ãƒˆÃ—4ï¼‰
 					for (size_t i = 0; i < acc.count; i++)
 					{
 						mesh.vertices[i].boneIndex = {
@@ -251,7 +251,7 @@ void GLTFImporter::LoadMeshes(
 						};
 					}
 				}
-				else // UNSIGNED_SHORTiuint16_tj
+				else // UNSIGNED_SHORTï¼ˆuint16_tï¼‰
 				{
 					const uint16_t* src16 = reinterpret_cast<const uint16_t*>(src);
 					for (size_t i = 0; i < acc.count; i++)
@@ -266,7 +266,7 @@ void GLTFImporter::LoadMeshes(
 				}
 			}
 
-			// ƒCƒ“ƒfƒbƒNƒX
+			// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 			if (primitive.indices >= 0)
 			{
 				const auto& acc = gltfModel.accessors[primitive.indices];
@@ -309,7 +309,7 @@ void GLTFImporter::LoadMeshes(
 				}
 			}
 
-			// ƒ{[ƒ“iƒXƒLƒ“‚©‚çæ“¾j
+			// ãƒœãƒ¼ãƒ³ï¼ˆã‚¹ã‚­ãƒ³ã‹ã‚‰å–å¾—ï¼‰
 			//if (!gltfModel.skins.empty())
 			//{
 			//	const auto& skin = gltfModel.skins[0];
@@ -362,7 +362,7 @@ void GLTFImporter::LoadMeshes(
 				}
 			}
 
-			// ƒ^ƒ“ƒWƒFƒ“ƒgŒvZ
+			// ã‚¿ãƒ³ã‚¸ã‚§ãƒ³ãƒˆè¨ˆç®—
 			ComputeTangents(mesh.vertices, mesh.indices);
 
 			data.meshes.push_back(std::move(mesh));
@@ -370,7 +370,7 @@ void GLTFImporter::LoadMeshes(
 	}
 }
 
-// ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+// ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
 void GLTFImporter::LoadMaterials(
 	GLTFData& data,
 	const tinygltf::Model& gltfModel, const std::filesystem::path& filepath)
@@ -398,7 +398,7 @@ void GLTFImporter::LoadMaterials(
 		mat.roughnessFactor = static_cast<float>(pbr.roughnessFactor);
 		mat.metallicFactor = static_cast<float>(pbr.metallicFactor);
 
-		// ”­Œõ‚ÌŒW”
+		// ç™ºå…‰ã®ä¿‚æ•°
 		if (gltfMaterial.emissiveFactor.size() == 3)
 		{
 			mat.emissiveFactor =
@@ -420,7 +420,7 @@ void GLTFImporter::LoadMaterials(
 
 		mat.alphaCutoff = static_cast<float>(gltfMaterial.alphaCutoff);
 
-		// ƒeƒNƒXƒ`ƒƒƒCƒ“ƒfƒbƒNƒXİ’è
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹è¨­å®š
 		mat.baseMapIndex =
 			pbr.baseColorTexture.index;
 		mat.normalMapIndex =
@@ -436,7 +436,7 @@ void GLTFImporter::LoadMaterials(
 	}
 }
 
-// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 void GLTFImporter::LoadTextures(
 	GLTFData& data,
 	const tinygltf::Model& gltfModel,
@@ -459,12 +459,12 @@ void GLTFImporter::LoadTextures(
 		{
 			std::string texPath = (filepath.parent_path() / image.uri).string();
 
-			// ƒpƒX‚¾‚¯•Û‘¶‚·‚éiƒoƒCƒiƒŠ‚Í“Ç‚Ü‚È‚¢j
+			// ãƒ‘ã‚¹ã ã‘ä¿å­˜ã™ã‚‹ï¼ˆãƒã‚¤ãƒŠãƒªã¯èª­ã¾ãªã„ï¼‰
 			texData.filepath = texPath;
 		}
 		else if (image.bufferView >= 0)
 		{
-			// GLB–„‚ß‚İ‚Ìê‡‚ÍƒoƒCƒiƒŠ‚ğæ‚èo‚·
+			// GLBåŸ‹ã‚è¾¼ã¿ã®å ´åˆã¯ãƒã‚¤ãƒŠãƒªã‚’å–ã‚Šå‡ºã™
 			const auto& bv = gltfModel.bufferViews[image.bufferView];
 			const auto& buffer = gltfModel.buffers[bv.buffer];
 			const uint8_t* begin = buffer.data.data() + bv.byteOffset;
@@ -475,7 +475,7 @@ void GLTFImporter::LoadTextures(
 	}
 }
 
-// ƒAƒjƒ[ƒVƒ‡ƒ““Ç‚İ‚İ
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿
 void GLTFImporter::LoadAnimations(
 	GLTFData& data,
 	const tinygltf::Model& gltfModel)
@@ -536,8 +536,8 @@ void GLTFImporter::LoadAnimations(
 				for (size_t i = 0; i < inputAcc.count; i++)
 				{
 					#if 0
-					// ‚È‚º‚©Unity‚Åo—Í‚µ‚½ƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^‚É‚ÍƒSƒ~‚Æv‚í‚ê‚éƒL[ƒtƒŒ[ƒ€‚ª‘¶İ‚µ‚Ä‚¢‚éê‡‚ª‚ ‚éB
-					// ¬”“_‚ª‘¶İ‚·‚éƒtƒŒ[ƒ€iŠÔj‚ªƒSƒ~ƒf[ƒ^‚Á‚Û‚¢‚Ì‚ÅœŠO‚·‚éB
+					// ãªãœã‹Unityã§å‡ºåŠ›ã—ãŸã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã«ã¯ã‚´ãƒŸã¨æ€ã‚ã‚Œã‚‹ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ãŒå­˜åœ¨ã—ã¦ã„ã‚‹å ´åˆãŒã‚ã‚‹ã€‚
+					// å°æ•°ç‚¹ãŒå­˜åœ¨ã™ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆæ™‚é–“ï¼‰ãŒã‚´ãƒŸãƒ‡ãƒ¼ã‚¿ã£ã½ã„ã®ã§é™¤å¤–ã™ã‚‹ã€‚
 					float frame = times[i] * 60.0f;
 					if (fabs(std::round(frame) - frame) > 0.001) continue;
 
@@ -571,14 +571,14 @@ void GLTFImporter::LoadAnimations(
 	}
 }
 
-// ƒXƒLƒjƒ“ƒO”»’è
+// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°åˆ¤å®š
 bool GLTFImporter::CheckHasSkin(const tinygltf::Model& gltfModel)
 {
 	return !gltfModel.skins.empty();
 }
 
 
-// À•WŒn•ÏŠ·ƒwƒ‹ƒp[
+// åº§æ¨™ç³»å¤‰æ›ãƒ˜ãƒ«ãƒ‘ãƒ¼
 DirectX::XMFLOAT3 GLTFImporter::ToXMFLOAT3(const std::vector<double>& v)
 {
 	return {
@@ -611,7 +611,7 @@ DirectX::XMFLOAT4X4 GLTFImporter::ToXMFLOAT4X4(const std::vector<double>& v)
 }
 
 
-// ƒ^ƒ“ƒWƒFƒ“ƒgŒvZ
+// ã‚¿ãƒ³ã‚¸ã‚§ãƒ³ãƒˆè¨ˆç®—
 void GLTFImporter::ComputeTangents(
 	std::vector<GLTFData::Vertex>& vertices,
 	const std::vector<uint32_t>& indices)
@@ -657,7 +657,7 @@ void GLTFImporter::ComputeTangents(
 }
 
 
-// ƒOƒ[ƒoƒ‹ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ŒvZ
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ è¨ˆç®—
 void GLTFImporter::CalcGlobalTransform(
 	std::vector<GLTFData::Node>& nodes,
 	int nodeIndex,

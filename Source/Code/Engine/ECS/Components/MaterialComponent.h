@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 #include "Engine/ECS/Reflect.h"
 
-// g—p‚·‚éGBufferƒVƒF[ƒ_[‚Ìí—Ş
+// ä½¿ç”¨ã™ã‚‹GBufferã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ç¨®é¡
 enum class ShadingModel : uint8_t
 {
     Default = 0,
@@ -26,7 +26,7 @@ struct MaterialComponent
     
     REFLECT_END()
 
-    // ƒVƒF[ƒ_[–¼‚É•ÏŠ·‚·‚éƒwƒ‹ƒp[
+    // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼åã«å¤‰æ›ã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼
     const char* GetShaderName() const
     {
         switch (shadingModel)

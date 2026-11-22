@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include <string>
 
-// ƒeƒNƒXƒ`ƒƒ‚Ì’l‚ğ‚Ç‚¤‰ğß‚·‚é‚©
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å€¤ã‚’ã©ã†è§£é‡ˆã™ã‚‹ã‹
 enum class TextureColorSpace
 {
-    Linear, // ƒf[ƒ^‚ÌƒeƒNƒXƒ`ƒƒ
-    sRGB,   // F‚ÌƒeƒNƒXƒ`ƒƒ
+    Linear, // ãƒ‡ãƒ¼ã‚¿ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
+    sRGB,   // è‰²ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 };
 
 class GpuResourceUtils
 {
 public:
-    // ’¸“_ƒVƒF[ƒ_[“Ç‚İ‚İ
+    // é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
     static HRESULT LoadVertexShader(
         ID3D11Device* device,
         const std::string& filename,
@@ -23,14 +23,14 @@ public:
         Microsoft::WRL::ComPtr<ID3D11VertexShader>& vertexShader
     );
 
-    // ƒsƒNƒZƒ‹ƒVƒF[ƒ_[“Ç‚İ‚İ
+    // ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
     static HRESULT LoadPixelShader(
         ID3D11Device* device,
         const std::string& filename,
         Microsoft::WRL::ComPtr<ID3D11PixelShader>& pixelShader
     );
 
-    // –„‚ß‚İƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+    // åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
     static HRESULT LoadTexture(
         ID3D11Device* device,
         const unsigned char* data,
@@ -39,7 +39,7 @@ public:
         TextureColorSpace colorSpace = TextureColorSpace::Linear
     );
 
-    // ƒtƒ@ƒCƒ‹ƒpƒX‚©‚çƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+    // ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
     static HRESULT LoadTextureFromFile(
         ID3D11Device* device,
         const std::string& filename,
@@ -47,7 +47,7 @@ public:
         TextureColorSpace colorSpace = TextureColorSpace::Linear
     );
 
-    // DDSƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+    // DDSãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
     static HRESULT LoadDDSTexture(
         ID3D11Device* device,
         const std::string& filename,
@@ -55,7 +55,7 @@ public:
         bool* isCubemap = nullptr,
         TextureColorSpace colorSpace = TextureColorSpace::Linear
     );
-    // DDSƒLƒƒƒbƒVƒ…•t‚«ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+    // DDSã‚­ãƒ£ãƒƒã‚·ãƒ¥ä»˜ããƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
     static HRESULT LoadTextureWithDDSCache(
         ID3D11Device* device,
         const std::string& filename,
@@ -63,14 +63,14 @@ public:
         TextureColorSpace colorSpace = TextureColorSpace::Linear
     );
 
-    // PNG‚È‚Ç‚Ìƒtƒ@ƒCƒ‹‚ğDDS‚Æ‚µ‚Ä•Û‘¶
+    // PNGãªã©ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’DDSã¨ã—ã¦ä¿å­˜
     static HRESULT SaveToDDS(
         ID3D11Device* device,
         const std::string& srcFilename,
         const std::string& ddsFilename
     );
 
-    // ƒ_ƒ~[ƒeƒNƒXƒ`ƒƒ¶¬
+    // ãƒ€ãƒŸãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
     static HRESULT CreateDummyTexture(
         ID3D11Device* device,
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
@@ -78,7 +78,7 @@ public:
         UINT dimension
     );
 
-    // ’è”ƒoƒbƒtƒ@¶¬
+    // å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
     static HRESULT CreateConstantBuffer(
         ID3D11Device* device,
         UINT byteWidth,

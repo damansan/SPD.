@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include <PxPhysicsAPI.h>
 
 
-// ƒJƒeƒSƒ‰ƒCƒY
+// ã‚«ãƒ†ã‚´ãƒ©ã‚¤ã‚º
 namespace PhysicsLayer
 {
-    constexpr physx::PxU32 Static    = 1 << 0; // Ã“I„‘Ì
-    constexpr physx::PxU32 Dynamic   = 1 << 1; // “®“I„‘Ì
-    constexpr physx::PxU32 Character = 1 << 2; // ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[
+    constexpr physx::PxU32 Static    = 1 << 0; // é™çš„å‰›ä½“
+    constexpr physx::PxU32 Dynamic   = 1 << 1; // å‹•çš„å‰›ä½“
+    constexpr physx::PxU32 Character = 1 << 2; // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 
-    // PxFilterDataì¬
+    // PxFilterDataä½œæˆ
     inline physx::PxFilterData MakeFilterData(physx::PxU32 layer)
     {
         return physx::PxFilterData(layer, 0, 0, 0);
     }
 }
 
-// ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO
-// ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO
+// ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°
+// ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°
 class PhysicsQueryFilter : public physx::PxQueryFilterCallback
 {
 public:

@@ -1,4 +1,4 @@
-#include "PhysicsSystem.h"
+ï»¿#include "PhysicsSystem.h"
 #include "Engine/Core/PhysicsDestroyQueue.h"
 #include "Engine/Core/PhysicsLayer.h"
 
@@ -13,7 +13,7 @@ using namespace physx;
 
 std::vector<DebugRay> PhysicsSystem::debugRays;
 
-// TransformComponent‚Ì‰ñ“]‚©‚çPxQuat‚ğì‚é
+// TransformComponentã®å›è»¢ã‹ã‚‰PxQuatã‚’ä½œã‚‹
 static PxQuat ToPxQuat(const DirectX::XMFLOAT3& rotation)
 {
 	DirectX::XMVECTOR q = DirectX::XMQuaternionRotationRollPitchYaw(
@@ -26,7 +26,7 @@ static PxQuat ToPxQuat(const DirectX::XMFLOAT3& rotation)
 namespace
 {
 
-	// ‰¡‚É“–‚½‚Á‚½–Ê‚ğ1‚ÂŠo‚¦‚Ä‚¨‚­
+	// æ¨ªã«å½“ãŸã£ãŸé¢ã‚’1ã¤è¦šãˆã¦ãŠã
 	class SideHitCollector : public PxUserControllerHitReport
 	{
 	public:
@@ -35,7 +35,7 @@ namespace
 			hasHit = false;
 			bestNormalY = 1.0f;
 			normal = PxVec3(0.0f, 0.0f, 0.0f);
-			intendedDir = PxVec3(moveDisp.x, 0.0f, moveDisp.z); // …•½‚¾‚¯
+			intendedDir = PxVec3(moveDisp.x, 0.0f, moveDisp.z); // æ°´å¹³ã ã‘
 
 			hasGround = false;
 			bestGroundY = -1.0f;
@@ -44,7 +44,7 @@ namespace
 
 		void onShapeHit(const PxControllerShapeHit& hit) override
 		{
-			// °Fˆê”ÔuãŒü‚«v‚Ì–Ê‚ğc‚·(— •Ô‚Á‚½–Ê‚É“–‚½‚Á‚Ä‰º‚ğŒü‚¢‚Ä‚¢‚½‚çAãŒü‚«‚É’¼‚·)
+			// åºŠï¼šä¸€ç•ªã€Œä¸Šå‘ãã€ã®é¢ã‚’æ®‹ã™(è£è¿”ã£ãŸé¢ã«å½“ãŸã£ã¦ä¸‹ã‚’å‘ã„ã¦ã„ãŸã‚‰ã€ä¸Šå‘ãã«ç›´ã™)
 			PxVec3 upNormal = hit.worldNormal;
 			if (upNormal.y < 0.0f)
 			{
@@ -57,14 +57,14 @@ namespace
 				groundNormal = upNormal;
 			}
 
-			// •ÛŒ¯F— •Ô‚Á‚½–Ê‚â”Â‚É— ‚©‚ç“–‚½‚Á‚Ä‚àA–@ü‚ªƒvƒŒƒCƒ„[‘¤‚ğŒü‚­‚æ‚¤‚É‚·‚é
+			// ä¿é™ºï¼šè£è¿”ã£ãŸé¢ã‚„æ¿ã«è£ã‹ã‚‰å½“ãŸã£ã¦ã‚‚ã€æ³•ç·šãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã‚’å‘ãã‚ˆã†ã«ã™ã‚‹
 			PxVec3 hitNormal = hit.worldNormal;
 			if (hitNormal.dot(intendedDir) > 0.0f)
 			{
 				hitNormal = -hitNormal;
 			}
 
-			// ˆê”Ôu‰¡Œü‚«v‚Ì–Ê(–@ü‚Ì y ‚ª 0 ‚É‹ß‚¢)‚ğc‚·
+			// ä¸€ç•ªã€Œæ¨ªå‘ãã€ã®é¢(æ³•ç·šã® y ãŒ 0 ã«è¿‘ã„)ã‚’æ®‹ã™
 			const float normalY = fabsf(hitNormal.y);
 			if (!hasHit || normalY < bestNormalY)
 			{
@@ -74,55 +74,55 @@ namespace
 			}
 		}
 
-		void onControllerHit(const PxControllersHit&) override {}      // CCT “¯m
-		void onObstacleHit(const PxControllerObstacleHit&) override {} // g‚Á‚Ä‚¢‚È‚¢
+		void onControllerHit(const PxControllersHit&) override {}      // CCT åŒå£«
+		void onObstacleHit(const PxControllerObstacleHit&) override {} // ä½¿ã£ã¦ã„ãªã„
 
 		bool   hasHit = false;
 		float  bestNormalY = 1.0f;
 		PxVec3 normal = PxVec3(0.0f, 0.0f, 0.0f);
-		PxVec3 intendedDir = PxVec3(0.0f, 0.0f, 0.0f); // ‚±‚ÌƒtƒŒ[ƒ€‚É“®‚©‚µ‚½‚©‚Á‚½…•½‚ÌŒü‚«
+		PxVec3 intendedDir = PxVec3(0.0f, 0.0f, 0.0f); // ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«å‹•ã‹ã—ãŸã‹ã£ãŸæ°´å¹³ã®å‘ã
 
 		bool   hasGround = false;
 		float  bestGroundY = -1.0f;
 		PxVec3 groundNormal = PxVec3(0.0f, 1.0f, 0.0f);
 	};
 
-	// ‚·‚×‚Ä‚Ì CCT ‚Å1‚Â‚ğg‚¢‰ñ‚·
+	// ã™ã¹ã¦ã® CCT ã§1ã¤ã‚’ä½¿ã„å›ã™
 	SideHitCollector sideHitCollector;
 
-	// StaticBodyComponent‚ªŠO‚ê‚é^Entity‚ª”jŠü‚³‚ê‚é’¼‘O‚ÉAActor‚ğ”jŠü—\–ñ‚·‚é
+	// StaticBodyComponentãŒå¤–ã‚Œã‚‹ï¼EntityãŒç ´æ£„ã•ã‚Œã‚‹ç›´å‰ã«ã€Actorã‚’ç ´æ£„äºˆç´„ã™ã‚‹
 	void OnStaticBodyDestroyed(entt::registry& registry, entt::entity entity)
 	{
 		if (auto* body = registry.try_get<StaticBodyComponent>(entity))
 		{
 			PhysicsDestroyQueue::Push(body->actor);
-			body->actor = nullptr; // “ñd—\–ñ‚Ì•ÛŒ¯
+			body->actor = nullptr; // äºŒé‡äºˆç´„ã®ä¿é™º
 		}
 	}
 
-	// CharacterControllerComponent‚ªŠO‚ê‚é^Entity‚ª”jŠü‚³‚ê‚é’¼‘O‚ÉAController‚ğ”jŠü—\–ñ‚·‚é
+	// CharacterControllerComponentãŒå¤–ã‚Œã‚‹ï¼EntityãŒç ´æ£„ã•ã‚Œã‚‹ç›´å‰ã«ã€Controllerã‚’ç ´æ£„äºˆç´„ã™ã‚‹
 	void OnCharacterControllerDestroyed(entt::registry& registry, entt::entity entity)
 	{
 		if (auto* ctrl = registry.try_get<CharacterControllerComponent>(entity))
 		{
 			PhysicsDestroyQueue::Push(ctrl->controller);
-			ctrl->controller = nullptr; // “ñd—\–ñ‚Ì•ÛŒ¯
+			ctrl->controller = nullptr; // äºŒé‡äºˆç´„ã®ä¿é™º
 		}
 	}
 
-	// ‘«Œ³ foot ‚Éu‘S‘Ì‚Ì‚‚³ heightE”¼Œa radiusv‚ÌƒJƒvƒZƒ‹‚ğ’u‚¢‚½‚çAStatic/Dynamic ‚Éd‚È‚é‚©
+	// è¶³å…ƒ foot ã«ã€Œå…¨ä½“ã®é«˜ã• heightãƒ»åŠå¾„ radiusã€ã®ã‚«ãƒ—ã‚»ãƒ«ã‚’ç½®ã„ãŸã‚‰ã€Static/Dynamic ã«é‡ãªã‚‹ã‹
 	bool OverlapsCapsuleAt(PxScene* scene, const PxExtendedVec3& foot, float contactOffset, float radius, float height)
 	{
 		const float halfCylinder = CharacterControllerComponent::CylinderHeight(height, radius) * 0.5f;
 		const float centerY = static_cast<float>(foot.y) + contactOffset + radius + halfCylinder;
 
-		// PhysX ‚ÌƒJƒvƒZƒ‹‚Í X ²Œü‚« ¨ Z ²‚Ü‚í‚è‚É 90‹ ‰ñ‚µ‚Ä Y ²Œü‚«‚É‚·‚é
+		// PhysX ã®ã‚«ãƒ—ã‚»ãƒ«ã¯ X è»¸å‘ã â†’ Z è»¸ã¾ã‚ã‚Šã« 90Â° å›ã—ã¦ Y è»¸å‘ãã«ã™ã‚‹
 		const PxTransform pose(
 			PxVec3(static_cast<float>(foot.x), centerY, static_cast<float>(foot.z)),
 			PxQuat(PxHalfPi, PxVec3(0.0f, 0.0f, 1.0f)));
 		const PxCapsuleGeometry geometry(radius, halfCylinder);
 
-		// ©•ª(Character ƒŒƒCƒ„[)‚Íœ‚¢‚ÄAStatic ‚Æ Dynamic ‚¾‚¯‚ğŒ©‚é
+		// è‡ªåˆ†(Character ãƒ¬ã‚¤ãƒ¤ãƒ¼)ã¯é™¤ã„ã¦ã€Static ã¨ Dynamic ã ã‘ã‚’è¦‹ã‚‹
 		PhysicsQueryFilter filter(PhysicsLayer::Static | PhysicsLayer::Dynamic);
 		PxQueryFilterData filterData;
 		filterData.flags = PxQueryFlag::eSTATIC | PxQueryFlag::eDYNAMIC | PxQueryFlag::ePREFILTER | PxQueryFlag::eANY_HIT;
@@ -132,7 +132,7 @@ namespace
 	}
 }
 
-// XV
+// æ›´æ–°
 void PhysicsSystem::Update(entt::registry& registry, PhysX& physX, physx::PxScene* pxScene, physx::PxControllerManager* controllerManager, float elapsedTime)
 {
 	SyncBodyTypes(registry);
@@ -143,38 +143,38 @@ void PhysicsSystem::Update(entt::registry& registry, PhysX& physX, physx::PxScen
 
 }
 
-// „‘ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªŠO‚ê‚é/ƒGƒ“ƒeƒBƒeƒB‚ª”j‰ó‚³‚ê‚é‘O‚ÉPhysX‚ÌÀ‘Ì‚ğíœ‚·‚é
+// å‰›ä½“ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå¤–ã‚Œã‚‹/ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒç ´å£Šã•ã‚Œã‚‹å‰ã«PhysXã®å®Ÿä½“ã‚’å‰Šé™¤ã™ã‚‹
 void PhysicsSystem::ConnectDestroyListeners(entt::registry& registry)
 {
 	registry.on_destroy<StaticBodyComponent>().connect<&OnStaticBodyDestroyed>();
 	registry.on_destroy<CharacterControllerComponent>().connect<&OnCharacterControllerDestroyed>();
 }
 
-// ƒŒƒCƒ„[‚ÉƒŒƒCƒLƒƒƒXƒg
+// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆ
 RaycastHitResult PhysicsSystem::Raycast(physx::PxScene* pxScene, const DirectX::XMFLOAT3& origin, const DirectX::XMFLOAT3& direction, float maxDistance, physx::PxU32 wantedLayers)
 {
 	RaycastHitResult result;
 
-	// ŠJnˆÊ’u‚ğPxVec3‚Ö•ÏŠ·
+	// é–‹å§‹ä½ç½®ã‚’PxVec3ã¸å¤‰æ›
 	PxVec3 pxOrigin(origin.x, origin.y, origin.z);
 
-	// •ûŒü‚ğ³‹K‰»‚µ‚ÄPxVec3‚Ö•ÏŠ·
+	// æ–¹å‘ã‚’æ­£è¦åŒ–ã—ã¦PxVec3ã¸å¤‰æ›
 	DirectX::XMVECTOR dirVec = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&direction));
 	DirectX::XMFLOAT3 normalizedDir;
 	DirectX::XMStoreFloat3(&normalizedDir, dirVec);
 	PxVec3 pxDirection(normalizedDir.x, normalizedDir.y, normalizedDir.z);
 
-	// —~‚µ‚¢ƒŒƒCƒ„[‚¾‚¯‚ğ’Ê‚·
+	// æ¬²ã—ã„ãƒ¬ã‚¤ãƒ¤ãƒ¼ã ã‘ã‚’é€šã™
 	PhysicsQueryFilter filter(wantedLayers);
 
-	// —~‚µ‚¢„‘Ì‚Åi‚è‚Ş
+	// æ¬²ã—ã„å‰›ä½“ã§çµã‚Šè¾¼ã‚€
 	PxQueryFilterData filterData;
 	filterData.flags = PxQueryFlag::eSTATIC | PxQueryFlag::eDYNAMIC | PxQueryFlag::ePREFILTER;
 
-	// Œ‹‰Ê‚ğó‚¯æ‚é
+	// çµæœã‚’å—ã‘å–ã‚‹
 	PxRaycastBuffer hitBuffer;
 
-	// ƒŒƒC‚ğ”ò‚Î‚·
+	// ãƒ¬ã‚¤ã‚’é£›ã°ã™
 	bool status = pxScene->raycast(
 		pxOrigin, pxDirection, maxDistance,
 		hitBuffer,
@@ -182,7 +182,7 @@ RaycastHitResult PhysicsSystem::Raycast(physx::PxScene* pxScene, const DirectX::
 		filterData,
 		&filter);
 
-	// “–‚½‚Á‚½Œ‹‰Ê‚ğæ‚èo‚·
+	// å½“ãŸã£ãŸçµæœã‚’å–ã‚Šå‡ºã™
 	if (status && hitBuffer.hasBlock)
 	{
 		result.hit = true;
@@ -191,7 +191,7 @@ RaycastHitResult PhysicsSystem::Raycast(physx::PxScene* pxScene, const DirectX::
 		result.normal = { hitBuffer.block.normal.x,   hitBuffer.block.normal.y,   hitBuffer.block.normal.z };
 	}
 
-	// ƒŒƒC‚ğ‹L˜^
+	// ãƒ¬ã‚¤ã‚’è¨˜éŒ²
 	DebugRay debugRay;
 	debugRay.start = origin;
 	float drawDistance = result.hit ? result.distance : maxDistance;
@@ -201,8 +201,8 @@ RaycastHitResult PhysicsSystem::Raycast(physx::PxScene* pxScene, const DirectX::
 		origin.z + normalizedDir.z * drawDistance
 	};
 	debugRay.color = result.hit
-		? DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f)  // “–‚½‚ê‚ÎÔ
-		: DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f); // “–‚½‚ç‚È‚¯‚ê‚ÎÂ
+		? DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f)  // å½“ãŸã‚Œã°èµ¤
+		: DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f); // å½“ãŸã‚‰ãªã‘ã‚Œã°é’
 	debugRays.push_back(debugRay);
 
 	return result;
@@ -215,7 +215,7 @@ std::vector<DebugRay> PhysicsSystem::FetchDebugRays()
 	return result;
 }
 
-// PhysicsBodyTypeComponent::type ‚É‡‚í‚¹‚ÄA„‘ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•t‚¯ŠO‚µ‚·‚é
+// PhysicsBodyTypeComponent::type ã«åˆã‚ã›ã¦ã€å‰›ä½“ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä»˜ã‘å¤–ã—ã™ã‚‹
 void PhysicsSystem::SyncBodyTypes(entt::registry& registry)
 {
 	auto view = registry.view<PhysicsBodyTypeComponent>();
@@ -234,11 +234,11 @@ void PhysicsSystem::SyncBodyTypes(entt::registry& registry)
 		}
 		else if (registry.all_of<StaticBodyComponent>(entity))
 		{
-			// À‘Ì‚ÌActor‚Ì”jŠü—\–ñ‚ÍAon_destroy‚Ì’Ê’m‚Ås‚í‚ê‚é
+			// å®Ÿä½“ã®Actorã®ç ´æ£„äºˆç´„ã¯ã€on_destroyã®é€šçŸ¥ã§è¡Œã‚ã‚Œã‚‹
 			registry.remove<StaticBodyComponent>(entity);
 		}
 
-		// CharacteriMovementComponent‚ÆƒZƒbƒgj
+		// Characterï¼ˆMovementComponentã¨ã‚»ãƒƒãƒˆï¼‰
 		if (type == PhysicsBodyType::Character)
 		{
 			if (!registry.all_of<CharacterControllerComponent>(entity))
@@ -256,7 +256,7 @@ void PhysicsSystem::SyncBodyTypes(entt::registry& registry)
 		}
 		else if (registry.all_of<CharacterControllerComponent>(entity))
 		{
-			// Controller‚Ì”jŠü—\–ñ‚ÍAon_destroy‚Ì’Ê’m‚Ås‚í‚ê‚é
+			// Controllerã®ç ´æ£„äºˆç´„ã¯ã€on_destroyã®é€šçŸ¥ã§è¡Œã‚ã‚Œã‚‹
 			registry.remove<CharacterControllerComponent>(entity);
 
 			if (registry.all_of<MovementComponent>(entity))
@@ -271,7 +271,7 @@ void PhysicsSystem::SyncBodyTypes(entt::registry& registry)
 	}
 }
 
-// íœ—\–ñ‚³‚ê‚½Actor‚ğ‰ğ•ú‚·‚é
+// å‰Šé™¤äºˆç´„ã•ã‚ŒãŸActorã‚’è§£æ”¾ã™ã‚‹
 void PhysicsSystem::ProcessDestroyQueue()
 {
 	auto& destroyQueue = PhysicsDestroyQueue::GetQueue();
@@ -286,7 +286,7 @@ void PhysicsSystem::ProcessDestroyQueue()
 	}
 	destroyQueue.clear();
 
-	// Controller‚Ì‰ğ•ú
+	// Controllerã®è§£æ”¾
 	auto& controllerQueue = PhysicsDestroyQueue::GetControllerQueue();
 	for (PxController* controller : controllerQueue)
 	{
@@ -296,7 +296,7 @@ void PhysicsSystem::ProcessDestroyQueue()
 	controllerQueue.clear();
 }
 
-// –¢¶¬‚ÌStaticBodyComponent¶¬
+// æœªç”Ÿæˆã®StaticBodyComponentç”Ÿæˆ
 void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, physx::PxScene* pxScene)
 {
 	auto view = registry.view<StaticBodyComponent, StaticMeshComponent, TransformComponent>();
@@ -305,16 +305,16 @@ void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, 
 	{
 		auto& body = view.get<StaticBodyComponent>(entity);
 
-		// Šù‚É¶¬Ï‚İ‚È‚çƒXƒLƒbƒv
+		// æ—¢ã«ç”Ÿæˆæ¸ˆã¿ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 		if (body.actor != nullptr) continue;
 
 		auto& staticMesh = view.get<StaticMeshComponent>(entity);
 		auto& transform = view.get<TransformComponent>(entity);
 
-		// ƒ‚ƒfƒ‹‚ª–¢ƒ[ƒh‚È‚çƒXƒLƒbƒv
+		// ãƒ¢ãƒ‡ãƒ«ãŒæœªãƒ­ãƒ¼ãƒ‰ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 		if (!staticMesh.model) continue;
 
-		// Actor‚ÌˆÊ’uE‰ñ“]‚ğİ’è
+		// Actorã®ä½ç½®ãƒ»å›è»¢ã‚’è¨­å®š
 		PxTransform pxTransform(
 			PxVec3(transform.position.x, transform.position.y, transform.position.z),
 			ToPxQuat(transform.rotation)
@@ -322,7 +322,7 @@ void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, 
 
 		PxRigidStatic* actor = physX.GetPhysics()->createRigidStatic(pxTransform);
 
-		// ƒ‚ƒfƒ‹“à‚ÌŠeMesh‚²‚Æ‚ÉƒVƒFƒCƒv‚ğ’Ç‰Á
+		// ãƒ¢ãƒ‡ãƒ«å†…ã®å„Meshã”ã¨ã«ã‚·ã‚§ã‚¤ãƒ—ã‚’è¿½åŠ 
 		int shapeCount = 0;
 		for (const auto& mesh : staticMesh.model->GetMeshes())
 		{
@@ -336,7 +336,7 @@ void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, 
 				static_cast<uint32_t>(mesh.indices.size() / 3)
 			);
 
-			if (!triMesh) continue; // ƒƒbƒVƒ…¶¬¸”s
+			if (!triMesh) continue; // ãƒ¡ãƒƒã‚·ãƒ¥ç”Ÿæˆå¤±æ•—
 
 			PxMeshScale meshScale(
 				PxVec3(transform.scale.x, transform.scale.y, transform.scale.z)
@@ -351,13 +351,13 @@ void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, 
 
 			if (shape)
 			{
-				// StaticƒŒƒCƒ„[‚ğ•t—^
+				// Staticãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ä»˜ä¸
 				shape->setQueryFilterData(PhysicsLayer::MakeFilterData(PhysicsLayer::Static));
 				shapeCount++;
 			}
 		}
 
-		// ƒVƒFƒCƒv‚ª1‚Â‚àì‚ê‚È‚©‚Á‚½ê‡‚ÍActor‚²‚Æ”jŠü
+		// ã‚·ã‚§ã‚¤ãƒ—ãŒ1ã¤ã‚‚ä½œã‚Œãªã‹ã£ãŸå ´åˆã¯Actorã”ã¨ç ´æ£„
 		if (shapeCount == 0)
 		{
 			actor->release();
@@ -369,7 +369,7 @@ void PhysicsSystem::ProcessStaticBodies(entt::registry& registry, PhysX& physX, 
 	}
 }
 
-// –¢¶¬‚ÌCharacterControllerComponent¶¬+CharacterControllerˆÚ“®ˆ—
+// æœªç”Ÿæˆã®CharacterControllerComponentç”Ÿæˆ+CharacterControllerç§»å‹•å‡¦ç†
 void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX& physX, physx::PxControllerManager* controllerManager, float elapsedTime)
 {
 	auto view = registry.view<CharacterControllerComponent, TransformComponent>();
@@ -379,25 +379,25 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 		auto& ctrl = view.get<CharacterControllerComponent>(entity);
 		auto& transform = view.get<TransformComponent>(entity);
 
-		// –¢¶¬‚È‚çController–{‘Ì‚ğ¶¬‚·‚é
+		// æœªç”Ÿæˆãªã‚‰Controlleræœ¬ä½“ã‚’ç”Ÿæˆã™ã‚‹
 		if (ctrl.controller == nullptr)
 		{
 			PxCapsuleControllerDesc desc;
-			desc.radius = ctrl.radius;                                                        // ƒJƒvƒZƒ‹”¼Œa
-			desc.height = CharacterControllerComponent::CylinderHeight(ctrl.height, ctrl.radius); // ‰~’Œ•”•ª‚Ì’·‚³
-			desc.position = PxExtendedVec3(transform.position.x, transform.position.y, transform.position.z); // ¶¬ˆÊ’u
-			desc.material = physX.GetDefaultMaterial();  // •¨—ƒ}ƒeƒŠƒAƒ‹
-			desc.upDirection = PxVec3(0.0f, 1.0f, 0.0f); // Y²+‚ğã•ûŒü‚Æ‚·‚é
+			desc.radius = ctrl.radius;                                                        // ã‚«ãƒ—ã‚»ãƒ«åŠå¾„
+			desc.height = CharacterControllerComponent::CylinderHeight(ctrl.height, ctrl.radius); // å††æŸ±éƒ¨åˆ†ã®é•·ã•
+			desc.position = PxExtendedVec3(transform.position.x, transform.position.y, transform.position.z); // ç”Ÿæˆä½ç½®
+			desc.material = physX.GetDefaultMaterial();  // ç‰©ç†ãƒãƒ†ãƒªã‚¢ãƒ«
+			desc.upDirection = PxVec3(0.0f, 1.0f, 0.0f); // Yè»¸+ã‚’ä¸Šæ–¹å‘ã¨ã™ã‚‹
 
-			desc.stepOffset = 0.2f; // ©“®‚Å“o‚é’i·‚ÌãŒÀ
-			//desc.slopeLimit = cosf(physx::PxDegToRad(45.0f)); // •às‰Â”\‚Èâ‚ÌŠp“x
-			//desc.climbingMode = physx::PxCapsuleClimbingMode::eCONSTRAINED;  // ’i·‚Ì“o‚è‚ğ‚æ‚èŒµ–§‚É§ŒÀ
+			desc.stepOffset = 0.2f; // è‡ªå‹•ã§ç™»ã‚‹æ®µå·®ã®ä¸Šé™
+			//desc.slopeLimit = cosf(physx::PxDegToRad(45.0f)); // æ­©è¡Œå¯èƒ½ãªå‚ã®è§’åº¦
+			//desc.climbingMode = physx::PxCapsuleClimbingMode::eCONSTRAINED;  // æ®µå·®ã®ç™»ã‚Šã‚’ã‚ˆã‚Šå³å¯†ã«åˆ¶é™
 			desc.nonWalkableMode = physx::PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
-			desc.reportCallback = &sideHitCollector; // “–‚½‚Á‚½–Ê‚Ì•ñæ
-			//desc.contactOffset = 0.01f; // ÚGŒŸo‚Ìƒ}[ƒWƒ“‚ğ‹·‚ß‚é(ŒŸo¸“xUP)
+			desc.reportCallback = &sideHitCollector; // å½“ãŸã£ãŸé¢ã®å ±å‘Šå…ˆ
+			//desc.contactOffset = 0.01f; // æ¥è§¦æ¤œå‡ºã®ãƒãƒ¼ã‚¸ãƒ³ã‚’ç‹­ã‚ã‚‹(æ¤œå‡ºç²¾åº¦UP)
 			
 			
-			if (!desc.isValid()) continue; // ƒpƒ‰ƒ[ƒ^•s³‚È‚ç¶¬‚µ‚È‚¢
+			if (!desc.isValid()) continue; // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¸æ­£ãªã‚‰ç”Ÿæˆã—ãªã„
 
 			ctrl.controller = controllerManager->createController(desc);
 			ctrl.appliedRadius = ctrl.radius;
@@ -405,7 +405,7 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 
 			ctrl.controller->setFootPosition(PxExtendedVec3(transform.position.x, transform.position.y, transform.position.z));
 
-			// CharacterƒŒƒCƒ„[•t—^
+			// Characterãƒ¬ã‚¤ãƒ¤ãƒ¼ä»˜ä¸
 			if (PxRigidDynamic* controllerActor = ctrl.controller->getActor())
 			{
 				PxShape* controllerShape = nullptr;
@@ -414,14 +414,14 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 					controllerShape->setQueryFilterData(PhysicsLayer::MakeFilterData(PhysicsLayer::Character));
 				}
 			}
-			// ¶¬’¼Œã‚ÌƒtƒŒ[ƒ€‚ÍˆÚ“®‚³‚¹‚È‚¢iŸƒtƒŒ[ƒ€‚©‚çˆÚ“®‚ğ”½‰f‚·‚éj
+			// ç”Ÿæˆç›´å¾Œã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¯ç§»å‹•ã•ã›ãªã„ï¼ˆæ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ç§»å‹•ã‚’åæ˜ ã™ã‚‹ï¼‰
 			continue;
 		}
 
-		// MovementComponent‚ª–³‚¢Entity‚ÍˆÚ“®‚³‚¹‚È‚¢i‚»‚Ìê‚Å‘Ò‹@j
+		// MovementComponentãŒç„¡ã„Entityã¯ç§»å‹•ã•ã›ãªã„ï¼ˆãã®å ´ã§å¾…æ©Ÿï¼‰
 		auto* movement = registry.try_get<MovementComponent>(entity);
 
-		// “–‚½‚è”»’è‚Ì‚‚³‚Æ”¼Œa
+		// å½“ãŸã‚Šåˆ¤å®šã®é«˜ã•ã¨åŠå¾„
 		if (movement)
 		{
 			const float wantedHeight = ctrl.height * movement->heightScale;
@@ -431,14 +431,14 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 
 			const PxExtendedVec3 foot = ctrl.controller->getFootPosition();
 
-			// ‘¾‚­‚·‚é‚¾‚¯Fü‚è‚É‹óŠÔ‚ª‚È‚¯‚ê‚ÎA¡‚Ì‘¾‚³‚Ì‚Ü‚Ü(‹óŠÔ‚ª‚Å‚«‚½ƒtƒŒ[ƒ€‚Å‘¾‚­‚È‚é)
+			// å¤ªãã™ã‚‹æ™‚ã ã‘ï¼šå‘¨ã‚Šã«ç©ºé–“ãŒãªã‘ã‚Œã°ã€ä»Šã®å¤ªã•ã®ã¾ã¾(ç©ºé–“ãŒã§ããŸãƒ•ãƒ¬ãƒ¼ãƒ ã§å¤ªããªã‚‹)
 			if (wantedRadius > ctrl.appliedRadius + 1e-4f &&
 				OverlapsCapsuleAt(ctrl.controller->getScene(), foot, ctrl.controller->getContactOffset(), wantedRadius, wantedHeight))
 			{
 				wantedRadius = ctrl.appliedRadius;
 			}
 
-			// •Ï‚í‚Á‚½‚¾‚¯İ’è‚µ’¼‚·
+			// å¤‰ã‚ã£ãŸæ™‚ã ã‘è¨­å®šã—ç›´ã™
 			const bool heightChanged = fabsf(wantedHeight - ctrl.appliedHeight) > 1e-4f;
 			const bool radiusChanged = fabsf(wantedRadius - ctrl.appliedRadius) > 1e-4f;
 			if (heightChanged || radiusChanged)
@@ -446,7 +446,7 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 				auto* capsule = static_cast<PxCapsuleController*>(ctrl.controller);
 				capsule->setRadius(wantedRadius);
 				capsule->resize(CharacterControllerComponent::CylinderHeight(wantedHeight, wantedRadius));
-				capsule->setFootPosition(foot); // ”¼Œa‚ğ•Ï‚¦‚é‚Æ’†SŠî€‚ÅL‚Ñk‚İ‚·‚é‚Ì‚ÅA‘«Œ³‚ğŒ³‚ÌˆÊ’u‚É–ß‚·
+				capsule->setFootPosition(foot); // åŠå¾„ã‚’å¤‰ãˆã‚‹ã¨ä¸­å¿ƒåŸºæº–ã§ä¼¸ã³ç¸®ã¿ã™ã‚‹ã®ã§ã€è¶³å…ƒã‚’å…ƒã®ä½ç½®ã«æˆ»ã™
 
 				ctrl.appliedRadius = wantedRadius;
 				ctrl.appliedHeight = wantedHeight;
@@ -462,14 +462,14 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 				movement->velocity.z * elapsedTime
 			);
 
-			// ‰º‚èâ‚Å•‚‚©‚È‚¢‚æ‚¤‚ÉF‘O‚ÌƒtƒŒ[ƒ€‚ÅÚ’n‚µ‚Ä‚¢‚ÄAã‚Ö“®‚¢‚Ä‚¢‚È‚¢‚¾‚¯
-			// …•½‚ÌˆÚ“®—Ê‚É‡‚í‚¹‚ÄAâ‚É‰ˆ‚¤•ª‚¾‚¯‰º‚Ö‚¸‚ç‚·(ã‚èâE•½’n‚Å‚Í‰½‚à‚µ‚È‚¢)
+			// ä¸‹ã‚Šå‚ã§æµ®ã‹ãªã„ã‚ˆã†ã«ï¼šå‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§æ¥åœ°ã—ã¦ã„ã¦ã€ä¸Šã¸å‹•ã„ã¦ã„ãªã„æ™‚ã ã‘
+			// æ°´å¹³ã®ç§»å‹•é‡ã«åˆã‚ã›ã¦ã€å‚ã«æ²¿ã†åˆ†ã ã‘ä¸‹ã¸ãšã‚‰ã™(ä¸Šã‚Šå‚ãƒ»å¹³åœ°ã§ã¯ä½•ã‚‚ã—ãªã„)
 			const auto* contact = registry.try_get<CharacterContactComponent>(entity);
 			if (contact && movement->isGrounded && movement->velocity.y <= 0.0f)
 			{
 				const DirectX::XMFLOAT3& n = contact->groundNormal;
 
-				// •à‚¯‚é’ö“x‚Ìâ‚¾‚¯(‹}‚·‚¬‚é–Ê‚Í PhysX ‚É”C‚¹‚ÄŠŠ‚ç‚¹‚é)
+				// æ­©ã‘ã‚‹ç¨‹åº¦ã®å‚ã ã‘(æ€¥ã™ãã‚‹é¢ã¯ PhysX ã«ä»»ã›ã¦æ»‘ã‚‰ã›ã‚‹)
 				constexpr float kMinFollowNormalY = 0.7f;
 				if (n.y >= kMinFollowNormalY)
 				{
@@ -482,18 +482,18 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 			}
 		}
 
-		// ˆÚ“®‚ğÀsi•ÇE’i·E’n–Ê‚Æ‚ÌÕ“Ë‰ğŒˆ‚ÍPhysX‚ªs‚¤j
+		// ç§»å‹•ã‚’å®Ÿè¡Œï¼ˆå£ãƒ»æ®µå·®ãƒ»åœ°é¢ã¨ã®è¡çªè§£æ±ºã¯PhysXãŒè¡Œã†ï¼‰
 		sideHitCollector.Reset(disp);
 		PxControllerFilters filters;
 		PxControllerCollisionFlags collisionFlags = ctrl.controller->move(disp, 0.001f, elapsedTime, filters);
 
-		// Œ‹‰Ê‚ÌˆÊ’u‚ğTransform‚Ö”½‰fi‘«Œ³À•Wj
+		// çµæœã®ä½ç½®ã‚’Transformã¸åæ˜ ï¼ˆè¶³å…ƒåº§æ¨™ï¼‰
 		PxExtendedVec3 foot = ctrl.controller->getFootPosition();
 		transform.position.x = static_cast<float>(foot.x);
 		transform.position.y = static_cast<float>(foot.y);
 		transform.position.z = static_cast<float>(foot.z);
 
-		// ÚG‚ÌŒ‹‰Ê‚ğ”½‰f
+		// æ¥è§¦ã®çµæœã‚’åæ˜ 
 		if (auto* contact = registry.try_get<CharacterContactComponent>(entity))
 		{
 			const bool sides = (collisionFlags & PxControllerCollisionFlag::eCOLLISION_SIDES);
@@ -502,7 +502,7 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 				? DirectX::XMFLOAT3{ sideHitCollector.normal.x, sideHitCollector.normal.y, sideHitCollector.normal.z }
 			: DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f };
 
-			// °F‰º‚É“–‚½‚Á‚½‚¾‚¯–@ü‚ğ“ü‚ê‚é(“–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Î^ã)
+			// åºŠï¼šä¸‹ã«å½“ãŸã£ãŸæ™‚ã ã‘æ³•ç·šã‚’å…¥ã‚Œã‚‹(å½“ãŸã£ã¦ã„ãªã‘ã‚Œã°çœŸä¸Š)
 			const bool down = (collisionFlags & PxControllerCollisionFlag::eCOLLISION_DOWN);
 			contact->hitGround = false;
 			contact->groundNormal = DirectX::XMFLOAT3{ 0.0f, 1.0f, 0.0f };
@@ -512,24 +512,24 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 				contact->groundNormal = DirectX::XMFLOAT3{ sideHitCollector.groundNormal.x, sideHitCollector.groundNormal.y, sideHitCollector.groundNormal.z };
 			}
 
-			// —§‚Ä‚é‚©F¡‚ÌƒJƒvƒZƒ‹‚ª—§‚Á‚½‚æ‚è’á‚¢‚¾‚¯’²‚×‚é(—§‚Á‚Ä‚¢‚é‚Íí‚É true)
+			// ç«‹ã¦ã‚‹ã‹ï¼šä»Šã®ã‚«ãƒ—ã‚»ãƒ«ãŒç«‹ã£ãŸæ™‚ã‚ˆã‚Šä½ã„æ™‚ã ã‘èª¿ã¹ã‚‹(ç«‹ã£ã¦ã„ã‚‹æ™‚ã¯å¸¸ã« true)
 			contact->canStand = true;
 			if (ctrl.appliedHeight < ctrl.height - 1e-4f)
 			{
-				// —§‚Á‚½‚ÌƒJƒvƒZƒ‹(¡‚Ì”¼ŒaEŒ³‚Ì‚‚³)‚ªA‰½‚©‚Éd‚È‚é‚©
+				// ç«‹ã£ãŸæ™‚ã®ã‚«ãƒ—ã‚»ãƒ«(ä»Šã®åŠå¾„ãƒ»å…ƒã®é«˜ã•)ãŒã€ä½•ã‹ã«é‡ãªã‚‹ã‹
 				contact->canStand = !OverlapsCapsuleAt(
 					ctrl.controller->getScene(), ctrl.controller->getFootPosition(),
 					ctrl.controller->getContactOffset(), ctrl.appliedRadius, ctrl.height);
 			}
 		}
 
-		// Ú’n‚Éí‚É‚©‚¯‚Ä‚¨‚­A’n–Ê‚É‰Ÿ‚µ•t‚¯‚é—Í‚Ì‘å‚«‚³
+		// æ¥åœ°æ™‚ã«å¸¸ã«ã‹ã‘ã¦ãŠãã€åœ°é¢ã«æŠ¼ã—ä»˜ã‘ã‚‹åŠ›ã®å¤§ãã•
 		constexpr float kGroundStickSpeed = 2.0f;
 
-		// Ú’n”»’è‚ğMovementComponent‚Ö”½‰f
+		// æ¥åœ°åˆ¤å®šã‚’MovementComponentã¸åæ˜ 
 		if (movement)
 		{
-			// ‚±‚ÌƒtƒŒ[ƒ€‚Åg‚Á‚½…•½‘¬“x‚Ì‘å‚«‚³
+			// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ä½¿ã£ãŸæ°´å¹³é€Ÿåº¦ã®å¤§ãã•
 			movement->planarSpeed = sqrtf(
 				movement->velocity.x * movement->velocity.x +
 				movement->velocity.z * movement->velocity.z);
@@ -537,7 +537,7 @@ void PhysicsSystem::ProcessCharacterControllers(entt::registry& registry, PhysX&
 			bool grounded = (collisionFlags & PxControllerCollisionFlag::eCOLLISION_DOWN);
 			movement->isGrounded = grounded;
 
-			// ’n–Ê‚Ö‰Ÿ‚µ•t‚¯‚é—Í‚ğ‚©‚¯‚é
+			// åœ°é¢ã¸æŠ¼ã—ä»˜ã‘ã‚‹åŠ›ã‚’ã‹ã‘ã‚‹
 			if (grounded && movement->velocity.y <= 0.0f)
 			{
 				movement->velocity.y = -kGroundStickSpeed;

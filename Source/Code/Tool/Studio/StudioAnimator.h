@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IStudioAttachment.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
@@ -11,7 +11,7 @@ public:
 
     void SetWindowId(int id) { windowId = id; }
 
-    // ImGui•`‰æ
+    // ImGuiæç”»
     void DrawGUI(
         entt::registry& registry,
         StudioContext& context) override;

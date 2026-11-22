@@ -1,4 +1,4 @@
-#include "EditorApp.h"
+ï»¿#include "EditorApp.h"
 #include "tracy/Tracy.hpp"
 #include <filesystem>
 #include <algorithm>
@@ -11,39 +11,39 @@
 #include "Tool/Editor/FileDialog.h"
 #include "GameTool/GameInspectors.h"
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void EditorApp::OnInitialize()
 {
-	// ImGuiManager‰Šú‰»
+	// ImGuiManageråˆæœŸåŒ–
 	imguiManager.Initialize(hwnd, graphics.GetDevice(), graphics.GetDeviceContext());
 
-	// Viewport‚ÆƒfƒoƒbƒOƒJƒƒ‰
+	// Viewportã¨ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©
 	viewportWindow.Initialize();
 
-	// Project‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“o˜^(Engine‚Ì‚à‚Ì‚ÍŠî”Õ‚ª“o˜^Ï‚İ)
+	// Projectã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç™»éŒ²(Engineã®ã‚‚ã®ã¯åŸºç›¤ãŒç™»éŒ²æ¸ˆã¿)
 	GameComponents::Register();
 
-	// ƒCƒ“ƒXƒyƒNƒ^[‚Ì“Æ©•`‰æ‚Ì“o˜^
+	// ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã®ç‹¬è‡ªæç”»ã®ç™»éŒ²
 	ComponentRegistryInitializer::Initialize();
 	GameInspectors::Register();
 
 	sceneManager.ChangeScene(std::make_unique<SceneGame>());
 
-	// ProjectWindow‰Šú‰»
+	// ProjectWindowåˆæœŸåŒ–
 	projectWindow.Initialize("Data");
 	projectWindow.LoadIcons(graphics.GetDevice());
-	// PrefabWindow‰Šú‰»
+	// PrefabWindowåˆæœŸåŒ–
 	prefabWindow.Initialize("Data/Prefab");
 
-	// Studio‹¤—LƒŠƒ\[ƒX‰Šú‰»
+	// Studioå…±æœ‰ãƒªã‚½ãƒ¼ã‚¹åˆæœŸåŒ–
 	studioShared.Initialize(graphics.GetDevice());
 	studioShared.postProcessSettings = &postProcessSettings;
 }
 
-// ƒV[ƒ“XV‚Ì‘O
+// ã‚·ãƒ¼ãƒ³æ›´æ–°ã®å‰
 void EditorApp::OnPreUpdate(float elapsedTime)
 {
-	// F1‚ÅƒQ[ƒ€’P‘Ì‚ÌŒ©‚½–Ú(ImGui–³‚µ)‚ğƒvƒŒƒrƒ…[Ø‚è‘Ö‚¦
+	// F1ã§ã‚²ãƒ¼ãƒ å˜ä½“ã®è¦‹ãŸç›®(ImGuiç„¡ã—)ã‚’ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼åˆ‡ã‚Šæ›¿ãˆ
 	static bool prevF1 = false;
 	bool currF1 = (GetAsyncKeyState(VK_F1) & 0x8000) != 0;
 	if (currF1 && !prevF1)
@@ -51,7 +51,7 @@ void EditorApp::OnPreUpdate(float elapsedTime)
 		previewRelease = !previewRelease;
 	}
 	prevF1 = currF1;
-	// ƒEƒBƒ“ƒhƒE‚Ìc‰¡”ä‚ğƒJƒƒ‰‚É“–‚Ä‚é
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç¸¦æ¨ªæ¯”ã‚’ã‚«ãƒ¡ãƒ©ã«å½“ã¦ã‚‹
 	if (previewRelease)
 	{
 		RECT rc{};
@@ -62,10 +62,10 @@ void EditorApp::OnPreUpdate(float elapsedTime)
 		{
 			float aspect = width / height;
 
-			// ƒQ[ƒ€ƒJƒƒ‰
+			// ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©
 			gameView.SetAspect(aspect);
 
-			// ƒfƒoƒbƒOƒJƒƒ‰(Debugƒ‚[ƒh‚Ì‚Ü‚ÜƒvƒŒƒrƒ…[‚µ‚½‚Æ‚«‚àˆø‚«L‚Î‚³‚ê‚È‚¢‚æ‚¤‚É)
+			// ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©(Debugãƒ¢ãƒ¼ãƒ‰ã®ã¾ã¾ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã—ãŸã¨ãã‚‚å¼•ãä¼¸ã°ã•ã‚Œãªã„ã‚ˆã†ã«)
 			Camera& debugCamera = viewportWindow.GetDebugCamera();
 			debugCamera.SetPerspectiveFov(
 				DirectX::XMConvertToRadians(debugCamera.GetViewingAngle()),
@@ -74,7 +74,7 @@ void EditorApp::OnPreUpdate(float elapsedTime)
 	}
 
 
-	// ‰EƒNƒŠƒbƒN‚ğ‰Ÿ‚µ‚½uŠÔAGame‚Ö‚Ì“ü—Í‚ª—LŒø‚Å‚ ‚ê‚ÎDebugƒ‚[ƒh‚ÉØ‚è‘Ö‚¦
+	// å³ã‚¯ãƒªãƒƒã‚¯ã‚’æŠ¼ã—ãŸç¬é–“ã€Gameã¸ã®å…¥åŠ›ãŒæœ‰åŠ¹ã§ã‚ã‚Œã°Debugãƒ¢ãƒ¼ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆ
 	static bool prevRButton = false;
 	bool currRButton = (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0;
 	if (currRButton && !prevRButton && IsGameInputActive())
@@ -84,37 +84,37 @@ void EditorApp::OnPreUpdate(float elapsedTime)
 	prevRButton = currRButton;
 }
 
-// ƒV[ƒ“XV‚ÌŒã
+// ã‚·ãƒ¼ãƒ³æ›´æ–°ã®å¾Œ
 void EditorApp::OnPostUpdate(float elapsedTime)
 {
-	// ƒfƒoƒbƒOƒJƒƒ‰XV(ƒV[ƒ“‚ÌŒã‚És‚¤)
+	// ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©æ›´æ–°(ã‚·ãƒ¼ãƒ³ã®å¾Œã«è¡Œã†)
 	UpdateDebugCamera(elapsedTime);
 
-	// ˆÚ“®‚Ì‹L˜^
+	// ç§»å‹•ã®è¨˜éŒ²
 	if (auto* scene = sceneManager.GetCurrentScene())
 	{
 		movementMonitor.Record(scene->GetRegistry(), elapsedTime);
 	}
 
-	// StudioXV
+	// Studioæ›´æ–°
 	for (auto& win : studioWindows)
 	{
 		win->Update(elapsedTime);
 	}
 }
 
-// –ˆƒtƒŒ[ƒ€1‰ñ(ImGui)
+// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 1å›(ImGui)
 void EditorApp::OnFrame()
 {
 	ZoneScoped;
 
-	// ƒvƒŒƒrƒ…[’†‚ÍImGui©‘Ì‚ğˆêØg‚í‚È‚¢
+	// ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ä¸­ã¯ImGuiè‡ªä½“ã‚’ä¸€åˆ‡ä½¿ã‚ãªã„
 	if (!IsEditorActive()) return;
 
-	// ImGuiƒtƒŒ[ƒ€ŠJn
+	// ImGuiãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹
 	imguiManager.BeginFrame();
 
-	// GameƒEƒBƒ“ƒhƒE(Viewport‚ÆƒhƒbƒLƒ“ƒOƒŒƒCƒAƒEƒg)
+	// Gameã‚¦ã‚£ãƒ³ãƒ‰ã‚¦(Viewportã¨ãƒ‰ãƒƒã‚­ãƒ³ã‚°ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ)
 	viewportWindow.Draw(gameView, [this]() { DrawMainMenu(); });
 
 	if (auto* scene = sceneManager.GetCurrentScene())
@@ -125,13 +125,13 @@ void EditorApp::OnFrame()
 		prefabWindow.Draw(scene->GetRegistry(), editorContext);
 		adaptiveTriggerTool.Draw(scene->GetRegistry());
 	}
-	// ƒV[ƒ“‚ª–³‚­‚Ä‚àAƒƒO‚ÍŒ©‚ç‚ê‚é‚æ‚¤‚É‚·‚é
+	// ã‚·ãƒ¼ãƒ³ãŒç„¡ãã¦ã‚‚ã€ãƒ­ã‚°ã¯è¦‹ã‚‰ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 	logWindow.Draw();
-	// Às’†‚ÉŠm”F‚·‚éƒc[ƒ‹
+	// å®Ÿè¡Œä¸­ã«ç¢ºèªã™ã‚‹ãƒ„ãƒ¼ãƒ«
 	movementMonitor.Draw();
 	postProcessTool.Draw(postProcessSettings);
 
-	// StudioOpenRequest‚ğˆ—
+	// StudioOpenRequestã‚’å‡¦ç†
 	if (editorContext.studioRequest.pending)
 	{
 		OpenStudioWindow(editorContext.studioRequest.assetPath);
@@ -143,7 +143,7 @@ void EditorApp::OnFrame()
 		std::string title = "Studio##" + std::to_string(win->GetWindowId());
 		win->DrawWindow(title.c_str());
 	}
-	// •Â‚¶‚éƒŠƒNƒGƒXƒg‚ªo‚½ƒEƒBƒ“ƒhƒE‚ğíœ
+	// é–‰ã˜ã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒå‡ºãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’å‰Šé™¤
 	studioWindows.erase(
 		std::remove_if(studioWindows.begin(), studioWindows.end(),
 			[](const std::unique_ptr<StudioWindow>& w)
@@ -153,10 +153,10 @@ void EditorApp::OnFrame()
 		studioWindows.end()
 	);
 
-	// ‘S‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ì•`‰æŒã‚ÉƒV[ƒ“•Û‘¶E“Ç‚İ‚İ‚ğÀs‚·‚é
+	// å…¨ã¦ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æç”»å¾Œã«ã‚·ãƒ¼ãƒ³ä¿å­˜ãƒ»èª­ã¿è¾¼ã¿ã‚’å®Ÿè¡Œã™ã‚‹
 	ProcessSceneRequest();
 
-	// Open‚ÌŠm”Fƒ|ƒbƒvƒAƒbƒv
+	// Openã®ç¢ºèªãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
 	if (ImGui::BeginPopupModal("Open Scene##Confirm", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Current scene will be discarded.\nAre you sure you want to continue?");
@@ -167,7 +167,7 @@ void EditorApp::OnFrame()
 			Scene* scene = sceneManager.GetCurrentScene();
 			if (scene)
 			{
-				// ”jŠü‚·‚éŒÃ‚¢Entity‚Ö‚ÌQÆ‚ªc‚ç‚È‚¢‚æ‚¤A“Ç‚İ‚İ‚Ì‘O‚ÉA‘I‘ğE–¼‘Oƒ}ƒbƒv‚ğƒŠƒZƒbƒg‚·‚é
+				// ç ´æ£„ã™ã‚‹å¤ã„Entityã¸ã®å‚ç…§ãŒæ®‹ã‚‰ãªã„ã‚ˆã†ã€èª­ã¿è¾¼ã¿ã®å‰ã«ã€é¸æŠãƒ»åå‰ãƒãƒƒãƒ—ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 				editorContext.Deselect();
 				editorContext.entityNames.clear();
 
@@ -189,12 +189,12 @@ void EditorApp::OnFrame()
 	}
 }
 
-// GameView‚É•`‚¢‚½ƒQ[ƒ€‚ğA‰æ–Ê‚Öo‚·
+// GameViewã«æã„ãŸã‚²ãƒ¼ãƒ ã‚’ã€ç”»é¢ã¸å‡ºã™
 void EditorApp::OnPresent()
 {
 	if (IsEditorActive())
 	{
-		// Studio•`‰æ
+		// Studioæç”»
 		{
 			ZoneScopedN("Studio::Render");
 			for (auto& win : studioWindows)
@@ -203,10 +203,10 @@ void EditorApp::OnPresent()
 			}
 		}
 
-		// Studio‚ª•`‰ææ‚ğ•Ï‚¦‚é‚Ì‚ÅAƒƒCƒ“RTV‚ğÄƒZƒbƒg
+		// StudioãŒæç”»å…ˆã‚’å¤‰ãˆã‚‹ã®ã§ã€ãƒ¡ã‚¤ãƒ³RTVã‚’å†ã‚»ãƒƒãƒˆ
 		graphics.SetRenderTargets();
 
-		// ImGui•`‰æ(GameView‚ÌƒeƒNƒXƒ`ƒƒ‚àA‚±‚±‚ÅViewportŒo—R‚Å•\¦‚³‚ê‚é)
+		// ImGuiæç”»(GameViewã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚ã€ã“ã“ã§ViewportçµŒç”±ã§è¡¨ç¤ºã•ã‚Œã‚‹)
 		{
 			ZoneScopedN("ImGui::EndFrame");
 			imguiManager.EndFrame();
@@ -214,20 +214,20 @@ void EditorApp::OnPresent()
 	}
 	else
 	{
-		// ƒvƒŒƒrƒ…[’†FƒQ[ƒ€‚ÌƒeƒNƒXƒ`ƒƒ‚ğ‰æ–Ê‘S‘Ì‚É“\‚é
+		// ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ä¸­ï¼šã‚²ãƒ¼ãƒ ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç”»é¢å…¨ä½“ã«è²¼ã‚‹
 		ZoneScopedN("PresentTexture");
 		graphics.PresentTexture(gameView.GetOutputSRV());
 	}
 }
 
-// ƒƒbƒZ[ƒW
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 bool EditorApp::OnMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	// ImGuiƒƒbƒZ[ƒWˆ—
+	// ImGuiãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 	return imguiManager.HandleMessage(hwnd, msg, wparam, lparam);
 }
 
-// •`‰æ‚Ég‚¤ƒJƒƒ‰(Debug‚È‚çƒfƒoƒbƒOƒJƒƒ‰AGame‚È‚çƒQ[ƒ€ƒJƒƒ‰)
+// æç”»ã«ä½¿ã†ã‚«ãƒ¡ãƒ©(Debugãªã‚‰ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©ã€Gameãªã‚‰ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©)
 Camera& EditorApp::GetRenderCamera()
 {
 	return (editorContext.cameraMode == CameraMode::Debug)
@@ -235,19 +235,19 @@ Camera& EditorApp::GetRenderCamera()
 		: gameView.GetCamera();
 }
 
-// Game‚Ö‚Ì“ü—Í‚ğó‚¯•t‚¯‚Ä‚æ‚¢‚©(ƒGƒfƒBƒ^•\¦’†‚ÍViewport‚Éƒ}ƒEƒX‚ª‚ ‚é‚Æ‚«‚¾‚¯)
+// Gameã¸ã®å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã¦ã‚ˆã„ã‹(ã‚¨ãƒ‡ã‚£ã‚¿è¡¨ç¤ºä¸­ã¯Viewportã«ãƒã‚¦ã‚¹ãŒã‚ã‚‹ã¨ãã ã‘)
 bool EditorApp::IsGameInputActive() const
 {
 	return IsEditorActive() ? viewportWindow.IsViewportHovered() : true;
 }
 
-// ƒGƒfƒBƒ^‚ÌUI‚ğ•\¦‚µ‚Ä‚¢‚é‚©
+// ã‚¨ãƒ‡ã‚£ã‚¿ã®UIã‚’è¡¨ç¤ºã—ã¦ã„ã‚‹ã‹
 bool EditorApp::IsEditorActive() const
 {
 	return !previewRelease;
 }
 
-// ƒfƒoƒbƒOƒJƒƒ‰‚ÌXV‚ÆADebug/Game‚ÌØ‚è‘Ö‚¦
+// ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©ã®æ›´æ–°ã¨ã€Debug/Gameã®åˆ‡ã‚Šæ›¿ãˆ
 void EditorApp::UpdateDebugCamera(float elapsedTime)
 {
 	if (editorContext.cameraMode != CameraMode::Debug) return;
@@ -259,11 +259,11 @@ void EditorApp::UpdateDebugCamera(float elapsedTime)
 	debugCameraSystem.Update(registry, elapsedTime, IsGameInputActive());
 	debugCameraSystem.ApplyToCamera(registry, viewportWindow.GetDebugCamera());
 
-	// Game‚Ö‚Ì“ü—Í‚ª—LŒø‚Å‚È‚¯‚ê‚ÎAØ‚è‘Ö‚¦‚Ís‚í‚È‚¢
+	// Gameã¸ã®å…¥åŠ›ãŒæœ‰åŠ¹ã§ãªã‘ã‚Œã°ã€åˆ‡ã‚Šæ›¿ãˆã¯è¡Œã‚ãªã„
 	if (!IsGameInputActive()) return;
 
-	// ƒXƒeƒBƒbƒN“ü—Í‚ª‚ ‚ê‚ÎGameƒ‚[ƒh‚É–ß‚·
-	// (Project‚Ì“ü—Í‚Å‚Í‚È‚­AEngine‚ÌƒRƒ“ƒgƒ[ƒ‰[‚Ì¶‚Ì’l‚ğŒ©‚é)
+	// ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›ãŒã‚ã‚Œã°Gameãƒ¢ãƒ¼ãƒ‰ã«æˆ»ã™
+	// (Projectã®å…¥åŠ›ã§ã¯ãªãã€Engineã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®ç”Ÿã®å€¤ã‚’è¦‹ã‚‹)
 	const float threshold = 0.2f;
 	auto view = registry.view<ControllerComponent>();
 	for (auto entity : view)
@@ -280,7 +280,7 @@ void EditorApp::UpdateDebugCamera(float elapsedTime)
 	}
 }
 
-// Studio‚ğŠJ‚­
+// Studioã‚’é–‹ã
 void EditorApp::OpenStudioWindow(const std::string& assetPath)
 {
 	auto win = std::make_unique<StudioWindow>();
@@ -288,7 +288,7 @@ void EditorApp::OpenStudioWindow(const std::string& assetPath)
 	win->GetContext().deviceContext = graphics.GetDeviceContext();
 	win->SetWindowId(nextStudioWindowId++);
 
-	// ƒpƒX‚ªw’è‚³‚ê‚Ä‚¢‚½‚çƒ‚ƒfƒ‹‚ğƒ[ƒh
+	// ãƒ‘ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰
 	if (!assetPath.empty())
 	{
 		win->LoadAsset(assetPath);
@@ -297,7 +297,7 @@ void EditorApp::OpenStudioWindow(const std::string& assetPath)
 	studioWindows.push_back(std::move(win));
 }
 
-// ƒƒjƒ…[ƒo[‚Ì’†g
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã®ä¸­èº«
 void EditorApp::DrawMainMenu()
 {
 	if (ImGui::BeginMenu("File"))
@@ -333,14 +333,14 @@ void EditorApp::DrawMainMenu()
 		ImGui::EndMenu();
 	}
 
-	// ¡ŠJ‚¢‚Ä‚¢‚éƒV[ƒ“iSave‚Ìã‘‚«æj
+	// ä»Šé–‹ã„ã¦ã„ã‚‹ã‚·ãƒ¼ãƒ³ï¼ˆSaveã®ä¸Šæ›¸ãå…ˆï¼‰
 	std::string sceneName = editorContext.currentScenePath.empty()
 		? "(unsaved)"
 		: std::filesystem::path(editorContext.currentScenePath).filename().string();
 	ImGui::TextDisabled("Scene: %s", sceneName.c_str());
 }
 
-// ƒV[ƒ“‚Ì•Û‘¶E“Ç‚İ‚İƒŠƒNƒGƒXƒg‚ğÀs‚·‚é
+// ã‚·ãƒ¼ãƒ³ã®ä¿å­˜ãƒ»èª­ã¿è¾¼ã¿ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å®Ÿè¡Œã™ã‚‹
 void EditorApp::ProcessSceneRequest()
 {
 	SceneAction action = editorContext.sceneRequest;
@@ -359,7 +359,7 @@ void EditorApp::ProcessSceneRequest()
 
 		if (selected)
 		{
-			// Šù‘¶‚ÌEntity‚ğ”jŠü‚·‚é‚½‚ßAŠm”Fƒ|ƒbƒvƒAƒbƒv‚ğŸ‚ÌƒtƒŒ[ƒ€‚ÅŠJ‚­
+			// æ—¢å­˜ã®Entityã‚’ç ´æ£„ã™ã‚‹ãŸã‚ã€ç¢ºèªãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚’æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§é–‹ã
 			pendingOpenPath = path;
 			ImGui::OpenPopup("Open Scene##Confirm");
 		}
@@ -368,14 +368,14 @@ void EditorApp::ProcessSceneRequest()
 
 	std::string path = editorContext.currentScenePath;
 
-	// Save AsA‚Ü‚½‚Í‚Ü‚¾•Û‘¶æ‚ª–³‚¢Save‚ÍAƒ_ƒCƒAƒƒO‚Å•Û‘¶æ‚ğ‘I‚Ô
+	// Save Asã€ã¾ãŸã¯ã¾ã ä¿å­˜å…ˆãŒç„¡ã„Saveã¯ã€ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ä¿å­˜å…ˆã‚’é¸ã¶
 	if (action == SceneAction::SaveAs || path.empty())
 	{
 		timer.stop();
 		bool selected = FileDialog::SaveScene(hwnd, path);
 		timer.start();
 
-		if (!selected) return; // ƒLƒƒƒ“ƒZƒ‹
+		if (!selected) return; // ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 	}
 
 	auto getName = [this](entt::entity e) { return editorContext.GetName(e); };

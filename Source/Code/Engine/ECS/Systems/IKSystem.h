@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "entt.hpp"
 
@@ -11,10 +11,10 @@ namespace physx { class PxScene; }
 class IKSystem
 {
 public:
-    // XV(AnimationSystem‚ÌŒãAMeshLoaderSystem‚Ì‘O‚ÉŒÄ‚Ô‘z’è)
+    // æ›´æ–°(AnimationSystemã®å¾Œã€MeshLoaderSystemã®å‰ã«å‘¼ã¶æƒ³å®š)
     void Update(entt::registry& registry, physx::PxScene* pxScene);
 
 private:
-    // 1–{‚Ì‘«‚ÌFootIKˆ—
+    // 1æœ¬ã®è¶³ã®FootIKå‡¦ç†
     void SolveFootIK(FootIKSettings& footSettings, SkinnedMeshComponent& skinned, physx::PxScene* pxScene, const DirectX::XMFLOAT4X4& entityWorldMatrix);
 };

@@ -1,17 +1,17 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <json.hpp>
 #include "Engine/ECS/Reflection.h"
 
-// \‘¢‘Ì‚Ì‚Ç‚Ì¬•ª‚ğæ‚èo‚·‚©
+// æ§‹é€ ä½“ã®ã©ã®æˆåˆ†ã‚’å–ã‚Šå‡ºã™ã‹
 enum class FloatComponent
 {
 	None,
 	X, Y, Z, W,
 };
 
-// ”äŠr‰‰Zq‚Ìí—Ş
+// æ¯”è¼ƒæ¼”ç®—å­ã®ç¨®é¡
 enum class CompareOp
 {
 	Greater,      // >
@@ -22,38 +22,38 @@ enum class CompareOp
 	LessEqual,    // <=
 };
 
-// ˜_—‰‰Zq‚Ìí—Ş
+// è«–ç†æ¼”ç®—å­ã®ç¨®é¡
 enum class LogicOp
 {
-	And, // ‚©‚Â
-	Or,  // ‚Ü‚½‚Í
+	And, // ã‹ã¤
+	Or,  // ã¾ãŸã¯
 };
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’l‚ğæ“¾‚·‚éƒm[ƒh
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å€¤ã‚’å–å¾—ã™ã‚‹ãƒãƒ¼ãƒ‰
 struct ConditionGetterNode
 {
 	int id = -1;
 	float posX = 0.0f;
 	float posY = 0.0f;
-	std::string componentName; // Œ^–¼
-	std::string fieldName;     // ƒtƒB[ƒ‹ƒh‚ÌƒR[ƒhã‚Ì–¼‘O
+	std::string componentName; // å‹å
+	std::string fieldName;     // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰
 	FloatComponent selectedComponent = FloatComponent::None;
 };
 
-// •Ï”ƒm[ƒh
+// å¤‰æ•°ãƒãƒ¼ãƒ‰
 struct ConditionVariableNode
 {
 	int id = -1;
 	float posX = 0.0f;
 	float posY = 0.0f;
-	std::string name; // ‹ó‚ÌŠÔ‚Í"Variable"‚Æ•\¦
+	std::string name; // ç©ºã®é–“ã¯"Variable"ã¨è¡¨ç¤º
 	ValueType type = ValueType::Float;
 	int intValue = 0;
 	float floatValue = 0.0f;
 	bool boolValue = false;
 };
 
-// ”äŠrƒm[ƒh
+// æ¯”è¼ƒãƒãƒ¼ãƒ‰
 struct ConditionOperatorNode
 {
 	int id = -1;
@@ -62,7 +62,7 @@ struct ConditionOperatorNode
 	CompareOp op = CompareOp::Greater;
 };
 
-// ˜_—‰‰Zƒm[ƒh
+// è«–ç†æ¼”ç®—ãƒãƒ¼ãƒ‰
 struct ConditionLogicNode
 {
 	int id = -1;
@@ -71,7 +71,7 @@ struct ConditionLogicNode
 	LogicOp op = LogicOp::And;
 };
 
-// ”Û’èƒm[ƒh
+// å¦å®šãƒãƒ¼ãƒ‰
 struct ConditionNotNode
 {
 	int id = -1;
@@ -79,7 +79,7 @@ struct ConditionNotNode
 	float posY = 0.0f;
 };
 
-// ğŒƒOƒ‰ƒt‚ÌI’…“_
+// æ¡ä»¶ã‚°ãƒ©ãƒ•ã®çµ‚ç€ç‚¹
 struct ConditionReturnNode
 {
 	int id = -1;
@@ -87,10 +87,10 @@ struct ConditionReturnNode
 	float posY = 200.0f;
 };
 
-// ğŒƒOƒ‰ƒt‚Ìƒm[ƒh‚Ìí—Ş
+// æ¡ä»¶ã‚°ãƒ©ãƒ•ã®ãƒãƒ¼ãƒ‰ã®ç¨®é¡
 enum class ConditionNodeKind
 {
-	None,     // Œ©‚Â‚©‚ç‚È‚¢
+	None,     // è¦‹ã¤ã‹ã‚‰ãªã„
 	Return,
 	Variable,
 	Getter,
@@ -99,7 +99,7 @@ enum class ConditionNodeKind
 	Not,
 };
 
-// ğŒƒOƒ‰ƒt“à‚ÌƒŠƒ“ƒN
+// æ¡ä»¶ã‚°ãƒ©ãƒ•å†…ã®ãƒªãƒ³ã‚¯
 struct ConditionLink
 {
 	int id = -1;
@@ -109,7 +109,7 @@ struct ConditionLink
 };
 
 
-// ‘JˆÚ1–{•ª‚ÌğŒƒOƒ‰ƒt
+// é·ç§»1æœ¬åˆ†ã®æ¡ä»¶ã‚°ãƒ©ãƒ•
 struct ConditionGraph
 {
 	ConditionReturnNode returnNode;
@@ -120,61 +120,61 @@ struct ConditionGraph
 	std::vector<ConditionNotNode>      notNodes;
 	std::vector<ConditionLink>         links;
 
-	// Ÿ‚ÉŠ„‚è“–‚Ä‚éID(‚±‚ÌğŒƒOƒ‰ƒt‚Ì’†‚Å‚ÌÌ”Ô)
+	// æ¬¡ã«å‰²ã‚Šå½“ã¦ã‚‹ID(ã“ã®æ¡ä»¶ã‚°ãƒ©ãƒ•ã®ä¸­ã§ã®æ¡ç•ª)
 	int nextId = 2;
 
 	ConditionGraph() { returnNode.id = 1; }
 
 	int GenerateId() { return nextId++; }
 
-	// g—p’†‚ÌID‚ÌÅ‘å’l+1‚ÉAÌ”Ô‚ğ‚»‚ë‚¦‚é(“Ç‚İ‚İŒã‚È‚Ç‚ÉŒÄ‚Ô)
+	// ä½¿ç”¨ä¸­ã®IDã®æœ€å¤§å€¤+1ã«ã€æ¡ç•ªã‚’ãã‚ãˆã‚‹(èª­ã¿è¾¼ã¿å¾Œãªã©ã«å‘¼ã¶)
 	void RecalculateNextId();
 
-	// Return‚É‰½‚à‚Â‚È‚ª‚Á‚Ä‚¢‚È‚¢‚©(ğŒ‚ª‹ó‚©)
+	// Returnã«ä½•ã‚‚ã¤ãªãŒã£ã¦ã„ãªã„ã‹(æ¡ä»¶ãŒç©ºã‹)
 	bool IsEmpty() const;
 
-	// ƒm[ƒh‚Ìí—Ş
+	// ãƒãƒ¼ãƒ‰ã®ç¨®é¡
 	ConditionNodeKind GetNodeKind(int nodeId) const;
-	// o—Íƒsƒ“‚ªo‚·’l‚ÌŒ^
+	// å‡ºåŠ›ãƒ”ãƒ³ãŒå‡ºã™å€¤ã®å‹
 	bool GetOutputType(int nodeId, ValueType& outType) const;
 
-	// •Ï”ƒm[ƒh‚Ì’Ç‰Á
+	// å¤‰æ•°ãƒãƒ¼ãƒ‰ã®è¿½åŠ 
 	int AddVariableNode(ValueType type, float x, float y);
-	// ƒQƒbƒ^[ƒm[ƒh‚Ì’Ç‰Á
+	// ã‚²ãƒƒã‚¿ãƒ¼ãƒãƒ¼ãƒ‰ã®è¿½åŠ 
 	int AddGetterNode(float x, float y);
-	// ”äŠrƒm[ƒh’Ç‰Á
+	// æ¯”è¼ƒãƒãƒ¼ãƒ‰è¿½åŠ 
 	int AddOperatorNode(CompareOp op, float x, float y);
-	// ˜_—‰‰Zƒm[ƒh’Ç‰Á
+	// è«–ç†æ¼”ç®—ãƒãƒ¼ãƒ‰è¿½åŠ 
 	int AddLogicNode(LogicOp op, float x, float y);
-	// ”Û’èƒm[ƒh’Ç‰Á
+	// å¦å®šãƒãƒ¼ãƒ‰è¿½åŠ 
 	int AddNotNode(float x, float y);
 
-	// ƒm[ƒh‚Ìíœ
+	// ãƒãƒ¼ãƒ‰ã®å‰Šé™¤
 	void RemoveNode(int nodeId);
 
-	// ƒŠƒ“ƒN‚ğì‚ê‚é‚©
+	// ãƒªãƒ³ã‚¯ã‚’ä½œã‚Œã‚‹ã‹
 	bool CanLink(int fromNodeId, int toNodeId, bool toPinB, std::string* reason = nullptr) const;
-	// ƒŠƒ“ƒN‚ğì‚é
+	// ãƒªãƒ³ã‚¯ã‚’ä½œã‚‹
 	int AddLink(int fromNodeId, int toNodeId, bool toPinB);
 	
-	// ƒŠƒ“ƒN‚Ìíœ
+	// ãƒªãƒ³ã‚¯ã®å‰Šé™¤
 	void RemoveLink(int linkId);
 
-	// ¡‚Ìİ’è‚ÅAƒŠƒ“ƒN‚ªŒˆ‚Ü‚è‚É‡‚Á‚Ä‚¢‚é‚©
+	// ä»Šã®è¨­å®šã§ã€ãƒªãƒ³ã‚¯ãŒæ±ºã¾ã‚Šã«åˆã£ã¦ã„ã‚‹ã‹
 	bool IsLinkValid(const ConditionLink& link, std::string* reason = nullptr) const;
 
 private:
-	// ƒŠƒ“ƒN‚ÌŒˆ‚Ü‚è‚ÌŠm”F
+	// ãƒªãƒ³ã‚¯ã®æ±ºã¾ã‚Šã®ç¢ºèª
 	bool CheckLink(int fromNodeId, int toNodeId, bool toPinB, int ignoreLinkId, std::string* reason) const;
-	// nodeId‚Ì“ü—Í‚ğŒã‚ë‚Ö‚½‚Ç‚Á‚ÄAtargetId‚É‚½‚Ç‚è’…‚­‚©
+	// nodeIdã®å…¥åŠ›ã‚’å¾Œã‚ã¸ãŸã©ã£ã¦ã€targetIdã«ãŸã©ã‚Šç€ãã‹
 	bool DependsOn(int nodeId, int targetId, int ignoreLinkId) const;
 };
 
-// JSON‚Æ‚Ì•ÏŠ·
+// JSONã¨ã®å¤‰æ›
 nlohmann::ordered_json ConditionGraphToJson(const ConditionGraph& graph);
 void ConditionGraphFromJson(ConditionGraph& graph, const nlohmann::json& j);
 
-// ƒQƒbƒ^[‚ª“Ç‚ŞƒtƒB[ƒ‹ƒh‚ÌŒ^
+// ã‚²ãƒƒã‚¿ãƒ¼ãŒèª­ã‚€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å‹
 ValueType GetGetterFieldType(const ConditionGetterNode& node);
-// ƒQƒbƒ^[‚Å‘I‚ñ‚Å‚¢‚é¬•ª‚ªA‚»‚ÌŒ^‚Åg‚¦‚é‚©
+// ã‚²ãƒƒã‚¿ãƒ¼ã§é¸ã‚“ã§ã„ã‚‹æˆåˆ†ãŒã€ãã®å‹ã§ä½¿ãˆã‚‹ã‹
 bool IsGetterAxisValid(const ConditionGetterNode& node);

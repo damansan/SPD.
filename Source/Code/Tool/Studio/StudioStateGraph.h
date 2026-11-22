@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <memory>
 #include <vector>
@@ -16,7 +16,7 @@
 #include "StudioConditionTarget.h"
 #include "StudioConditionCopyList.h"
 
-// StateƒOƒ‰ƒt‚Ì•ÒWƒpƒlƒ‹
+// Stateã‚°ãƒ©ãƒ•ã®ç·¨é›†ãƒ‘ãƒãƒ«
 class StudioStateGraph : public IStudioAttachment
 {
 public:
@@ -24,96 +24,96 @@ public:
 	void SetWindowId(int id) { windowId = id; }
 	void DrawGUI(entt::registry& registry, StudioContext& context) override;
 
-	// ƒ‚ƒfƒ‹‚ª•Ï‚í‚Á‚½‚Æ‚«‚ÉŒÄ‚Ô
+	// ãƒ¢ãƒ‡ãƒ«ãŒå¤‰ã‚ã£ãŸã¨ãã«å‘¼ã¶
 	void OnModelChanged(StudioContext& context);
 
 private:
-	// --- ƒtƒ@ƒCƒ‹ŠÖŒW --- //
+	// --- ãƒ•ã‚¡ã‚¤ãƒ«é–¢ä¿‚ --- //
 
-// ƒc[ƒ‹ƒo[
+// ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	void DrawToolbar(StudioContext& context);
 
-	// •Û‘¶ / “Ç‚İ‚İiêŠ‚Íƒ‚ƒfƒ‹‚ÌƒpƒX‚©‚çŒˆ‚Ü‚éj
+	// ä¿å­˜ / èª­ã¿è¾¼ã¿ï¼ˆå ´æ‰€ã¯ãƒ¢ãƒ‡ãƒ«ã®ãƒ‘ã‚¹ã‹ã‚‰æ±ºã¾ã‚‹ï¼‰
 	void Save(StudioContext& context);
 	void Load(StudioContext& context);
 
-	// .stategraph.json ‚Ì’†g
+	// .stategraph.json ã®ä¸­èº«
 	struct GraphFile
 	{
 		StateMachineData data;
-		bool valid = false; // ŒŸØ‚ğ’Ê‚Á‚½‚©
+		bool valid = false; // æ¤œè¨¼ã‚’é€šã£ãŸã‹
 	};
 
-	// ƒ‚ƒfƒ‹‚ª‚Á‚Ä‚¢‚éƒAƒjƒ[ƒVƒ‡ƒ“‚Ì–¼‘O‚Ìˆê——‚ğì‚è’¼‚·
+	// ãƒ¢ãƒ‡ãƒ«ãŒæŒã£ã¦ã„ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®åå‰ã®ä¸€è¦§ã‚’ä½œã‚Šç›´ã™
 	void RefreshAnimationNames(entt::registry& registry);
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚Å‚«‚éƒ‚ƒfƒ‹‚©
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã§ãã‚‹ãƒ¢ãƒ‡ãƒ«ã‹
 	static bool HasAnimatedModel(entt::registry& registry);
 
 
-	// --- ƒf[ƒ^ --- //
+	// --- ãƒ‡ãƒ¼ã‚¿ --- //
 
-	StateMachineData data;              // •ÒW’†‚ÌƒOƒ‰ƒt
-	JsonFileCache<GraphFile> fileCache; // ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‘‚«
+	StateMachineData data;              // ç·¨é›†ä¸­ã®ã‚°ãƒ©ãƒ•
+	JsonFileCache<GraphFile> fileCache; // ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿æ›¸ã
 
-	// --- ƒpƒlƒ‹‚Ìó‘Ô --- //
+	// --- ãƒ‘ãƒãƒ«ã®çŠ¶æ…‹ --- //
 
 	int windowId = 0;
 
-	// ÅŒã‚ÌŒŸØ‚ÅƒGƒ‰[‚ª‚ ‚Á‚½‚©
+	// æœ€å¾Œã®æ¤œè¨¼ã§ã‚¨ãƒ©ãƒ¼ãŒã‚ã£ãŸã‹
 	bool hasErrors = false;
-	// ƒc[ƒ‹ƒo[‚Éo‚·ƒƒbƒZ[ƒW
+	// ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«å‡ºã™ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	std::string message;
 
 	bool columnWidthInitialized = false;
 
 
-	// --- ƒLƒƒƒ“ƒoƒX --- //
+	// --- ã‚­ãƒ£ãƒ³ãƒã‚¹ --- //
 
-	// eŠK‘wƒLƒƒƒ“ƒoƒX
+	// è¦ªéšå±¤ã‚­ãƒ£ãƒ³ãƒã‚¹
 	StudioStateParentCanvas parentCanvas;
-	// qŠK‘wƒLƒƒƒ“ƒoƒX(•¡”)
+	// å­éšå±¤ã‚­ãƒ£ãƒ³ãƒã‚¹(è¤‡æ•°)
 	std::vector<std::unique_ptr<StudioStateChildCanvas>> childCanvases;
 	
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE
-	StudioConditionCanvas conditionCanvas;      // V‚µ‚¢ğŒ‚ÌƒLƒƒƒ“ƒoƒX
-	ConditionTarget conditionTarget;            // •ÒW’†‚ÌğŒ‚ª‚Ç‚ÌƒŠƒ“ƒN‚Ì‚à‚Ì‚©
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+	StudioConditionCanvas conditionCanvas;      // æ–°ã—ã„æ¡ä»¶ã®ã‚­ãƒ£ãƒ³ãƒã‚¹
+	ConditionTarget conditionTarget;            // ç·¨é›†ä¸­ã®æ¡ä»¶ãŒã©ã®ãƒªãƒ³ã‚¯ã®ã‚‚ã®ã‹
 
-	ConditionGraph* conditionPointer = nullptr; // ‘O‚ÌƒtƒŒ[ƒ€‚ÅŒ©‚Â‚¯‚½À‘Ì
-	bool focusConditionWindow = false;          // Ÿ‚ÌƒtƒŒ[ƒ€‚Åè‘O‚Éo‚·‚©
+	ConditionGraph* conditionPointer = nullptr; // å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§è¦‹ã¤ã‘ãŸå®Ÿä½“
+	bool focusConditionWindow = false;          // æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§æ‰‹å‰ã«å‡ºã™ã‹
 	bool conditionColumnInitialized = false;
 
 
-	// --- qŠK‘w‚ÌƒLƒƒƒ“ƒoƒX --- //
+	// --- å­éšå±¤ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ --- //
 
-	// Ÿ‚Éè‘O‚Éo‚·q‚ÌƒEƒBƒ“ƒhƒE
+	// æ¬¡ã«æ‰‹å‰ã«å‡ºã™å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	int focusChildStateId = -1;
 
-	// q‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+	// å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 	void OpenChildWindow(int stateId);
-	// ŠJ‚¢‚Ä‚¢‚éq‚ÌƒEƒBƒ“ƒhƒE‚ğ•`‚­
+	// é–‹ã„ã¦ã„ã‚‹å­ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æã
 	void DrawChildWindows(ImGuiID ownerViewportId);
 
-	// ƒ‚ƒfƒ‹‚ª‚Á‚Ä‚¢‚éƒAƒjƒ[ƒVƒ‡ƒ“‚Ì–¼‘O
+	// ãƒ¢ãƒ‡ãƒ«ãŒæŒã£ã¦ã„ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®åå‰
 	std::vector<std::string> animationNames;
 
 
-	// --- ğŒ‚ÌƒEƒBƒ“ƒhƒE --- //
+	// --- æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ --- //
 
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğŠJ‚­
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 	void OpenConditionWindow(const ConditionTarget& target);
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğ•`‚­
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æã
 	void DrawConditionWindow(ImGuiID ownerViewportId);
-	// ğŒ‚ÌƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
+	// æ¡ä»¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
 	void CloseConditionWindow();
-	// •ÒW‚·‚éğŒ‚ÌÀ‘Ì‚ğ’T‚·
+	// ç·¨é›†ã™ã‚‹æ¡ä»¶ã®å®Ÿä½“ã‚’æ¢ã™
 	ConditionGraph* ResolveCondition(const ConditionTarget& target, std::string& outTitle, ImVec4& outColor);
-	// e‚ÌƒŠƒ“ƒN‚ÌID‚©‚çA‘JˆÚŒ³‚Ì–¼‘O‚ÆF‚ğ’T‚·
+	// è¦ªã®ãƒªãƒ³ã‚¯ã®IDã‹ã‚‰ã€é·ç§»å…ƒã®åå‰ã¨è‰²ã‚’æ¢ã™
 	bool FindTransitionSource(int transitionId, std::string& outName, ImVec4& outColor) const;
 
 
-	// --- ƒŠƒ“ƒN‚Ìİ’è‚ğÊ‚· --- //
+	// --- ãƒªãƒ³ã‚¯ã®è¨­å®šã‚’å†™ã™ --- //
 
-	// ƒŠƒ“ƒN‚ª‚Âİ’è‚ÌêŠ(ƒuƒŒƒ“ƒh‚ğ‚½‚È‚¢ƒŠƒ“ƒN‚Ínullptr)
+	// ãƒªãƒ³ã‚¯ãŒæŒã¤è¨­å®šã®å ´æ‰€(ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æŒãŸãªã„ãƒªãƒ³ã‚¯ã¯nullptr)
 	struct LinkSettingsRef
 	{
 		ConditionGraph* condition = nullptr;
@@ -121,17 +121,17 @@ private:
 		BlendSetting* blend = nullptr;
 	};
 
-	// ƒŠƒ“ƒN‚Ìİ’è‚ÌêŠ‚ğ’T‚·
+	// ãƒªãƒ³ã‚¯ã®è¨­å®šã®å ´æ‰€ã‚’æ¢ã™
 	bool ResolveLinkSettings(const ConditionTarget& target, LinkSettingsRef& out);
-	// Ê‚·ˆË—Š‚ğó‚¯æ‚é
+	// å†™ã™ä¾é ¼ã‚’å—ã‘å–ã‚‹
 	void RequestCopy(const ConditionCopyRequest& request);
-	// Ê‚·
+	// å†™ã™
 	void CopyLinkSettings(const ConditionCopyRequest& request);
-	// ã‘‚«‚ÌŠm”F‚Ìƒ|ƒbƒvƒAƒbƒv
+	// ä¸Šæ›¸ãã®ç¢ºèªã®ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
 	void DrawCopyConfirmPopup();
 
-	// Šm”F’†‚ÌˆË—Š
+	// ç¢ºèªä¸­ã®ä¾é ¼
 	ConditionCopyRequest pendingCopy;
-	// Ÿ‚ÉŠm”F‚Ìƒ|ƒbƒvƒAƒbƒv‚ğŠJ‚­‚©
+	// æ¬¡ã«ç¢ºèªã®ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚’é–‹ãã‹
 	bool openCopyConfirm = false;
 };

@@ -1,4 +1,4 @@
-#include "ModelSerializer.h"
+ï»¿#include "ModelSerializer.h"
 #include "Model.h"
 #include "Engine/Utility/CerealHelper.h"
 
@@ -9,7 +9,7 @@
 #include <cereal/types/string.hpp>
 
 
-// Model“à•”\‘¢‘Ì‚Ìserialize’è‹`
+// Modelå†…éƒ¨æ§‹é€ ä½“ã®serializeå®šç¾©
 
 template<class T>
 void serialize(T& archive, Model::Vertex& v)
@@ -43,13 +43,13 @@ void serialize(T& archive, Model::Material& m)
 		m.emissiveFactor,
 		alphaMode,
 		m.alphaCutoff,
-		// ŠO•”ƒtƒ@ƒCƒ‹QÆ—pƒpƒX
+		// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«å‚ç…§ç”¨ãƒ‘ã‚¹
 		m.baseTextureFileName,
 		m.normalTextureFileName,
 		m.metallicRoughnessTextureFileName,
 		m.occlusionTextureFileName,
 		m.emissiveTextureFileName,
-		// –„‚ß‚İƒeƒNƒXƒ`ƒƒ—pƒoƒCƒiƒŠ
+		// åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ãƒã‚¤ãƒŠãƒª
 		m.baseMapData,
 		m.normalMapData,
 		m.metallicRoughnessMapData,
@@ -62,7 +62,7 @@ void serialize(T& archive, Model::Material& m)
 template<class T>
 void serialize(T& archive, Model::Mesh& m)
 {
-	// GPUƒŠƒ\[ƒXiBufferj‚Í•Û‘¶‚µ‚È‚¢
+	// GPUãƒªã‚½ãƒ¼ã‚¹ï¼ˆBufferï¼‰ã¯ä¿å­˜ã—ãªã„
 	archive(m.vertices, m.indices, m.bones, m.nodeIndex, m.materialIndex);
 }
 
@@ -97,7 +97,7 @@ void serialize(T& archive, Model::BoundingBox& b)
 }
 
 
-// –¾¦“IƒCƒ“ƒXƒ^ƒ“ƒX‰»
+// æ˜ç¤ºçš„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–
 #define INSTANTIATE(Type) \
     template void serialize(cereal::BinaryOutputArchive&, Type&); \
     template void serialize(cereal::BinaryInputArchive&,  Type&);

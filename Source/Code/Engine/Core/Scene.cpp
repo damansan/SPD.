@@ -1,9 +1,9 @@
-#include "Scene.h"
+ï»¿#include "Scene.h"
 
-// •¨—ƒV[ƒ“‚Ìì¬
+// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®ä½œæˆ
 void Scene::InitializePhysicsScene(PhysX& physX)
 {
-	// ƒV[ƒ“‘g‚Ý—§‚Ä
+	// ã‚·ãƒ¼ãƒ³çµ„ã¿ç«‹ã¦
 	physx::PxSceneDesc sceneDesc(physX.GetPhysics()->getTolerancesScale());
 	sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
 	sceneDesc.cpuDispatcher = physX.GetDispatcher();
@@ -11,7 +11,7 @@ void Scene::InitializePhysicsScene(PhysX& physX)
 
 	pxScene = physX.GetPhysics()->createScene(sceneDesc);
 
-	// PhysXVisualDebugger‚É‘—‚éî•ñ‚ðÝ’è
+	// PhysXVisualDebuggerã«é€ã‚‹æƒ…å ±ã‚’è¨­å®š
 	if (physx::PxPvdSceneClient* pvdClient = pxScene->getScenePvdClient())
 	{
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS,  true);
@@ -19,11 +19,11 @@ void Scene::InitializePhysicsScene(PhysX& physX)
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
 
-	// ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[ƒ}ƒl[ƒWƒƒ[ì¬
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ¼ä½œæˆ
 	controllerManager = PxCreateControllerManager(*pxScene);
 }
 
-// •¨—ƒV[ƒ“‚Ì”jŠü
+// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®ç ´æ£„
 void Scene::FinalizePhysicsScene()
 {
 	if (controllerManager)
@@ -39,7 +39,7 @@ void Scene::FinalizePhysicsScene()
 	}
 }
 
-// •¨—ƒV[ƒ“‚ÌXV
+// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®æ›´æ–°
 void Scene::UpdatePhysicsScene(float elapsedTime)
 {
 	pxScene->simulate(elapsedTime);

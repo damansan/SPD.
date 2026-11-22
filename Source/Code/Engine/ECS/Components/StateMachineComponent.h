@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "Engine/ECS/Reflect.h"
 
-// Stateƒ}ƒVƒ“‚Ìó‘Ô
+// Stateãƒã‚·ãƒ³ã®çŠ¶æ…‹
 struct StateMachineComponent
 {
 	REFLECT_BEGIN(StateMachineComponent, "State Machine")
@@ -12,16 +12,16 @@ struct StateMachineComponent
 		
 	REFLECT_END()
 
-		int currentStateId = -1;  // Œ»İ‚ÌState
-	int currentClipId = -1;       // Œ»İÄ¶’†‚ÌƒNƒŠƒbƒv(qƒOƒ‰ƒt)
-	int enteredTransitionId = -1; // Œ»İ‚ÌState‚É“ü‚Á‚Ä‚«‚½‘JˆÚ
+		int currentStateId = -1;  // ç¾åœ¨ã®State
+	int currentClipId = -1;       // ç¾åœ¨å†ç”Ÿä¸­ã®ã‚¯ãƒªãƒƒãƒ—(å­ã‚°ãƒ©ãƒ•)
+	int enteredTransitionId = -1; // ç¾åœ¨ã®Stateã«å…¥ã£ã¦ããŸé·ç§»
 
-	// State‚É“ü‚Á‚½’¼Œã‚ÅAqƒOƒ‰ƒt‚ÌƒGƒ“ƒgƒŠ[‚ğ‚Ü‚¾ˆ—‚µ‚Ä‚¢‚È‚¢‚©
+	// Stateã«å…¥ã£ãŸç›´å¾Œã§ã€å­ã‚°ãƒ©ãƒ•ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‚’ã¾ã å‡¦ç†ã—ã¦ã„ãªã„ã‹
 	bool pendingEntry = false;
 
-	// ‚±‚ÌƒtƒŒ[ƒ€‚ÉState‚É“ü‚Á‚½‚©
+	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«Stateã«å…¥ã£ãŸã‹
 	bool enteredThisFrame = false;
 
-	// Œ»İ‚ÌState‚ªAw’è‚µ‚½–¼‘O‚ÌState‚©
+	// ç¾åœ¨ã®StateãŒã€æŒ‡å®šã—ãŸåå‰ã®Stateã‹
 	bool IsIn(const std::string& stateName) const { return currentStateName == stateName; }
 };

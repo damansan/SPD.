@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include "Camera.h"
 
-// ƒQ[ƒ€‚ğ•`‰æ‚·‚é‚½‚ß‚Ìê—pƒeƒNƒXƒ`ƒƒ‚ÆAƒQ[ƒ€ƒJƒƒ‰
+// ã‚²ãƒ¼ãƒ ã‚’æç”»ã™ã‚‹ãŸã‚ã®å°‚ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¨ã€ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©
 class GameView
 {
 public:
@@ -14,28 +14,28 @@ public:
     GameView(GameView&&) noexcept = delete;
     GameView& operator=(GameView&&) noexcept = delete;
 
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(ID3D11Device* device, UINT width = 1920, UINT height = 1080);
 
-    // •`‰ææ‚ÌØ‚è‘Ö‚¦
+    // æç”»å…ˆã®åˆ‡ã‚Šæ›¿ãˆ
     void Begin(ID3D11DeviceContext* dc);
     void End(ID3D11DeviceContext* dc);
 
-    // ƒeƒNƒXƒ`ƒƒ‚ÌÄ¶¬
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å†ç”Ÿæˆ
     void ResizeRenderTarget(UINT width, UINT height);
 
-    // •\¦æ‚Ìc‰¡”ä‚É‡‚í‚¹‚ÄAƒQ[ƒ€ƒJƒƒ‰‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“‚ğXV‚·‚é
+    // è¡¨ç¤ºå…ˆã®ç¸¦æ¨ªæ¯”ã«åˆã‚ã›ã¦ã€ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void SetAspect(float aspect);
 
-    // ƒQ[ƒ€ƒJƒƒ‰æ“¾
+    // ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©å–å¾—
     Camera& GetCamera() { return camera; }
 
-    // ƒV[ƒ“iHDRj
+    // ã‚·ãƒ¼ãƒ³ï¼ˆHDRï¼‰
     ID3D11RenderTargetView* GetSceneRTV() { return rtv.Get(); }
     ID3D11ShaderResourceView* GetSceneSRV() { return srv.Get(); }
     ID3D11DepthStencilView* GetDSV() { return dsv.Get(); }
 
-    // •\¦—pi8bitj
+    // è¡¨ç¤ºç”¨ï¼ˆ8bitï¼‰
     ID3D11RenderTargetView* GetOutputRTV() { return outputRtv.Get(); }
     ID3D11ShaderResourceView* GetOutputSRV() { return outputSrv.Get(); }
 
@@ -50,16 +50,16 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Texture2D>          depthTexture;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView>   dsv;
 
-    // •\¦—p
+    // è¡¨ç¤ºç”¨
     Microsoft::WRL::ComPtr<ID3D11Texture2D>          outputTexture;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>   outputRtv;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> outputSrv;
 
-    Camera camera; // ƒQ[ƒ€ƒJƒƒ‰
+    Camera camera; // ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©
 
     UINT renderWidth = 1920;
     UINT renderHeight = 1080;
 
-    // Begin/EndŠÔ‚Å‚Ìƒrƒ…[ƒ|[ƒg‘Ş”ğ—p
+    // Begin/Endé–“ã§ã®ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆé€€é¿ç”¨
     D3D11_VIEWPORT savedViewport = {};
 };

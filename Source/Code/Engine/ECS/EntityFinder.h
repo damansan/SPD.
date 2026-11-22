@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/ECS/Components/CategoryComponent.h"
 
 #include <vector>
 
-// w’è‚µ‚½‘®«‚ğ‚ÂÅ‰‚ÌEntity‚ğ—ñ‹“
+// æŒ‡å®šã—ãŸå±æ€§ã‚’æŒã¤æœ€åˆã®Entityã‚’åˆ—æŒ™
 inline entt::entity FindFirstByCategory(entt::registry& registry, EntityCategory category)
 {
 	auto view = registry.view<CategoryComponent>();
@@ -18,7 +18,7 @@ inline entt::entity FindFirstByCategory(entt::registry& registry, EntityCategory
 	return entt::null;
 }
 
-// w’è‚µ‚½‘®«‚ğ‚Â‘S•”‚ÌEntity‚ğ—ñ‹“
+// æŒ‡å®šã—ãŸå±æ€§ã‚’æŒã¤å…¨éƒ¨ã®Entityã‚’åˆ—æŒ™
 inline std::vector<entt::entity> FindAllByCategory(entt::registry& registry, EntityCategory category)
 {
 	std::vector<entt::entity> result;

@@ -1,4 +1,4 @@
-#include "Application.h"
+ï»¿#include "Application.h"
 #include "tracy/Tracy.hpp"
 #include "Engine/ECS/EngineComponents.h"
 #include <sstream>
@@ -9,40 +9,40 @@ Application::Application(HWND hwnd) : hwnd(hwnd)
 
 Application::~Application()
 {
-	// PhysXI—¹ˆ—
+	// PhysXçµ‚äº†å‡¦ç†
 	physX.Cleanup();
 
-	// GraphicsI—¹ˆ—
+	// Graphicsçµ‚äº†å‡¦ç†
 	graphics.Cleanup();
 }
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void Application::Initialize()
 {
-	// Graphics‰Šú‰»
+	// GraphicsåˆæœŸåŒ–
 	graphics.Initialize(hwnd);
 
-	// PhysX‰Šú‰»
+	// PhysXåˆæœŸåŒ–
 	physX.Initialize();
 
-	// ƒQ[ƒ€‚Ì•`‰ææ‚ÆƒQ[ƒ€ƒJƒƒ‰
+	// ã‚²ãƒ¼ãƒ ã®æç”»å…ˆã¨ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©
 	gameView.Initialize(graphics.GetDevice());
 
-	// Engine‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“o˜^
+	// Engineã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç™»éŒ²
 	EngineComponents::Register();
 
-	// ”h¶ƒNƒ‰ƒX‚Ì‰Šú‰»
+	// æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
 	OnInitialize();
 
 	UpdateSceneContext();
 }
 
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒ‹[ƒv
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ«ãƒ¼ãƒ—
 int Application::Run()
 {
 	MSG msg{};
 
-	// ŒÅ’èƒ^ƒCƒ€ƒXƒeƒbƒvİ’è(60fps)
+	// å›ºå®šã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—è¨­å®š(60fps)
 	const double fixedTimestep = 1.0 / 60.0;
 	double accumulator = 0.0;
 
@@ -58,12 +58,12 @@ int Application::Run()
 			timer.tick();
 			CalculateFrameStats();
 
-			// Œo‰ßŠÔ‚ğ’~Ï
+			// çµŒéæ™‚é–“ã‚’è“„ç©
 			double frameTime = (double)timer.time_interval();
 			if (frameTime > 0.25) frameTime = 0.25;
 			accumulator += frameTime;
 
-			// ŒÅ’èƒ^ƒCƒ€ƒXƒeƒbƒv‚ÅUpdate‚ğÀs
+			// å›ºå®šã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—ã§Updateã‚’å®Ÿè¡Œ
 			while (accumulator >= fixedTimestep)
 			{
 				Update((float)fixedTimestep);
@@ -71,53 +71,53 @@ int Application::Run()
 				updateCountBuf++;
 			}
 
-			// –ˆƒtƒŒ[ƒ€1‰ñ
+			// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 1å›
 			OnFrame();
 
-			// •`‰æ‚Í–ˆƒtƒŒ[ƒ€
+			// æç”»ã¯æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 			Render();
 		}
 	}
 
-	// I—¹ˆ—(”h¶ƒNƒ‰ƒX ¨ ƒV[ƒ“‚Ì‡)
+	// çµ‚äº†å‡¦ç†(æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ â†’ ã‚·ãƒ¼ãƒ³ã®é †)
 	OnFinalize();
 	sceneManager.ClearScene();
 
 	return static_cast<int>(msg.wParam);
 }
 
-// XV
+// æ›´æ–°
 void Application::Update(float elapsedTime)
 {
 	ZoneScoped;
 
 	OnPreUpdate(elapsedTime);
 
-	// SceneContextXV
+	// SceneContextæ›´æ–°
 	UpdateSceneContext();
 
-	// ƒV[ƒ“XV
+	// ã‚·ãƒ¼ãƒ³æ›´æ–°
 	sceneManager.Update(elapsedTime, sceneContext);
 
 	OnPostUpdate(elapsedTime);
 
-	// •`‰æ‚Ég‚¤ƒJƒƒ‰‚ÌŒ‹‰Ê‚ğcontext‚É”½‰f
+	// æç”»ã«ä½¿ã†ã‚«ãƒ¡ãƒ©ã®çµæœã‚’contextã«åæ˜ 
 	Camera& renderCamera = GetRenderCamera();
 	sceneContext.renderCamera = &renderCamera;
 	sceneContext.view = renderCamera.GetView();
 	sceneContext.projection = renderCamera.GetProjection();
 }
 
-// •`‰æ
+// æç”»
 void Application::Render()
 {
 	ZoneScoped;
 
-	// ‰æ–ÊƒNƒŠƒA
+	// ç”»é¢ã‚¯ãƒªã‚¢
 	graphics.Clear(0.2f, 0.2f, 0.5f, 1.0f);
 	graphics.SetRenderTargets();
 
-	// ƒQ[ƒ€‚ğGameView‚ÌƒeƒNƒXƒ`ƒƒ‚É•`‚­
+	// ã‚²ãƒ¼ãƒ ã‚’GameViewã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã«æã
 	gameView.Begin(graphics.GetDeviceContext());
 	sceneManager.Render(sceneContext);
 	{
@@ -125,11 +125,11 @@ void Application::Render()
 		gameView.End(graphics.GetDeviceContext());
 	}
 
-	// ƒƒCƒ“RTV‚ğÄƒZƒbƒg‚µ‚Ä‚©‚çA‰æ–Ê‚Öo‚·
+	// ãƒ¡ã‚¤ãƒ³RTVã‚’å†ã‚»ãƒƒãƒˆã—ã¦ã‹ã‚‰ã€ç”»é¢ã¸å‡ºã™
 	graphics.SetRenderTargets();
 	OnPresent();
 
-	// ‰æ–Ê”½‰f
+	// ç”»é¢åæ˜ 
 	{
 		ZoneScopedN("Present");
 		graphics.Present(vsync);
@@ -138,7 +138,7 @@ void Application::Render()
 	FrameMark;
 }
 
-// SceneContext‚ğÅVó‘Ô‚ÉXV‚·‚é
+// SceneContextã‚’æœ€æ–°çŠ¶æ…‹ã«æ›´æ–°ã™ã‚‹
 void Application::UpdateSceneContext()
 {
 	sceneContext.device = graphics.GetDevice();
@@ -146,7 +146,7 @@ void Application::UpdateSceneContext()
 	sceneContext.resourceManager = &resourceManager;
 	sceneContext.physX = &physX;
 
-	// GameView‚Ìê—pƒeƒNƒXƒ`ƒƒ‚ğ•`‰ææ‚Æ‚µ‚Ä“n‚·
+	// GameViewã®å°‚ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æç”»å…ˆã¨ã—ã¦æ¸¡ã™
 	sceneContext.renderTargetView = gameView.GetSceneRTV();
 	sceneContext.sceneShaderResourceView = gameView.GetSceneSRV();
 	sceneContext.outputRenderTargetView = gameView.GetOutputRTV();
@@ -165,7 +165,7 @@ void Application::UpdateSceneContext()
 	sceneContext.debugDrawAllowed = IsDebugDrawAllowed();
 }
 
-// ƒtƒŒ[ƒ€ŒvZ
+// ãƒ•ãƒ¬ãƒ¼ãƒ è¨ˆç®—
 void Application::CalculateFrameStats()
 {
 	static int frames = 0;
@@ -193,10 +193,10 @@ void Application::CalculateFrameStats()
 	}
 }
 
-// ƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
 LRESULT Application::HandleMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	// ”h¶ƒNƒ‰ƒX‚ªˆ—‚µ‚½‚à‚Ì‚ÍA‚±‚±‚ÅI‚í‚è
+	// æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ãŒå‡¦ç†ã—ãŸã‚‚ã®ã¯ã€ã“ã“ã§çµ‚ã‚ã‚Š
 	if (OnMessage(hwnd, msg, wparam, lparam)) { return true; }
 
 	switch (msg)
@@ -226,12 +226,12 @@ LRESULT Application::HandleMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
 	case WM_SIZE:
 		if (wparam == SIZE_MINIMIZED)
 		{
-			// Å¬‰»‚Íƒ^ƒCƒ}[’â~‚Ì‚İ(ƒŠƒTƒCƒY•s—v)
+			// æœ€å°åŒ–æ™‚ã¯ã‚¿ã‚¤ãƒãƒ¼åœæ­¢ã®ã¿(ãƒªã‚µã‚¤ã‚ºä¸è¦)
 			timer.stop();
 		}
 		else
 		{
-			// Å‘å‰»/•œŒ³/’ÊíƒŠƒTƒCƒY
+			// æœ€å¤§åŒ–/å¾©å…ƒ/é€šå¸¸ãƒªã‚µã‚¤ã‚ºæ™‚
 			timer.start();
 			graphics.ResizeBuffers();
 			UpdateSceneContext();
@@ -239,7 +239,7 @@ LRESULT Application::HandleMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lp
 		break;
 	case WM_EXITSIZEMOVE:
 		timer.start();
-		// ƒEƒBƒ“ƒhƒEƒTƒCƒY•ÏX‚Éƒoƒbƒtƒ@Ä¶¬
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºå¤‰æ›´æ™‚ã«ãƒãƒƒãƒ•ã‚¡å†ç”Ÿæˆ
 		graphics.ResizeBuffers();
 		UpdateSceneContext();
 		break;

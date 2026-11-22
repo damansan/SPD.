@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 #include "entt.hpp"
 #include "Engine/Core/SceneContext.h"
 
-// •Ç‚É“–‚½‚Á‚½Œ‹‰Ê‚Æ‘¬“x‚©‚çA“–‚½‚éŠp“xE¶‰E‚ğ‹‚ß‚é
+// å£ã«å½“ãŸã£ãŸçµæœã¨é€Ÿåº¦ã‹ã‚‰ã€å½“ãŸã‚‹è§’åº¦ãƒ»å·¦å³ã‚’æ±‚ã‚ã‚‹
 class PlayerWallSenseSystem
 {
 public:

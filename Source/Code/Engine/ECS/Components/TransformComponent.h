@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
@@ -6,13 +6,13 @@ struct TransformComponent
 {
 	REFLECT_BEGIN(TransformComponent, "Transform")
 
-		REFLECT_FIELD(DirectX::XMFLOAT3, position, (0.0f, 0.0f, 0.0f), ("Position", 0.0f, 0.0f, 0.1f))  // à íu
-		REFLECT_FIELD(DirectX::XMFLOAT3, rotation, (0.0f, 0.0f, 0.0f), ("Rotation", 0.0f, 0.0f, 0.01f)) // âÒì]
-		REFLECT_FIELD(DirectX::XMFLOAT3, scale,    (1.0f, 1.0f, 1.0f), ("Scale",    0.0f, 0.0f, 0.01f)) // ÉXÉPÅ[Éã
+		REFLECT_FIELD(DirectX::XMFLOAT3, position, (0.0f, 0.0f, 0.0f), ("Position", 0.0f, 0.0f, 0.1f))  // ‰ΩçÁΩÆ
+		REFLECT_FIELD(DirectX::XMFLOAT3, rotation, (0.0f, 0.0f, 0.0f), ("Rotation", 0.0f, 0.0f, 0.01f)) // ÂõûËª¢
+		REFLECT_FIELD(DirectX::XMFLOAT3, scale,    (1.0f, 1.0f, 1.0f), ("Scale",    0.0f, 0.0f, 0.01f)) // „Çπ„Ç±„Éº„É´
 		
 	REFLECT_END()
 
-		// ÉèÅ[ÉãÉhçsóÒéÊìæ
+		// „ÉØ„Éº„É´„ÉâË°åÂàóÂèñÂæó
 		DirectX::XMMATRIX GetWorldMatrix() const
 	{
 		DirectX::XMMATRIX S = DirectX::XMMatrixScaling(scale.x, scale.y, scale.z);

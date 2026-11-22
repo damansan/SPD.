@@ -1,4 +1,4 @@
-#include "PlayerJumpSystem.h"
+ï»¿#include "PlayerJumpSystem.h"
 #include <algorithm>
 
 #include "Game/ECS/Components/PlayerIntentComponent.h"
@@ -25,7 +25,7 @@ void PlayerJumpSystem::Update(entt::registry& registry, float elapsedTime, const
 		{
 			if (!stateMachine.IsIn("Jump")) return;
 
-			// “ü‚Á‚½uŠÔFƒWƒƒƒ“ƒv“ü—Í‚ª‚ ‚èA‚Ü‚¾’ˆ‚É•‚‚¢‚Ä‚¢‚È‚¯‚ê‚Î’µ‚ÔB‚»‚¤‚Å‚È‚¯‚ê‚Î—‚¿‚é‚¾‚¯
+			// å…¥ã£ãŸç¬é–“ï¼šã‚¸ãƒ£ãƒ³ãƒ—å…¥åŠ›ãŒã‚ã‚Šã€ã¾ã å®™ã«æµ®ã„ã¦ã„ãªã‘ã‚Œã°è·³ã¶ã€‚ãã†ã§ãªã‘ã‚Œã°è½ã¡ã‚‹ã ã‘
 			if (stateMachine.enteredThisFrame)
 			{
 				jump.fromGround = intent.jump.buffered && !loco.isAirborne;
@@ -33,21 +33,21 @@ void PlayerJumpSystem::Update(entt::registry& registry, float elapsedTime, const
 
 				if (jump.fromGround)
 				{
-					// 1‰ñŒÀ‚è‚Ì‰‘¬‚ÍAƒXƒe[ƒg‚ª’¼Ú‘‚¢‚Ä‚æ‚¢(ˆÈ~‚Íd—Í‚É”C‚¹‚é)
+					// 1å›é™ã‚Šã®åˆé€Ÿã¯ã€ã‚¹ãƒ†ãƒ¼ãƒˆãŒç›´æ¥æ›¸ã„ã¦ã‚ˆã„(ä»¥é™ã¯é‡åŠ›ã«ä»»ã›ã‚‹)
 					movement.velocity.y = jump.jumpSpeed;
 					intent.jump.Consume();
 				}
 			}
 
-			// –ˆƒtƒŒ[ƒ€F‹ó’†‚Ìw¦
+			// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ï¼šç©ºä¸­ã®æŒ‡ç¤º
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Air;
 			cmd.moveDir = intent.wantsMove ? intent.moveDir : DirectX::XMFLOAT3{ 0.0f, 0.0f, 0.0f };
-			cmd.targetSpeed = (std::max)(jump.takeoffSpeed, jump.airSpeed); // “¥‚İØ‚è‚Ì¨‚¢‚ğ‹ó’†‚Å¸‚í‚È‚¢‚æ‚¤‚É
+			cmd.targetSpeed = (std::max)(jump.takeoffSpeed, jump.airSpeed); // è¸ã¿åˆ‡ã‚Šã®å‹¢ã„ã‚’ç©ºä¸­ã§å¤±ã‚ãªã„ã‚ˆã†ã«
 			cmd.accelHalfLife = jump.airControlHalfLife;
 			cmd.turnSpeed = jump.airTurnSpeed;
 
-			//‹ó’†‚Í“–‚½‚è”»’è‚ğ‘¾‚­‚·‚é
+			//ç©ºä¸­ã¯å½“ãŸã‚Šåˆ¤å®šã‚’å¤ªãã™ã‚‹
 			movement.radiusOverride = jump.airRadius;
 		});
 }

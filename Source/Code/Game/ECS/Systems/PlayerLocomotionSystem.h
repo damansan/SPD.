@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 
-// ƒXƒe[ƒg‚©‚ç‚Ìw¦‚Æ‘¬“x‚ğ‘‚­
+// ã‚¹ãƒ†ãƒ¼ãƒˆã‹ã‚‰ã®æŒ‡ç¤ºã¨é€Ÿåº¦ã‚’æ›¸ã
 class PlayerLocomotionSystem
 {
 public:

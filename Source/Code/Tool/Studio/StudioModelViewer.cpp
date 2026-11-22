@@ -1,4 +1,4 @@
-#include "StudioModelViewer.h"
+ï»¿#include "StudioModelViewer.h"
 
 #include <windows.h>
 #include <commdlg.h>
@@ -8,7 +8,7 @@
 #include "Engine/ECS/Components/MaterialComponent.h"
 #include "Engine/ECS/Components/AnimationSpeedComponent.h"
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void StudioModelViewer::Initialize(
     ID3D11Device* device,
     ResourceManager* resourceManager)
@@ -17,7 +17,7 @@ void StudioModelViewer::Initialize(
     this->resourceManager = resourceManager;
 }
 
-// XV
+// æ›´æ–°
 void StudioModelViewer::Update(float elapsedTime, StudioContext& context)
 {
 }
@@ -29,7 +29,7 @@ void StudioModelViewer::DrawGUI(
 {
     //ImGui::Begin("Model Viewer");
 
-    //// ƒ[ƒhƒ{ƒ^ƒ“
+    //// ãƒ­ãƒ¼ãƒ‰ãƒœã‚¿ãƒ³
     //if (ImGui::Button("Load Model"))
     //{
     //    std::string path = OpenFileDialog();
@@ -39,7 +39,7 @@ void StudioModelViewer::DrawGUI(
     //    }
     //}
 
-    //// Œ»İ‚Ìƒ‚ƒfƒ‹ƒpƒX‚ğ•\¦
+    //// ç¾åœ¨ã®ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‚’è¡¨ç¤º
     //if (!currentModelPath.empty())
     //{
     //    ImGui::SameLine();
@@ -49,7 +49,7 @@ void StudioModelViewer::DrawGUI(
     //ImGui::End();
 }
 
-// ƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒO
+// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 std::string StudioModelViewer::OpenFileDialog()
 {
     char path[MAX_PATH] = {};
@@ -65,7 +65,7 @@ std::string StudioModelViewer::OpenFileDialog()
 
     if (GetOpenFileNameA(&ofn))
     {
-        // â‘ÎƒpƒX‚ğƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘ÎƒpƒX‚É•ÏŠ·
+        // çµ¶å¯¾ãƒ‘ã‚¹ã‚’ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰ã®ç›¸å¯¾ãƒ‘ã‚¹ã«å¤‰æ›
         char currentDir[MAX_PATH] = {};
         GetCurrentDirectoryA(MAX_PATH, currentDir);
 
@@ -74,7 +74,7 @@ std::string StudioModelViewer::OpenFileDialog()
         if (absPath.find(basePath) == 0)
             absPath = absPath.substr(basePath.size());
 
-        // ƒoƒbƒNƒXƒ‰ƒbƒVƒ…‚ğƒXƒ‰ƒbƒVƒ…‚É“ˆê
+        // ãƒãƒƒã‚¯ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚’ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã«çµ±ä¸€
         std::replace(absPath.begin(), absPath.end(), '\\', '/');
 
         return absPath;
@@ -82,36 +82,36 @@ std::string StudioModelViewer::OpenFileDialog()
     return {};
 }
 
-// ƒ‚ƒfƒ‹ƒ[ƒh
+// ãƒ¢ãƒ‡ãƒ«ãƒ­ãƒ¼ãƒ‰
 void StudioModelViewer::LoadModel(
     entt::registry& registry,
     const std::string& path)
 {
-    // Šù‘¶‚ÌEntity‚ğíœ
+    // æ—¢å­˜ã®Entityã‚’å‰Šé™¤
     if (modelEntity != entt::null)
     {
         registry.destroy(modelEntity);
         modelEntity = entt::null;
     }
 
-    // ƒ‚ƒfƒ‹‚ğƒ[ƒh
+    // ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰
     auto model = resourceManager->GetModel(device, path);
     if (!model) return;
 
-    // Entity‚ğì¬
+    // Entityã‚’ä½œæˆ
     modelEntity = registry.create();
 
-    // TransformComponent’Ç‰Á
+    // TransformComponentè¿½åŠ 
     registry.emplace<TransformComponent>(modelEntity);
 
-    // MeshComponent’Ç‰Á
+    // MeshComponentè¿½åŠ 
     auto& mesh = registry.emplace<MeshComponent>(modelEntity);
     mesh.modelPath = path;
     mesh.previousPath = path;
-    // MaterialComponent’Ç‰Á
+    // MaterialComponentè¿½åŠ 
     registry.emplace<MaterialComponent>(modelEntity);
 
-    // ƒXƒLƒjƒ“ƒO‚Ì—L–³‚Å•ªŠò
+    // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ã®æœ‰ç„¡ã§åˆ†å²
     if (model->HasSkin())
     {
         auto& skinned = registry.emplace<SkinnedMeshComponent>(modelEntity);
@@ -133,7 +133,7 @@ void StudioModelViewer::LoadModel(
         staticMesh.model = model;
     }
 
-    // ƒXƒLƒjƒ“ƒO‚ ‚è‚Ìê‡‚ÍAnimatorComponent‚ğ•t—^
+    // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ã‚ã‚Šã®å ´åˆã¯AnimatorComponentã‚’ä»˜ä¸
     if (model->HasSkin() && !model->GetAnimations().empty())
     {
         auto& animator = registry.emplace<AnimatorComponent>(modelEntity);
@@ -144,7 +144,7 @@ void StudioModelViewer::LoadModel(
         registry.emplace<AnimationSpeedComponent>(modelEntity);
     }
 
-    // ƒ[ƒhÏ‚İƒtƒ‰ƒO
+    // ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ•ãƒ©ã‚°
     registry.emplace<MeshLoadedTag>(modelEntity);
 
     currentModelPath = path;

@@ -1,44 +1,44 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
 
-// ƒfƒoƒbƒO•\¦‚Ìí—Ş
+// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã®ç¨®é¡
 enum class PostProcessDebugView : int
 {
-	None = 0,         // ’Êí‚Ì•\¦
-	BloomExtract = 1, // ƒuƒ‹[ƒ€F”²‚«o‚µ‚½–¾‚é‚¢Š
-	BloomBlur = 2,    // ƒuƒ‹[ƒ€F‚Ú‚©‚µ‚½’i
-	BloomResult = 3,  // ƒuƒ‹[ƒ€F‘S’i‚ğ‘«‚µ‡‚í‚¹‚½Š®¬•i
+	None = 0,         // é€šå¸¸ã®è¡¨ç¤º
+	BloomExtract = 1, // ãƒ–ãƒ«ãƒ¼ãƒ ï¼šæŠœãå‡ºã—ãŸæ˜ã‚‹ã„æ‰€
+	BloomBlur = 2,    // ãƒ–ãƒ«ãƒ¼ãƒ ï¼šã¼ã‹ã—ãŸæ®µ
+	BloomResult = 3,  // ãƒ–ãƒ«ãƒ¼ãƒ ï¼šå…¨æ®µã‚’è¶³ã—åˆã‚ã›ãŸå®Œæˆå“
 };
 
-// ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ìİ’è’l
+// ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¨­å®šå€¤
 struct PostProcessSettings
 {
-	// ƒg[ƒ“ƒ}ƒbƒv
-	float exposure = 1.0f;       // ˜Ioi–¾‚é‚³‚Ì”{—¦B1.0 = ‚»‚Ì‚Ü‚Üj
-	bool  tonemapEnabled = true; // ACES ƒg[ƒ“ƒ}ƒbƒv‚ğg‚¤‚©
+	// ãƒˆãƒ¼ãƒ³ãƒãƒƒãƒ—
+	float exposure = 1.0f;       // éœ²å‡ºï¼ˆæ˜ã‚‹ã•ã®å€ç‡ã€‚1.0 = ãã®ã¾ã¾ï¼‰
+	bool  tonemapEnabled = true; // ACES ãƒˆãƒ¼ãƒ³ãƒãƒƒãƒ—ã‚’ä½¿ã†ã‹
 
-	// ƒJƒ‰[’²®
-	float contrast = 1.0f;   // ƒRƒ“ƒgƒ‰ƒXƒg
-	float saturation = 2.0f; // Ê“x
-	DirectX::XMFLOAT3 colorFilter = { 1.0f, 1.0f, 1.0f }; // ƒJƒ‰[ƒtƒBƒ‹ƒ^
+	// ã‚«ãƒ©ãƒ¼èª¿æ•´
+	float contrast = 1.0f;   // ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ
+	float saturation = 2.0f; // å½©åº¦
+	DirectX::XMFLOAT3 colorFilter = { 1.0f, 1.0f, 1.0f }; // ã‚«ãƒ©ãƒ¼ãƒ•ã‚£ãƒ«ã‚¿
 
-	// ƒrƒlƒbƒg
-	float vignetteIntensity = 0.2f;  // ‹­‚³
-	float vignetteSmoothness = 0.4f; // ‹«–Ú‚Ì‚È‚¾‚ç‚©‚³
-	DirectX::XMFLOAT3 vignetteColor = { 0.0f, 0.0f, 0.0f }; // ‹÷‚ÌF
+	// ãƒ“ãƒãƒƒãƒˆ
+	float vignetteIntensity = 0.2f;  // å¼·ã•
+	float vignetteSmoothness = 0.4f; // å¢ƒç›®ã®ãªã ã‚‰ã‹ã•
+	DirectX::XMFLOAT3 vignetteColor = { 0.0f, 0.0f, 0.0f }; // éš…ã®è‰²
 
-	// ƒuƒ‹[ƒ€
-	float bloomThreshold = 1.0f; // ‚±‚ê‚æ‚è–¾‚é‚¢ŒÂŠ‚ğŒõ‚ç‚¹‚é
-	float bloomIntensity = 0.5f; // 1.0 = ‘S’i‚Ì•½‹Ï‚ğ‘«‚·
+	// ãƒ–ãƒ«ãƒ¼ãƒ 
+	float bloomThreshold = 1.0f; // ã“ã‚Œã‚ˆã‚Šæ˜ã‚‹ã„å€‹æ‰€ã‚’å…‰ã‚‰ã›ã‚‹
+	float bloomIntensity = 0.5f; // 1.0 = å…¨æ®µã®å¹³å‡ã‚’è¶³ã™
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[
-	bool  radialBlurEnabled = false;  // ƒuƒ‰[‚ğ‚©‚¯‚é‚©
-	float radialBlurStrength = 0.3f;  // ‹­“x
-	float radialBlurRadius = 1.2f;    // ‹«–Ú
-	float radialBlurSoftness = 1.3f;  // ŠŠ‚ç‚©‚³
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼
+	bool  radialBlurEnabled = false;  // ãƒ–ãƒ©ãƒ¼ã‚’ã‹ã‘ã‚‹ã‹
+	float radialBlurStrength = 0.3f;  // å¼·åº¦
+	float radialBlurRadius = 1.2f;    // å¢ƒç›®
+	float radialBlurSoftness = 1.3f;  // æ»‘ã‚‰ã‹ã•
 
-	// ƒfƒoƒbƒO•\¦
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
 	PostProcessDebugView debugView = PostProcessDebugView::None;
-	int debugBloomLevel = 0; // BloomBlur ‚Å•\¦‚·‚é’i
+	int debugBloomLevel = 0; // BloomBlur ã§è¡¨ç¤ºã™ã‚‹æ®µ
 };

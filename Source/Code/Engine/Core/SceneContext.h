@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include "Engine/Resource/ResourceManager.h"
@@ -7,35 +7,35 @@
 #include "Camera.h"
 #include "PhysX.h"
 
-// SceneŒn‚É“n‚·ƒRƒ“ƒeƒLƒXƒg
-// •K—v‚È‚à‚Ì‚ª‘‚¦‚½‚ç‚±‚±‚É’Ç‰Á‚·‚é
+// Sceneç³»ã«æ¸¡ã™ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+// å¿…è¦ãªã‚‚ã®ãŒå¢—ãˆãŸã‚‰ã“ã“ã«è¿½åŠ ã™ã‚‹
 struct SceneContext
 {
-	ID3D11Device* device = nullptr;               // DX11ƒfƒoƒCƒX
+	ID3D11Device* device = nullptr;               // DX11ãƒ‡ãƒã‚¤ã‚¹
 	ID3D11DeviceContext* deviceContext = nullptr;
-	ResourceManager* resourceManager = nullptr;   // ƒŠƒ\[ƒXŠÇ—
-	PhysX* physX = nullptr;                       // •¨—(PhysX)
+	ResourceManager* resourceManager = nullptr;   // ãƒªã‚½ãƒ¼ã‚¹ç®¡ç†
+	PhysX* physX = nullptr;                       // ç‰©ç†(PhysX)
 
-	ID3D11RenderTargetView* renderTargetView = nullptr;          // ƒV[ƒ“iHDRj‚Ì•`‰ææ
-	ID3D11ShaderResourceView* sceneShaderResourceView = nullptr; // ƒV[ƒ“iHDRj‚ğ“Ç‚Ş
-	ID3D11RenderTargetView* outputRenderTargetView = nullptr;    // •\¦—p
+	ID3D11RenderTargetView* renderTargetView = nullptr;          // ã‚·ãƒ¼ãƒ³ï¼ˆHDRï¼‰ã®æç”»å…ˆ
+	ID3D11ShaderResourceView* sceneShaderResourceView = nullptr; // ã‚·ãƒ¼ãƒ³ï¼ˆHDRï¼‰ã‚’èª­ã‚€
+	ID3D11RenderTargetView* outputRenderTargetView = nullptr;    // è¡¨ç¤ºç”¨
 	ID3D11DepthStencilView* depthStencilView = nullptr;
 
-	const PostProcessSettings* postProcessSettings = nullptr; // ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ìİ’è
+	const PostProcessSettings* postProcessSettings = nullptr; // ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¨­å®š
 
-	// ƒQ[ƒ€ƒJƒƒ‰BƒQ[ƒ€‚Ìˆ—‚ª‘‚«‚İAƒQ[ƒ€‚Ìˆ—‚ª“Ç‚Ş
+	// ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©ã€‚ã‚²ãƒ¼ãƒ ã®å‡¦ç†ãŒæ›¸ãè¾¼ã¿ã€ã‚²ãƒ¼ãƒ ã®å‡¦ç†ãŒèª­ã‚€
 	Camera* camera = nullptr;
 
-	// •`‰æ‚Ég‚¤ƒJƒƒ‰B‚Ç‚ê‚ğg‚¤‚©‚ÍApp‘¤‚ªŒˆ‚ß‚é(ƒQ[ƒ€‚Í“Ç‚Ş‚¾‚¯)
+	// æç”»ã«ä½¿ã†ã‚«ãƒ¡ãƒ©ã€‚ã©ã‚Œã‚’ä½¿ã†ã‹ã¯Appå´ãŒæ±ºã‚ã‚‹(ã‚²ãƒ¼ãƒ ã¯èª­ã‚€ã ã‘)
 	const Camera* renderCamera = nullptr;
-	DirectX::XMFLOAT4X4 view = {};       // renderCamera‚Ìƒrƒ…[s—ñ
-	DirectX::XMFLOAT4X4 projection = {}; // renderCamera‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+	DirectX::XMFLOAT4X4 view = {};       // renderCameraã®ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
+	DirectX::XMFLOAT4X4 projection = {}; // renderCameraã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
 
 	UINT screenWidth = 0;
 	UINT screenHeight = 0;
 
-	// Game‚Ö‚Ì“ü—Í‚ğó‚¯•t‚¯‚Ä‚æ‚¢‚©
+	// Gameã¸ã®å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã¦ã‚ˆã„ã‹
 	bool gameInputActive = false;
-	// ƒfƒoƒbƒO•`‰æ‚ğo‚µ‚Ä‚æ‚¢‚©
+	// ãƒ‡ãƒãƒƒã‚°æç”»ã‚’å‡ºã—ã¦ã‚ˆã„ã‹
 	bool debugDrawAllowed = false;
 };

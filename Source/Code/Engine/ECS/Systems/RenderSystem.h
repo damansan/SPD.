@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 
@@ -15,29 +15,29 @@
 #include "Engine/Rendering/ShadowMap.h"
 #include "Engine/Rendering/ShaderLimits.h"
 
-// ’è”ƒoƒbƒtƒ@\‘¢‘Ì
+// å®šæ•°ãƒãƒƒãƒ•ã‚¡æ§‹é€ ä½“
 struct CbScene
 {
-	DirectX::XMFLOAT4X4 view;             // ƒrƒ…[s—ñ
-	DirectX::XMFLOAT4X4 projection;       // ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
-	DirectX::XMFLOAT4   cameraPosition;   // ƒJƒƒ‰ˆÊ’uiw–¢g—pj
+	DirectX::XMFLOAT4X4 view;             // ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
+	DirectX::XMFLOAT4X4 projection;       // ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
+	DirectX::XMFLOAT4   cameraPosition;   // ã‚«ãƒ¡ãƒ©ä½ç½®ï¼ˆwæœªä½¿ç”¨ï¼‰
 };
 
 struct CbObject
 {
-	DirectX::XMFLOAT4X4 world;                 // ƒ[ƒ‹ƒhs—ñ
-	DirectX::XMFLOAT4X4 worldInverseTranspose; // –@ü—p
+	DirectX::XMFLOAT4X4 world;                 // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+	DirectX::XMFLOAT4X4 worldInverseTranspose; // æ³•ç·šç”¨
 
-	float               alphaCutoff;           // Mask‘fŞ‚ÌƒNƒŠƒbƒv‚µ‚«‚¢’l
-	float               metallicFactor;        // ‹à‘®“x‚ÌŒW”
-	float               roughnessFactor;       // ‘e‚³‚ÌŒW”
-	float               padding0;              // 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg—p
+	float               alphaCutoff;           // Maskç´ æã®ã‚¯ãƒªãƒƒãƒ—ã—ãã„å€¤
+	float               metallicFactor;        // é‡‘å±åº¦ã®ä¿‚æ•°
+	float               roughnessFactor;       // ç²—ã•ã®ä¿‚æ•°
+	float               padding0;              // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç”¨
 
-	DirectX::XMFLOAT4   baseColor;             // ƒ}ƒeƒŠƒAƒ‹‚ÌŠî–{F
+	DirectX::XMFLOAT4   baseColor;             // ãƒãƒ†ãƒªã‚¢ãƒ«ã®åŸºæœ¬è‰²
 
-	DirectX::XMFLOAT3   emissiveFactor;        // ”­Œõ‚ÌŒW”
+	DirectX::XMFLOAT3   emissiveFactor;        // ç™ºå…‰ã®ä¿‚æ•°
 
-	float               padding1;              // 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg—p
+	float               padding1;              // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç”¨
 };
 
 struct CbSkinning
@@ -45,30 +45,30 @@ struct CbSkinning
 	DirectX::XMFLOAT4X4 boneTransforms[MAX_BONES];
 };
 
-// b5F‰e‚ğ“Ç‚Ş‘¤
+// b5ï¼šå½±ã‚’èª­ã‚€å´
 struct CbShadow
 {
-	DirectX::XMFLOAT4X4 shadowViewProjections[SHADOW_CASCADE_COUNT]; // Še’i‚Ìƒ‰ƒCƒgVP
+	DirectX::XMFLOAT4X4 shadowViewProjections[SHADOW_CASCADE_COUNT]; // å„æ®µã®ãƒ©ã‚¤ãƒˆVP
 
-	DirectX::XMFLOAT4   cascadeSplits;  // xyz = Še’i‚Ì‰œ‚Ì’[iƒJƒƒ‰‚©‚ç‚Ì‹——£ mj
+	DirectX::XMFLOAT4   cascadeSplits;  // xyz = å„æ®µã®å¥¥ã®ç«¯ï¼ˆã‚«ãƒ¡ãƒ©ã‹ã‚‰ã®è·é›¢ mï¼‰
 
-	float               shadowStrength; // ‰e‚Ì’†‚ÅŠÂ‹«Œõ‚ğ‚Ç‚ê‚¾‚¯ˆÃ‚­‚·‚é‚©
-	DirectX::XMFLOAT3   shadowPadding;  // 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg—p
+	float               shadowStrength; // å½±ã®ä¸­ã§ç’°å¢ƒå…‰ã‚’ã©ã‚Œã ã‘æš—ãã™ã‚‹ã‹
+	DirectX::XMFLOAT3   shadowPadding;  // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç”¨
 };
 
-// b6F‰e‚ğ•`‚­‘¤
+// b6ï¼šå½±ã‚’æãå´
 struct CbShadowCaster
 {
-	DirectX::XMFLOAT4X4 lightViewProjection; // ‚¢‚Ü•`‚¢‚Ä‚¢‚é’i‚Ìƒ‰ƒCƒgVP
+	DirectX::XMFLOAT4X4 lightViewProjection; // ã„ã¾æã„ã¦ã„ã‚‹æ®µã®ãƒ©ã‚¤ãƒˆVP
 };
 
 class RenderSystem
 {
 public:
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(ID3D11Device* device);
 
-	// •`‰æ
+	// æç”»
 	void Render(
 		entt::registry& registry,
 		ID3D11DeviceContext* dc,
@@ -79,7 +79,7 @@ public:
 		UINT height
 	);
 
-	// ƒtƒ‰ƒXƒ^ƒ€‚ğScene‘¤‚©‚çƒZƒbƒg
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ ã‚’Sceneå´ã‹ã‚‰ã‚»ãƒƒãƒˆ
 	void SetFrustum(
 		const DirectX::XMFLOAT4X4& view,
 		const DirectX::XMFLOAT4X4& projection)
@@ -87,7 +87,7 @@ public:
 		cachedFrustum = CalcFrustum(view, projection);
 	}
 
-	// ‰e‚Ìİ’è‚ğScene‘¤‚©‚çƒZƒbƒg
+	// å½±ã®è¨­å®šã‚’Sceneå´ã‹ã‚‰ã‚»ãƒƒãƒˆ
 	void SetShadowParams(
 		const DirectX::XMFLOAT3& lightDirection,
 		const DirectX::XMFLOAT4X4& cameraView,
@@ -98,10 +98,10 @@ public:
 		shadowCameraProjection = cameraProjection;
 	}
 
-	// ‰e‚Ì”Z‚³
+	// å½±ã®æ¿ƒã•
 	void SetShadowStrength(float strength) { shadowStrength = strength; }
 
-	// IBLƒeƒNƒXƒ`ƒƒƒZƒbƒg
+	// IBLãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚»ãƒƒãƒˆ
 	void SetIBLTextures(
 		ID3D11ShaderResourceView* diffuseIem,
 		ID3D11ShaderResourceView* specularPmrem,
@@ -112,50 +112,50 @@ public:
 		iblLutGgx = lutGgx;
 	}
 
-	// ’è”ƒoƒbƒtƒ@ƒQƒbƒ^[
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚²ãƒƒã‚¿ãƒ¼
 	ID3D11Buffer* GetCbScene() { return cbScene.Get(); }
 	ID3D11Buffer** GetCbSceneAddress() { return cbScene.GetAddressOf(); }
 
 private:
 
-	// ƒtƒ‰ƒXƒ^ƒ€•½–Ê
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ å¹³é¢
 	struct FrustumPlane
 	{
 		DirectX::XMFLOAT3 normal;
 		float distance;
 	};
 
-	// ƒtƒ‰ƒXƒ^ƒ€i6•½–Êj
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ ï¼ˆ6å¹³é¢ï¼‰
 	struct Frustum
 	{
 		FrustumPlane planes[6]; // Left, Right, Top, Bottom, Near, Far
 	};
 
-	// ƒtƒ‰ƒXƒ^ƒ€ŒvZiViewProjections—ñ‚©‚çj
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ è¨ˆç®—ï¼ˆViewProjectionè¡Œåˆ—ã‹ã‚‰ï¼‰
 	Frustum CalcFrustum(
 		const DirectX::XMFLOAT4X4& view,
 		const DirectX::XMFLOAT4X4& projection
 	);
-	// ƒtƒ‰ƒXƒ^ƒ€ŒvZ
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ è¨ˆç®—
 	Frustum CalcFrustum(const DirectX::XMFLOAT4X4& viewProjection);
 
-	// ƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX‚ªƒtƒ‰ƒXƒ^ƒ€“à‚É‚ ‚é‚©”»’è
+	// ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹ãŒãƒ•ãƒ©ã‚¹ã‚¿ãƒ å†…ã«ã‚ã‚‹ã‹åˆ¤å®š
 	bool IsInFrustum(
 		const Frustum& frustum,
 		const Model::BoundingBox& bbox,
 		const DirectX::XMFLOAT4X4& world
 	);
 
-	// ƒJƒXƒP[ƒh‚Ì•ªŠ„‹——£‚ÆAŠe’i‚Ìƒ‰ƒCƒgs—ñ‚ğŒvZ‚·‚é
+	// ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰ã®åˆ†å‰²è·é›¢ã¨ã€å„æ®µã®ãƒ©ã‚¤ãƒˆè¡Œåˆ—ã‚’è¨ˆç®—ã™ã‚‹
 	void CalcCascades();
 
-	// ShadowƒpƒX
+	// Shadowãƒ‘ã‚¹
 	void ShadowPass(
 		entt::registry& registry,
 		ID3D11DeviceContext* dc
 	);
 
-	// GeometryƒpƒX
+	// Geometryãƒ‘ã‚¹
 	void GeometryPass(
 		entt::registry& registry,
 		ID3D11DeviceContext* dc,
@@ -163,14 +163,14 @@ private:
 		const Frustum& frustum
 	);
 
-	// LightingƒpƒX
+	// Lightingãƒ‘ã‚¹
 	void LightingPass(
 		ID3D11DeviceContext* dc,
 		ID3D11RenderTargetView* rtv,
 		ID3D11DepthStencilView* dsv
 	);
 
-	// ”¼“§–¾ƒpƒX(ƒtƒHƒ[ƒhƒŒƒ“ƒ_ƒŠƒ“ƒO)
+	// åŠé€æ˜ãƒ‘ã‚¹(ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°)
 	void ForwardTransparentPass(
 		entt::registry& registry,
 		ID3D11DeviceContext* dc,
@@ -180,33 +180,33 @@ private:
 	);
 
 
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> staticVertexShader;   // Ã“IƒƒbƒVƒ…—p
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> skinnedVertexShader;  // ƒXƒLƒjƒ“ƒOƒƒbƒVƒ…—p
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> lightingVS;           // LightingƒpƒX—p’¸“_ƒVƒF[ƒ_[
-	Microsoft::WRL::ComPtr<ID3D11PixelShader>  lightingPS;           // LightingƒpƒX—pƒsƒNƒZƒ‹ƒVƒF[ƒ_[
-	Microsoft::WRL::ComPtr<ID3D11PixelShader>  forwardTransparentPS; // ”¼“§–¾ƒtƒHƒ[ƒh—p(PBR)
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> staticVertexShader;   // é™çš„ãƒ¡ãƒƒã‚·ãƒ¥ç”¨
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> skinnedVertexShader;  // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ãƒ¡ãƒƒã‚·ãƒ¥ç”¨
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> lightingVS;           // Lightingãƒ‘ã‚¹ç”¨é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
+	Microsoft::WRL::ComPtr<ID3D11PixelShader>  lightingPS;           // Lightingãƒ‘ã‚¹ç”¨ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
+	Microsoft::WRL::ComPtr<ID3D11PixelShader>  forwardTransparentPS; // åŠé€æ˜ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰ç”¨(PBR)
 
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> shadowStaticVS;       // ‰e‚ğ•`‚­iÃ“IƒƒbƒVƒ…j
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> shadowSkinnedVS;      // ‰e‚ğ•`‚­iƒXƒLƒjƒ“ƒOƒƒbƒVƒ…j
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> shadowStaticVS;       // å½±ã‚’æãï¼ˆé™çš„ãƒ¡ãƒƒã‚·ãƒ¥ï¼‰
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> shadowSkinnedVS;      // å½±ã‚’æãï¼ˆã‚¹ã‚­ãƒ‹ãƒ³ã‚°ãƒ¡ãƒƒã‚·ãƒ¥ï¼‰
 
-	// GBufferƒVƒF[ƒ_[ƒ}ƒbƒv
+	// GBufferã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒãƒƒãƒ—
 	std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11PixelShader>> gBufferPixelShaders;
 	
-	// “ü—ÍƒŒƒCƒAƒEƒg
+	// å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D11InputLayout>  inputLayout;
 
 
 
-	// ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg
+	// ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D11SamplerState>      samplerState;
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒg
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState>   rasterizerState;
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒg(ƒtƒ‹ƒXƒNƒŠ[ƒ“•`‰æ—p)
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ(ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³æç”»ç”¨)
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState>   rasterizerStateNoCull;
 
-	// [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState;  
-	// [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg(”¼“§–¾—p)
+	// æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆ(åŠé€æ˜ç”¨)
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStateTransparent; 
 	
 	// GeometryPass
@@ -214,55 +214,55 @@ private:
 	// LightingPass
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStateLighting;
 
-	// ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh(”¼“§–¾—p)
+	// ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‰(åŠé€æ˜ç”¨)
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendState;
-	// GBuffer—p(ƒuƒŒƒ“ƒh‚È‚µ)
+	// GBufferç”¨(ãƒ–ãƒ¬ãƒ³ãƒ‰ãªã—)
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateOpaque;
 
 
-	// ’è”ƒoƒbƒtƒ@
-	Microsoft::WRL::ComPtr<ID3D11Buffer> cbScene;    // ƒV[ƒ“î•ñ
-	Microsoft::WRL::ComPtr<ID3D11Buffer> cbObject;   // ƒIƒuƒWƒFƒNƒgî•ñ
-	Microsoft::WRL::ComPtr<ID3D11Buffer> cbSkinning; // ƒXƒLƒjƒ“ƒO’è”ƒoƒbƒtƒ@
-	Microsoft::WRL::ComPtr<ID3D11Buffer> cbShadow;       // ‰e‚ğ“Ç‚Ş‘¤ib5j
-	Microsoft::WRL::ComPtr<ID3D11Buffer> cbShadowCaster; // ‰e‚ğ•`‚­‘¤ib6j
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	Microsoft::WRL::ComPtr<ID3D11Buffer> cbScene;    // ã‚·ãƒ¼ãƒ³æƒ…å ±
+	Microsoft::WRL::ComPtr<ID3D11Buffer> cbObject;   // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±
+	Microsoft::WRL::ComPtr<ID3D11Buffer> cbSkinning; // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	Microsoft::WRL::ComPtr<ID3D11Buffer> cbShadow;       // å½±ã‚’èª­ã‚€å´ï¼ˆb5ï¼‰
+	Microsoft::WRL::ComPtr<ID3D11Buffer> cbShadowCaster; // å½±ã‚’æãå´ï¼ˆb6ï¼‰
 
-	// ƒ_ƒ~[ƒeƒNƒXƒ`ƒƒ
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyWhite;  // Albedo/Occlusion—p
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyNormal; // –@üƒ}ƒbƒv—p
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyBlack;  // Emissive—p
+	// ãƒ€ãƒŸãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyWhite;  // Albedo/Occlusionç”¨
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyNormal; // æ³•ç·šãƒãƒƒãƒ—ç”¨
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> dummyBlack;  // Emissiveç”¨
 
-	// IBL—pƒeƒNƒXƒ`ƒƒ
+	// IBLç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	ID3D11ShaderResourceView* iblDiffuseIem    = nullptr;
 	ID3D11ShaderResourceView* iblSpecularPmrem = nullptr;
 	ID3D11ShaderResourceView* iblLutGgx        = nullptr;
 
 
-	// ƒtƒ‰ƒXƒ^ƒ€
+	// ãƒ•ãƒ©ã‚¹ã‚¿ãƒ 
 	Frustum cachedFrustum;
 	// GBuffer
 	GBuffer gBuffer;
-	// ‰eƒ}ƒbƒv
+	// å½±ãƒãƒƒãƒ—
 	ShadowMap shadowMap;
 	
-	// ‰e‚Ìİ’è
-	DirectX::XMFLOAT3   shadowLightDirection = { 0.5f, -1.0f, 0.5f }; // Œõ‚Ìi‚ŞŒü‚«
-	DirectX::XMFLOAT4X4 shadowCameraView{};                           // ‰e‚ğ‡‚í‚¹‚éƒJƒƒ‰
+	// å½±ã®è¨­å®š
+	DirectX::XMFLOAT3   shadowLightDirection = { 0.5f, -1.0f, 0.5f }; // å…‰ã®é€²ã‚€å‘ã
+	DirectX::XMFLOAT4X4 shadowCameraView{};                           // å½±ã‚’åˆã‚ã›ã‚‹ã‚«ãƒ¡ãƒ©
 	DirectX::XMFLOAT4X4 shadowCameraProjection{};
 
-	// ƒJƒXƒP[ƒh‚Ì’²®’l
-	static constexpr float SHADOW_DISTANCE = 60.0f;      // ‰e‚ğo‚·Å‘å‹——£
-	static constexpr float SHADOW_SPLIT_LAMBDA = 0.75f;  // •ªŠ„‚Ì•Î‚è
-	static constexpr float SHADOW_CASTER_MARGIN = 50.0f; // ƒ‰ƒCƒg‘¤‚ÖL‚Î‚·‹——£
+	// ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰ã®èª¿æ•´å€¤
+	static constexpr float SHADOW_DISTANCE = 60.0f;      // å½±ã‚’å‡ºã™æœ€å¤§è·é›¢
+	static constexpr float SHADOW_SPLIT_LAMBDA = 0.75f;  // åˆ†å‰²ã®åã‚Š
+	static constexpr float SHADOW_CASTER_MARGIN = 50.0f; // ãƒ©ã‚¤ãƒˆå´ã¸ä¼¸ã°ã™è·é›¢
 
-	// CalcCascades ‚ÌŒ‹‰Ê
+	// CalcCascades ã®çµæœ
 	DirectX::XMFLOAT4X4 cascadeViewProjections[SHADOW_CASCADE_COUNT]{};
 	float               cascadeSplits[SHADOW_CASCADE_COUNT]{};
 
-	// ‰e‚Ì”Z‚³
+	// å½±ã®æ¿ƒã•
 	float shadowStrength = 0.6f;
 
-	// ‰æ–ÊƒTƒCƒY
+	// ç”»é¢ã‚µã‚¤ã‚º
 	UINT screenWidth = 0;
 	UINT screenHeight = 0;
 };

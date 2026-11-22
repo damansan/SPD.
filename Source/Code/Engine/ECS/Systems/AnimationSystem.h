@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <algorithm>
 #include "entt.hpp"
@@ -11,59 +11,59 @@ struct TransformComponent;
 class AnimationSystem
 {
 public:
-	// XViŠÔ‚ği‚ß‚Äƒ{[ƒ“s—ñ‚ğŒvZj
+	// æ›´æ–°ï¼ˆæ™‚é–“ã‚’é€²ã‚ã¦ãƒœãƒ¼ãƒ³è¡Œåˆ—ã‚’è¨ˆç®—ï¼‰
 	void Update(
 		entt::registry& registry,
 		float elapsedTime);
 
-	// ŠÔ‚ği‚ß‚¸‚ÉAw’è‚µ‚½‚Ìƒ|[ƒY‚¾‚¯ŒvZ‚·‚é
+	// æ™‚é–“ã‚’é€²ã‚ãšã«ã€æŒ‡å®šã—ãŸæ™‚åˆ»ã®ãƒãƒ¼ã‚ºã ã‘è¨ˆç®—ã™ã‚‹
 	void EvaluatePose(entt::registry& registry);
 
 private:
-	// 1ƒtƒŒ[ƒ€•ªAƒNƒŠƒbƒv‚ÌŠÔ‚ği‚ß‚½Œ‹‰Ê
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†ã€ã‚¯ãƒªãƒƒãƒ—ã®æ™‚é–“ã‚’é€²ã‚ãŸçµæœ
 	struct ClipTimeStep
 	{
-		float oldTime = 0.0f; // i‚ß‚é‘O‚ÌŠÔ
-		float newTime = 0.0f; // i‚ß‚½Œã‚ÌŠÔ
+		float oldTime = 0.0f; // é€²ã‚ã‚‹å‰ã®æ™‚é–“
+		float newTime = 0.0f; // é€²ã‚ãŸå¾Œã®æ™‚é–“
 	};
 
-	// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“—R—ˆ‚Ì‘¬“x
+	// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç”±æ¥ã®é€Ÿåº¦
 	struct RootMotionVelocity
 	{
 		DirectX::XMFLOAT3 value{ 0.0f, 0.0f, 0.0f };
-		bool valid = false;  // XZ ‘‚«‚Ş‚©
-		bool writeY = false; // Y ‚à‘‚«‚Ş‚©
+		bool valid = false;  // XZ æ›¸ãè¾¼ã‚€ã‹
+		bool writeY = false; // Y ã‚‚æ›¸ãè¾¼ã‚€ã‹
 	};
 
-	// –¼‘O‚©‚çƒNƒŠƒbƒv‚Ì”Ô†‚ğ’T‚·
+	// åå‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã®ç•ªå·ã‚’æ¢ã™
 	static int FindAnimationIndex(const std::vector<Model::Animation>& animations, const std::string& name);
 
-	// ƒNƒŠƒbƒv‚ÌŠÔ‚ğ1ƒtƒŒ[ƒ€•ªi‚ß‚é
+	// ã‚¯ãƒªãƒƒãƒ—ã®æ™‚é–“ã‚’1ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†é€²ã‚ã‚‹
 	static ClipTimeStep AdvanceClipTime(AnimatorComponent& animator, const Model::Animation& animation, float elapsedTime);
 
-	// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚Ìƒ[ƒJƒ‹‚ÌˆÚ“®—Ê‚ğAƒ[ƒ‹ƒh‚Ì‘¬“x‚É•ÏŠ·‚·‚é
+	// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ­ãƒ¼ã‚«ãƒ«ã®ç§»å‹•é‡ã‚’ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®é€Ÿåº¦ã«å¤‰æ›ã™ã‚‹
 	static DirectX::XMFLOAT3 ToWorldVelocity(const DirectX::XMFLOAT3& localDelta, const TransformComponent& transform, float elapsedTime, bool useY);
 
-	// ƒNƒƒXƒtƒF[ƒhF•Û‘¶‚µ‚½ƒ|[ƒY‚©‚çA¡‚Ìƒ|[ƒY‚Ö¬‚º‚é
+	// ã‚¯ãƒ­ã‚¹ãƒ•ã‚§ãƒ¼ãƒ‰ï¼šä¿å­˜ã—ãŸãƒãƒ¼ã‚ºã‹ã‚‰ã€ä»Šã®ãƒãƒ¼ã‚ºã¸æ··ãœã‚‹
 	static void UpdateCrossfade(AnimatorComponent& animator, SkinnedMeshComponent& skinned, float elapsedTime);
 
 
-	// ƒL[ƒtƒŒ[ƒ€•âŠÔiˆÊ’uj
+	// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆä½ç½®ï¼‰
 	static DirectX::XMFLOAT3 InterpolatePosition(
 		const std::vector<Model::VectorKeyframe>& keyframes,
 		float time);
 
-	// ƒL[ƒtƒŒ[ƒ€•âŠÔi‰ñ“]j
+	// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆå›è»¢ï¼‰
 	static DirectX::XMFLOAT4 InterpolateRotation(
 		const std::vector<Model::QuaternionKeyframe>& keyframes,
 		float time);
 
-	// ƒL[ƒtƒŒ[ƒ€•âŠÔiƒXƒP[ƒ‹j
+	// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ è£œé–“ï¼ˆã‚¹ã‚±ãƒ¼ãƒ«ï¼‰
 	static DirectX::XMFLOAT3 InterpolateScale(
 		const std::vector<Model::VectorKeyframe>& keyframes,
 		float time);
 
-	// ƒm[ƒh‚ÌƒOƒ[ƒoƒ‹s—ñ‚ğÄ‹AŒvZ‚µ‚Äƒ{[ƒ“s—ñ‚É‘‚«‚Ş
+	// ãƒãƒ¼ãƒ‰ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—ã‚’å†å¸°è¨ˆç®—ã—ã¦ãƒœãƒ¼ãƒ³è¡Œåˆ—ã«æ›¸ãè¾¼ã‚€
 	static void CalcBoneTransforms(
 		Model& model,
 		const Model::Animation& animation,
@@ -73,7 +73,7 @@ private:
 		std::vector<DirectX::XMFLOAT3>& outScales,
 		int rootMotionNodeIndex = -1);
 
-	// 2‚Â‚Ìƒ|[ƒY‚ğrate‚Å•âŠÔ‚·‚é
+	// 2ã¤ã®ãƒãƒ¼ã‚ºã‚’rateã§è£œé–“ã™ã‚‹
 	static void BlendPoses(
 		const std::vector<DirectX::XMFLOAT3>& posA, const std::vector<DirectX::XMFLOAT4>& rotA, const std::vector<DirectX::XMFLOAT3>& scaleA,
 		const std::vector<DirectX::XMFLOAT3>& posB, const std::vector<DirectX::XMFLOAT4>& rotB, const std::vector<DirectX::XMFLOAT3>& scaleB,
@@ -82,14 +82,14 @@ private:
 		std::vector<DirectX::XMFLOAT4>& outRotations,
 		std::vector<DirectX::XMFLOAT3>& outScales);
 
-	// w’è‚Ìƒ[ƒJƒ‹ˆÊ’u‚ğ‹‚ß‚é
+	// æŒ‡å®šæ™‚åˆ»ã®ãƒ­ãƒ¼ã‚«ãƒ«ä½ç½®ã‚’æ±‚ã‚ã‚‹
 	static DirectX::XMFLOAT3 CalcNodeLocalPosition(
 		const Model::Animation& animation,
 		int nodeIndex,
 		const Model::Node& node,
 		float time);
 
-	// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚ÌˆÚ“®—Ê‚ğŒvZ‚·‚é
+	// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ç§»å‹•é‡ã‚’è¨ˆç®—ã™ã‚‹
 	static DirectX::XMFLOAT3 CalcRootMotionDelta(
 		const Model& model,
 		const Model::Animation& animation,

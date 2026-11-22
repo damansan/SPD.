@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/SceneContext.h"
 
-// ƒRƒ“ƒgƒ[ƒ‰[‚Ì¶“ü—Í‚ğƒvƒŒƒCƒ„[‚ÌˆÓ}‚É‰ğß‚·‚é
+// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®ç”Ÿå…¥åŠ›ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ„å›³ã«è§£é‡ˆã™ã‚‹
 class PlayerIntentSystem
 {
 public:

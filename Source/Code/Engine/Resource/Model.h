@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <vector>
@@ -12,7 +12,7 @@ class Model
 {
 public:
 
-	// ’¸“_ƒf[ƒ^
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
     struct Vertex
     {
         DirectX::XMFLOAT3 position = { 0, 0, 0 };
@@ -23,14 +23,14 @@ public:
         DirectX::XMUINT4  boneIndex = { 0, 0, 0, 0 };
     };
 
-    // ƒ{[ƒ“
+    // ãƒœãƒ¼ãƒ³
     struct Bone
     {
         int nodeIndex;
         DirectX::XMFLOAT4X4 offsetTransform;
     };
 
-    // ƒm[ƒh
+    // ãƒãƒ¼ãƒ‰
     struct Node
     {
         std::string         name;
@@ -43,30 +43,30 @@ public:
         DirectX::XMFLOAT4X4 globalTransform = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
     };
 
-    // ƒ}ƒeƒŠƒAƒ‹
+    // ãƒãƒ†ãƒªã‚¢ãƒ«
     struct Material
     {
         std::string       name;
         DirectX::XMFLOAT4 baseColor = { 1, 1, 1, 1 };
         float             roughnessFactor = 1.0f;
         float             metallicFactor = 0.0f;
-        DirectX::XMFLOAT3 emissiveFactor = { 0, 0, 0 }; // ”­Œõ‚ÌŒW”
+        DirectX::XMFLOAT3 emissiveFactor = { 0, 0, 0 }; // ç™ºå…‰ã®ä¿‚æ•°
 
-        // ŠO•”ƒtƒ@ƒCƒ‹QÆƒeƒNƒXƒ`ƒƒ—pƒpƒXiƒVƒŠƒAƒ‰ƒCƒY‘ÎÛj
+        // å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«å‚ç…§ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ãƒ‘ã‚¹ï¼ˆã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå¯¾è±¡ï¼‰
         std::string baseTextureFileName;
         std::string normalTextureFileName;
         std::string metallicRoughnessTextureFileName;
         std::string occlusionTextureFileName;
         std::string emissiveTextureFileName;
 
-        // –„‚ß‚İƒeƒNƒXƒ`ƒƒ—pƒoƒCƒiƒŠƒf[ƒ^iƒVƒŠƒAƒ‰ƒCƒY‘ÎÛj
+        // åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ï¼ˆã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå¯¾è±¡ï¼‰
         std::vector<uint8_t> baseMapData;
         std::vector<uint8_t> normalMapData;
         std::vector<uint8_t> metallicRoughnessMapData;
         std::vector<uint8_t> occlusionMapData;
         std::vector<uint8_t> emissiveMapData;
 
-        // GPUƒŠƒ\[ƒX(ƒVƒŠƒAƒ‰ƒCƒY‘ÎÛŠO)
+        // GPUãƒªã‚½ãƒ¼ã‚¹(ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå¯¾è±¡å¤–)
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> baseMap;
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> normalMap;
         Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> metallicRoughnessMap;
@@ -78,7 +78,7 @@ public:
         float     alphaCutoff = 0.5f;
     };
 
-    // ƒƒbƒVƒ…
+    // ãƒ¡ãƒƒã‚·ãƒ¥
     struct Mesh
     {
         std::vector<Vertex>   vertices;
@@ -92,7 +92,7 @@ public:
         Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
     };
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“ƒL[ƒtƒŒ[ƒ€
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
     struct VectorKeyframe
     {
         float               seconds;
@@ -104,7 +104,7 @@ public:
         DirectX::XMFLOAT4   value;
     };
 
-    // ƒm[ƒhƒAƒjƒ[ƒVƒ‡ƒ“
+    // ãƒãƒ¼ãƒ‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     struct NodeAnim
     {
         std::vector<VectorKeyframe>     positionKeyframes;
@@ -112,56 +112,56 @@ public:
         std::vector<VectorKeyframe>     scaleKeyframes;
     };
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     struct Animation
     {
         std::string           name;
         float                 secondsLength;
         std::vector<NodeAnim> nodeAnims;
 
-        // Ä‚«‚İŒã‚Ì‚ÆA¶ƒf[ƒ^‚Ì‚Ì‘Î‰•\
+        // ç„¼ãè¾¼ã¿å¾Œã®æ™‚åˆ»ã¨ã€ç”Ÿãƒ‡ãƒ¼ã‚¿ã®æ™‚åˆ»ã®å¯¾å¿œè¡¨
         std::vector<float>    bakedTimes;
         std::vector<float>    rawTimes;
 
-        // Ä‚«‚İŒã‚©‚ç¶ƒf[ƒ^‚É
+        // ç„¼ãè¾¼ã¿å¾Œã‹ã‚‰ç”Ÿãƒ‡ãƒ¼ã‚¿ã«
         float ToRawTime(float bakedTime) const;
-        // ¶ƒf[ƒ^‚©‚çÄ‚«‚İŒã‚É
+        // ç”Ÿãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç„¼ãè¾¼ã¿å¾Œã«
         float ToBakedTime(float rawTime) const;
 
-        // 1ƒtƒŒ[ƒ€‚Ì•b”
+        // 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç§’æ•°
         float CalcFrameStep() const;
     };
 
-    // “ü—ÍƒŒƒCƒAƒEƒg
+    // å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
     static const std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementDescs;
 
-    // ƒXƒLƒjƒ“ƒO‚Ì—L–³
+    // ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ã®æœ‰ç„¡
     bool HasSkin() const { return hasSkin; }
 
 
-    // ƒf[ƒ^ƒAƒNƒZƒT[
+    // ãƒ‡ãƒ¼ã‚¿ã‚¢ã‚¯ã‚»ã‚µãƒ¼
     const std::vector<Node>& GetNodes()      const { return nodes; }
     const std::vector<Mesh>& GetMeshes()     const { return meshes; }
     const std::vector<Material>& GetMaterials()  const { return materials; }
-    const std::vector<Animation>& GetAnimations() const { return animations; }       // •ÒWÏ‚İ
-    const std::vector<Animation>& GetRawAnimations() const { return rawAnimations; } // ¶ƒf[ƒ^
+    const std::vector<Animation>& GetAnimations() const { return animations; }       // ç·¨é›†æ¸ˆã¿
+    const std::vector<Animation>& GetRawAnimations() const { return rawAnimations; } // ç”Ÿãƒ‡ãƒ¼ã‚¿
     
-    // –¼‘O‚©‚çƒNƒŠƒbƒv‚ğ’T‚·
-    const Animation* FindAnimation(const std::string& name) const;        // •ÒWÏ‚İ
-    const Animation* FindRawAnimation(const std::string& name) const;     // ¶ƒf[ƒ^
-    const Animation* FindPreviewAnimation(const std::string& name) const; // ƒvƒŒƒrƒ…[—p
+    // åå‰ã‹ã‚‰ã‚¯ãƒªãƒƒãƒ—ã‚’æ¢ã™
+    const Animation* FindAnimation(const std::string& name) const;        // ç·¨é›†æ¸ˆã¿
+    const Animation* FindRawAnimation(const std::string& name) const;     // ç”Ÿãƒ‡ãƒ¼ã‚¿
+    const Animation* FindPreviewAnimation(const std::string& name) const; // ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨
 
-	// •ÒWİ’è‚ğƒvƒŒƒrƒ…[—p‚É“K—p‚·‚é
+	// ç·¨é›†è¨­å®šã‚’ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã«é©ç”¨ã™ã‚‹
     void ApplyAnimationEditPreview(const AnimationEditData& editData);
-    // ƒvƒŒƒrƒ…[—p‚ğÁ‚·
+    // ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã‚’æ¶ˆã™
     void ClearAnimationPreview();
 
-    // Ä¶‚Ég‚¤ƒNƒŠƒbƒv‚Ì•À‚Ñ
+    // å†ç”Ÿã«ä½¿ã†ã‚¯ãƒªãƒƒãƒ—ã®ä¸¦ã³
     const std::vector<Animation>& GetPlaybackAnimations(bool usePreview) const;
 
-    // •ÒWİ’è‚ğÄ‚«‚Ş
+    // ç·¨é›†è¨­å®šã‚’ç„¼ãè¾¼ã‚€
     void ApplyAnimationEdit(const AnimationEditData& editData);
-    // Ä‚«‚İ‚Ég‚Á‚½ƒ‹[ƒgƒm[ƒh–¼‚Æ”Ô†
+    // ç„¼ãè¾¼ã¿ã«ä½¿ã£ãŸãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰åã¨ç•ªå·
     const std::string& GetRootNodeName() const { return rootNodeName; }
     int GetRootNodeIndex() const { return rootNodeIndex; }
 
@@ -170,13 +170,13 @@ public:
     std::vector<Material>& GetMaterials() { return materials; }
 
 
-    // ƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX
+    // ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹
     struct BoundingBox
     {
         DirectX::XMFLOAT3 min = { FLT_MAX,  FLT_MAX,  FLT_MAX };
         DirectX::XMFLOAT3 max = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
 
-        // ’†SÀ•Wæ“¾
+        // ä¸­å¿ƒåº§æ¨™å–å¾—
         DirectX::XMFLOAT3 GetCenter() const
         {
             return {
@@ -186,7 +186,7 @@ public:
             };
         }
 
-        // ”¼Œaæ“¾i‹…‘Ì‹ß—j
+        // åŠå¾„å–å¾—ï¼ˆçƒä½“è¿‘ä¼¼ï¼‰
         float GetRadius() const
         {
             float dx = (max.x - min.x) * 0.5f;
@@ -195,7 +195,7 @@ public:
             return sqrtf(dx * dx + dy * dy + dz * dz);
         }
     };
-    // ƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒXæ“¾
+    // ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹å–å¾—
     const BoundingBox& GetBoundingBox() const { return boundingBox; }
 
 private:
@@ -203,17 +203,17 @@ private:
     friend class GLTFConverter;
     friend class ModelSerializer;
 
-    // ¶ƒf[ƒ^‚ª‚Ü‚¾T‚¦‚ç‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA¡‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğT‚¦‚é
+    // ç”Ÿãƒ‡ãƒ¼ã‚¿ãŒã¾ã æ§ãˆã‚‰ã‚Œã¦ã„ãªã‘ã‚Œã°ã€ä»Šã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ§ãˆã‚‹
     void EnsureRawAnimations();
 
     std::vector<Node>      nodes;
     std::vector<Mesh>      meshes;
     std::vector<Material>  materials;
-    std::vector<Animation> animations;        // •ÒWÏ‚İ
-    std::vector<Animation> rawAnimations;     // ¶ƒf[ƒ^
-    std::vector<Animation> previewAnimations; // ƒvƒŒƒrƒ…[—p
-    std::string            rootNodeName;       // Ä‚«‚İ‚Ég‚Á‚½ƒ‹[ƒgƒm[ƒh–¼
-    int                    rootNodeIndex = -1; // ‚»‚Ì”Ô†
+    std::vector<Animation> animations;        // ç·¨é›†æ¸ˆã¿
+    std::vector<Animation> rawAnimations;     // ç”Ÿãƒ‡ãƒ¼ã‚¿
+    std::vector<Animation> previewAnimations; // ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨
+    std::string            rootNodeName;       // ç„¼ãè¾¼ã¿ã«ä½¿ã£ãŸãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰å
+    int                    rootNodeIndex = -1; // ãã®ç•ªå·
 
     bool                   hasSkin = false;
 

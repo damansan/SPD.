@@ -1,4 +1,4 @@
-#include "CerealHelper.h"
+ï»¿#include "CerealHelper.h"
 #include <cereal/archives/binary.hpp>
 
 namespace DirectX
@@ -64,7 +64,7 @@ namespace DirectX
         );
     }
 
-    // –¾¦“IƒCƒ“ƒXƒ^ƒ“ƒX‰»i‚±‚Ì.cpp‚Å‚Ì‚İ“WŠJj
+    // æ˜ç¤ºçš„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ï¼ˆã“ã®.cppã§ã®ã¿å±•é–‹ï¼‰
     template void serialize(cereal::BinaryOutputArchive&, DirectX::XMFLOAT2&);
     template void serialize(cereal::BinaryInputArchive&, DirectX::XMFLOAT2&);
     template void serialize(cereal::BinaryOutputArchive&, DirectX::XMFLOAT3&);

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include "entt.hpp"
@@ -9,10 +9,10 @@ class IStudioAttachment
 public:
 	virtual ~IStudioAttachment() = default;
 
-    // XV
+    // æ›´æ–°
     virtual void Update(float elapsedTime, StudioContext& context) {}
 
-    // 3D•`‰æ
+    // 3Dæç”»
     virtual void OnRender(
         ID3D11DeviceContext* dc,
         const DirectX::XMFLOAT4X4& view,
@@ -21,7 +21,7 @@ public:
         StudioContext& context) 
     {}
 
-    // ImGui•`‰æ
+    // ImGuiæç”»
     virtual void DrawGUI(
         entt::registry& registry,
         StudioContext& context)

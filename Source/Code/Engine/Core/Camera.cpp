@@ -1,6 +1,6 @@
-#include "Camera.h"
+ï»¿#include "Camera.h"
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void Camera::Initialize(float screenWidth, float screenHeight)
 {
     SetLookAt(
@@ -16,7 +16,7 @@ void Camera::Initialize(float screenWidth, float screenHeight)
     );
 }
 
-// ’‹“_İ’è
+// æ³¨è¦–ç‚¹è¨­å®š
 void Camera::SetLookAt(
     const DirectX::XMFLOAT3& eye,
     const DirectX::XMFLOAT3& target,
@@ -28,7 +28,7 @@ void Camera::SetLookAt(
     DirectX::XMMATRIX View = DirectX::XMMatrixLookAtLH(Eye, Target, Up);
     DirectX::XMStoreFloat4x4(&this->view, View);
 
-    // •ûŒüƒxƒNƒgƒ‹æ“¾
+    // æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«å–å¾—
     this->right.x = view._11;
     this->right.y = view._21;
     this->right.z = view._31;
@@ -45,12 +45,12 @@ void Camera::SetLookAt(
     this->target = target;
 }
 
-// ƒp[ƒXƒyƒNƒeƒBƒuİ’è
+// ãƒ‘ãƒ¼ã‚¹ãƒšã‚¯ãƒ†ã‚£ãƒ–è¨­å®š
 void Camera::SetPerspectiveFov(
     float fovY, float aspect,
     float nearZ, float farZ)
 {
-    // FOV ‚¾‚¯‚ğ•Ï‚¦‚é‚Ì‚½‚ß‚ÉŠo‚¦‚Ä‚¨‚­
+    // FOV ã ã‘ã‚’å¤‰ãˆã‚‹æ™‚ã®ãŸã‚ã«è¦šãˆã¦ãŠã
     this->aspect = aspect;
     this->nearZ = nearZ;
     this->farZ = farZ;
@@ -60,7 +60,7 @@ void Camera::SetPerspectiveFov(
     DirectX::XMStoreFloat4x4(&projection, Projection);
 }
 
-// Fov‚ÌƒZƒbƒg
+// Fovã®ã‚»ãƒƒãƒˆ
 void Camera::SetFovDeg(float fovDeg)
 {
     viewingAngle = fovDeg;

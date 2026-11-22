@@ -10,7 +10,7 @@
 namespace
 {
 	// ピンの印(▶)
-	const char* kPinIcon = u8"▶";
+	const char* kPinIcon = "▶";
 
 	// 各ノードの幅に合わせて、中央に配置する
 	void CenterNextItem(float totalWidth, float itemWidth)

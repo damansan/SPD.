@@ -1,10 +1,10 @@
-#include "PrefabWindow.h"
+ï»¿#include "PrefabWindow.h"
 #include <imgui.h>
 #include <algorithm>
 #include "entt.hpp"
 #include "Engine/Resource/EntitySerializer.h"
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void PrefabWindow::Initialize(const std::string& root)
 {
 	rootPath = root;
@@ -16,7 +16,7 @@ void PrefabWindow::Initialize(const std::string& root)
 	}
 }
 
-// •`‰æ
+// æç”»
 void PrefabWindow::Draw(entt::registry& registry, EditorContext& context)
 {
 	RefreshFolderTreeIfNeeded();
@@ -51,7 +51,7 @@ void PrefabWindow::Draw(entt::registry& registry, EditorContext& context)
 	ImGui::End();
 }
 
-// d•¡‚µ‚È‚¢–¼‘O‚Åì¬
+// é‡è¤‡ã—ãªã„åå‰ã§ä½œæˆ
 std::string PrefabWindow::GenerateUniqueName(const std::filesystem::path& parentDir, const std::string& baseName)
 {
 	std::filesystem::path candidate = parentDir / baseName;
@@ -77,7 +77,7 @@ std::string PrefabWindow::GenerateUniqueName(const std::filesystem::path& parent
 }
 
 
-// ¶FƒtƒHƒ‹ƒ_ƒcƒŠ[
+// å·¦ï¼šãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼
 void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, EditorContext& context)
 {
 	const std::filesystem::path& path = node.path;
@@ -85,7 +85,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 
 	bool hasSubFolder = !node.children.empty();
 
-	// ƒŠƒl[ƒ€’†‚ÍƒcƒŠ[s‚Ì‘ã‚í‚è‚É“ü—Í—“‚ğ•\¦‚·‚é
+	// ãƒªãƒãƒ¼ãƒ ä¸­ã¯ãƒ„ãƒªãƒ¼è¡Œã®ä»£ã‚ã‚Šã«å…¥åŠ›æ¬„ã‚’è¡¨ç¤ºã™ã‚‹
 	if (isRenamingThis)
 	{
 		ImGui::SetNextItemWidth(160.0f);
@@ -98,7 +98,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		{
 			CommitRename();
 		}
-		// ƒŠƒl[ƒ€’†‚ÍƒTƒuƒtƒHƒ‹ƒ_‚ÌÄ‹A•`‰æ‚ğs‚í‚È‚¢
+		// ãƒªãƒãƒ¼ãƒ ä¸­ã¯ã‚µãƒ–ãƒ•ã‚©ãƒ«ãƒ€ã®å†å¸°æç”»ã‚’è¡Œã‚ãªã„
 		return;
 	}
 
@@ -122,7 +122,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		itemState.selectedPath = path;
 	}
 
-	// Entity‚Ìƒhƒƒbƒv‚ğó‚¯æ‚èA‚±‚ÌƒtƒHƒ‹ƒ_‚ÉƒvƒŒƒnƒu‚Æ‚µ‚Ä•Û‘¶‚·‚é
+	// Entityã®ãƒ‰ãƒ­ãƒƒãƒ—ã‚’å—ã‘å–ã‚Šã€ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ—ãƒ¬ãƒãƒ–ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 	if (ImGui::BeginDragDropTarget())
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY"))
@@ -133,12 +133,12 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		ImGui::EndDragDropTarget();
 	}
 
-	// ‰EƒNƒŠƒbƒN‚ÅƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[
+	// å³ã‚¯ãƒªãƒƒã‚¯ã§ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if (ImGui::BeginPopupContextItem(path.string().c_str()))
 	{
-		if (ImGui::BeginMenu(u8"V‹Kì¬"))
+		if (ImGui::BeginMenu("æ–°è¦ä½œæˆ"))
 		{
-			if (ImGui::MenuItem(u8"ƒtƒHƒ‹ƒ_"))
+			if (ImGui::MenuItem("ãƒ•ã‚©ãƒ«ãƒ€"))
 			{
 				std::string newName = GenerateUniqueName(path, "New Folder");
 				std::filesystem::create_directory(path / newName);
@@ -148,16 +148,16 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		}
 
 		ImGui::Separator();
-		if (ImGui::MenuItem(u8"–¼‘O‚Ì•ÏX"))
+		if (ImGui::MenuItem("åå‰ã®å¤‰æ›´"))
 		{
 			BeginRename(path);
 		}
 
-		// ƒ‹[ƒgƒtƒHƒ‹ƒ_‚Ííœ‚µ‚È‚¢
+		// ãƒ«ãƒ¼ãƒˆãƒ•ã‚©ãƒ«ãƒ€ã¯å‰Šé™¤ã—ãªã„
 		if (path != rootPath)
 		{
 			ImGui::Separator();
-			if (ImGui::MenuItem(u8"íœ"))
+			if (ImGui::MenuItem("å‰Šé™¤"))
 			{
 				itemState.mode = PrefabItemMode::ConfirmingDelete;
 				itemState.targetPath = path;
@@ -175,7 +175,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		ImGui::TreePop();
 	}
 }
-// ‰EFƒtƒ@ƒCƒ‹ˆê——
+// å³ï¼šãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§
 void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context)
 {
 	if (itemState.selectedPath.empty()) return;
@@ -203,7 +203,7 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 
 		ImVec2 pos = ImGui::GetCursorScreenPos();
 
-		// ƒvƒŒƒnƒu—p‚ÌƒAƒCƒRƒ“i’PF‚ÌlŠp‚Å‰¼•\¦j
+		// ãƒ—ãƒ¬ãƒãƒ–ç”¨ã®ã‚¢ã‚¤ã‚³ãƒ³ï¼ˆå˜è‰²ã®å››è§’ã§ä»®è¡¨ç¤ºï¼‰
 		ImGui::GetWindowDrawList()->AddRectFilled(
 			pos,
 			ImVec2(pos.x + iconSize, pos.y + iconSize),
@@ -216,7 +216,7 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 		ImGui::PushID(index);
 		ImGui::InvisibleButton("##icon", ImVec2(iconSize, iconSize));
 
-		// Šù‘¶‚ÌƒvƒŒƒnƒu‚ÉAEntity‚ªƒhƒƒbƒv‚³‚ê‚½‚çA‚»‚Ìƒtƒ@ƒCƒ‹‚ğã‘‚«•Û‘¶‚·‚é
+		// æ—¢å­˜ã®ãƒ—ãƒ¬ãƒãƒ–ã«ã€EntityãŒãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸã‚‰ã€ãã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¸Šæ›¸ãä¿å­˜ã™ã‚‹
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY"))
@@ -227,7 +227,7 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 			ImGui::EndDragDropTarget();
 		}
 
-		// ƒhƒ‰ƒbƒOŠJniHierarchy‚Öƒhƒƒbƒv‚µ‚Ä”z’u‚·‚é‚½‚ßj
+		// ãƒ‰ãƒ©ãƒƒã‚°é–‹å§‹ï¼ˆHierarchyã¸ãƒ‰ãƒ­ãƒƒãƒ—ã—ã¦é…ç½®ã™ã‚‹ãŸã‚ï¼‰
 		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 		{
 			ImGui::SetDragDropPayload(
@@ -239,14 +239,14 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 			ImGui::EndDragDropSource();
 		}
 
-		// ‰EƒNƒŠƒbƒN‚Åu–¼‘O‚Ì•ÏXvuíœv
+		// å³ã‚¯ãƒªãƒƒã‚¯ã§ã€Œåå‰ã®å¤‰æ›´ã€ã€Œå‰Šé™¤ã€
 		if (ImGui::BeginPopupContextItem("##fileContext"))
 		{
-			if (ImGui::MenuItem(u8"–¼‘O‚Ì•ÏX"))
+			if (ImGui::MenuItem("åå‰ã®å¤‰æ›´"))
 			{
 				BeginRename(file.path);
 			}
-			if (ImGui::MenuItem(u8"íœ"))
+			if (ImGui::MenuItem("å‰Šé™¤"))
 			{
 				itemState.mode = PrefabItemMode::ConfirmingDelete;
 				itemState.targetPath = file.path;
@@ -265,7 +265,7 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 			bool confirmedByEnter = ImGui::InputText("##rename", itemState.editBuffer, sizeof(itemState.editBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
 			bool confirmedByBlur = ImGui::IsItemDeactivated() && !confirmedByEnter;
 
-			// Šg’£q‚Íu.prefabv‚Ì•”•ª‚¾‚¯ŒÅ’è•\¦‚·‚éi.json‚Ì•”•ª‚Í“à•”À‘•‚Æ‚µ‚Ä‰B‚·j
+			// æ‹¡å¼µå­ã¯ã€Œ.prefabã€ã®éƒ¨åˆ†ã ã‘å›ºå®šè¡¨ç¤ºã™ã‚‹ï¼ˆ.jsonã®éƒ¨åˆ†ã¯å†…éƒ¨å®Ÿè£…ã¨ã—ã¦éš ã™ï¼‰
 			ImGui::TextDisabled(".prefab");
 
 			if (confirmedByEnter || confirmedByBlur)
@@ -285,12 +285,12 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 		index++;
 	}
 
-	// ‹ó”’•”•ª‚Ì‰EƒNƒŠƒbƒN‚ÅAV‹KƒtƒHƒ‹ƒ_ì¬
+	// ç©ºç™½éƒ¨åˆ†ã®å³ã‚¯ãƒªãƒƒã‚¯ã§ã€æ–°è¦ãƒ•ã‚©ãƒ«ãƒ€ä½œæˆ
 	if (ImGui::BeginPopupContextWindow("PrefabFileGridContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverExistingPopup))
 	{
-		if (ImGui::BeginMenu(u8"V‹Kì¬"))
+		if (ImGui::BeginMenu("æ–°è¦ä½œæˆ"))
 		{
-			if (ImGui::MenuItem(u8"ƒtƒHƒ‹ƒ_"))
+			if (ImGui::MenuItem("ãƒ•ã‚©ãƒ«ãƒ€"))
 			{
 				std::string newName = GenerateUniqueName(itemState.selectedPath, "New Folder");
 				std::filesystem::create_directory(itemState.selectedPath / newName);
@@ -301,7 +301,7 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 	}
 }
 
-// Entity‚ğAw’èƒtƒHƒ‹ƒ_‚ÉƒvƒŒƒnƒu‚Æ‚µ‚Ä•Û‘¶‚·‚é
+// Entityã‚’ã€æŒ‡å®šãƒ•ã‚©ãƒ«ãƒ€ã«ãƒ—ãƒ¬ãƒãƒ–ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 void PrefabWindow::SaveEntityAsPrefab(entt::registry& registry, EditorContext& context, entt::entity e, const std::filesystem::path& folder)
 {
 	if (!registry.valid(e)) return;
@@ -312,7 +312,7 @@ void PrefabWindow::SaveEntityAsPrefab(entt::registry& registry, EditorContext& c
 	nlohmann::json data = EntitySerializer::SerializeEntity(registry, e);
 	EntitySerializer::SavePrefabFile((folder / fileName).string(), data);
 }
-// Entity‚ğAŠù‘¶‚ÌƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚Éã‘‚«•Û‘¶‚·‚é
+// Entityã‚’ã€æ—¢å­˜ã®ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¸Šæ›¸ãä¿å­˜ã™ã‚‹
 void PrefabWindow::OverwritePrefab(entt::registry& registry, EditorContext& context, entt::entity e, const std::filesystem::path& filePath)
 {
 	if (!registry.valid(e)) return;
@@ -320,7 +320,7 @@ void PrefabWindow::OverwritePrefab(entt::registry& registry, EditorContext& cont
 	nlohmann::json data = EntitySerializer::SerializeEntity(registry, e);
 	EntitySerializer::SavePrefabFile(filePath.string(), data);
 }
-// ŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒHƒ‹ƒ_ƒcƒŠ[‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+// é–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 void PrefabWindow::RefreshFolderTreeIfNeeded()
 {
 	auto now = std::chrono::steady_clock::now();
@@ -346,7 +346,7 @@ PrefabWindow::FolderNode PrefabWindow::BuildFolderNode(const std::filesystem::pa
 	return node;
 }
 
-// ‘I‘ğƒtƒHƒ‹ƒ_‚ª•Ï‚í‚Á‚½^ŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+// é¸æŠãƒ•ã‚©ãƒ«ãƒ€ãŒå¤‰ã‚ã£ãŸï¼é–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 void PrefabWindow::RefreshFileGridIfNeeded()
 {
 	bool folderChanged = (itemState.selectedPath != fileGridCachedPath);
@@ -376,7 +376,7 @@ std::vector<PrefabWindow::FileEntry> PrefabWindow::BuildFileGrid(const std::file
 	return result;
 }
 
-// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©‚Ì”»’è
+// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã©ã†ã‹ã®åˆ¤å®š
 bool PrefabWindow::IsPrefabFile(const std::filesystem::path& path)
 {
 	if (path.extension() != ".json") return false;
@@ -386,21 +386,21 @@ bool PrefabWindow::IsPrefabFile(const std::filesystem::path& path)
 	return stemPath.extension() == ".prefab";
 }
 
-// íœŠm”Fƒ|ƒbƒvƒAƒbƒv
+// å‰Šé™¤ç¢ºèªãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
 void PrefabWindow::DrawDeleteConfirmPopup()
 {
 	if (itemState.mode != PrefabItemMode::ConfirmingDelete) return;
 
-	ImGui::OpenPopup(u8"íœ‚ÌŠm”F");
+	ImGui::OpenPopup("å‰Šé™¤ã®ç¢ºèª");
 
 	bool open = true;
-	if (ImGui::BeginPopupModal(u8"íœ‚ÌŠm”F", &open, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("å‰Šé™¤ã®ç¢ºèª", &open, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		std::string name = itemState.targetPath.filename().string();
-		ImGui::Text(u8"u%sv‚ğíœ‚µ‚Ü‚·‚©H", name.c_str());
+		ImGui::Text("ã€Œ%sã€ã‚’å‰Šé™¤ã—ã¾ã™ã‹ï¼Ÿ", name.c_str());
 		ImGui::Spacing();
 
-		if (ImGui::Button(u8"íœ", ImVec2(120, 0)))
+		if (ImGui::Button("å‰Šé™¤", ImVec2(120, 0)))
 		{
 			std::error_code ec;
 			std::filesystem::remove_all(itemState.targetPath, ec);
@@ -417,7 +417,7 @@ void PrefabWindow::DrawDeleteConfirmPopup()
 
 		ImGui::SameLine();
 
-		if (ImGui::Button(u8"ƒLƒƒƒ“ƒZƒ‹", ImVec2(120, 0)))
+		if (ImGui::Button("ã‚­ãƒ£ãƒ³ã‚»ãƒ«", ImVec2(120, 0)))
 		{
 			itemState.mode = PrefabItemMode::None;
 			itemState.targetPath.clear();
@@ -434,13 +434,13 @@ void PrefabWindow::DrawDeleteConfirmPopup()
 	}
 }
 
-// ƒŠƒl[ƒ€ŠJn
+// ãƒªãƒãƒ¼ãƒ é–‹å§‹
 void PrefabWindow::BeginRename(const std::filesystem::path& target)
 {
 	itemState.mode = PrefabItemMode::Renaming;
 	itemState.targetPath = target;
 
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹(.prefab.json)‚ÍA2’iŠK‚ÌŠg’£q‚ğ—¼•ûæ‚èœ‚­BƒtƒHƒ‹ƒ_‚Í‚»‚Ì‚Ü‚Ü
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«(.prefab.json)ã¯ã€2æ®µéšã®æ‹¡å¼µå­ã‚’ä¸¡æ–¹å–ã‚Šé™¤ãã€‚ãƒ•ã‚©ãƒ«ãƒ€ã¯ãã®ã¾ã¾
 	std::string currentStem;
 	if (IsPrefabFile(target))
 	{
@@ -453,12 +453,12 @@ void PrefabWindow::BeginRename(const std::filesystem::path& target)
 
 	strncpy_s(itemState.editBuffer, currentStem.c_str(), sizeof(itemState.editBuffer) - 1);
 }
-// ƒŠƒl[ƒ€Šm’è
+// ãƒªãƒãƒ¼ãƒ ç¢ºå®š
 void PrefabWindow::CommitRename()
 {
 	std::string newStem = itemState.editBuffer;
 
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚ÍAí‚Éu.prefab.jsonv‚ğ•t‚¯’¼‚·BƒtƒHƒ‹ƒ_‚Í‚»‚Ì‚Ü‚Ü(Šg’£q‚È‚µ)
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã€å¸¸ã«ã€Œ.prefab.jsonã€ã‚’ä»˜ã‘ç›´ã™ã€‚ãƒ•ã‚©ãƒ«ãƒ€ã¯ãã®ã¾ã¾(æ‹¡å¼µå­ãªã—)
 	std::string newName = IsPrefabFile(itemState.targetPath)
 		? newStem + ".prefab.json" : newStem;
 

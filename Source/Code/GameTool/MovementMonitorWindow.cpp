@@ -1,4 +1,4 @@
-#include "MovementMonitorWindow.h"
+ï»¿#include "MovementMonitorWindow.h"
 #include <imgui.h>
 #include <algorithm>
 #include <cmath>
@@ -15,13 +15,13 @@ namespace
 	constexpr ImU32 kGridColor =       IM_COL32(60, 60, 70, 255);
 	constexpr ImU32 kZeroColor =       IM_COL32(130, 130, 140, 255);
 	constexpr ImU32 kLabelColor =      IM_COL32(150, 150, 160, 255);
-	constexpr ImU32 kHorizontalColor = IM_COL32(66, 150, 250, 255);  // …•½‚Ì‘¬‚³(Â)
-	constexpr ImU32 kDesiredColor =    IM_COL32(250, 200, 60, 220);  // –Ú•W‚Ì‘¬‚³(‰©)
-	constexpr ImU32 kVerticalColor =   IM_COL32(120, 220, 140, 255); // c‚Ì‘¬‚³(—Î)
+	constexpr ImU32 kHorizontalColor = IM_COL32(66, 150, 250, 255);  // æ°´å¹³ã®é€Ÿã•(é’)
+	constexpr ImU32 kDesiredColor =    IM_COL32(250, 200, 60, 220);  // ç›®æ¨™ã®é€Ÿã•(é»„)
+	constexpr ImU32 kVerticalColor =   IM_COL32(120, 220, 140, 255); // ç¸¦ã®é€Ÿã•(ç·‘)
 
-	constexpr float kBandHeight = 16.0f; // ƒXƒe[ƒg‚Ì‘Ñ‚Ì‚‚³
+	constexpr float kBandHeight = 16.0f; // ã‚¹ãƒ†ãƒ¼ãƒˆã®å¸¯ã®é«˜ã•
 
-	// ƒXƒe[ƒg‚ÌF(‰‚ß‚Äo‚Ä‚«‚½‡‚Ég‚¤)
+	// ã‚¹ãƒ†ãƒ¼ãƒˆã®è‰²(åˆã‚ã¦å‡ºã¦ããŸé †ã«ä½¿ã†)
 	constexpr ImU32 kStateColors[] =
 	{
 		IM_COL32(90, 110, 140, 255),
@@ -34,12 +34,12 @@ namespace
 	constexpr int kStateColorCount = sizeof(kStateColors) / sizeof(kStateColors[0]);
 }
 
-// ’l‚ğ1‚Â‹L˜^‚·‚é
+// å€¤ã‚’1ã¤è¨˜éŒ²ã™ã‚‹
 void MovementMonitorWindow::Record(entt::registry& registry, float elapsedTime)
 {
 	if (paused) return;
 
-	// ƒJƒeƒSƒŠ‚ª Player ‚ÌƒGƒ“ƒeƒBƒeƒB‚ğ‹L˜^‚·‚é
+	// ã‚«ãƒ†ã‚´ãƒªãŒ Player ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’è¨˜éŒ²ã™ã‚‹
 	entt::entity player = FindFirstByCategory(registry, EntityCategory::Player);
 	if (player == entt::null) return;
 
@@ -58,14 +58,14 @@ void MovementMonitorWindow::Record(entt::registry& registry, float elapsedTime)
 	s.stateIndex = FindOrAddState(stateMachine ? stateMachine->currentStateName : "(no state)");
 	samples.push_back(s);
 
-	// ŒÃ‚¢‹L˜^‚ğÌ‚Ä‚é
+	// å¤ã„è¨˜éŒ²ã‚’æ¨ã¦ã‚‹
 	while (!samples.empty() && samples.front().time < totalTime - kKeepSeconds)
 	{
 		samples.pop_front();
 	}
 }
 
-// ‹L˜^‚ğƒOƒ‰ƒt‚É•`‚­
+// è¨˜éŒ²ã‚’ã‚°ãƒ©ãƒ•ã«æã
 void MovementMonitorWindow::Draw()
 {
 	if (!isOpen) return;
@@ -85,7 +85,7 @@ void MovementMonitorWindow::Draw()
 		return;
 	}
 
-	// •\¦”ÍˆÍ‚ÌÅ‘å’l‚É‡‚í‚¹‚ÄAc‚Ì–Ú·‚è‚ğŒˆ‚ß‚é
+	// è¡¨ç¤ºç¯„å›²ã®æœ€å¤§å€¤ã«åˆã‚ã›ã¦ã€ç¸¦ã®ç›®ç››ã‚Šã‚’æ±ºã‚ã‚‹
 	const float startTime = samples.back().time - kViewSeconds;
 	float maxHorizontal = 6.0f;
 	float maxVertical = 10.0f;
@@ -114,7 +114,7 @@ void MovementMonitorWindow::Draw()
 	ImGui::End();
 }
 
-// ƒOƒ‰ƒt‚ğ1‚Â•`‚­
+// ã‚°ãƒ©ãƒ•ã‚’1ã¤æã
 void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxValue, float gridStep, const Series* series, int seriesCount)
 {
 	ImDrawList* dl = ImGui::GetWindowDrawList();
@@ -127,7 +127,7 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 	const ImVec2 plotMax = ImVec2(pos.x + width, pos.y + plotHeight);
 	const ImVec2 bandMax = ImVec2(pos.x + width, pos.y + height);
 
-	// ŠÔ ¨ XÀ•WA’l ¨ YÀ•W
+	// æ™‚é–“ â†’ Xåº§æ¨™ã€å€¤ â†’ Yåº§æ¨™
 	const float endTime = samples.back().time;
 	const float startTime = endTime - kViewSeconds;
 	auto ToX = [&](float t) { return plotMin.x + (t - startTime) / kViewSeconds * width; };
@@ -139,10 +139,10 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 
 	dl->PushClipRect(plotMin, bandMax, true);
 
-	// ”wŒi
+	// èƒŒæ™¯
 	dl->AddRectFilled(plotMin, plotMax, kBackColor);
 
-	// ‰¡‚Ì–Ú·‚è
+	// æ¨ªã®ç›®ç››ã‚Š
 	for (float v = ceilf(minValue / gridStep) * gridStep; v <= maxValue; v += gridStep)
 	{
 		float y = ToY(v);
@@ -154,14 +154,14 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 		dl->AddText(ImVec2(plotMin.x + 2.0f, y - 14.0f), kLabelColor, label);
 	}
 
-	// c‚Ì–Ú·‚è
+	// ç¸¦ã®ç›®ç››ã‚Š
 	for (float t = ceilf(startTime); t <= endTime; t += 1.0f)
 	{
 		float x = ToX(t);
 		dl->AddLine(ImVec2(x, plotMin.y), ImVec2(x, plotMax.y), kGridColor);
 	}
 
-	// ’l‚Ìü
+	// å€¤ã®ç·š
 	for (int k = 0; k < seriesCount; ++k)
 	{
 		const Series& s = series[k];
@@ -175,7 +175,7 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 		}
 	}
 
-	// ƒXƒe[ƒg‚Ì‘Ñ
+	// ã‚¹ãƒ†ãƒ¼ãƒˆã®å¸¯
 	size_t runStart = 0;
 	for (size_t i = 1; i <= samples.size(); ++i)
 	{
@@ -192,7 +192,7 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 			ImU32 color = kStateColors[first.stateIndex % kStateColorCount];
 			dl->AddRectFilled(ImVec2(x0, plotMax.y), ImVec2(x1, bandMax.y), color);
 
-			// ‹æŠÔ‚Éû‚Ü‚é‚¾‚¯AƒXƒe[ƒg–¼‚ğ‘‚­
+			// åŒºé–“ã«åã¾ã‚‹æ™‚ã ã‘ã€ã‚¹ãƒ†ãƒ¼ãƒˆåã‚’æ›¸ã
 			const char* name = stateNames[first.stateIndex].c_str();
 			float textWidth = ImGui::CalcTextSize(name).x;
 			float textX = (std::max)(x0, plotMin.x) + 3.0f;
@@ -207,11 +207,11 @@ void MovementMonitorWindow::DrawGraph(float height, float minValue, float maxVal
 
 	dl->PopClipRect();
 
-	// •`‚¢‚½•ª‚ÌêŠ‚ğŠm•Û‚·‚é
+	// æã„ãŸåˆ†ã®å ´æ‰€ã‚’ç¢ºä¿ã™ã‚‹
 	ImGui::Dummy(ImVec2(width, height));
 }
 
-// ƒXƒe[ƒg–¼‚ğ”Ô†‚É•Ï‚¦‚é
+// ã‚¹ãƒ†ãƒ¼ãƒˆåã‚’ç•ªå·ã«å¤‰ãˆã‚‹
 int MovementMonitorWindow::FindOrAddState(const std::string& name)
 {
 	for (int i = 0; i < (int)stateNames.size(); ++i)

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/PhysX.h"
 
@@ -6,60 +6,60 @@
 
 namespace physx { class PxScene; }
 
-// ƒŒƒCƒLƒƒƒXƒg‚ÌŒ‹‰Ê
+// ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆã®çµæœ
 struct RaycastHitResult
 {
-	bool               hit = false;      // “–‚½‚Á‚½‚©‚Ç‚¤‚©
-	DirectX::XMFLOAT3  position{};       // “–‚½‚Á‚½À•W
-	DirectX::XMFLOAT3  normal{};         // “–‚½‚Á‚½–Ê‚Ì–@ü
-	float              distance = 0.0f;  // ŠJnˆÊ’u‚©‚ç‚Ì‹——£
+	bool               hit = false;      // å½“ãŸã£ãŸã‹ã©ã†ã‹
+	DirectX::XMFLOAT3  position{};       // å½“ãŸã£ãŸåº§æ¨™
+	DirectX::XMFLOAT3  normal{};         // å½“ãŸã£ãŸé¢ã®æ³•ç·š
+	float              distance = 0.0f;  // é–‹å§‹ä½ç½®ã‹ã‚‰ã®è·é›¢
 };
 
-// ƒŒƒCƒLƒƒƒXƒgƒfƒoƒbƒO•`‰æ
+// ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆãƒ‡ãƒãƒƒã‚°æç”»
 struct DebugRay
 {
-	DirectX::XMFLOAT3 start; // n“_
-	DirectX::XMFLOAT3 end;   // I“_
-	DirectX::XMFLOAT4 color; // F
+	DirectX::XMFLOAT3 start; // å§‹ç‚¹
+	DirectX::XMFLOAT3 end;   // çµ‚ç‚¹
+	DirectX::XMFLOAT4 color; // è‰²
 };
 
 class PhysicsSystem
 {
 public:
-	// XV
+	// æ›´æ–°
 	void Update(entt::registry& registry, PhysX& physX, physx::PxScene* pxScene, physx::PxControllerManager* controllerManager, float elapsedTime);
 
-	// „‘ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªŠO‚ê‚é/ƒGƒ“ƒeƒBƒeƒB‚ª”j‰ó‚³‚ê‚é‘O‚ÉPhysX‚ÌÀ‘Ì‚ğíœ‚·‚é
+	// å‰›ä½“ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå¤–ã‚Œã‚‹/ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒç ´å£Šã•ã‚Œã‚‹å‰ã«PhysXã®å®Ÿä½“ã‚’å‰Šé™¤ã™ã‚‹
 	static void ConnectDestroyListeners(entt::registry& registry);
 
-	// ƒŒƒCƒ„[‚ÉƒŒƒCƒLƒƒƒXƒg
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆ
 	static RaycastHitResult Raycast(
 		physx::PxScene* pxScene,
 		const DirectX::XMFLOAT3& origin,
 		const DirectX::XMFLOAT3& direction,
 		float maxDistance,
 		physx::PxU32 wantedLayers);
-	// ƒfƒoƒbƒO•\¦—p
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºç”¨
 	static std::vector<DebugRay> FetchDebugRays();
 
 private:
 
-	// PhysicsBodyTypeComponent::type ‚É‡‚í‚¹‚ÄA„‘ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•t‚¯ŠO‚µ‚·‚é
+	// PhysicsBodyTypeComponent::type ã«åˆã‚ã›ã¦ã€å‰›ä½“ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä»˜ã‘å¤–ã—ã™ã‚‹
 	void SyncBodyTypes(entt::registry& registry);
 
-	// íœ—\–ñ‚³‚ê‚½Actor‚ğ‰ğ•ú‚·‚é
+	// å‰Šé™¤äºˆç´„ã•ã‚ŒãŸActorã‚’è§£æ”¾ã™ã‚‹
 	void ProcessDestroyQueue();
 
-	// –¢¶¬‚ÌStaticBodyComponent¶¬
+	// æœªç”Ÿæˆã®StaticBodyComponentç”Ÿæˆ
 	void ProcessStaticBodies(entt::registry& registry, PhysX& physX, physx::PxScene* pxScene);
 
-	// –¢¶¬‚ÌCharacterControllerComponent¶¬+CharacterControllerˆÚ“®ˆ—
+	// æœªç”Ÿæˆã®CharacterControllerComponentç”Ÿæˆ+CharacterControllerç§»å‹•å‡¦ç†
 	void ProcessCharacterControllers(entt::registry& registry, PhysX& physX, physx::PxControllerManager* controllerManager, float elapsedTime);
 
-	// –¢¶¬‚Ì
+	// æœªç”Ÿæˆã®
 	// void ProcessDynamicBodies(entt::registry& registry, PhysX& physX, physx::PxScene* pxScene);
 
 private:
-	// ƒŒƒC‚Ì‹L˜^
+	// ãƒ¬ã‚¤ã®è¨˜éŒ²
 	static std::vector<DebugRay> debugRays;
 };

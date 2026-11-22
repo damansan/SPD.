@@ -1,4 +1,4 @@
-#include "ComponentRegistryInitializer.h"
+ï»¿#include "ComponentRegistryInitializer.h"
 #include "Tool/Editor/ComponentInspectorRegistry.h"
 
 #include <imgui.h>
@@ -32,7 +32,7 @@
 
 namespace
 {
-	// Šp“x‚ğ 0 ˆÈã 360 –¢–‚É‚»‚ë‚¦‚éi360 ¨ 0A-10 ¨ 350j
+	// è§’åº¦ã‚’ 0 ä»¥ä¸Š 360 æœªæº€ã«ãã‚ãˆã‚‹ï¼ˆ360 â†’ 0ã€-10 â†’ 350ï¼‰
 	float WrapDegrees(float deg)
 	{
 		float r = fmodf(deg, 360.0f);
@@ -42,19 +42,19 @@ namespace
 
 void ComponentRegistryInitializer::Initialize()
 {
-	// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
+	// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
 	REGISTER_INSPECTOR(TransformComponent,
 		DRAW_COMPONENT(TransformComponent, "Transform",
 			{
 				ImGui::DragFloat3("Position", &_c->position.x, 0.1f);
 
-	// ƒ‰ƒWƒAƒ“ ‚©‚ç “x ‚É•ÏŠ·
+	// ãƒ©ã‚¸ã‚¢ãƒ³ ã‹ã‚‰ åº¦ ã«å¤‰æ›
 	DirectX::XMFLOAT3 deg(
 		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.x)),
 		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.y)),
 		WrapDegrees(DirectX::XMConvertToDegrees(_c->rotation.z)));
 
-	// •Ï‚¦‚½‚Æ‚«‚¾‚¯A“x ‚©‚ç ƒ‰ƒWƒAƒ“‚É‚µ‚Ä‘‚«–ß‚·
+	// å¤‰ãˆãŸã¨ãã ã‘ã€åº¦ ã‹ã‚‰ ãƒ©ã‚¸ã‚¢ãƒ³ã«ã—ã¦æ›¸ãæˆ»ã™
 	if (ImGui::DragFloat3("Rotation", &deg.x, 0.5f, 0.0f, 0.0f))
 	{
 		_c->rotation.x = DirectX::XMConvertToRadians(WrapDegrees(deg.x));
@@ -62,17 +62,17 @@ void ComponentRegistryInitializer::Initialize()
 		_c->rotation.z = DirectX::XMConvertToRadians(WrapDegrees(deg.z));
 	}
 
-	// ©•ª‚ÌŒü‚«‚É‰ˆ‚Á‚Ä“®‚©‚·
+	// è‡ªåˆ†ã®å‘ãã«æ²¿ã£ã¦å‹•ã‹ã™
 	static DirectX::XMFLOAT3 localMove(0.0f, 0.0f, 0.0f);
 	const DirectX::XMFLOAT3 before = localMove;
 
 	if (ImGui::DragFloat3("Local Move", &localMove.x, 0.1f))
 	{
-		// ‘O‚ÌƒtƒŒ[ƒ€‚©‚ç‘‚¦‚½•ª
+		// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰å¢—ãˆãŸåˆ†
 		DirectX::XMVECTOR localDelta = DirectX::XMVectorSubtract(
 			DirectX::XMLoadFloat3(&localMove), DirectX::XMLoadFloat3(&before));
 
-		// ‰ñ“]‚¾‚¯‚ğ“–‚Ä‚ÄAƒ[ƒ‹ƒh‚ÌŒü‚«‚É’¼‚·
+		// å›è»¢ã ã‘ã‚’å½“ã¦ã¦ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®å‘ãã«ç›´ã™
 		DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(
 			_c->rotation.x, _c->rotation.y, _c->rotation.z);
 		DirectX::XMVECTOR worldDelta = DirectX::XMVector3TransformNormal(localDelta, R);
@@ -81,7 +81,7 @@ void ComponentRegistryInitializer::Initialize()
 		DirectX::XMStoreFloat3(&_c->position, DirectX::XMVectorAdd(pos, worldDelta));
 	}
 
-	// G‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚Í 0 ‚É–ß‚·
+	// è§¦ã£ã¦ã„ãªã„ã¨ãã¯ 0 ã«æˆ»ã™
 	if (!ImGui::IsItemActive())
 	{
 		localMove = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -91,7 +91,7 @@ void ComponentRegistryInitializer::Initialize()
 	ImGui::DragFloat3("Scale", &_c->scale.x, 0.01f);
 			}));
 
-	// ƒAƒjƒ[ƒ^[
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚¿ãƒ¼
 	REGISTER_INSPECTOR(AnimatorComponent,
 		[](auto& reg, auto e)
 		{
@@ -141,7 +141,7 @@ void ComponentRegistryInitializer::Initialize()
 			MetaRegistry::DrawMetaFields(entt::resolve<AnimatorComponent>(), entt::forward_as_meta(*anim));
 		});
 
-	// ƒtƒŠ[ƒJƒƒ‰
+	// ãƒ•ãƒªãƒ¼ã‚«ãƒ¡ãƒ©
 	REGISTER_INSPECTOR(FreeCameraComponent,
 		DRAW_COMPONENT(FreeCameraComponent, "FreeCamera",
 			{
@@ -153,22 +153,22 @@ void ComponentRegistryInitializer::Initialize()
 				ImGui::DragFloat3("Target", &_c->base.currentTarget.x, 0.1f);
 			}));
 
-	// ƒRƒ“ƒgƒ[ƒ‰[
+	// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 	REGISTER_INSPECTOR(ControllerComponent,
 		DRAW_COMPONENT(ControllerComponent, "Controller",
 			{
 				if (_c->connected)
 				{
 					const char* typeName = _c->type == ControllerType::PS5 ? "PS5 DualSense" : "Xbox";
-					ImGui::TextColored({ 0.3f, 1.0f, 0.3f, 1.0f }, u8"[%s] Ú‘±’†", typeName);
+					ImGui::TextColored({ 0.3f, 1.0f, 0.3f, 1.0f }, "[%s] æ¥ç¶šä¸­", typeName);
 				}
 				else
 				{
-					ImGui::TextColored({ 0.6f, 0.6f, 0.6f, 1.0f }, u8"–¢Ú‘±");
+					ImGui::TextColored({ 0.6f, 0.6f, 0.6f, 1.0f }, "æœªæ¥ç¶š");
 				}
 			}));
 
-	// •¨—(Às‚Ì“o˜^‚ÍEngineComponents‚Ås‚¤B‚±‚±‚Í•`‰æ‚Ì‚İ)
+	// ç‰©ç†(å®Ÿè¡Œæ™‚ã®ç™»éŒ²ã¯EngineComponentsã§è¡Œã†ã€‚ã“ã“ã¯æç”»ã®ã¿)
 	REGISTER_INSPECTOR(PhysicsBodyTypeComponent,
 		[](auto& reg, auto e)
 		{
@@ -176,7 +176,7 @@ void ComponentRegistryInitializer::Initialize()
 			if (!body) return;
 			if (!ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_DefaultOpen)) return;
 
-			// type‚ğ‘‚«Š·‚¦‚é‚¾‚¯B„‘Ì‚Ì¶¬E”jŠü‚ÍAPhysicsSystem‚ª’Ç]‚µ‚Äs‚¤
+			// typeã‚’æ›¸ãæ›ãˆã‚‹ã ã‘ã€‚å‰›ä½“ã®ç”Ÿæˆãƒ»ç ´æ£„ã¯ã€PhysicsSystemãŒè¿½å¾“ã—ã¦è¡Œã†
 			ImGui::PushID("fields");
 			MetaRegistry::DrawMetaFields(entt::resolve<PhysicsBodyTypeComponent>(), entt::forward_as_meta(*body));
 			ImGui::PopID();
@@ -188,12 +188,12 @@ void ComponentRegistryInitializer::Initialize()
 				auto* staticBody = reg.try_get<StaticBodyComponent>(e);
 				if (staticBody)
 				{
-					ImGui::Text(staticBody->actor ? u8"ó‘Ô: ¶¬Ï‚İ" : u8"ó‘Ô: –¢¶¬");
+					ImGui::Text(staticBody->actor ? "çŠ¶æ…‹: ç”Ÿæˆæ¸ˆã¿" : "çŠ¶æ…‹: æœªç”Ÿæˆ");
 				}
 				break;
 			}
 			case PhysicsBodyType::Dynamic:
-				ImGui::TextColored({ 1, 0.5f, 0, 1 }, u8"Dynamic‚Í–¢À‘•‚Å‚·");
+				ImGui::TextColored({ 1, 0.5f, 0, 1 }, "Dynamicã¯æœªå®Ÿè£…ã§ã™");
 				break;
 			case PhysicsBodyType::Character:
 			{
@@ -201,17 +201,17 @@ void ComponentRegistryInitializer::Initialize()
 				if (ctrl)
 				{
 					bool created = (ctrl->controller != nullptr);
-					ImGui::Text(created ? u8"ó‘Ô: ¶¬Ï‚İ" : u8"ó‘Ô: –¢¶¬");
+					ImGui::Text(created ? "çŠ¶æ…‹: ç”Ÿæˆæ¸ˆã¿" : "çŠ¶æ…‹: æœªç”Ÿæˆ");
 				}
 
-				// ˆÚ“®‚Ìó‘ÔiCharacter‚Æˆê‚É•t—^‚³‚ê‚éMovementComponentj
+				// ç§»å‹•ã®çŠ¶æ…‹ï¼ˆCharacterã¨ä¸€ç·’ã«ä»˜ä¸ã•ã‚Œã‚‹MovementComponentï¼‰
 				auto* movement = reg.try_get<MovementComponent>(e);
 				if (movement && ImGui::TreeNode("Movement"))
 				{
 					MetaRegistry::DrawMetaFields(entt::resolve<MovementComponent>(), entt::forward_as_meta(*movement));
 					ImGui::TreePop();
 				}
-				// ÚG‚ÌŒ‹‰ÊiCharacter‚Æˆê‚É•t—^‚³‚ê‚éCharacterContactComponentj
+				// æ¥è§¦ã®çµæœï¼ˆCharacterã¨ä¸€ç·’ã«ä»˜ä¸ã•ã‚Œã‚‹CharacterContactComponentï¼‰
 				auto* contact = reg.try_get<CharacterContactComponent>(e);
 				if (contact && ImGui::TreeNode("Contact"))
 				{
@@ -240,7 +240,7 @@ void ComponentRegistryInitializer::Initialize()
 				return;
 			}
 			ImGui::Checkbox("Enabled", &ik->enabled);
-			int removeIndex = -1; // ‚±‚ÌƒtƒŒ[ƒ€‚Åíœ‚µ‚½‚¢foot‚ÌƒCƒ“ƒfƒbƒNƒX(-1‚È‚çíœ‚È‚µ)
+			int removeIndex = -1; // ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§å‰Šé™¤ã—ãŸã„footã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(-1ãªã‚‰å‰Šé™¤ãªã—)
 			for (size_t i = 0; i < ik->feet.size(); ++i)
 			{
 				ImGui::PushID((int)i);

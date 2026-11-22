@@ -1,4 +1,4 @@
-#include "HierarchyWindow.h"
+ï»¿#include "HierarchyWindow.h"
 #include "imgui_internal.h"
 #include <imgui.h>
 #include <filesystem>
@@ -20,7 +20,7 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
 
     ImGui::Begin("Hierarchy");
 
-    // ‹ó‚Ì Entity ‚ğ’Ç‰Á‚·‚éƒ{ƒ^ƒ“
+    // ç©ºã® Entity ã‚’è¿½åŠ ã™ã‚‹ãƒœã‚¿ãƒ³
     if (ImGui::Button("+ Add Entity"))
     {
         entt::entity e = registry.create();
@@ -28,13 +28,13 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
         registry.emplace<CategoryComponent>(e);
         registry.emplace<TransformComponent>(e);
 
-        // –¼‘O‚ğ©“®İ’è
+        // åå‰ã‚’è‡ªå‹•è¨­å®š
         context.SetName(e, "Entity");
 
-        // ì¬‚µ‚½ Entity ‚ğ‘I‘ğó‘Ô‚É
+        // ä½œæˆã—ãŸ Entity ã‚’é¸æŠçŠ¶æ…‹ã«
         context.Select(e);
     }
-    // ‘I‘ğ’†‚Ì‚Æ‚«‚¾‚¯ Delete ƒ{ƒ^ƒ“‚ğ—×‚É•\¦
+    // é¸æŠä¸­ã®ã¨ãã ã‘ Delete ãƒœã‚¿ãƒ³ã‚’éš£ã«è¡¨ç¤º
     if (context.selectedEntity != entt::null)
     {
         ImGui::SameLine();
@@ -46,14 +46,14 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
     }
 
     ImGui::Separator();
-    // ƒZƒpƒŒ[ƒ^‚Ì‰º‚ÌÀ•W‚ğ‹L˜^
+    // ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ã®ä¸‹ã®åº§æ¨™ã‚’è¨˜éŒ²
     ImVec2 dropAreaMin = ImGui::GetCursorScreenPos();
 
-    // ‘S Entity ‚ğ—ñ‹“(‰æ–Ê‚É‰f‚Á‚Ä‚¢‚é”ÍˆÍ‚¾‚¯ˆ—‚·‚é)
+    // å…¨ Entity ã‚’åˆ—æŒ™(ç”»é¢ã«æ˜ ã£ã¦ã„ã‚‹ç¯„å›²ã ã‘å‡¦ç†ã™ã‚‹)
     auto view = registry.view<entt::entity>();
 
-    // entt::view ‚Íƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX‚Å‚«‚È‚¢‚Ì‚ÅAˆê’U”z—ñ‚ÉW‚ß‚é
-    // (‚±‚ê©‘Ì‚ÍŒy‚¢ˆ—:ƒ|ƒCƒ“ƒ^‘Š“–‚Ìentity’l‚ğƒRƒs[‚·‚é‚¾‚¯)
+    // entt::view ã¯ãƒ©ãƒ³ãƒ€ãƒ ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ã®ã§ã€ä¸€æ—¦é…åˆ—ã«é›†ã‚ã‚‹
+    // (ã“ã‚Œè‡ªä½“ã¯è»½ã„å‡¦ç†:ãƒã‚¤ãƒ³ã‚¿ç›¸å½“ã®entityå€¤ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã ã‘)
     std::vector<entt::entity> entities(view.begin(), view.end());
 
     ImGuiListClipper clipper;
@@ -66,14 +66,14 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
 
             std::string name = context.GetName(e);
 
-            // ƒvƒŒƒnƒu‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA–¼‘O‚ÌF‚ğ•Ï‚¦‚ÄŒ©•ª‚¯‚ç‚ê‚é‚æ‚¤‚É‚·‚é
+            // ãƒ—ãƒ¬ãƒãƒ–ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯ã€åå‰ã®è‰²ã‚’å¤‰ãˆã¦è¦‹åˆ†ã‘ã‚‰ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
             bool isPrefabInstance = registry.any_of<PrefabInstanceComponent>(e);
             if (isPrefabInstance)
             {
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 0.7f, 1.0f, 1.0f)); // ”–‚¢Â
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 0.7f, 1.0f, 1.0f)); // è–„ã„é’
             }
 
-            // ‘I‘ğó‘Ô‚ğƒnƒCƒ‰ƒCƒg
+            // é¸æŠçŠ¶æ…‹ã‚’ãƒã‚¤ãƒ©ã‚¤ãƒˆ
             bool isSelected = context.IsSelected(e);
             if (ImGui::Selectable(
                 (name + "##" + std::to_string((uint32_t)e)).c_str(),
@@ -87,39 +87,39 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
                 ImGui::PopStyleColor();
             }
 
-            // Entity ‚ğƒhƒ‰ƒbƒO‚Å‚«‚é‚æ‚¤‚É‚·‚é
+            // Entity ã‚’ãƒ‰ãƒ©ãƒƒã‚°ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
             if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
             {
-                // Entity ID ‚ğƒyƒCƒ[ƒh‚Æ‚µ‚Ä“n‚·
+                // Entity ID ã‚’ãƒšã‚¤ãƒ­ãƒ¼ãƒ‰ã¨ã—ã¦æ¸¡ã™
                 ImGui::SetDragDropPayload(
                     "ENTITY",
                     &e,
                     sizeof(entt::entity)
                 );
-                // ƒhƒ‰ƒbƒO’†‚ÌƒvƒŒƒrƒ…[
+                // ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼
                 ImGui::Text(name.c_str());
                 ImGui::EndDragDropSource();
             }
         }
     }
 
-    // ƒZƒpƒŒ[ƒ^ˆÈ‰ºƒEƒBƒ“ƒhƒE––”ö‚Ü‚Å‚ğƒhƒƒbƒvƒ^[ƒQƒbƒg‚É
+    // ã‚»ãƒ‘ãƒ¬ãƒ¼ã‚¿ä»¥ä¸‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦æœ«å°¾ã¾ã§ã‚’ãƒ‰ãƒ­ãƒƒãƒ—ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«
     ImVec2 dropAreaMax = ImGui::GetWindowPos();
     dropAreaMax.x += ImGui::GetWindowSize().x;
     dropAreaMax.y += ImGui::GetWindowSize().y;
 
     ImRect dropRect(dropAreaMin, dropAreaMax);
 
-	// ƒ‚ƒfƒ‹‚Ìƒhƒƒbƒvó‚¯æ‚è
+	// ãƒ¢ãƒ‡ãƒ«ã®ãƒ‰ãƒ­ãƒƒãƒ—å—ã‘å–ã‚Š
     if (ImGui::BeginDragDropTargetCustom(dropRect, ImGui::GetCurrentWindow()->ID))
     {
         if (const ImGuiPayload* payload =
             ImGui::AcceptDragDropPayload("MODEL_PATH"))
         {                
-            // ƒpƒX‚ğó‚¯æ‚é
+            // ãƒ‘ã‚¹ã‚’å—ã‘å–ã‚‹
             std::string modelPath(static_cast<const char*>(payload->Data));
 
-            // Entity ¶¬
+            // Entity ç”Ÿæˆ
             entt::entity e = registry.create();
 
             registry.emplace<CategoryComponent>(e);
@@ -131,24 +131,24 @@ void HierarchyWindow::Draw(entt::registry& registry, EditorContext& context)
             registry.emplace<MeshComponent>(e, modelPath);
             registry.emplace<MaterialComponent>(e);
 
-            // ƒtƒ@ƒCƒ‹–¼‚©‚ç Entity –¼‚ğİ’è
+            // ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ Entity åã‚’è¨­å®š
             std::filesystem::path p(modelPath);
             context.SetName(e, p.stem().string());
             context.Select(e);
         }
 
-        // ƒvƒŒƒnƒu‚Ìƒhƒƒbƒvó‚¯æ‚è
+        // ãƒ—ãƒ¬ãƒãƒ–ã®ãƒ‰ãƒ­ãƒƒãƒ—å—ã‘å–ã‚Š
         if (const ImGuiPayload* payload =
             ImGui::AcceptDragDropPayload("PREFAB_PATH"))
         {
-            // ƒvƒŒƒnƒu‚ÌƒpƒX‚ğó‚¯æ‚é
+            // ãƒ—ãƒ¬ãƒãƒ–ã®ãƒ‘ã‚¹ã‚’å—ã‘å–ã‚‹
             std::string prefabPath(static_cast<const char*>(payload->Data));
 
-            // ƒvƒŒƒnƒu‚©‚çEntity‚ğ¶¬‚·‚éi“Ç‚İ‚İ‚É¸”s‚µ‚½ê‡‚ÍA‰½‚à’u‚©‚ê‚È‚¢j
+            // ãƒ—ãƒ¬ãƒãƒ–ã‹ã‚‰Entityã‚’ç”Ÿæˆã™ã‚‹ï¼ˆèª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸå ´åˆã¯ã€ä½•ã‚‚ç½®ã‹ã‚Œãªã„ï¼‰
             entt::entity e = EntitySerializer::InstantiatePrefab(registry, prefabPath);
             if (e != entt::null)
             {
-                // ƒtƒ@ƒCƒ‹–¼i.prefab.json‚ğœ‚¢‚½•”•ªj‚©‚ç Entity –¼‚ğİ’è
+                // ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆ.prefab.jsonã‚’é™¤ã„ãŸéƒ¨åˆ†ï¼‰ã‹ã‚‰ Entity åã‚’è¨­å®š
                 std::filesystem::path p(prefabPath);
                 std::string stem = p.stem().string(); // "xxx.prefab"
                 std::filesystem::path stemPath(stem);

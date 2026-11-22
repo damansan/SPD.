@@ -1,4 +1,4 @@
-#include "ProjectWindow.h"
+ï»¿#include "ProjectWindow.h"
 #include <imgui.h>
 
 #include "Engine/ECS/Components/TransformComponent.h"
@@ -13,14 +13,14 @@
 void ProjectWindow::Initialize(const std::string& rootPath)
 {
 	this->rootPath = rootPath;
-	// ‰Šú‘I‘ğƒtƒHƒ‹ƒ_‚Íƒ‹[ƒg
+	// åˆæœŸé¸æŠãƒ•ã‚©ãƒ«ãƒ€ã¯ãƒ«ãƒ¼ãƒˆ
 	itemState.selectedPath = rootPath;
 }
 
-// ƒAƒCƒRƒ““Ç‚İ‚İ
+// ã‚¢ã‚¤ã‚³ãƒ³èª­ã¿è¾¼ã¿
 void ProjectWindow::LoadIcons(ID3D11Device* device)
 {
-	// Data/Sprite/System/folder.png ‚ğ“Ç‚İ‚Ş
+	// Data/Sprite/System/folder.png ã‚’èª­ã¿è¾¼ã‚€
 	DirectX::CreateWICTextureFromFile(
 		device,
 		L"SystemData/Sprite/folder.png",
@@ -33,7 +33,7 @@ void ProjectWindow::Draw(entt::registry& registry, EditorContext& context, bool 
 {
 	ZoneScoped;
 
-	// 2•bŒo‰ß‚µ‚Ä‚¢‚ê‚ÎƒfƒBƒXƒN‚ğŒ©‚ÄƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+	// 2ç§’çµŒéã—ã¦ã„ã‚Œã°ãƒ‡ã‚£ã‚¹ã‚¯ã‚’è¦‹ã¦ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 	RefreshFolderTreeIfNeeded();
 	RefreshFileGridIfNeeded();
 
@@ -43,19 +43,19 @@ void ProjectWindow::Draw(entt::registry& registry, EditorContext& context, bool 
 		ImGuiTableFlags_Resizable |
 		ImGuiTableFlags_BordersInnerV))
 	{
-		// ¶‘¤‚Ì‰Šú•‚ğİ’è
+		// å·¦å´ã®åˆæœŸå¹…ã‚’è¨­å®š
 		ImGui::TableSetupColumn("Folders", ImGuiTableColumnFlags_WidthFixed, 200.0f);
 		ImGui::TableSetupColumn("Files", ImGuiTableColumnFlags_WidthStretch);
 
 		ImGui::TableNextRow();
 
-		// ¶‘¤FƒtƒHƒ‹ƒ_ƒcƒŠ[
+		// å·¦å´ï¼šãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼
 		ImGui::TableSetColumnIndex(0);
 		ImGui::BeginChild("FolderTree", ImVec2(0, 0), false);
 		DrawFolderTree(folderTreeCache);
 		ImGui::EndChild();
 
-		// ‰E‘¤Fƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh
+		// å³å´ï¼šãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰
 		ImGui::TableSetColumnIndex(1);
 		ImGui::BeginChild("FileGrid", ImVec2(0, 0), false);
 		DrawFileGrid(registry, context);
@@ -69,7 +69,7 @@ void ProjectWindow::Draw(entt::registry& registry, EditorContext& context, bool 
 	ImGui::End();
 }
 
-// d•¡‚µ‚È‚¢–¼‘O‚Åì¬
+// é‡è¤‡ã—ãªã„åå‰ã§ä½œæˆ
 std::string ProjectWindow::GenerateUniqueName(const std::filesystem::path& parentDir, const std::string& baseName) 
 {
 	std::filesystem::path candidate = parentDir / baseName;
@@ -78,7 +78,7 @@ std::string ProjectWindow::GenerateUniqueName(const std::filesystem::path& paren
 		return baseName;
 	}
 
-	// Šg’£q‚Ìè‘O‚É˜A”Ô‚ğ‹²‚Ş
+	// æ‹¡å¼µå­ã®æ‰‹å‰ã«é€£ç•ªã‚’æŒŸã‚€
 	std::filesystem::path basePath(baseName);
 	std::string stem = basePath.stem().string();
 	std::string ext = basePath.extension().string();
@@ -95,16 +95,16 @@ std::string ProjectWindow::GenerateUniqueName(const std::filesystem::path& paren
 	}
 }
 
-// ƒtƒHƒ‹ƒ_ƒcƒŠ[
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼
 void ProjectWindow::DrawFolderTree(FolderNode& node)
 {
 	const std::filesystem::path& path = node.path;
 	bool isRenamingThis = (itemState.mode == ProjectItemMode::Renaming && itemState.targetPath == path);
 
-	// ƒLƒƒƒbƒVƒ…‚ğŠm”F‚µ‚ÄƒTƒuƒtƒHƒ‹ƒ_‚ğŠm”F‚·‚é
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ç¢ºèªã—ã¦ã‚µãƒ–ãƒ•ã‚©ãƒ«ãƒ€ã‚’ç¢ºèªã™ã‚‹
 	bool hasSubFolder = !node.children.empty();
 
-	// ƒŠƒl[ƒ€’†‚ÍƒcƒŠ[s‚Ì‘ã‚í‚è‚É“ü—Í—“‚ğ•\¦‚·‚é
+	// ãƒªãƒãƒ¼ãƒ ä¸­ã¯ãƒ„ãƒªãƒ¼è¡Œã®ä»£ã‚ã‚Šã«å…¥åŠ›æ¬„ã‚’è¡¨ç¤ºã™ã‚‹
 	if (isRenamingThis)
 	{
 		ImGui::SetNextItemWidth(160.0f);
@@ -117,19 +117,19 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 		{
 			CommitRename();
 		}
-		// ƒŠƒl[ƒ€’†‚ÍƒTƒuƒtƒHƒ‹ƒ_‚ÌÄ‹A•`‰æ‚ğs‚í‚È‚¢
+		// ãƒªãƒãƒ¼ãƒ ä¸­ã¯ã‚µãƒ–ãƒ•ã‚©ãƒ«ãƒ€ã®å†å¸°æç”»ã‚’è¡Œã‚ãªã„
 		return;
 	}
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	// ‘I‘ğ’†ƒtƒHƒ‹ƒ_‚ğƒnƒCƒ‰ƒCƒg
+	// é¸æŠä¸­ãƒ•ã‚©ãƒ«ãƒ€ã‚’ãƒã‚¤ãƒ©ã‚¤ãƒˆ
 	if (itemState.selectedPath == path)
 	{
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
 
-	// Å‰º‘w‚Ìê‡‚Í—tƒm[ƒh‚Æ‚µ‚Ä•\¦
+	// æœ€ä¸‹å±¤ã®å ´åˆã¯è‘‰ãƒãƒ¼ãƒ‰ã¨ã—ã¦è¡¨ç¤º
 	if (!hasSubFolder)
 	{
 		flags |= ImGuiTreeNodeFlags_Leaf;
@@ -138,18 +138,18 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 
 	bool open = ImGui::TreeNodeEx(node.name.c_str(), flags);
 
-	// ƒNƒŠƒbƒN‚Å‘I‘ğ
+	// ã‚¯ãƒªãƒƒã‚¯ã§é¸æŠ
 	if (ImGui::IsItemClicked())
 	{
 		itemState.selectedPath = path;
 	}
 
-	// ‰EƒNƒŠƒbƒN‚ÅƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[i‚±‚ÌƒtƒHƒ‹ƒ_‚Ì’†‚Éì‚éj
+	// å³ã‚¯ãƒªãƒƒã‚¯ã§ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ï¼ˆã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã®ä¸­ã«ä½œã‚‹ï¼‰
 	if (ImGui::BeginPopupContextItem(path.string().c_str()))
 	{
-		if (ImGui::BeginMenu(u8"V‹Kì¬"))
+		if (ImGui::BeginMenu("æ–°è¦ä½œæˆ"))
 		{
-			if (ImGui::MenuItem(u8"ƒtƒHƒ‹ƒ_"))
+			if (ImGui::MenuItem("ãƒ•ã‚©ãƒ«ãƒ€"))
 			{
 				std::string newName = GenerateUniqueName(path, "New Folder");
 				std::filesystem::create_directory(path / newName);
@@ -159,16 +159,16 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 		}
 
 		ImGui::Separator();
-		if (ImGui::MenuItem(u8"–¼‘O‚Ì•ÏX"))
+		if (ImGui::MenuItem("åå‰ã®å¤‰æ›´"))
 		{
 			BeginRename(path);
 		}
 
-		// ƒ‹[ƒgƒtƒHƒ‹ƒ_‚Ííœ‚³‚¹‚È‚¢
+		// ãƒ«ãƒ¼ãƒˆãƒ•ã‚©ãƒ«ãƒ€ã¯å‰Šé™¤ã•ã›ãªã„
 		if (path != rootPath)
 		{
 			ImGui::Separator();
-			if (ImGui::MenuItem(u8"íœ"))
+			if (ImGui::MenuItem("å‰Šé™¤"))
 			{
 				itemState.mode = ProjectItemMode::ConfirmingDelete;
 				itemState.targetPath = path;
@@ -177,7 +177,7 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 		ImGui::EndPopup();
 	}
 
-	// Å‰º‘w‚ÍTreePop‚ª•s—v
+	// æœ€ä¸‹å±¤ã¯TreePopãŒä¸è¦
 	if (open && hasSubFolder)
 	{
 		for (auto& child : node.children)
@@ -188,17 +188,17 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 	}
 
 }
-// ƒtƒ@ƒCƒ‹ˆê——
+// ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§
 void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& context)
 {
 	if (itemState.selectedPath.empty()) return;
 
-	// ƒAƒCƒRƒ“ƒTƒCƒY‚Æ—]”’
+	// ã‚¢ã‚¤ã‚³ãƒ³ã‚µã‚¤ã‚ºã¨ä½™ç™½
 	const float iconSize = 64.0f;
 	const float padding = 16.0f;
 	const float cellSize = iconSize + padding;
 
-	// ƒEƒBƒ“ƒhƒE•‚©‚ç—ñ”‚ğŒvZ
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¹…ã‹ã‚‰åˆ—æ•°ã‚’è¨ˆç®—
 	float windowWidth = ImGui::GetContentRegionAvail().x;
 	int   columns = (std::max)(1, (int)(windowWidth / cellSize));
 
@@ -215,18 +215,18 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 		std::string modelPath = file.path.string();
 		std::replace(modelPath.begin(), modelPath.end(), '\\', '/');
 
-		// —ñ‚ÌÜ‚è•Ô‚µ
+		// åˆ—ã®æŠ˜ã‚Šè¿”ã—
 		if (index % columns != 0)
 		{
 			ImGui::SameLine();
 		}
 
-		// ƒOƒ‹[ƒv‰»‚µ‚ÄƒAƒCƒRƒ“{–¼‘O‚ğ‚Ü‚Æ‚ß‚é
+		// ã‚°ãƒ«ãƒ¼ãƒ—åŒ–ã—ã¦ã‚¢ã‚¤ã‚³ãƒ³ï¼‹åå‰ã‚’ã¾ã¨ã‚ã‚‹
 		ImGui::BeginGroup();
 
 		ImVec2 pos = ImGui::GetCursorScreenPos();
 
-		// ƒAƒCƒRƒ“•\¦iƒ‚ƒfƒ‹—pƒAƒCƒRƒ“‚ª–³‚¢/ƒ‚ƒfƒ‹ˆÈŠO‚ÍF•t‚«‹éŒ`‚Å‘ã—pj
+		// ã‚¢ã‚¤ã‚³ãƒ³è¡¨ç¤ºï¼ˆãƒ¢ãƒ‡ãƒ«ç”¨ã‚¢ã‚¤ã‚³ãƒ³ãŒç„¡ã„/ãƒ¢ãƒ‡ãƒ«ä»¥å¤–ã¯è‰²ä»˜ãçŸ©å½¢ã§ä»£ç”¨ï¼‰
 		if (isModel && modelIconSRV)
 		{
 			ImGui::Image(
@@ -249,12 +249,12 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 			ImGui::Dummy(ImVec2(iconSize, iconSize));
 		}
 
-		// ‰æ‘œ‚Ìã‚É“§–¾ƒ{ƒ^ƒ“‚ğd‚Ë‚Äƒhƒ‰ƒbƒO‚ğæ‚é
+		// ç”»åƒã®ä¸Šã«é€æ˜ãƒœã‚¿ãƒ³ã‚’é‡ã­ã¦ãƒ‰ãƒ©ãƒƒã‚°ã‚’å–ã‚‹
 		ImGui::SetCursorScreenPos(pos);
 		ImGui::PushID(index);
 		ImGui::InvisibleButton("##icon", ImVec2(iconSize, iconSize));
 
-		// ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚ÅStudio‚ğŠJ‚­ƒŠƒNƒGƒXƒgiƒ‚ƒfƒ‹^ƒAƒjƒ[ƒVƒ‡ƒ“ƒOƒ‰ƒtj
+		// ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã§Studioã‚’é–‹ããƒªã‚¯ã‚¨ã‚¹ãƒˆï¼ˆãƒ¢ãƒ‡ãƒ«ï¼ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ï¼‰
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
 			if (isModel)
@@ -264,7 +264,7 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 			}
 		}
 
-		// ƒhƒ‰ƒbƒOŠJniƒ‚ƒfƒ‹^ƒV[ƒPƒ“ƒT[/ƒAƒjƒ[ƒVƒ‡ƒ“‘¬“xj
+		// ãƒ‰ãƒ©ãƒƒã‚°é–‹å§‹ï¼ˆãƒ¢ãƒ‡ãƒ«ï¼ã‚·ãƒ¼ã‚±ãƒ³ã‚µãƒ¼/ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é€Ÿåº¦ï¼‰
 		if ((isModel || isSequencer || isAnimSpeed) && ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 		{
 			if (isModel)
@@ -303,14 +303,14 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 			ImGui::EndDragDropSource();
 		}
 
-		// ‰EƒNƒŠƒbƒN‚Åu–¼‘O‚Ì•ÏXvuíœv
+		// å³ã‚¯ãƒªãƒƒã‚¯ã§ã€Œåå‰ã®å¤‰æ›´ã€ã€Œå‰Šé™¤ã€
 		if (ImGui::BeginPopupContextItem("##fileContext"))
 		{
-			if (ImGui::MenuItem(u8"–¼‘O‚Ì•ÏX"))
+			if (ImGui::MenuItem("åå‰ã®å¤‰æ›´"))
 			{
 				BeginRename(file.path);
 			}
-			if (ImGui::MenuItem(u8"íœ"))
+			if (ImGui::MenuItem("å‰Šé™¤"))
 			{
 				itemState.mode = ProjectItemMode::ConfirmingDelete;
 				itemState.targetPath = file.path;
@@ -320,20 +320,20 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 
 		ImGui::PopID();
 
-		// ƒtƒ@ƒCƒ‹–¼•\¦ or ƒŠƒl[ƒ€’†‚ÍƒCƒ“ƒ‰ƒCƒ““ü—Í—“
+		// ãƒ•ã‚¡ã‚¤ãƒ«åè¡¨ç¤º or ãƒªãƒãƒ¼ãƒ ä¸­ã¯ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³å…¥åŠ›æ¬„
 		bool isRenamingThis = (itemState.mode == ProjectItemMode::Renaming && itemState.targetPath == file.path);
 		if (isRenamingThis)
 		{
 			std::string extension = file.path.extension().string();
 
-			// “ü—Í—“‚ÍƒAƒCƒRƒ“•‚¢‚Á‚Ï‚¢‚Ég‚¤iŠg’£q‚ÍŸ‚Ìs‚É•\¦‚·‚é‚½‚ß•‚ğ•ª‚¯‚é•K—v‚ª–³‚¢j
+			// å…¥åŠ›æ¬„ã¯ã‚¢ã‚¤ã‚³ãƒ³å¹…ã„ã£ã±ã„ã«ä½¿ã†ï¼ˆæ‹¡å¼µå­ã¯æ¬¡ã®è¡Œã«è¡¨ç¤ºã™ã‚‹ãŸã‚å¹…ã‚’åˆ†ã‘ã‚‹å¿…è¦ãŒç„¡ã„ï¼‰
 			ImGui::SetNextItemWidth(iconSize + padding);
 			ImGui::SetKeyboardFocusHere();
 
 			bool confirmedByEnter = ImGui::InputText("##rename", itemState.editBuffer, sizeof(itemState.editBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
 			bool confirmedByBlur = ImGui::IsItemDeactivated() && !confirmedByEnter;
 
-			// Šg’£q‚Í“ü—Í—“‚Ì‰º‚Ìs‚ÉŒÅ’è•\¦i•ÒW•s‰Âj
+			// æ‹¡å¼µå­ã¯å…¥åŠ›æ¬„ã®ä¸‹ã®è¡Œã«å›ºå®šè¡¨ç¤ºï¼ˆç·¨é›†ä¸å¯ï¼‰
 			if (!extension.empty())
 			{
 				ImGui::TextDisabled("%s", extension.c_str());
@@ -356,12 +356,12 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 		index++;
 	}
 
-	// ‹ó”’•”•ª‚Ì‰EƒNƒŠƒbƒN‚ÅV‹Kì¬ƒƒjƒ…[
+	// ç©ºç™½éƒ¨åˆ†ã®å³ã‚¯ãƒªãƒƒã‚¯ã§æ–°è¦ä½œæˆãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	if (ImGui::BeginPopupContextWindow("FileGridContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverExistingPopup))
 	{
-		if (ImGui::BeginMenu(u8"V‹Kì¬"))
+		if (ImGui::BeginMenu("æ–°è¦ä½œæˆ"))
 		{
-			if (ImGui::MenuItem(u8"ƒtƒHƒ‹ƒ_"))
+			if (ImGui::MenuItem("ãƒ•ã‚©ãƒ«ãƒ€"))
 			{
 				std::string newName = GenerateUniqueName(itemState.selectedPath, "New Folder");
 				std::filesystem::create_directory(itemState.selectedPath / newName);
@@ -372,7 +372,7 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 	}
 }
 
-// ˆê’èŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒHƒ‹ƒ_ƒcƒŠ[‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·(2•b)
+// ä¸€å®šé–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™(2ç§’)
 void ProjectWindow::RefreshFolderTreeIfNeeded()
 {
 	auto now = std::chrono::steady_clock::now();
@@ -381,7 +381,7 @@ void ProjectWindow::RefreshFolderTreeIfNeeded()
 	folderTreeCache = BuildFolderNode(rootPath);
 	lastFolderScanTime = now;
 }
-// ƒfƒBƒXƒN‚ğÀÛ‚É‘–¸‚µ‚ÄAw’èƒpƒXˆÈ‰º‚ÌFolderNode‚ğ\’z‚·‚éiÄ‹Aj
+// ãƒ‡ã‚£ã‚¹ã‚¯ã‚’å®Ÿéš›ã«èµ°æŸ»ã—ã¦ã€æŒ‡å®šãƒ‘ã‚¹ä»¥ä¸‹ã®FolderNodeã‚’æ§‹ç¯‰ã™ã‚‹ï¼ˆå†å¸°ï¼‰
 ProjectWindow::FolderNode ProjectWindow::BuildFolderNode(const std::filesystem::path& path)
 {
 	FolderNode node;
@@ -401,10 +401,10 @@ ProjectWindow::FolderNode ProjectWindow::BuildFolderNode(const std::filesystem::
 	return node;
 }
 
-// ‘I‘ğƒtƒHƒ‹ƒ_‚ª•Ï‚í‚Á‚½^ˆê’èŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+// é¸æŠãƒ•ã‚©ãƒ«ãƒ€ãŒå¤‰ã‚ã£ãŸï¼ä¸€å®šé–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
 void ProjectWindow::RefreshFileGridIfNeeded()
 {
-	// ‘I‘ğƒtƒHƒ‹ƒ_‚ª‘O‰ñ‚Æˆá‚¤ê‡‚ÍA‘Ò‚½‚¸‚É‘¦À‚Éì‚è’¼‚·
+	// é¸æŠãƒ•ã‚©ãƒ«ãƒ€ãŒå‰å›ã¨é•ã†å ´åˆã¯ã€å¾…ãŸãšã«å³åº§ã«ä½œã‚Šç›´ã™
 	bool folderChanged = (itemState.selectedPath != fileGridCachedPath);
 
 	auto now = std::chrono::steady_clock::now();
@@ -424,7 +424,7 @@ void ProjectWindow::RefreshFileGridIfNeeded()
 	fileGridCachedPath = itemState.selectedPath;
 	lastFileGridScanTime = now;
 }
-// ƒfƒBƒXƒN‚ğÀÛ‚É‘–¸‚µ‚ÄAw’èƒtƒHƒ‹ƒ_’¼‰º‚ÌFileEntryˆê——‚ğ\’z‚·‚é
+// ãƒ‡ã‚£ã‚¹ã‚¯ã‚’å®Ÿéš›ã«èµ°æŸ»ã—ã¦ã€æŒ‡å®šãƒ•ã‚©ãƒ«ãƒ€ç›´ä¸‹ã®FileEntryä¸€è¦§ã‚’æ§‹ç¯‰ã™ã‚‹
 std::vector<ProjectWindow::FileEntry> ProjectWindow::BuildFileGrid(const std::filesystem::path& path)
 {
 	std::vector<FileEntry> result;
@@ -453,17 +453,17 @@ std::vector<ProjectWindow::FileEntry> ProjectWindow::BuildFileGrid(const std::fi
 	return result;
 }
 
-// ƒtƒ@ƒCƒ‹‚ªƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚©”»’è
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
 bool ProjectWindow::IsModelFile(const std::filesystem::path& path)
 {
 	std::string ext = path.extension().string();
 
-	// ¬•¶š‚É•ÏŠ·‚µ‚Ä”äŠr
+	// å°æ–‡å­—ã«å¤‰æ›ã—ã¦æ¯”è¼ƒ
 	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 	return ext == ".gltf" || ext == ".glb";
 }
-// ƒtƒ@ƒCƒ‹‚ªƒAƒjƒ[ƒVƒ‡ƒ“ƒOƒ‰ƒtƒtƒ@ƒCƒ‹‚©”»’è
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚°ãƒ©ãƒ•ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
 bool ProjectWindow::IsStateGraphFile(const std::filesystem::path& path)
 {
 	std::string ext = path.extension().string();
@@ -471,7 +471,7 @@ bool ProjectWindow::IsStateGraphFile(const std::filesystem::path& path)
 
 	return ext == ".stategraph";
 }
-// ƒtƒ@ƒCƒ‹‚ªƒV[ƒPƒ“ƒT[ƒtƒ@ƒCƒ‹‚©”»’è
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚·ãƒ¼ã‚±ãƒ³ã‚µãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
 bool ProjectWindow::IsSequencerFile(const std::filesystem::path& path)
 {
 	std::string ext = path.extension().string();
@@ -480,7 +480,7 @@ bool ProjectWindow::IsSequencerFile(const std::filesystem::path& path)
 	return ext == ".sequencer";
 }
 
-// ƒtƒ@ƒCƒ‹‚ªƒAƒjƒ[ƒVƒ‡ƒ“‘¬“xƒtƒ@ƒCƒ‹‚©”»’è
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é€Ÿåº¦ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
 bool ProjectWindow::IsAnimSpeedFile(const std::filesystem::path& path)
 {
 	std::string ext = path.extension().string();
@@ -490,21 +490,21 @@ bool ProjectWindow::IsAnimSpeedFile(const std::filesystem::path& path)
 }
 
 
-// íœŠm”Fƒ|ƒbƒv
+// å‰Šé™¤ç¢ºèªãƒãƒƒãƒ—
 void ProjectWindow::DrawDeleteConfirmPopup()
 {
 	if (itemState.mode != ProjectItemMode::ConfirmingDelete) return;
 
-	ImGui::OpenPopup(u8"íœ‚ÌŠm”F");
+	ImGui::OpenPopup("å‰Šé™¤ã®ç¢ºèª");
 
 	bool open = true;
-	if (ImGui::BeginPopupModal(u8"íœ‚ÌŠm”F", &open, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("å‰Šé™¤ã®ç¢ºèª", &open, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		std::string name = itemState.targetPath.filename().string();
-		ImGui::Text(u8"u%sv‚ğíœ‚µ‚Ü‚·‚©H", name.c_str());
+		ImGui::Text("ã€Œ%sã€ã‚’å‰Šé™¤ã—ã¾ã™ã‹ï¼Ÿ", name.c_str());
 		ImGui::Spacing();
 
-		if (ImGui::Button(u8"íœ", ImVec2(120, 0)))
+		if (ImGui::Button("å‰Šé™¤", ImVec2(120, 0)))
 		{
 			std::error_code ec;
 			std::filesystem::remove_all(itemState.targetPath, ec);
@@ -521,7 +521,7 @@ void ProjectWindow::DrawDeleteConfirmPopup()
 
 		ImGui::SameLine();
 
-		if (ImGui::Button(u8"ƒLƒƒƒ“ƒZƒ‹", ImVec2(120, 0)))
+		if (ImGui::Button("ã‚­ãƒ£ãƒ³ã‚»ãƒ«", ImVec2(120, 0)))
 		{
 			itemState.mode = ProjectItemMode::None;
 			itemState.targetPath.clear();
@@ -531,7 +531,7 @@ void ProjectWindow::DrawDeleteConfirmPopup()
 		ImGui::EndPopup();
 	}
 
-	// ~ƒ{ƒ^ƒ“‚Å•Â‚¶‚ç‚ê‚½ê‡‚àó‘Ô‚ğƒŠƒZƒbƒg
+	// Ã—ãƒœã‚¿ãƒ³ã§é–‰ã˜ã‚‰ã‚ŒãŸå ´åˆã‚‚çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆ
 	if (!open && itemState.mode == ProjectItemMode::ConfirmingDelete)
 	{
 		itemState.mode = ProjectItemMode::None;
@@ -539,7 +539,7 @@ void ProjectWindow::DrawDeleteConfirmPopup()
 	}
 }
 
-// ƒŠƒl[ƒ€ŠJn
+// ãƒªãƒãƒ¼ãƒ é–‹å§‹
 void ProjectWindow::BeginRename(const std::filesystem::path& target)
 {
 	itemState.mode = ProjectItemMode::Renaming;
@@ -548,14 +548,14 @@ void ProjectWindow::BeginRename(const std::filesystem::path& target)
 	std::string currentStem = target.stem().string();
 	strncpy_s(itemState.editBuffer, currentStem.c_str(), sizeof(itemState.editBuffer) - 1);
 }
-// ƒŠƒl[ƒ€Šm’è
+// ãƒªãƒãƒ¼ãƒ ç¢ºå®š
 void ProjectWindow::CommitRename()
 {
 	std::string newStem = itemState.editBuffer;
-	std::string extension = itemState.targetPath.extension().string(); // Šg’£q‚ÍŒÅ’èi•ÏX•s‰Âj
+	std::string extension = itemState.targetPath.extension().string(); // æ‹¡å¼µå­ã¯å›ºå®šï¼ˆå¤‰æ›´ä¸å¯ï¼‰
 	std::string newName = newStem + extension;
 
-	// ‹ó—“‚â•ÏX‚È‚µ‚Ìê‡‚Í‰½‚à‚¹‚¸I—¹
+	// ç©ºæ¬„ã‚„å¤‰æ›´ãªã—ã®å ´åˆã¯ä½•ã‚‚ã›ãšçµ‚äº†
 	if (!newStem.empty() && newName != itemState.targetPath.filename().string())
 	{
 		std::filesystem::path newPath = itemState.targetPath.parent_path() / newName;
@@ -565,7 +565,7 @@ void ProjectWindow::CommitRename()
 
 		if (!ec)
 		{
-			// ‘I‘ğ’†ƒpƒX‚ªƒŠƒl[ƒ€‘ÎÛ‚¾‚Á‚½ê‡AV‚µ‚¢ƒpƒX‚É’Ç]‚³‚¹‚é
+			// é¸æŠä¸­ãƒ‘ã‚¹ãŒãƒªãƒãƒ¼ãƒ å¯¾è±¡ã ã£ãŸå ´åˆã€æ–°ã—ã„ãƒ‘ã‚¹ã«è¿½å¾“ã•ã›ã‚‹
 			if (itemState.selectedPath == itemState.targetPath)
 			{
 				itemState.selectedPath = newPath;

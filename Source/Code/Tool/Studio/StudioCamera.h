@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 
 class StudioCamera
 {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     StudioCamera();
 
-    // XV
+    // æ›´æ–°
     void Update(bool isWindowHovered, float elapsedTime);
 
-    // –ˆƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğ“n‚µ‚Ä”ä—¦‚ğXV‚·‚é
+    // æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’æ¸¡ã—ã¦æ¯”ç‡ã‚’æ›´æ–°ã™ã‚‹
     void UpdateAspect(float width, float height);
 
     const DirectX::XMFLOAT4X4& GetView()       const { return view; }
@@ -35,7 +35,7 @@ private:
     float pitch = 0.0f;
     float speed = 5.0f;
 
-    // Œ»İ‚ÌƒAƒXƒyƒNƒg”ä‚ğ•Û‘¶
+    // ç¾åœ¨ã®ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”ã‚’ä¿å­˜
     float aspect = 16.0f / 9.0f;
 
     bool firstMouse = true;

@@ -1,22 +1,22 @@
-#include "SceneManager.h"
+ï»¿#include "SceneManager.h"
 
-// XV
+// æ›´æ–°
 void SceneManager::Update(float elapsedTime, const SceneContext& context)
 {
-	// ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†
 	if (nextScene)
 	{
-		// Œ»İƒV[ƒ“I—¹‰»
+		// ç¾åœ¨ã‚·ãƒ¼ãƒ³çµ‚äº†åŒ–
 		if (currentScene)
 		{
 			currentScene->Finalize();
 		}
 
-		// ƒV[ƒ“Ø‚è‘Ö‚¦
+		// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 		currentScene = std::move(nextScene);
 		nextScene = nullptr;
 
-		// ƒRƒ“ƒeƒLƒXƒg‚ğ“n‚µ‚Ä‰Šú‰»
+		// ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’æ¸¡ã—ã¦åˆæœŸåŒ–
 		currentScene->Initialize(context);
 	}
 
@@ -26,7 +26,7 @@ void SceneManager::Update(float elapsedTime, const SceneContext& context)
 	}
 }
 
-// •`‰æ
+// æç”»
 void SceneManager::Render(const SceneContext& context)
 {
 	if (currentScene)
@@ -35,14 +35,14 @@ void SceneManager::Render(const SceneContext& context)
 	}
 }
 
-// ƒV[ƒ“Ø‚è‘Ö‚¦—\–ñ
+// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆäºˆç´„
 void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
 {
-	// ŸƒtƒŒ[ƒ€‚ÅØ‚è‘Ö‚¦
+	// æ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ã§åˆ‡ã‚Šæ›¿ãˆ
 	nextScene = std::move(scene);
 }
 
-// ƒV[ƒ“ƒNƒŠƒA
+// ã‚·ãƒ¼ãƒ³ã‚¯ãƒªã‚¢
 void SceneManager::ClearScene()
 {
 	if (currentScene)

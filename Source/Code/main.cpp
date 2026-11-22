@@ -1,8 +1,8 @@
-#include <time.h>
+﻿#include <time.h>
 
-// �N������App
-// RUN_GAME_APP �� GameApp �̃v���W�F�N�g�ݒ�(�v���v���Z�b�T�̒�`)�Œ�`�����
-// ���̃t�@�C���̒��ł͒�`���Ȃ�����
+// 起動するApp
+// RUN_GAME_APP は GameApp のプロジェクト設定(プリプロセッサの定義)で定義される
+// このファイルの中では定義しないこと
 
 #ifdef RUN_GAME_APP
 #include "App/GameApp.h"
@@ -15,7 +15,7 @@ using AppType = EditorApp;
 
 #define APPLICATION_NAME L"X3DGP"
 
-// �E�B���h�E�T�C�Y
+// ウィンドウサイズ
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 

@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include "Engine/Rendering/PostProcessSettings.h"
 
-// ƒ|ƒXƒgƒvƒƒZƒX
+// ãƒã‚¹ãƒˆãƒ—ãƒ­ã‚»ã‚¹
 class PostProcess
 {
 public:
-	// ƒuƒ‹[ƒ€‚Ì’i”i1/2, 1/4, 1/8, 1/16, 1/32, 1/64j
+	// ãƒ–ãƒ«ãƒ¼ãƒ ã®æ®µæ•°ï¼ˆ1/2, 1/4, 1/8, 1/16, 1/32, 1/64ï¼‰
 	static constexpr int kBloomLevels = 6;
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(ID3D11Device* device);
 
-	// HDRScene ‚ğ“Ç‚ñ‚Å output ‚Ö‘‚«o‚·
+	// HDRScene ã‚’èª­ã‚“ã§ output ã¸æ›¸ãå‡ºã™
 	void Render(
 		ID3D11DeviceContext* dc,
 		ID3D11ShaderResourceView* hdrScene,
@@ -23,7 +23,7 @@ public:
 		const PostProcessSettings& settings);
 
 private:
-	// ì‹Æ—pƒeƒNƒXƒ`ƒƒ
+	// ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	struct RenderTexture
 	{
 		Microsoft::WRL::ComPtr<ID3D11Texture2D>          texture;
@@ -33,14 +33,14 @@ private:
 		UINT height = 0;
 	};
 
-	// ‰æ–Ê‚Ì‘å‚«‚³‚É‡‚í‚¹‚ÄAƒuƒ‹[ƒ€‚Ìì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğì‚è’¼‚·
+	// ç”»é¢ã®å¤§ãã•ã«åˆã‚ã›ã¦ã€ãƒ–ãƒ«ãƒ¼ãƒ ã®ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½œã‚Šç›´ã™
 	void ResizeBloomTargets(UINT width, UINT height);
-	// ì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğ1–‡ì‚é
+	// ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’1æšä½œã‚‹
 	void CreateRenderTexture(RenderTexture& target, UINT width, UINT height, DXGI_FORMAT format);
-	// ‘S‰æ–Ê‚ÌlŠpŒ`‚ğ1‰ñ•`‚­
+	// å…¨ç”»é¢ã®å››è§’å½¢ã‚’1å›æã
 	void DrawFullscreen(ID3D11DeviceContext* dc, ID3D11PixelShader* ps, ID3D11RenderTargetView* rtv, UINT width, UINT height);
 
-	Microsoft::WRL::ComPtr<ID3D11Device>          device; // ì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğì‚è’¼‚·‚½‚ß
+	Microsoft::WRL::ComPtr<ID3D11Device>          device; // ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½œã‚Šç›´ã™ãŸã‚
 
 	Microsoft::WRL::ComPtr<ID3D11VertexShader>    fullscreenVS;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>     finalPS;
@@ -53,18 +53,18 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>     radialBlurPS;
 
-	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState; // ƒJƒŠƒ“ƒO‚È‚µ
-	Microsoft::WRL::ComPtr<ID3D11SamplerState>    linearSampler;   // ƒoƒCƒŠƒjƒAE’[‚Íˆø‚«L‚Î‚µ
-	Microsoft::WRL::ComPtr<ID3D11Buffer>          cbPostProcess;   // b4Fİ’è’l
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState; // ã‚«ãƒªãƒ³ã‚°ãªã—
+	Microsoft::WRL::ComPtr<ID3D11SamplerState>    linearSampler;   // ãƒã‚¤ãƒªãƒ‹ã‚¢ãƒ»ç«¯ã¯å¼•ãä¼¸ã°ã—
+	Microsoft::WRL::ComPtr<ID3D11Buffer>          cbPostProcess;   // b4ï¼šè¨­å®šå€¤
 
-	// ƒuƒ‹[ƒ€‚Ìì‹Æ—pƒeƒNƒXƒ`ƒƒ
-	RenderTexture bloomDown[kBloomLevels]; // k¬‚µ‚½ŠGi[0] ‚Í”²‚«o‚µ‚½ŠGj
-	RenderTexture bloomTemp[kBloomLevels]; // ‰¡‚Ú‚©‚µ‚Ì“r’†
-	RenderTexture bloomBlur[kBloomLevels]; // c‰¡‚Ú‚©‚µ‚½ŠG
+	// ãƒ–ãƒ«ãƒ¼ãƒ ã®ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	RenderTexture bloomDown[kBloomLevels]; // ç¸®å°ã—ãŸçµµï¼ˆ[0] ã¯æŠœãå‡ºã—ãŸçµµï¼‰
+	RenderTexture bloomTemp[kBloomLevels]; // æ¨ªã¼ã‹ã—ã®é€”ä¸­
+	RenderTexture bloomBlur[kBloomLevels]; // ç¸¦æ¨ªã¼ã‹ã—ãŸçµµ
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[‚Ìì‹Æ—pƒeƒNƒXƒ`ƒƒ
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼ã®ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	RenderTexture radialBlurTarget;
 
-	UINT bloomSourceWidth = 0;  // ì‚Á‚½‚Æ‚«‚Ì‰æ–Ê‚Ì‘å‚«‚³
+	UINT bloomSourceWidth = 0;  // ä½œã£ãŸã¨ãã®ç”»é¢ã®å¤§ãã•
 	UINT bloomSourceHeight = 0;
 };

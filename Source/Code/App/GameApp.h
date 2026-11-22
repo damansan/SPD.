@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include "Engine/Core/Application.h"
 
-// ƒQ[ƒ€’P‘Ì‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+// ã‚²ãƒ¼ãƒ å˜ä½“ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 class GameApp : public Application
 {
 public:
@@ -15,10 +15,10 @@ protected:
 	void OnPresent() override;
 
 private:
-	// ƒvƒƒWƒFƒNƒgİ’è‚©‚çAÅ‰‚É“Ç‚İ‚ŞƒV[ƒ“‚ÌƒpƒX‚ğæ“¾‚·‚é
+	// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆè¨­å®šã‹ã‚‰ã€æœ€åˆã«èª­ã¿è¾¼ã‚€ã‚·ãƒ¼ãƒ³ã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 	static std::string LoadStartScenePath();
 
-	// Å‰‚ÌƒV[ƒ“ƒtƒ@ƒCƒ‹
+	// æœ€åˆã®ã‚·ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«
 	std::string startScenePath;
 	bool startSceneLoaded = false;
 };

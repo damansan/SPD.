@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -11,7 +11,7 @@
 #include "Engine/Data/StateMachineData.h"
 #include "Tool/NodeEditor/NodeEditorCanvas.h"
 
-// StateƒOƒ‰ƒt‚Ìq‚ÌƒLƒƒƒ“ƒoƒX
+// Stateã‚°ãƒ©ãƒ•ã®å­ã®ã‚­ãƒ£ãƒ³ãƒã‚¹
 class StudioStateChildCanvas
 {
 public:
@@ -20,125 +20,125 @@ public:
 
 	void Initialize();
 
-	// ‚Ç‚ÌState‚Ìq‚©
+	// ã©ã®Stateã®å­ã‹
 	int GetStateId() const { return stateId; }
 
-	// ƒLƒƒƒ“ƒoƒX‚ğ•`‚­
+	// ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æã
 	void Draw(StateMachineData& data,const std::vector<std::string>& animations);
-	// ‘I‘ğ‚µ‚Ä‚¢‚é•¨‚ğíœ
+	// é¸æŠã—ã¦ã„ã‚‹ç‰©ã‚’å‰Šé™¤
 	void DeleteSelection(StateMachineData& data);
 
-	// ğŒ‚ğ•ÒW‚µ‚Ä‚Ù‚µ‚¢ƒŠƒ“ƒN‚©‚ç‚ÌˆË—Š
+	// æ¡ä»¶ã‚’ç·¨é›†ã—ã¦ã»ã—ã„ãƒªãƒ³ã‚¯ã‹ã‚‰ã®ä¾é ¼
 	ConditionTarget ConsumeEditConditionRequest() { ConditionTarget t = editConditionRequest; editConditionRequest = {}; return t; }
-	// ƒŠƒ“ƒN‚Ìİ’è‚ğÊ‚·ˆË—Š
+	// ãƒªãƒ³ã‚¯ã®è¨­å®šã‚’å†™ã™ä¾é ¼
 	ConditionCopyRequest ConsumeCopyRequest() { ConditionCopyRequest r = copyRequest; copyRequest = {}; return r; }
 
 private:
-	// --- •`‰æ --- //
+	// --- æç”» --- //
 
-	// “ü‚Á‚Ä‚­‚éƒŠƒ“ƒN‚©‚çƒGƒ“ƒgƒŠ[‚Ìˆê——‚ğì‚é
+	// å…¥ã£ã¦ãã‚‹ãƒªãƒ³ã‚¯ã‹ã‚‰ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ä¸€è¦§ã‚’ä½œã‚‹
 	void CollectEntries();
 
-	// ƒm[ƒh•`‰æ
+	// ãƒãƒ¼ãƒ‰æç”»
 	void DrawEntryNodes();
 	void DrawClipNodes();
 
-	// ƒŠƒ“ƒN•`‰æ
+	// ãƒªãƒ³ã‚¯æç”»
 	void DrawLinks();
-	// ì¬’†‚ÌƒŠƒ“ƒN•`‰æ
+	// ä½œæˆä¸­ã®ãƒªãƒ³ã‚¯æç”»
 	void DrawPendingLink();
 
-	// ”wŒi‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+	// èƒŒæ™¯å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	void DrawBackgroundMenu();
-	// ƒm[ƒh‰EƒNƒŠƒbƒN‚Ìƒƒjƒ…[
+	// ãƒãƒ¼ãƒ‰å³ã‚¯ãƒªãƒƒã‚¯ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 	void DrawNodeMenu();
 
 
-	// --- “ü—Í --- //
+	// --- å…¥åŠ› --- //
 
-	// ƒŠƒ“ƒNì¬’†‚Ì“ü—Í
+	// ãƒªãƒ³ã‚¯ä½œæˆä¸­ã®å…¥åŠ›
 	void UpdateLinkCreation();
-	// ‘I‘ğ‚ÌXV
+	// é¸æŠã®æ›´æ–°
 	void UpdateSelection();
 
 
 
-	// --- ”»’è --- //
+	// --- åˆ¤å®š --- //
 
-	// ƒf[ƒ^‚É‘¶İ‚·‚éƒm[ƒh‚©”»’è
+	// ãƒ‡ãƒ¼ã‚¿ã«å­˜åœ¨ã™ã‚‹ãƒãƒ¼ãƒ‰ã‹åˆ¤å®š
 	bool IsExistingNode(int key) const;
-	// ƒGƒ“ƒgƒŠ[‚©”»’è
+	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‹åˆ¤å®š
 	bool IsEntry(int key) const;
 
 	
-	// --- ƒCƒ“ƒXƒyƒNƒ^[ --- //
+	// --- ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ --- //
 
-	// ƒCƒ“ƒXƒyƒNƒ^[•`‰æ
+	// ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼æç”»
 	void DrawInspector(const std::vector<std::string>& animations);
 	
-	// ƒGƒ“ƒgƒŠ[‚Ìİ’è
+	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®è¨­å®š
 	void DrawEntryInspector(int transitionId);
-	// ƒNƒŠƒbƒv‚Ìİ’è
+	// ã‚¯ãƒªãƒƒãƒ—ã®è¨­å®š
 	void DrawClipInspector(ClipNode& clip, const std::vector<std::string>& animations);
-	// •¡”‘I‘ğ
+	// è¤‡æ•°é¸æŠæ™‚
 	void DrawMultiInspector();
-	// ƒŠƒ“ƒN‚Ìİ’è
+	// ãƒªãƒ³ã‚¯ã®è¨­å®š
 	void DrawLinkInspector(int linkId);
 
-	// ƒNƒŠƒbƒv‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ˆê——
+	// ã‚¯ãƒªãƒƒãƒ—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸€è¦§
 	void DrawAnimationList(ClipNode& clip, const std::vector<std::string>& animations);
 
-	// o‚Ä‚¢‚­ƒŠƒ“ƒN‚Ìˆê——
+	// å‡ºã¦ã„ããƒªãƒ³ã‚¯ã®ä¸€è¦§
 	void DrawOutLinkList(int fromKey, bool fromEntry);
 
-	// ID‚©‚çƒŠƒ“ƒN‚ğ’T‚·
+	// IDã‹ã‚‰ãƒªãƒ³ã‚¯ã‚’æ¢ã™
 	EntryLink* FindEntryLink(int linkId);
 	ClipLink* FindClipLink(int linkId);
 
-	// ‘JˆÚŒ³‚Ìƒm[ƒh‚ÌƒL[‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+	// é·ç§»å…ƒã®ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 	std::string GetSourceName(int fromKey) const;
-	// ƒNƒŠƒbƒv‚ÌID‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+	// ã‚¯ãƒªãƒƒãƒ—ã®IDã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 	std::string GetClipName(int clipId) const;
 
 
-	// --- ƒŠƒ“ƒN‚ÌŒvZ --- //
+	// --- ãƒªãƒ³ã‚¯ã®è¨ˆç®— --- //
 
-	// fromClipId‚©‚çtoClipId‚Ö‚ÌƒŠƒ“ƒN‚ª‚ ‚é‚©
+	// fromClipIdã‹ã‚‰toClipIdã¸ã®ãƒªãƒ³ã‚¯ãŒã‚ã‚‹ã‹
 	bool HasClipLink(int fromClipId, int toClipId) const;
-	// ü‚Ìn“_‚ÆI“_‚ğ‹‚ß‚é
+	// ç·šã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’æ±‚ã‚ã‚‹
 	bool CalcLinkPoints(int fromKey, int toKey, bool hasReverse, int lane, ImVec2& outStart, ImVec2& outEnd) const;
 	
 
-	// --- ƒf[ƒ^ --- //
+	// --- ãƒ‡ãƒ¼ã‚¿ --- //
 
 	int stateId = -1;
 
 	StateMachineData* data = nullptr;
 	StateNode* state = nullptr;
 
-	// ƒGƒ“ƒgƒŠ[
+	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼
 	struct EntryInfo
 	{
-		int transitionId; // “ü‚Á‚Ä‚­‚é‘JˆÚ‚ÌID
-		int fromKey;      // ‘JˆÚŒ³‚Ìƒm[ƒh‚ÌƒL[
+		int transitionId; // å…¥ã£ã¦ãã‚‹é·ç§»ã®ID
+		int fromKey;      // é·ç§»å…ƒã®ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼
 	};
 	std::vector<EntryInfo> entries;
 
 
-	// --- ƒLƒƒƒ“ƒoƒX‚Ìó‘Ô --- //
+	// --- ã‚­ãƒ£ãƒ³ãƒã‚¹ã®çŠ¶æ…‹ --- //
 	
-	// ğŒ‚ğ•ÒW‚µ‚Ä‚Ù‚µ‚¢ƒŠƒ“ƒN
+	// æ¡ä»¶ã‚’ç·¨é›†ã—ã¦ã»ã—ã„ãƒªãƒ³ã‚¯
 	ConditionTarget editConditionRequest;
-	// İ’è‚ğÊ‚µ‚Ä‚Ù‚µ‚¢ƒŠƒ“ƒN
+	// è¨­å®šã‚’å†™ã—ã¦ã»ã—ã„ãƒªãƒ³ã‚¯
 	ConditionCopyRequest copyRequest;
 
 	NodeEditorCanvas canvas;
-	// ƒf[ƒ^‚ÌˆÊ’u‚ğƒm[ƒh‚É”½‰f‚·‚é‚©
+	// ãƒ‡ãƒ¼ã‚¿ã®ä½ç½®ã‚’ãƒãƒ¼ãƒ‰ã«åæ˜ ã™ã‚‹ã‹
 	bool needsApplyPositions = true;
-	// ƒm[ƒh‚Ì‹éŒ`
+	// ãƒãƒ¼ãƒ‰ã®çŸ©å½¢
 	std::unordered_map<int, std::pair<ImVec2, ImVec2>> nodeRects;
 
-	// •`‚¢‚½ƒŠƒ“ƒN‚Ìü
+	// æã„ãŸãƒªãƒ³ã‚¯ã®ç·š
 	struct LinkSegment
 	{
 		int linkId;
@@ -147,29 +147,29 @@ private:
 	};
 	std::vector<LinkSegment> linkSegments;
 
-	// ‘I‘ğ’†‚Ìƒm[ƒh‚ÆLink
+	// é¸æŠä¸­ã®ãƒãƒ¼ãƒ‰ã¨Link
 	std::vector<int> selectedNodeKeys;
 	int selectedLinkId = -1;
 
-	// Ÿ‚ÉƒLƒƒƒ“ƒoƒX‚ğ•`‚­‚Æ‚«‚ÉAƒm[ƒhƒGƒfƒBƒ^‘¤‚Ì‘I‘ğ‚ğÁ‚·‚©
+	// æ¬¡ã«ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æãã¨ãã«ã€ãƒãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿å´ã®é¸æŠã‚’æ¶ˆã™ã‹
 	bool clearSelectionRequested = false;
 
-	// ƒŠƒ“ƒN‚Ìì¬’†‚Ì‘JˆÚŒ³
+	// ãƒªãƒ³ã‚¯ã®ä½œæˆä¸­ã®é·ç§»å…ƒ
 	int pendingFromKey = -1;
 
-	// ”wŒi‚Ì‰EƒNƒŠƒbƒN‚ÌˆÊ’u
+	// èƒŒæ™¯ã®å³ã‚¯ãƒªãƒƒã‚¯ã®ä½ç½®
 	ImVec2 pendingCreatePos{};
-	// ƒm[ƒh‚Ì‰EƒNƒŠƒbƒN‚Ì‘ÎÛ
+	// ãƒãƒ¼ãƒ‰ã®å³ã‚¯ãƒªãƒƒã‚¯ã®å¯¾è±¡
 	int contextNodeKey = -1;
 
 	bool columnWidthInitialized = false;
 
-	// ƒNƒŠƒbƒv‚Ì–¼‘O‚Ì“ü—Í—“
+	// ã‚¯ãƒªãƒƒãƒ—ã®åå‰ã®å…¥åŠ›æ¬„
 	int nameEditingClipId = -1;
 	char nameBuffer[128] = {};
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìˆê——
-	char animationFilter[64] = {};   // i‚è‚İ‚Ì•¶š
-	int animationListClipId = -1;    // ˆê——‚ğ•\¦‚µ‚Ä‚¢‚éƒNƒŠƒbƒv
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸€è¦§
+	char animationFilter[64] = {};   // çµã‚Šè¾¼ã¿ã®æ–‡å­—
+	int animationListClipId = -1;    // ä¸€è¦§ã‚’è¡¨ç¤ºã—ã¦ã„ã‚‹ã‚¯ãƒªãƒƒãƒ—
 	bool scrollToCurrent = false;
 };

@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include <algorithm>
 #include <filesystem>
 #include <string>
 
-// ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ìí—Ş
+// ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã®ç¨®é¡
 enum class DataFileKind
 {
-	Unknown,    // ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢
+	Unknown,    // ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ãªã„
 	Scene,      // .scene.json
 	Prefab,     // .prefab.json
 	StateGraph, // .stategraph.json
@@ -14,7 +14,7 @@ enum class DataFileKind
 	Sequencer,  // .sequencer.json
 };
 
-// í—Ş‚²‚Æ‚ÌŠg’£q
+// ç¨®é¡ã”ã¨ã®æ‹¡å¼µå­
 inline const char* GetDataFileExtension(DataFileKind kind)
 {
 	switch (kind)
@@ -28,10 +28,10 @@ inline const char* GetDataFileExtension(DataFileKind kind)
 	}
 }
 
-// ƒpƒX‚©‚çí—Ş‚ğ”»’è‚·‚é
+// ãƒ‘ã‚¹ã‹ã‚‰ç¨®é¡ã‚’åˆ¤å®šã™ã‚‹
 inline DataFileKind GetDataFileKind(const std::filesystem::path& path)
 {
-	// ‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢
+	// å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
 	std::string name = path.filename().string();
 	std::transform(name.begin(), name.end(), name.begin(),
 		[](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -49,7 +49,7 @@ inline DataFileKind GetDataFileKind(const std::filesystem::path& path)
 	{
 		const std::string extension = GetDataFileExtension(kind);
 
-		// u.scene.jsonv‚¾‚¯‚Ì–¼‘Oi’†g‚Ì–¼‘O‚ª‹ój‚ÍAƒf[ƒ^ƒtƒ@ƒCƒ‹‚Æ‚İ‚È‚³‚È‚¢
+		// ã€Œ.scene.jsonã€ã ã‘ã®åå‰ï¼ˆä¸­èº«ã®åå‰ãŒç©ºï¼‰ã¯ã€ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã¨ã¿ãªã•ãªã„
 		if (name.size() > extension.size()
 			&& name.compare(name.size() - extension.size(), extension.size(), extension) == 0)
 		{
@@ -60,10 +60,10 @@ inline DataFileKind GetDataFileKind(const std::filesystem::path& path)
 }
 
 
-// ƒ‚ƒfƒ‹‚É‘®‚·‚éƒf[ƒ^‚ÌêŠFƒ‚ƒfƒ‹‚Æ“¯‚¶ƒtƒHƒ‹ƒ_‚Ì Json/<ƒ‚ƒfƒ‹–¼>.í—Ş.json
+// ãƒ¢ãƒ‡ãƒ«ã«å±ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®å ´æ‰€ï¼šãƒ¢ãƒ‡ãƒ«ã¨åŒã˜ãƒ•ã‚©ãƒ«ãƒ€ã® Json/<ãƒ¢ãƒ‡ãƒ«å>.ç¨®é¡.json
 inline std::string GetModelDataFilePath(const std::string& modelPath, DataFileKind kind)
 {
 	const std::filesystem::path p(modelPath);
 	const std::filesystem::path result = p.parent_path() / "Json" / (p.stem().string() + GetDataFileExtension(kind));
-	return result.generic_string(); // ‹æØ‚è‚Íu/v‚É‚»‚ë‚¦‚é
+	return result.generic_string(); // åŒºåˆ‡ã‚Šã¯ã€Œ/ã€ã«ãã‚ãˆã‚‹
 }

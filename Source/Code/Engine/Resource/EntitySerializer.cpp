@@ -1,4 +1,4 @@
-#include "EntitySerializer.h"
+ï»¿#include "EntitySerializer.h"
 
 #include "Engine/Resource/ComponentRegistry.h"
 
@@ -20,8 +20,8 @@ nlohmann::json EntitySerializer::SerializeEntity(entt::registry& registry, entt:
 		if (!info || !info->has(registry, e)) continue;
 		if (!info->getMeta) continue;
 
-		// instance‚ğƒ[ƒJƒ‹•Ï”‚É‘ã“ü‚·‚é‚ÆQÆ‚ª•ö‚ê‚é‚½‚ßAtype()‚Ìæ“¾‚Æ
-		// ƒtƒB[ƒ‹ƒh‚Ì“Ç‚İæ‚è‚ÅA‚»‚ê‚¼‚ê‚»‚Ìê‚ÅgetMeta()‚ğŒÄ‚Ñ’¼‚·
+		// instanceã‚’ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«ä»£å…¥ã™ã‚‹ã¨å‚ç…§ãŒå´©ã‚Œã‚‹ãŸã‚ã€type()ã®å–å¾—ã¨
+		// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®èª­ã¿å–ã‚Šã§ã€ãã‚Œãã‚Œãã®å ´ã§getMeta()ã‚’å‘¼ã³ç›´ã™
 		entt::meta_type metaType = info->getMeta(registry, e).type();
 		if (!metaType) continue;
 
@@ -29,14 +29,14 @@ nlohmann::json EntitySerializer::SerializeEntity(entt::registry& registry, entt:
 
 		for (auto&& [id, metaData] : metaType.data())
 		{
-			// Transient‚Ì€–Ú‚ÍAÀs’†‚ÉSystem‚ª‘‚«Š·‚¦‚éó‘Ô‚È‚Ì‚ÅA•Û‘¶‚µ‚È‚¢
+			// Transientã®é …ç›®ã¯ã€å®Ÿè¡Œä¸­ã«SystemãŒæ›¸ãæ›ãˆã‚‹çŠ¶æ…‹ãªã®ã§ã€ä¿å­˜ã—ãªã„
 			FieldInfo* fieldInfo = metaData.custom();
 			if (fieldInfo && HasFlag(fieldInfo->flags, FieldFlags::Transient)) continue;
 
 			std::string fieldName(metaData.name());
 			entt::meta_any value = metaData.get(info->getMeta(registry, e));
 
-			// •Û‘¶‚É–¢‘Î‰‚ÌŒ^‚ÍA‘‚«o‚³‚È‚¢
+			// ä¿å­˜ã«æœªå¯¾å¿œã®å‹ã¯ã€æ›¸ãå‡ºã•ãªã„
 			nlohmann::json serialized = SerializeMetaAny(value);
 			if (serialized.is_null()) continue;
 
@@ -65,7 +65,7 @@ nlohmann::json EntitySerializer::SerializeMetaAny(entt::meta_any& value)
 
 	if (value.type().is_enum())
 	{
-		// enum‚Ì’l‚ğAREFLECT_ENUM_VALUE‚Å“o˜^‚µ‚½–¼‘O(•¶š—ñ)‚Æ‚µ‚Ä•Û‘¶‚·‚é
+		// enumã®å€¤ã‚’ã€REFLECT_ENUM_VALUEã§ç™»éŒ²ã—ãŸåå‰(æ–‡å­—åˆ—)ã¨ã—ã¦ä¿å­˜ã™ã‚‹
 		entt::meta_type enumType = value.type();
 		for (auto&& [id, enumData] : enumType.data())
 		{
@@ -77,7 +77,7 @@ nlohmann::json EntitySerializer::SerializeMetaAny(entt::meta_any& value)
 		}
 	}
 
-	return nullptr; // ‘Î‰‚µ‚Ä‚¢‚È‚¢Œ^
+	return nullptr; // å¯¾å¿œã—ã¦ã„ãªã„å‹
 }
 
 void EntitySerializer::DeserializeEntity(entt::registry& registry, entt::entity e, const nlohmann::json& data)
@@ -87,12 +87,12 @@ void EntitySerializer::DeserializeEntity(entt::registry& registry, entt::entity 
 		const ComponentInfo* info = ComponentRegistry::Get(name);
 		if (!info)
 		{
-			// íœE‰ü–¼‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒgB—‚Æ‚³‚¸‚É”ò‚Î‚µ‚ÄAƒƒO‚Éc‚·
-			Log(u8"–¢“o˜^‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ–³‹: %s", name.c_str());
+			// å‰Šé™¤ãƒ»æ”¹åã•ã‚ŒãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã€‚è½ã¨ã•ãšã«é£›ã°ã—ã¦ã€ãƒ­ã‚°ã«æ®‹ã™
+			Log("æœªç™»éŒ²ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç„¡è¦–: %s", name.c_str());
 			continue;
 		}
 
-		info->add(registry, e); // –³‚¯‚ê‚Î•t—^
+		info->add(registry, e); // ç„¡ã‘ã‚Œã°ä»˜ä¸
 		if (!info->getMeta) continue;
 
 		entt::meta_any instance = info->getMeta(registry, e);
@@ -102,12 +102,12 @@ void EntitySerializer::DeserializeEntity(entt::registry& registry, entt::entity 
 
 		for (auto&& [id, metaData] : metaType.data())
 		{
-			// Transient‚Ì€–Ú‚ÍAƒtƒ@ƒCƒ‹‚É“ü‚Á‚Ä‚¢‚Ä‚à‘‚«–ß‚³‚È‚¢
+			// Transientã®é …ç›®ã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ã«å…¥ã£ã¦ã„ã¦ã‚‚æ›¸ãæˆ»ã•ãªã„
 			FieldInfo* fieldInfo = metaData.custom();
 			if (fieldInfo && HasFlag(fieldInfo->flags, FieldFlags::Transient)) continue;
 
 			std::string fieldName(metaData.name());
-			if (!fields.contains(fieldName)) continue; // JSON‚É–³‚¢ƒtƒB[ƒ‹ƒh‚Í‰Šú’l‚Ì‚Ü‚Ü
+			if (!fields.contains(fieldName)) continue; // JSONã«ç„¡ã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã¯åˆæœŸå€¤ã®ã¾ã¾
 			DeserializeMetaAny(metaData, instance, fields[fieldName]);
 		}
 	}
@@ -116,7 +116,7 @@ void EntitySerializer::DeserializeEntity(entt::registry& registry, entt::entity 
 
 namespace
 {
-	// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‘‚«
+	// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿æ›¸ã
 	JsonFileCache<nlohmann::json>& PrefabFiles()
 	{
 		static JsonFileCache<nlohmann::json> cache;
@@ -125,7 +125,7 @@ namespace
 }
 
 
-// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚ğ“Ç‚Ş
+// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚€
 const nlohmann::json* EntitySerializer::LoadPrefabFile(const std::string& path)
 {
 	auto& files = PrefabFiles();
@@ -135,14 +135,14 @@ const nlohmann::json* EntitySerializer::LoadPrefabFile(const std::string& path)
 	if (files.GetStatus(path) != JsonFileStatus::Loaded) return nullptr;
 	return &data;
 }
-// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚É‘‚­
+// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ã
 bool EntitySerializer::SavePrefabFile(const std::string& path, const nlohmann::json& data)
 {
 	return PrefabFiles().Save(path, data,
 		[](const nlohmann::json& d) { return nlohmann::ordered_json(d); });
 }
 
-// ƒvƒŒƒnƒuƒtƒ@ƒCƒ‹‚©‚çEntity‚ğ¶¬‚·‚éB¬Œ÷‚µ‚½‚ç‚»‚ÌEntity‚ğA¸”s‚µ‚½‚çentt::null‚ğ•Ô‚·
+// ãƒ—ãƒ¬ãƒãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰Entityã‚’ç”Ÿæˆã™ã‚‹ã€‚æˆåŠŸã—ãŸã‚‰ãã®Entityã‚’ã€å¤±æ•—ã—ãŸã‚‰entt::nullã‚’è¿”ã™
 entt::entity EntitySerializer::InstantiatePrefab(entt::registry& registry, const std::string& prefabPath)
 {
 	const nlohmann::json* data = LoadPrefabFile(prefabPath);
@@ -150,23 +150,23 @@ entt::entity EntitySerializer::InstantiatePrefab(entt::registry& registry, const
 
 	if (!data->is_object())
 	{
-		Log(u8"ƒvƒŒƒnƒu‚ÌŒ`®‚ªˆá‚¤: %s", LogPath(prefabPath).c_str());
+		Log("ãƒ—ãƒ¬ãƒãƒ–ã®å½¢å¼ãŒé•ã†: %s", LogPath(prefabPath).c_str());
 		return entt::null;
 	}
 
 	entt::entity e = CreateFromComponents(registry, *data);
 	if (e == entt::null)
 	{
-		Log(u8"ƒvƒŒƒnƒu‚Ì•œŒ³‚É¸”s: %s", LogPath(prefabPath).c_str());
+		Log("ãƒ—ãƒ¬ãƒãƒ–ã®å¾©å…ƒã«å¤±æ•—: %s", LogPath(prefabPath).c_str());
 		return entt::null;
 	}
 
-	// ‚Ç‚ÌƒvƒŒƒnƒu‚©‚ç¶‚Ü‚ê‚½‚©‚ğ‹L˜^‚·‚é
+	// ã©ã®ãƒ—ãƒ¬ãƒãƒ–ã‹ã‚‰ç”Ÿã¾ã‚ŒãŸã‹ã‚’è¨˜éŒ²ã™ã‚‹
 	registry.emplace<PrefabInstanceComponent>(e, prefabPath);
 	return e;
 }
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†g(JSON)‚©‚çEntity‚ğ¶¬‚·‚éB•œŒ³’†‚ÉƒGƒ‰[‚ª‹N‚«‚½‚çAì‚è‚©‚¯‚ÌEntity‚ğ”jŠü‚µ‚Äentt::null‚ğ•Ô‚·
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­èº«(JSON)ã‹ã‚‰Entityã‚’ç”Ÿæˆã™ã‚‹ã€‚å¾©å…ƒä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ã€ä½œã‚Šã‹ã‘ã®Entityã‚’ç ´æ£„ã—ã¦entt::nullã‚’è¿”ã™
 entt::entity EntitySerializer::CreateFromComponents(entt::registry& registry, const nlohmann::json& components)
 {
 	if (!components.is_object()) return entt::null;
@@ -220,7 +220,7 @@ void EntitySerializer::DeserializeMetaAny(entt::meta_data metaData, entt::meta_a
 	}
 	else if (current.type().is_enum() && value.is_string())
 	{
-		// •Û‘¶‚³‚ê‚Ä‚¢‚½–¼‘O‚©‚çA‘Î‰‚·‚éenum’l‚ğ’T‚µ‚Ä‘‚«–ß‚·
+		// ä¿å­˜ã•ã‚Œã¦ã„ãŸåå‰ã‹ã‚‰ã€å¯¾å¿œã™ã‚‹enumå€¤ã‚’æ¢ã—ã¦æ›¸ãæˆ»ã™
 		entt::meta_type enumType = current.type();
 		std::string targetName = value.get<std::string>();
 

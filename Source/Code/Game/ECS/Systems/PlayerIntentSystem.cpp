@@ -1,4 +1,4 @@
-#include "PlayerIntentSystem.h"
+ï»¿#include "PlayerIntentSystem.h"
 #include <algorithm>
 
 #include "Game/ECS/Components/GameInputComponent.h"
@@ -7,14 +7,14 @@
 
 namespace
 {
-	// ƒ{ƒ^ƒ“1‚Â‚Ô‚ñ‚ÌˆÓ}‚ğXV‚·‚é
+	// ãƒœã‚¿ãƒ³1ã¤ã¶ã‚“ã®æ„å›³ã‚’æ›´æ–°ã™ã‚‹
 	void UpdateAction(ActionIntent& action, bool pressed, bool held, float bufferTime, float elapsedTime)
 	{
-		// ‰Ÿ‚µ‘±‚¯‚Ä‚¢‚éŠÔ
+		// æŠ¼ã—ç¶šã‘ã¦ã„ã‚‹æ™‚é–“
 		action.held = held;
 		action.heldTime = held ? action.heldTime + elapsedTime : 0.0f;
 
-		// æs“ü—ÍF‰Ÿ‚³‚ê‚½uŠÔ‚Éó‚¯•t‚¯Aó•tŠÔ‚ğ‰ß‚¬‚½‚çæ‚èÁ‚·
+		// å…ˆè¡Œå…¥åŠ›ï¼šæŠ¼ã•ã‚ŒãŸç¬é–“ã«å—ã‘ä»˜ã‘ã€å—ä»˜æ™‚é–“ã‚’éããŸã‚‰å–ã‚Šæ¶ˆã™
 		if (pressed)
 		{
 			action.buffered = true;
@@ -33,32 +33,32 @@ namespace
 
 void PlayerIntentSystem::Update(entt::registry& registry, float elapsedTime, const SceneContext& context)
 {
-	// ƒJƒƒ‰‚ª‚È‚¢ê‡‚Íˆ—‚µ‚È‚¢
+	// ã‚«ãƒ¡ãƒ©ãŒãªã„å ´åˆã¯å‡¦ç†ã—ãªã„
 	if (!context.camera)return;
 
-	// ƒJƒƒ‰‚Ì‘O•ûŒü‚Æ‰E•ûŒü‚ğæ“¾
+	// ã‚«ãƒ¡ãƒ©ã®å‰æ–¹å‘ã¨å³æ–¹å‘ã‚’å–å¾—
 	const DirectX::XMFLOAT3 front = context.camera->GetFront();
 	const DirectX::XMFLOAT3 right = context.camera->GetRight();
 
 	auto view = registry.view<GameInputComponent, PlayerIntentComponent>();
 	view.each([&](const GameInputComponent& input, PlayerIntentComponent& intent)
 		{
-			// ¶‚Ì“ü—Í‚ğAƒJƒƒ‰Šî€‚Ìƒ[ƒ‹ƒh•ûŒü‚É•ÏŠ·
+			// ç”Ÿã®å…¥åŠ›ã‚’ã€ã‚«ãƒ¡ãƒ©åŸºæº–ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰æ–¹å‘ã«å¤‰æ›
 			auto dir = PlayerMovementUtils::StickToWorldVelocity(input.moveStick.x, input.moveStick.y, front, right, 1.0f);
 			intent.hasRawInput = (dir.inputLength > 0.0f);
 
-			// “®‚«‚½‚¢‚©(—P—\•t‚«)
+			// å‹•ããŸã„ã‹(çŒ¶äºˆä»˜ã)
 			if (intent.hasRawInput)
 			{
-				// “ü—Í‚ ‚èF•ûŒü‚Æ“|‚µ‹ï‡‚ğXV‚µ‚ÄA—P—\‚ğƒŠƒZƒbƒg
-				intent.moveDir = dir.velocity; // ’·‚³1
+				// å…¥åŠ›ã‚ã‚Šï¼šæ–¹å‘ã¨å€’ã—å…·åˆã‚’æ›´æ–°ã—ã¦ã€çŒ¶äºˆã‚’ãƒªã‚»ãƒƒãƒˆ
+				intent.moveDir = dir.velocity; // é•·ã•1
 				intent.moveAmount = (std::min)(dir.inputLength, 1.0f);
 				intent.graceTimer = 0.0f;
 				intent.wantsMove = true;
 			}
 			else
 			{
-				// “ü—Í‚È‚µF—P—\‚ÌŠÔ‚ÍAÅŒã‚Ì•ûŒü‚Æ“|‚µ‹ï‡‚ğ•Û‚Â
+				// å…¥åŠ›ãªã—ï¼šçŒ¶äºˆã®é–“ã¯ã€æœ€å¾Œã®æ–¹å‘ã¨å€’ã—å…·åˆã‚’ä¿ã¤
 				intent.graceTimer += elapsedTime;
 				if (intent.graceTimer >= intent.moveGraceTime)
 				{
@@ -67,22 +67,22 @@ void PlayerIntentSystem::Update(entt::registry& registry, float elapsedTime, con
 				}
 			}
 
-			// ‘–‚è‚½‚¢‚©(ƒqƒXƒeƒŠƒVƒX{—P—\)
+			// èµ°ã‚ŠãŸã„ã‹(ãƒ’ã‚¹ãƒ†ãƒªã‚·ã‚¹ï¼‹çŒ¶äºˆ)
 			if (!intent.wantsMove)
 			{
-				// “®‚«‚½‚­‚È‚¢F—P—\‚È‚µ‚Å~‚ß‚é
+				// å‹•ããŸããªã„ï¼šçŒ¶äºˆãªã—ã§æ­¢ã‚ã‚‹
 				intent.wantsRun = false;
 				intent.runGraceTimer = 0.0f;
 			}
 			else if (intent.moveAmount >= intent.runEnterThreshold)
 			{
-				// [‚­“|‚µ‚½F‘–‚éB—P—\‚ğ‘ª‚è’¼‚·
+				// æ·±ãå€’ã—ãŸï¼šèµ°ã‚‹ã€‚çŒ¶äºˆã‚’æ¸¬ã‚Šç›´ã™
 				intent.wantsRun = true;
 				intent.runGraceTimer = 0.0f;
 			}
 			else if (intent.moveAmount < intent.runExitThreshold)
 			{
-				// ó‚­‚È‚Á‚½F—P—\‚ÌŠÔ‚¾‚¯‘Ò‚Á‚Ä‚©‚ç•à‚«‚É–ß‚·
+				// æµ…ããªã£ãŸï¼šçŒ¶äºˆã®æ™‚é–“ã ã‘å¾…ã£ã¦ã‹ã‚‰æ­©ãã«æˆ»ã™
 				intent.runGraceTimer += elapsedTime;
 				if (intent.runGraceTimer >= intent.runGraceTime)
 				{
@@ -91,11 +91,11 @@ void PlayerIntentSystem::Update(entt::registry& registry, float elapsedTime, con
 			}
 			else
 			{
-				// ‚»‚ÌŠÔF¡‚Ìó‘Ô‚ğ•Û‚Â
+				// ãã®é–“ï¼šä»Šã®çŠ¶æ…‹ã‚’ä¿ã¤
 				intent.runGraceTimer = 0.0f;
 			}
 
-			// ƒ{ƒ^ƒ“‚ÌˆÓ}
+			// ãƒœã‚¿ãƒ³ã®æ„å›³
 			UpdateAction(intent.jump, input.jump.pressed, input.jump.held, intent.jumpBufferTime, elapsedTime);
 			UpdateAction(intent.dodge, input.dodge.pressed, input.dodge.held, intent.dodgeBufferTime, elapsedTime);
 		});

@@ -1,51 +1,51 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "entt.hpp"
 #include "Engine/ECS/Reflect.h"
 #include "Engine/ECS/Components/BaseCameraComponent.h"
 
-// ƒJƒƒ‰‚Ìí—Ş
+// ã‚«ãƒ¡ãƒ©ã®ç¨®é¡
 enum class GameCameraMode
 {
-	Follow, // ’Ç]ƒJƒƒ‰
+	Follow, // è¿½å¾“ã‚«ãƒ¡ãƒ©
 };
 
-// ƒQ[ƒ€ƒJƒƒ‰ƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct GameCameraComponent
 {
-	// ’²®—pƒJƒƒ‰ƒpƒ‰ƒ[ƒ^[
+	// èª¿æ•´ç”¨ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼
 	REFLECT_BEGIN(GameCameraComponent, "GameCamera")
 
-		// ’Ç]
-		REFLECT_FIELD(float, followDistance,  (4.4f), ("Follow Distance",    0.0f, 50.0f))  // ƒvƒŒƒCƒ„[‚©‚ç‚Ì‹——£
-		REFLECT_FIELD(float, followHeight,    (1.7f), ("Follow Height",      0.0f, 20.0f))  // –Ú‚Ì‚‚³
-		REFLECT_FIELD(float, followTargetYUp, (1.6f), ("Follow Target Y Up", 0.0f, 10.0f))  // ’‹“_‚Ì‚‚³
-		REFLECT_FIELD(float, fov,            (40.0f), ("Fov",               10.0f, 120.0f)) // Šî–{ FOV
+		// è¿½å¾“
+		REFLECT_FIELD(float, followDistance,  (4.4f), ("Follow Distance",    0.0f, 50.0f))  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ã®è·é›¢
+		REFLECT_FIELD(float, followHeight,    (1.7f), ("Follow Height",      0.0f, 20.0f))  // ç›®ã®é«˜ã•
+		REFLECT_FIELD(float, followTargetYUp, (1.6f), ("Follow Target Y Up", 0.0f, 10.0f))  // æ³¨è¦–ç‚¹ã®é«˜ã•
+		REFLECT_FIELD(float, fov,            (40.0f), ("Fov",               10.0f, 120.0f)) // åŸºæœ¬ FOV
 
-		// ‰ñ“]
-		REFLECT_FIELD(float, rotateSpeed, (2.0f), ("Rotate Speed", 0.0f, 10.0f)) // ‰ñ“]‘¬“x
-		REFLECT_FIELD(float, pitchMin,   (-0.8f), ("Pitch Min",   -1.5f, 1.5f))  // ã‰º‚ÌŠp“x‚Ì‰ºŒÀ
-		REFLECT_FIELD(float, pitchMax,    (1.0f), ("Pitch Max",   -1.5f, 1.5f))  // ã‰º‚ÌŠp“x‚ÌãŒÀ
+		// å›è»¢
+		REFLECT_FIELD(float, rotateSpeed, (2.0f), ("Rotate Speed", 0.0f, 10.0f)) // å›è»¢é€Ÿåº¦
+		REFLECT_FIELD(float, pitchMin,   (-0.8f), ("Pitch Min",   -1.5f, 1.5f))  // ä¸Šä¸‹ã®è§’åº¦ã®ä¸‹é™
+		REFLECT_FIELD(float, pitchMax,    (1.0f), ("Pitch Max",   -1.5f, 1.5f))  // ä¸Šä¸‹ã®è§’åº¦ã®ä¸Šé™
 
-		// •âŠÔ
-		REFLECT_FIELD(float, eyeLerpRatio,     (12.0f), ("Eye Lerp Ratio",    0.0f, 100.0f))  // eye ‚Ì XZ ‚ğA–ˆƒtƒŒ[ƒ€c‚è‚Ì‰½%‹l‚ß‚é‚©
-		REFLECT_FIELD(float, targetLerpRatio,  (24.0f), ("Target Lerp Ratio", 0.0f, 100.0f))  // target ‚Ì XZEY ‚ğA–ˆƒtƒŒ[ƒ€c‚è‚Ì‰½%‹l‚ß‚é‚©
-		REFLECT_FIELD(float, springStiffness, (200.0f), ("Spring Stiffness",  0.0f, 1000.0f)) // eye ‚Ì Y ‚Ì‚Î‚Ë‚Ì‹­‚³
-		REFLECT_FIELD(float, springDamping,    (20.0f), ("Spring Damping",    0.0f, 200.0f))  // eye ‚Ì Y ‚Ì‚Î‚Ë‚ÌŒ¸Š
+		// è£œé–“
+		REFLECT_FIELD(float, eyeLerpRatio,     (12.0f), ("Eye Lerp Ratio",    0.0f, 100.0f))  // eye ã® XZ ã‚’ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ®‹ã‚Šã®ä½•%è©°ã‚ã‚‹ã‹
+		REFLECT_FIELD(float, targetLerpRatio,  (24.0f), ("Target Lerp Ratio", 0.0f, 100.0f))  // target ã® XZãƒ»Y ã‚’ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ®‹ã‚Šã®ä½•%è©°ã‚ã‚‹ã‹
+		REFLECT_FIELD(float, springStiffness, (200.0f), ("Spring Stiffness",  0.0f, 1000.0f)) // eye ã® Y ã®ã°ã­ã®å¼·ã•
+		REFLECT_FIELD(float, springDamping,    (20.0f), ("Spring Damping",    0.0f, 200.0f))  // eye ã® Y ã®ã°ã­ã®æ¸›è¡°
 
-		// ó‘Ô
-		REFLECT_FIELD(float, yaw, (0.0f), ("Yaw", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¶‰E‚ÌŠp“x(rad)
-		REFLECT_FIELD(float, pitch, (0.3f), ("Pitch", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ã‰º‚ÌŠp“x(rad)
+		// çŠ¶æ…‹
+		REFLECT_FIELD(float, yaw, (0.0f), ("Yaw", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å·¦å³ã®è§’åº¦(rad)
+		REFLECT_FIELD(float, pitch, (0.3f), ("Pitch", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä¸Šä¸‹ã®è§’åº¦(rad)
 	
 	REFLECT_END()
 
-	// “y‘ä‚Ìo—Í
+	// åœŸå°ã®å‡ºåŠ›
 	BaseCameraComponent base;
 
-	// ƒJƒƒ‰‚Ìí—Ş
+	// ã‚«ãƒ¡ãƒ©ã®ç¨®é¡
 	GameCameraMode mode = GameCameraMode::Follow;
 
-	// ’Ç]‘ÎÛ
+	// è¿½å¾“å¯¾è±¡
 	entt::entity followTarget = entt::null;
 
 	bool initialized = false;

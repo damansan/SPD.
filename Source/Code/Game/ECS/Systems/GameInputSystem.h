@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Game/ECS/Components/GameInputComponent.h"
 #include "Engine/ECS/Components/ControllerComponent.h"
@@ -15,18 +15,18 @@ public:
     GameInputSystem(GameInputSystem&&) = delete;
     GameInputSystem& operator=(GameInputSystem&&) = delete;
 
-    // XV
-    // ControllerComponent + ControllerSettings ‚ğ‚à‚Æ‚É GameInputComponent ‚É•ÏŠ·‚·‚é
+    // æ›´æ–°
+    // ControllerComponent + ControllerSettings ã‚’ã‚‚ã¨ã« GameInputComponent ã«å¤‰æ›ã™ã‚‹
     void Update(entt::registry& registry, const ControllerSettings& settings);
 
 private:
-    // ƒfƒbƒhƒ][ƒ““K—piƒXƒeƒBƒbƒN—pj
+    // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³é©ç”¨ï¼ˆã‚¹ãƒ†ã‚£ãƒƒã‚¯ç”¨ï¼‰
     float ApplyStickDeadzone(float value, float deadzone);
 
-    // ƒfƒbƒhƒ][ƒ““K—piƒgƒŠƒK[—pj
+    // ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³é©ç”¨ï¼ˆãƒˆãƒªã‚¬ãƒ¼ç”¨ï¼‰
     float ApplyTriggerDeadzone(float value, float deadzone);
 
-	// ƒ{ƒ^ƒ“ó‘Ô‚ÌXV
+	// ãƒœã‚¿ãƒ³çŠ¶æ…‹ã®æ›´æ–°
     void UpdateButtonState(TriggerState& state, bool isHeldNow);
     void UpdateButtonState(ButtonState& state, bool isHeldNow);
 };

@@ -1,12 +1,12 @@
-#include "ImGuiManager.h"
+ï»¿#include "ImGuiManager.h"
 
 ImGuiManager::~ImGuiManager()
 {
-	// I—¹‰»
+	// çµ‚äº†åŒ–
 	Shutdown();
 }
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void ImGuiManager::Initialize(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* dc)
 {
 	IMGUI_CHECKVERSION();
@@ -14,12 +14,12 @@ void ImGuiManager::Initialize(HWND hWnd, ID3D11Device* device, ID3D11DeviceConte
 
 	ImGuiIO& io = ImGui::GetIO();
 
-	// ƒhƒbƒLƒ“ƒO—LŒø‰»
+	// ãƒ‰ãƒƒã‚­ãƒ³ã‚°æœ‰åŠ¹åŒ–
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//ƒ}ƒ‹ƒ`ƒrƒ…[ƒ|[ƒg—LŒø‰»
+	//ãƒãƒ«ãƒãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆæœ‰åŠ¹åŒ–
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-	// “ú–{ŒêƒtƒHƒ“ƒgİ’è
+	// æ—¥æœ¬èªãƒ•ã‚©ãƒ³ãƒˆè¨­å®š
 	io.Fonts->AddFontFromFileTTF(
 		"SystemData/Fonts/NotoSansJP-Regular.ttf",
 		16.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
@@ -27,17 +27,17 @@ void ImGuiManager::Initialize(HWND hWnd, ID3D11Device* device, ID3D11DeviceConte
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(device, dc);
 
-	ImGui::StyleColorsClassic(); // ƒNƒ‰ƒVƒbƒN
+	ImGui::StyleColorsClassic(); // ã‚¯ãƒ©ã‚·ãƒƒã‚¯
 }
 
-// ƒtƒŒ[ƒ€ŠJn
+// ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹
 void ImGuiManager::BeginFrame()
 {
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	// ƒhƒbƒLƒ“ƒOƒXƒy[ƒXi‰æ–Ê‘S‘Ìj
+	// ãƒ‰ãƒƒã‚­ãƒ³ã‚°ã‚¹ãƒšãƒ¼ã‚¹ï¼ˆç”»é¢å…¨ä½“ï¼‰
 	ImGuiWindowFlags dockFlags =
 		ImGuiWindowFlags_NoDocking |
 		ImGuiWindowFlags_NoTitleBar |
@@ -60,20 +60,20 @@ void ImGuiManager::BeginFrame()
 	ImGui::Begin("DockSpace", nullptr, dockFlags);
 	ImGui::PopStyleVar(3);
 
-	// ƒhƒbƒLƒ“ƒOƒXƒy[ƒXID¶¬
+	// ãƒ‰ãƒƒã‚­ãƒ³ã‚°ã‚¹ãƒšãƒ¼ã‚¹IDç”Ÿæˆ
 	ImGuiID dockSpaceId = ImGui::GetID("MainDockSpace");
 	ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }
 
-// ƒtƒŒ[ƒ€I—¹/•`‰æ
+// ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†/æç”»
 void ImGuiManager::EndFrame()
 {
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	// ƒ}ƒ‹ƒ`ƒrƒ…[ƒ|[ƒgXV
+	// ãƒãƒ«ãƒãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆæ›´æ–°
 	ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
@@ -82,7 +82,7 @@ void ImGuiManager::EndFrame()
 	}
 }
 
-// I—¹‰»
+// çµ‚äº†åŒ–
 void ImGuiManager::Shutdown()
 {
 	ImGui_ImplDX11_Shutdown();
@@ -90,7 +90,7 @@ void ImGuiManager::Shutdown()
 	ImGui::DestroyContext();
 }
 
-// ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒWˆ—
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 bool ImGuiManager::HandleMessage(HWND hWnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wparam, lparam);

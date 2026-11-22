@@ -1,4 +1,4 @@
-#include "StateMachineData.h"
+ï»¿#include "StateMachineData.h"
 #include <algorithm>
 #include <filesystem>
 #include <unordered_set>
@@ -9,7 +9,7 @@
 
 namespace
 {
-	// ƒGƒfƒBƒ^ã‚ÌˆÊ’u
+	// ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®ä½ç½®
 	nlohmann::ordered_json ToJson(const EditorPosition& p)
 	{
 		nlohmann::ordered_json j;
@@ -25,7 +25,7 @@ namespace
 		return p;
 	}
 
-	// ‘JˆÚE‚Â‚È‚ª‚è‚Ì‹¤’Ê•”•ª(always / condition)
+	// é·ç§»ãƒ»ã¤ãªãŒã‚Šã®å…±é€šéƒ¨åˆ†(always / condition)
 	void WriteCommon(nlohmann::ordered_json& j, bool always, const ConditionGraph& condition)
 	{
 		j["always"] = always;
@@ -37,7 +37,7 @@ namespace
 		if (j.contains("condition")) ConditionGraphFromJson(condition, j["condition"]);
 	}
 
-	// ƒuƒŒƒ“ƒh‚Ìİ’è
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ã®è¨­å®š
 	void WriteBlend(nlohmann::ordered_json& j, const BlendSetting& blend)
 	{
 		j["blend"] = blend.enabled;
@@ -49,7 +49,7 @@ namespace
 		blend.duration = j.value("blendDuration", 0.2f);
 	}
 
-	// ‘JˆÚ
+	// é·ç§»
 	nlohmann::ordered_json ToJson(const StateTransition& t)
 	{
 		nlohmann::ordered_json j;
@@ -69,7 +69,7 @@ namespace
 		return t;
 	}
 
-	// “¯‚¶ƒOƒ‹[ƒv‚Ì’†‚Å—×‚Ì‚à‚Ì‚Æ“ü‚ê‘Ö‚¦‚é
+	// åŒã˜ã‚°ãƒ«ãƒ¼ãƒ—ã®ä¸­ã§éš£ã®ã‚‚ã®ã¨å…¥ã‚Œæ›¿ãˆã‚‹
 	template<typename T, typename GroupFn>
 	bool MoveInGroup(std::vector<T>& list, int linkId, int offset, GroupFn groupOf)
 	{
@@ -80,7 +80,7 @@ namespace
 		}
 		if (index < 0 || offset == 0) return false;
 
-		// offset‚ÌŒü‚«‚ÉA“¯‚¶ƒOƒ‹[ƒv‚Ì—v‘f‚ğ’T‚µ‚Ä“ü‚ê‘Ö‚¦‚é
+		// offsetã®å‘ãã«ã€åŒã˜ã‚°ãƒ«ãƒ¼ãƒ—ã®è¦ç´ ã‚’æ¢ã—ã¦å…¥ã‚Œæ›¿ãˆã‚‹
 		int group = groupOf(list[index]);
 		int step = (offset < 0) ? -1 : 1;
 		for (int i = index + step; i >= 0 && i < static_cast<int>(list.size()); i += step)
@@ -91,11 +91,11 @@ namespace
 				return true;
 			}
 		}
-		return false; // ’[‚È‚Ì‚Å“®‚©‚¹‚È‚¢
+		return false; // ç«¯ãªã®ã§å‹•ã‹ã›ãªã„
 	}
 }
 
-// ŒŸõ 
+// æ¤œç´¢ 
 const ClipNode* ChildGraph::FindClip(int clipId) const
 {
 	for (const auto& c : clips)
@@ -141,7 +141,7 @@ const StateTransition* StateMachineData::FindTransition(int transitionId) const
 
 
 
-// ‹ó‚ÌƒOƒ‰ƒt‚É‚·‚é
+// ç©ºã®ã‚°ãƒ©ãƒ•ã«ã™ã‚‹
 void StateMachineData::Clear()
 {
 	entry = StateMachineEntry{};
@@ -167,7 +167,7 @@ bool StateMachineData::RenameState(int stateId, const std::string& newName)
 	if (!s || newName.empty()) return false;
 	if (s->name == newName) return true;
 
-	// ‘¼‚ÌState‚Æd•¡‚·‚é–¼‘O‚Í•t‚¯‚ç‚ê‚È‚¢
+	// ä»–ã®Stateã¨é‡è¤‡ã™ã‚‹åå‰ã¯ä»˜ã‘ã‚‰ã‚Œãªã„
 	if (FindStateByName(newName)) return false;
 
 	s->name = newName;
@@ -175,7 +175,7 @@ bool StateMachineData::RenameState(int stateId, const std::string& newName)
 }
 void StateMachineData::RemoveState(int stateId)
 {
-	// Á‚¦‚é‘JˆÚF‚±‚ÌState‚©‚ço‚é‘JˆÚ‚ÆA‚±‚ÌState‚É“ü‚Á‚Ä‚­‚é‘JˆÚ
+	// æ¶ˆãˆã‚‹é·ç§»ï¼šã“ã®Stateã‹ã‚‰å‡ºã‚‹é·ç§»ã¨ã€ã“ã®Stateã«å…¥ã£ã¦ãã‚‹é·ç§»
 	std::vector<int> removedTransitions;
 	for (const auto& t : entry.transitions)
 	{
@@ -189,20 +189,20 @@ void StateMachineData::RemoveState(int stateId)
 		}
 	}
 
-	// ‘JˆÚ‚Ìíœ(s‚«æ‚ÌƒGƒ“ƒgƒŠ[‚àˆê‚ÉÁ‚¦‚é)
+	// é·ç§»ã®å‰Šé™¤(è¡Œãå…ˆã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‚‚ä¸€ç·’ã«æ¶ˆãˆã‚‹)
 	for (int transitionId : removedTransitions)
 	{
 		RemoveTransition(transitionId);
 	}
 
-	// State–{‘Ì‚Ìíœ
+	// Stateæœ¬ä½“ã®å‰Šé™¤
 	states.erase(
 		std::remove_if(states.begin(), states.end(),
 			[stateId](const StateNode& s) { return s.id == stateId; }),
 		states.end());
 }
 
-// ‘JˆÚ
+// é·ç§»
 int StateMachineData::AddTransition(int fromStateId, int toStateId)
 {
 	if (!FindState(toStateId)) return -1;
@@ -221,9 +221,9 @@ int StateMachineData::AddTransition(int fromStateId, int toStateId)
 	StateTransition t;
 	t.id = GenerateId();
 	t.toStateId = toStateId;
-	owner->push_back(t); // ÅŒã‚É’Ç‰Á(—Dæ“x‚Íˆê”Ô‰º)
+	owner->push_back(t); // æœ€å¾Œã«è¿½åŠ (å„ªå…ˆåº¦ã¯ä¸€ç•ªä¸‹)
 
-	// s‚«æ‚ÌState‚É‚ÍA‚±‚Ì‘JˆÚ‚ÌƒGƒ“ƒgƒŠ[‚ª©“®‚Å‘¶İ‚·‚é
+	// è¡Œãå…ˆã®Stateã«ã¯ã€ã“ã®é·ç§»ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãŒè‡ªå‹•ã§å­˜åœ¨ã™ã‚‹
 	return t.id;
 }
 void StateMachineData::RemoveTransition(int transitionId)
@@ -231,7 +231,7 @@ void StateMachineData::RemoveTransition(int transitionId)
 	std::vector<StateTransition>* owner = FindTransitionOwner(transitionId);
 	if (!owner) return;
 
-	// s‚«æ‚ÌState‚©‚çA‚±‚Ì‘JˆÚ‚ÌƒGƒ“ƒgƒŠ[‚ÉŠÖ‚·‚é‚à‚Ì‚ğÁ‚·
+	// è¡Œãå…ˆã®Stateã‹ã‚‰ã€ã“ã®é·ç§»ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã«é–¢ã™ã‚‹ã‚‚ã®ã‚’æ¶ˆã™
 	int toStateId = -1;
 	for (const auto& t : *owner)
 	{
@@ -247,7 +247,7 @@ void StateMachineData::RemoveTransition(int transitionId)
 		to->child.entryEditorPos.erase(transitionId);
 	}
 
-	// ‘JˆÚ–{‘Ì‚Ìíœ
+	// é·ç§»æœ¬ä½“ã®å‰Šé™¤
 	owner->erase(
 		std::remove_if(owner->begin(), owner->end(),
 			[transitionId](const StateTransition& t) { return t.id == transitionId; }),
@@ -271,7 +271,7 @@ bool StateMachineData::MoveTransition(int transitionId, int offset)
 	return true;
 }
 
-// qŠK‘wFƒNƒŠƒbƒv
+// å­éšå±¤ï¼šã‚¯ãƒªãƒƒãƒ—
 int StateMachineData::AddClip(int stateId, const std::string& name, const EditorPosition& pos)
 {
 	StateNode* s = FindState(stateId);
@@ -289,7 +289,7 @@ void StateMachineData::RemoveClip(int stateId, int clipId)
 	StateNode* s = FindState(stateId);
 	if (!s) return;
 
-	// ‚±‚ÌƒNƒŠƒbƒv‚É‚Â‚È‚ª‚Á‚Ä‚¢‚½‚à‚Ì‚ğÁ‚·
+	// ã“ã®ã‚¯ãƒªãƒƒãƒ—ã«ã¤ãªãŒã£ã¦ã„ãŸã‚‚ã®ã‚’æ¶ˆã™
 	auto& entryLinks = s->child.entryLinks;
 	entryLinks.erase(
 		std::remove_if(entryLinks.begin(), entryLinks.end(),
@@ -302,7 +302,7 @@ void StateMachineData::RemoveClip(int stateId, int clipId)
 			[clipId](const ClipLink& l) { return l.fromClipId == clipId || l.toClipId == clipId; }),
 		clipLinks.end());
 
-	// ƒNƒŠƒbƒv–{‘Ì‚Ìíœ
+	// ã‚¯ãƒªãƒƒãƒ—æœ¬ä½“ã®å‰Šé™¤
 	auto& clips = s->child.clips;
 	clips.erase(
 		std::remove_if(clips.begin(), clips.end(),
@@ -310,13 +310,13 @@ void StateMachineData::RemoveClip(int stateId, int clipId)
 		clips.end());
 }
 
-// qŠK‘wF(ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv)
+// å­éšå±¤ï¼š(ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—)
 int StateMachineData::AddEntryLink(int stateId, int transitionId, int toClipId)
 {
 	StateNode* s = FindState(stateId);
 	if (!s || !s->child.FindClip(toClipId)) return -1;
 
-	// ‚±‚ÌState‚É“ü‚Á‚Ä‚­‚é‘JˆÚ‚Å‚È‚¯‚ê‚ÎAƒGƒ“ƒgƒŠ[‚Í‘¶İ‚µ‚È‚¢
+	// ã“ã®Stateã«å…¥ã£ã¦ãã‚‹é·ç§»ã§ãªã‘ã‚Œã°ã€ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã¯å­˜åœ¨ã—ãªã„
 	const StateTransition* t = FindTransition(transitionId);
 	if (!t || t->toStateId != stateId) return -1;
 
@@ -339,7 +339,7 @@ void StateMachineData::RemoveEntryLink(int stateId, int linkId)
 		links.end());
 }
 
-// —Dæ“x‚Ì“ü‚ê‘Ö‚¦
+// å„ªå…ˆåº¦ã®å…¥ã‚Œæ›¿ãˆ
 bool StateMachineData::MoveEntryLink(int stateId, int linkId, int offset)
 {
 	StateNode* s = FindState(stateId);
@@ -349,12 +349,12 @@ bool StateMachineData::MoveEntryLink(int stateId, int linkId, int offset)
 		[](const EntryLink& l) { return l.entryTransitionId; });
 }
 
-// qŠK‘wF(ƒNƒŠƒbƒv ¨ ƒNƒŠƒbƒv)
+// å­éšå±¤ï¼š(ã‚¯ãƒªãƒƒãƒ— â†’ ã‚¯ãƒªãƒƒãƒ—)
 int StateMachineData::AddClipLink(int stateId, int fromClipId, int toClipId)
 {
 	StateNode* s = FindState(stateId);
 	if (!s) return -1;
-	if (fromClipId == toClipId) return -1; // ©•ª©g‚Ö‚Ì‚Â‚È‚ª‚è‚Íì‚ç‚È‚¢
+	if (fromClipId == toClipId) return -1; // è‡ªåˆ†è‡ªèº«ã¸ã®ã¤ãªãŒã‚Šã¯ä½œã‚‰ãªã„
 	if (!s->child.FindClip(fromClipId) || !s->child.FindClip(toClipId)) return -1;
 
 	ClipLink l;
@@ -376,7 +376,7 @@ void StateMachineData::RemoveClipLink(int stateId, int linkId)
 		links.end());
 }
 
-// —Dæ“x‚Ì“ü‚ê‘Ö‚¦
+// å„ªå…ˆåº¦ã®å…¥ã‚Œæ›¿ãˆ
 bool StateMachineData::MoveClipLink(int stateId, int linkId, int offset)
 {
 	StateNode* s = FindState(stateId);
@@ -388,90 +388,90 @@ bool StateMachineData::MoveClipLink(int stateId, int linkId, int offset)
 
 
 
-// ®‡«ƒ`ƒFƒbƒN
+// æ•´åˆæ€§ãƒã‚§ãƒƒã‚¯
 bool StateMachineData::Validate(const std::string& sourceName) const
 {
 	int errorCount = 0;
 
 	auto error = [&](const std::string& message)
 		{
-			Log(u8"[StateMachine] ƒGƒ‰[(%s): %s", LogPath(sourceName).c_str(), message.c_str());
+			Log("[StateMachine] ã‚¨ãƒ©ãƒ¼(%s): %s", LogPath(sourceName).c_str(), message.c_str());
 			++errorCount;
 		};
 	auto warning = [&](const std::string& message)
 		{
-			Log(u8"[StateMachine] Œx(%s): %s", LogPath(sourceName).c_str(), message.c_str());
+			Log("[StateMachine] è­¦å‘Š(%s): %s", LogPath(sourceName).c_str(), message.c_str());
 		};
 
-	// ID‚Ìd•¡
+	// IDã®é‡è¤‡
 	std::unordered_set<int> usedIds;
 	auto checkId = [&](int id, const std::string& what)
 		{
 			if (id < 0)
 			{
-				error(what + u8" ‚ÌID‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+				error(what + " ã®IDãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“");
 			}
 			else if (!usedIds.insert(id).second)
 			{
-				error(what + u8" ‚ÌID " + std::to_string(id) + u8" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·");
+				error(what + " ã®ID " + std::to_string(id) + " ãŒé‡è¤‡ã—ã¦ã„ã¾ã™");
 			}
 		};
 
-	for (const auto& t : entry.transitions) checkId(t.id, u8"Entry‚Ì‘JˆÚ");
+	for (const auto& t : entry.transitions) checkId(t.id, "Entryã®é·ç§»");
 	for (const auto& s : states)
 	{
-		checkId(s.id, u8"Stateu" + s.name + u8"v");
-		for (const auto& t : s.transitions)        checkId(t.id, u8"u" + s.name + u8"v‚Ì‘JˆÚ");
-		for (const auto& c : s.child.clips)        checkId(c.id, u8"u" + s.name + u8"v‚ÌƒNƒŠƒbƒv");
-		for (const auto& l : s.child.entryLinks)   checkId(l.id, u8"u" + s.name + u8"v‚ÌƒGƒ“ƒgƒŠ[‚Ì‚Â‚È‚ª‚è");
-		for (const auto& l : s.child.clipLinks)    checkId(l.id, u8"u" + s.name + u8"v‚ÌƒNƒŠƒbƒv‚Ì‚Â‚È‚ª‚è");
+		checkId(s.id, "Stateã€Œ" + s.name + "ã€");
+		for (const auto& t : s.transitions)        checkId(t.id, "ã€Œ" + s.name + "ã€ã®é·ç§»");
+		for (const auto& c : s.child.clips)        checkId(c.id, "ã€Œ" + s.name + "ã€ã®ã‚¯ãƒªãƒƒãƒ—");
+		for (const auto& l : s.child.entryLinks)   checkId(l.id, "ã€Œ" + s.name + "ã€ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ã¤ãªãŒã‚Š");
+		for (const auto& l : s.child.clipLinks)    checkId(l.id, "ã€Œ" + s.name + "ã€ã®ã‚¯ãƒªãƒƒãƒ—ã®ã¤ãªãŒã‚Š");
 	}
 
-	// State‚Ì–¼‘O(Às‘¤‚Í–¼‘O‚ÅQÆ‚·‚é‚Ì‚ÅA‹ó‚Æd•¡‚ğ‹Ö~)
+	// Stateã®åå‰(å®Ÿè¡Œå´ã¯åå‰ã§å‚ç…§ã™ã‚‹ã®ã§ã€ç©ºã¨é‡è¤‡ã‚’ç¦æ­¢)
 	std::unordered_set<std::string> usedNames;
 	for (const auto& s : states)
 	{
 		if (s.name.empty())
 		{
-			error(u8"–¼‘O‚Ì–³‚¢State‚ª‚ ‚è‚Ü‚·(ID " + std::to_string(s.id) + u8")");
+			error("åå‰ã®ç„¡ã„StateãŒã‚ã‚Šã¾ã™(ID " + std::to_string(s.id) + ")");
 		}
 		else if (!usedNames.insert(s.name).second)
 		{
-			error(u8"State–¼u" + s.name + u8"v‚ªd•¡‚µ‚Ä‚¢‚Ü‚·");
+			error("Stateåã€Œ" + s.name + "ã€ãŒé‡è¤‡ã—ã¦ã„ã¾ã™");
 		}
 	}
 
 	// Entry
 	if (entry.transitions.empty())
 	{
-		error(u8"Entry‚©‚ço‚é‘JˆÚ‚ª‚ ‚è‚Ü‚¹‚ñ");
+		error("Entryã‹ã‚‰å‡ºã‚‹é·ç§»ãŒã‚ã‚Šã¾ã›ã‚“");
 	}
 
-	// ‘JˆÚE‚Â‚È‚ª‚è‚Ì‹¤’Êƒ`ƒFƒbƒN
+	// é·ç§»ãƒ»ã¤ãªãŒã‚Šã®å…±é€šãƒã‚§ãƒƒã‚¯
 	auto checkCommon = [&](bool always, const ConditionGraph& condition, const std::string& what)
 		{
 			if (!always && condition.IsEmpty())
 			{
-				error(what + u8" ‚ÌğŒ‚ª‹ó‚Å‚·(í‚É¬—§‚³‚¹‚éê‡‚Íalways‚ğw’è)");
+				error(what + " ã®æ¡ä»¶ãŒç©ºã§ã™(å¸¸ã«æˆç«‹ã•ã›ã‚‹å ´åˆã¯alwaysã‚’æŒ‡å®š)");
 			}
 
-			// Getter‚ª“Ç‚ŞƒtƒB[ƒ‹ƒh‚ªA¡‚ÌƒR[ƒh‚É‚ ‚é‚©(–¼‘O‚ğ•Ï‚¦‚½EÁ‚µ‚½‚Æ‚«‚É‹C‚Ã‚¯‚é‚æ‚¤‚É)
+			// GetterãŒèª­ã‚€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒã€ä»Šã®ã‚³ãƒ¼ãƒ‰ã«ã‚ã‚‹ã‹(åå‰ã‚’å¤‰ãˆãŸãƒ»æ¶ˆã—ãŸã¨ãã«æ°—ã¥ã‘ã‚‹ã‚ˆã†ã«)
 			for (const auto& g : condition.getterNodes)
 			{
-				if (g.componentName.empty() || g.fieldName.empty()) continue; // –¢İ’è‚ÍƒGƒfƒBƒ^‚Å•\¦‚·‚é
+				if (g.componentName.empty() || g.fieldName.empty()) continue; // æœªè¨­å®šã¯ã‚¨ãƒ‡ã‚£ã‚¿ã§è¡¨ç¤ºã™ã‚‹
 				if (!Reflection::FindField(g.componentName, g.fieldName))
 				{
-					error(what + u8" ‚ÌğŒ‚ªA‘¶İ‚µ‚È‚¢ƒtƒB[ƒ‹ƒhu" + g.componentName + "." + g.fieldName + u8"v‚ğ“Ç‚ñ‚Å‚¢‚Ü‚·");
+					error(what + " ã®æ¡ä»¶ãŒã€å­˜åœ¨ã—ãªã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã€Œ" + g.componentName + "." + g.fieldName + "ã€ã‚’èª­ã‚“ã§ã„ã¾ã™");
 				}
 			}
 
-			// Œˆ‚Ü‚è‚É‡‚í‚È‚¢ƒŠƒ“ƒN(ƒGƒfƒBƒ^‚ÅÔ‚­•\¦‚³‚ê‚é‚à‚Ì)
+			// æ±ºã¾ã‚Šã«åˆã‚ãªã„ãƒªãƒ³ã‚¯(ã‚¨ãƒ‡ã‚£ã‚¿ã§èµ¤ãè¡¨ç¤ºã•ã‚Œã‚‹ã‚‚ã®)
 			for (const auto& l : condition.links)
 			{
 				std::string reason;
 				if (!condition.IsLinkValid(l, &reason))
 				{
-					error(what + u8" ‚ÌğŒ‚ÉAŒˆ‚Ü‚è‚É‡‚í‚È‚¢ƒŠƒ“ƒN‚ª‚ ‚è‚Ü‚·(ƒŠƒ“ƒNID " + std::to_string(l.id) + u8"): " + reason);
+					error(what + " ã®æ¡ä»¶ã«ã€æ±ºã¾ã‚Šã«åˆã‚ãªã„ãƒªãƒ³ã‚¯ãŒã‚ã‚Šã¾ã™(ãƒªãƒ³ã‚¯ID " + std::to_string(l.id) + "): " + reason);
 				}
 			}
 		};
@@ -480,31 +480,31 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 		{
 			if (blend.enabled && blend.duration <= 0.0f)
 			{
-				warning(what + u8" ‚ÌƒuƒŒƒ“ƒhŠÔ‚ª0ˆÈ‰º‚Å‚·(ƒuƒŒƒ“ƒh‚µ‚È‚¢ˆµ‚¢‚É‚È‚è‚Ü‚·)");
+				warning(what + " ã®ãƒ–ãƒ¬ãƒ³ãƒ‰æ™‚é–“ãŒ0ä»¥ä¸‹ã§ã™(ãƒ–ãƒ¬ãƒ³ãƒ‰ã—ãªã„æ‰±ã„ã«ãªã‚Šã¾ã™)");
 			}
 		};
 
 	auto checkTransition = [&](const StateTransition& t, const std::string& fromName)
 		{
-			std::string what = fromName + u8" ‚Ì‘JˆÚ(ID " + std::to_string(t.id) + u8")";
+			std::string what = fromName + " ã®é·ç§»(ID " + std::to_string(t.id) + ")";
 			if (!FindState(t.toStateId))
 			{
-				error(what + u8" ‚Ìs‚«æ‚ÌState‚ª‚ ‚è‚Ü‚¹‚ñ");
+				error(what + " ã®è¡Œãå…ˆã®StateãŒã‚ã‚Šã¾ã›ã‚“");
 			}
 			checkCommon(t.always, t.condition, what);
 			checkBlend(t.blend, what);
 		};
 
-	for (const auto& t : entry.transitions) checkTransition(t, u8"Entry");
+	for (const auto& t : entry.transitions) checkTransition(t, "Entry");
 	for (const auto& s : states)
 	{
-		for (const auto& t : s.transitions) checkTransition(t, u8"u" + s.name + u8"v");
+		for (const auto& t : s.transitions) checkTransition(t, "ã€Œ" + s.name + "ã€");
 	}
 
-	// qƒOƒ‰ƒt
+	// å­ã‚°ãƒ©ãƒ•
 	for (const auto& s : states)
 	{
-		// ‚±‚ÌState‚É“ü‚Á‚Ä‚­‚é‘JˆÚ‚ÌID
+		// ã“ã®Stateã«å…¥ã£ã¦ãã‚‹é·ç§»ã®ID
 		std::vector<int> incoming;
 		for (const auto& t : entry.transitions)
 		{
@@ -518,43 +518,43 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 			}
 		}
 
-		// ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv
+		// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—
 		for (const auto& l : s.child.entryLinks)
 		{
-			std::string what = u8"u" + s.name + u8"v‚ÌƒGƒ“ƒgƒŠ[‚Ì‚Â‚È‚ª‚è(ID " + std::to_string(l.id) + u8")";
+			std::string what = "ã€Œ" + s.name + "ã€ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ã¤ãªãŒã‚Š(ID " + std::to_string(l.id) + ")";
 			if (std::find(incoming.begin(), incoming.end(), l.entryTransitionId) == incoming.end())
 			{
-				error(what + u8" ‚É‘Î‰‚·‚éA“ü‚Á‚Ä‚­‚é‘JˆÚ‚ª‚ ‚è‚Ü‚¹‚ñ");
+				error(what + " ã«å¯¾å¿œã™ã‚‹ã€å…¥ã£ã¦ãã‚‹é·ç§»ãŒã‚ã‚Šã¾ã›ã‚“");
 			}
 			if (!s.child.FindClip(l.toClipId))
 			{
-				error(what + u8" ‚Ìs‚«æ‚ÌƒNƒŠƒbƒv‚ª‚ ‚è‚Ü‚¹‚ñ");
+				error(what + " ã®è¡Œãå…ˆã®ã‚¯ãƒªãƒƒãƒ—ãŒã‚ã‚Šã¾ã›ã‚“");
 			}
 			checkCommon(l.always, l.condition, what);
 		}
 
-		// ‚Â‚È‚ª‚è‚Ì–³‚¢ƒGƒ“ƒgƒŠ[
+		// ã¤ãªãŒã‚Šã®ç„¡ã„ã‚¨ãƒ³ãƒˆãƒªãƒ¼
 		for (int transitionId : incoming)
 		{
 			bool connected = std::any_of(s.child.entryLinks.begin(), s.child.entryLinks.end(),
 				[transitionId](const EntryLink& l) { return l.entryTransitionId == transitionId; });
 			if (!connected)
 			{
-				error(u8"u" + s.name + u8"v‚ÉA‚Ç‚ÌƒNƒŠƒbƒv‚É‚à‚Â‚È‚ª‚Á‚Ä‚¢‚È‚¢ƒGƒ“ƒgƒŠ[‚ª‚ ‚è‚Ü‚·(‘JˆÚID " + std::to_string(transitionId) + u8")");
+				error("ã€Œ" + s.name + "ã€ã«ã€ã©ã®ã‚¯ãƒªãƒƒãƒ—ã«ã‚‚ã¤ãªãŒã£ã¦ã„ãªã„ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãŒã‚ã‚Šã¾ã™(é·ç§»ID " + std::to_string(transitionId) + ")");
 			}
 		}
 
-		// ƒNƒŠƒbƒv ¨ ƒNƒŠƒbƒv
+		// ã‚¯ãƒªãƒƒãƒ— â†’ ã‚¯ãƒªãƒƒãƒ—
 		for (const auto& l : s.child.clipLinks)
 		{
-			std::string what = u8"u" + s.name + u8"v‚ÌƒNƒŠƒbƒv‚Ì‚Â‚È‚ª‚è(ID " + std::to_string(l.id) + u8")";
+			std::string what = "ã€Œ" + s.name + "ã€ã®ã‚¯ãƒªãƒƒãƒ—ã®ã¤ãªãŒã‚Š(ID " + std::to_string(l.id) + ")";
 			if (!s.child.FindClip(l.fromClipId))
 			{
-				error(what + u8" ‚ÌŒ³‚ÌƒNƒŠƒbƒv‚ª‚ ‚è‚Ü‚¹‚ñ");
+				error(what + " ã®å…ƒã®ã‚¯ãƒªãƒƒãƒ—ãŒã‚ã‚Šã¾ã›ã‚“");
 			}
 			if (!s.child.FindClip(l.toClipId))
 			{
-				error(what + u8" ‚Ìs‚«æ‚ÌƒNƒŠƒbƒv‚ª‚ ‚è‚Ü‚¹‚ñ");
+				error(what + " ã®è¡Œãå…ˆã®ã‚¯ãƒªãƒƒãƒ—ãŒã‚ã‚Šã¾ã›ã‚“");
 			}
 			checkCommon(l.always, l.condition, what);
 			checkBlend(l.blend, what);
@@ -589,7 +589,7 @@ nlohmann::ordered_json StateMachineData::ToJson() const
 		js["transitions"] = nlohmann::json::array();
 		for (const auto& t : s.transitions) js["transitions"].push_back(::ToJson(t));
 
-		// qƒOƒ‰ƒt
+		// å­ã‚°ãƒ©ãƒ•
 		nlohmann::ordered_json jc;
 		jc["clips"] = nlohmann::json::array();
 		for (const auto& c : s.child.clips)
@@ -627,7 +627,7 @@ nlohmann::ordered_json StateMachineData::ToJson() const
 			jc["clipLinks"].push_back(jl);
 		}
 
-		// ƒGƒ“ƒgƒŠ[‚ÌƒGƒfƒBƒ^ã‚ÌˆÊ’u (ƒL[‚ÍA“ü‚Á‚Ä‚­‚é‘JˆÚ‚ÌID)
+		// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®ä½ç½® (ã‚­ãƒ¼ã¯ã€å…¥ã£ã¦ãã‚‹é·ç§»ã®ID)
 		nlohmann::ordered_json jentries = nlohmann::json::array();
 		for (const auto& [transitionId, pos] : s.child.entryEditorPos)
 		{
@@ -657,7 +657,7 @@ bool StateMachineData::FromJson(const nlohmann::json& j, const std::string& sour
 	int version = j.value("version", 0);
 	if (version != kVersion)
 	{
-		Log(u8"[StateMachine] ƒGƒ‰[(%s): ‘Î‰‚µ‚Ä‚¢‚È‚¢Œ`®iversion %dj", LogPath(sourceName).c_str(), version);		
+		Log("[StateMachine] ã‚¨ãƒ©ãƒ¼(%s): å¯¾å¿œã—ã¦ã„ãªã„å½¢å¼ï¼ˆversion %dï¼‰", LogPath(sourceName).c_str(), version);		
 		return false;
 	}
 
@@ -757,7 +757,7 @@ bool StateMachineData::FromJson(const nlohmann::json& j, const std::string& sour
 		}
 	}
 
-	// Ì”Ô‚ÍAƒtƒ@ƒCƒ‹‚Ì’l‚ÆAÀÛ‚Ég‚í‚ê‚Ä‚¢‚éÅ‘åID‚Ì‘å‚«‚¢‚Ù‚¤‚É‡‚í‚¹‚é
+	// æ¡ç•ªã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ã®å€¤ã¨ã€å®Ÿéš›ã«ä½¿ã‚ã‚Œã¦ã„ã‚‹æœ€å¤§IDã®å¤§ãã„ã»ã†ã«åˆã‚ã›ã‚‹
 	int maxId = 0;
 	for (const auto& t : entry.transitions) maxId = (std::max)(maxId, t.id);
 	for (const auto& s : states)
@@ -773,13 +773,13 @@ bool StateMachineData::FromJson(const nlohmann::json& j, const std::string& sour
 	return Validate(sourceName);
 }
 
-// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 std::string StateMachineData::GetFilePath(const std::string& modelPath)
 {
 	return GetModelDataFilePath(modelPath, DataFileKind::StateGraph);
 }
 
-// •ÒW—p‚ÌŒŸõ
+// ç·¨é›†ç”¨ã®æ¤œç´¢
 StateNode* StateMachineData::FindState(int stateId)
 {
 	return const_cast<StateNode*>(std::as_const(*this).FindState(stateId));
@@ -789,13 +789,13 @@ StateTransition* StateMachineData::FindTransition(int transitionId)
 	return const_cast<StateTransition*>(std::as_const(*this).FindTransition(transitionId));
 }
 
-// ‘¼‚ÌState‚Æd•¡‚µ‚È‚¢–¼‘O‚ğì‚é
+// ä»–ã®Stateã¨é‡è¤‡ã—ãªã„åå‰ã‚’ä½œã‚‹
 std::string StateMachineData::MakeUniqueStateName(const std::string& baseName) const
 {
 	std::string base = baseName.empty() ? "State" : baseName;
 	if (!FindStateByName(base)) return base;
 
-	// “¯‚¶–¼‘O‚ª‚ ‚ê‚ÎA––”ö‚É”Ô†‚ğ•t‚¯‚é("New State 1"A"New State 2"c)
+	// åŒã˜åå‰ãŒã‚ã‚Œã°ã€æœ«å°¾ã«ç•ªå·ã‚’ä»˜ã‘ã‚‹("New State 1"ã€"New State 2"â€¦)
 	for (int i = 1; ; ++i)
 	{
 		std::string name = base + " " + std::to_string(i);
@@ -803,7 +803,7 @@ std::string StateMachineData::MakeUniqueStateName(const std::string& baseName) c
 	}
 }
 
-// ‘JˆÚ‚ğ‚Á‚Ä‚¢‚éƒŠƒXƒg(EntryA‚Ü‚½‚Í‚Ç‚ê‚©‚ÌState)‚ğ’T‚·
+// é·ç§»ã‚’æŒã£ã¦ã„ã‚‹ãƒªã‚¹ãƒˆ(Entryã€ã¾ãŸã¯ã©ã‚Œã‹ã®State)ã‚’æ¢ã™
 std::vector<StateTransition>* StateMachineData::FindTransitionOwner(int transitionId)
 {
 	for (const auto& t : entry.transitions)

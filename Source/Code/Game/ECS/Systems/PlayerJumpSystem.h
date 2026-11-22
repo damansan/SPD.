@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/SceneContext.h"
 

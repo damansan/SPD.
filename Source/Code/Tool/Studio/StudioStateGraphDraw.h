@@ -1,25 +1,25 @@
-#pragma once
+ï»¿#pragma once
 #include <imgui.h>
 
-// StateƒOƒ‰ƒt‚Åg—p‚·‚é‹¤’Êˆ—
+// Stateã‚°ãƒ©ãƒ•ã§ä½¿ç”¨ã™ã‚‹å…±é€šå‡¦ç†
 namespace StateGraphDraw
 {
-	// ‹éŒ`‚Ì’†S‚©‚çtarget‚ÖL‚Î‚µ‚½ü‚ªA‹éŒ`‚Ì‰‚ÆŒğ‚í‚é“_
+	// çŸ©å½¢ã®ä¸­å¿ƒã‹ã‚‰targetã¸ä¼¸ã°ã—ãŸç·šãŒã€çŸ©å½¢ã®ç¸ã¨äº¤ã‚ã‚‹ç‚¹
 	ImVec2 GetEdgePoint(const ImVec2& rectMin, const ImVec2& rectMax, const ImVec2& target);
 
-	// 2‚Â‚Ìƒm[ƒh‚ğŒ‹‚ÔƒŠƒ“ƒN‚Ìn“_‚ÆI“_‚ğ‹‚ß‚é
+	// 2ã¤ã®ãƒãƒ¼ãƒ‰ã‚’çµã¶ãƒªãƒ³ã‚¯ã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’æ±‚ã‚ã‚‹
 	void CalcLinkPoints(
 		const ImVec2& fromMin, const ImVec2& fromMax, int fromKey,
 		const ImVec2& toMin, const ImVec2& toMax, int toKey,
 		bool hasReverse, int lane,
 		ImVec2& outStart, ImVec2& outEnd);
 
-	// –îˆó•`‰æ
+	// çŸ¢å°æç”»
 	void DrawArrow(ImDrawList* drawList, const ImVec2& start, const ImVec2& end, ImU32 color, float thickness);
 
-	// “_‚Æü•ª‚Ì‹——£(ƒŠƒ“ƒN‚ÌƒNƒŠƒbƒN”»’è‚Ég‚¤)
+	// ç‚¹ã¨ç·šåˆ†ã®è·é›¢(ãƒªãƒ³ã‚¯ã®ã‚¯ãƒªãƒƒã‚¯åˆ¤å®šã«ä½¿ã†)
 	float DistanceToSegment(const ImVec2& p, const ImVec2& a, const ImVec2& b);
 
-	// íœƒ{ƒ^ƒ“
+	// å‰Šé™¤ãƒœã‚¿ãƒ³
 	bool DeleteButton(const char* label);
 }

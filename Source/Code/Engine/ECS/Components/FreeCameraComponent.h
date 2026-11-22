@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <windows.h>
 #include "BaseCameraComponent.h"
 
-// ƒfƒoƒbƒO—pƒtƒŠ[ƒJƒƒ‰ƒRƒ“ƒ|[ƒlƒ“ƒg
+// ãƒ‡ãƒãƒƒã‚°ç”¨ãƒ•ãƒªãƒ¼ã‚«ãƒ¡ãƒ©ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct FreeCameraComponent
 {
-    BaseCameraComponent base;  // ‹¤’Êƒf[ƒ^ieye, targetj
+    BaseCameraComponent base;  // å…±é€šãƒ‡ãƒ¼ã‚¿ï¼ˆeye, targetï¼‰
 
     float cameraSpeed = 5.0f;
     float yaw = 0.0f;

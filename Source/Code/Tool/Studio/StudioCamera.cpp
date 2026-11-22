@@ -1,13 +1,13 @@
-#include "StudioCamera.h"
+ï»¿#include "StudioCamera.h"
 #include <imgui.h>
 #include <Windows.h>
 #include <algorithm>
 #include <cmath>
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 StudioCamera::StudioCamera()
 {
-	// ‰Šú‚Ìeye/target‚©‚çyaw/pitch‚ğŒvZ
+	// åˆæœŸã®eye/targetã‹ã‚‰yaw/pitchã‚’è¨ˆç®—
 	DirectX::XMFLOAT3 dir =
 	{
 		target.x - eye.x,
@@ -20,22 +20,22 @@ StudioCamera::StudioCamera()
 	yaw = atan2f(dir.x, dir.z);
 	pitch = asinf(dir.y);
 
-	// ‰ŠúË‰es—ñ
+	// åˆæœŸå°„å½±è¡Œåˆ—
 	UpdateProjectionMatrix();
 	UpdateViewMatrix();
 }
 
-// XV
+// æ›´æ–°
 void StudioCamera::Update(bool isWindowHovered, float elapsedTime)
 {
-	// ‰EƒNƒŠƒbƒN‚ğ—£‚µ‚½‚ç‘€ìI—¹
+	// å³ã‚¯ãƒªãƒƒã‚¯ã‚’é›¢ã—ãŸã‚‰æ“ä½œçµ‚äº†
 	if (!ImGui::IsMouseDown(ImGuiMouseButton_Right))
 	{
 		isControlling = false;
 		firstMouse = true;
 		return;
 	}
-	// ƒEƒBƒ“ƒhƒEƒzƒo[’†‚É‰EƒNƒŠƒbƒN‚ğ‰Ÿ‚µn‚ß‚½uŠÔ‚¾‚¯‘€ìŠJn
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ›ãƒãƒ¼ä¸­ã«å³ã‚¯ãƒªãƒƒã‚¯ã‚’æŠ¼ã—å§‹ã‚ãŸç¬é–“ã ã‘æ“ä½œé–‹å§‹
 	if (!isControlling)
 	{
 		if (isWindowHovered)
@@ -46,7 +46,7 @@ void StudioCamera::Update(bool isWindowHovered, float elapsedTime)
 
 	// if (!isControlling) return;
 
-	// ƒzƒC[ƒ‹‚Å‘¬“x•ÏX
+	// ãƒ›ã‚¤ãƒ¼ãƒ«ã§é€Ÿåº¦å¤‰æ›´
 	float wheel = ImGui::GetIO().MouseWheel;
 	if (wheel != 0.0f)
 	{
@@ -71,7 +71,7 @@ void StudioCamera::Update(bool isWindowHovered, float elapsedTime)
 	if (GetAsyncKeyState('E') & 0x8000) { eye.y += move; target.y += move; }
 	if (GetAsyncKeyState('Q') & 0x8000) { eye.y -= move; target.y -= move; }
 
-	// ƒ}ƒEƒX‰ñ“]
+	// ãƒã‚¦ã‚¹å›è»¢
 	POINT mousePos;
 	GetCursorPos(&mousePos);
 
@@ -100,7 +100,7 @@ void StudioCamera::Update(bool isWindowHovered, float elapsedTime)
 	lastMouseX = mousePos.x;
 	lastMouseY = mousePos.y;
 
-	// target ‚ğ eye + Œü‚«ƒxƒNƒgƒ‹‚ÅXV
+	// target ã‚’ eye + å‘ããƒ™ã‚¯ãƒˆãƒ«ã§æ›´æ–°
 	target =
 	{
 		eye.x + cosf(pitch) * sinf(yaw),
@@ -111,7 +111,7 @@ void StudioCamera::Update(bool isWindowHovered, float elapsedTime)
 	UpdateViewMatrix();
 }
 
-// –ˆƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğ“n‚µ‚Ä”ä—¦‚ğXV‚·‚é
+// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’æ¸¡ã—ã¦æ¯”ç‡ã‚’æ›´æ–°ã™ã‚‹
 void StudioCamera::UpdateAspect(float width, float height)
 {
 	if (height <= 0.0f) return;

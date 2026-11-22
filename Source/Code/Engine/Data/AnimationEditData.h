@@ -1,48 +1,48 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <json.hpp>
 
-// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚ÌˆÚ“®—Ê‚ğ•Ï‚¦‚é‹æŠÔ
+// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ç§»å‹•é‡ã‚’å¤‰ãˆã‚‹åŒºé–“
 struct AnimationEditSection
 {
 	float start = 0.0f;
 	float end = 0.0f;
-	float scale = 1.0f; // ˆÚ“®—Ê‚Ì”{—¦
+	float scale = 1.0f; // ç§»å‹•é‡ã®å€ç‡
 };
 
-// 1ƒNƒŠƒbƒv•ª‚Ì•ÒWİ’è
+// 1ã‚¯ãƒªãƒƒãƒ—åˆ†ã®ç·¨é›†è¨­å®š
 struct AnimationEditClipData
 {
 	std::string clipName;
-	float yawOffsetDegrees = 0.0f; // Œü‚«‚Ì•â³
+	float yawOffsetDegrees = 0.0f; // å‘ãã®è£œæ­£
 
-	// ƒgƒŠƒ~ƒ“ƒO
+	// ãƒˆãƒªãƒŸãƒ³ã‚°
 	float trimStart = 0.0f;
 	float trimEnd = -1.0f;
 
-	// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“‚ÌˆÚ“®—Ê‚ğ•Ï‚¦‚é‹æŠÔ
-	std::vector<AnimationEditSection> sectionsXZ; // …•½ˆÚ“®
-	std::vector<AnimationEditSection> sectionsY;  // ã‰ºˆÚ“®
+	// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®ç§»å‹•é‡ã‚’å¤‰ãˆã‚‹åŒºé–“
+	std::vector<AnimationEditSection> sectionsXZ; // æ°´å¹³ç§»å‹•
+	std::vector<AnimationEditSection> sectionsY;  // ä¸Šä¸‹ç§»å‹•
 };
 
-// ƒ‚ƒfƒ‹1‘Ì•ªA‘SƒNƒŠƒbƒv‚Ì•ÒWİ’è‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+// ãƒ¢ãƒ‡ãƒ«1ä½“åˆ†ã€å…¨ã‚¯ãƒªãƒƒãƒ—ã®ç·¨é›†è¨­å®šã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 class AnimationEditData
 {
 public:
-	std::string rootNodeName; // Ä‚«‚İ‘ÎÛ‚Ìƒ‹[ƒgƒm[ƒh–¼
+	std::string rootNodeName; // ç„¼ãè¾¼ã¿å¯¾è±¡ã®ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰å
 	std::vector<AnimationEditClipData> clips;
 
-	// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+	// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 	const AnimationEditClipData* FindClip(const std::string& clipName) const;
 
-	// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+	// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 	AnimationEditClipData* FindOrCreateClip(const std::string& clipName);
 
-	// •Û‘¶/“Ç‚İ‚İ
+	// ä¿å­˜/èª­ã¿è¾¼ã¿
 	nlohmann::ordered_json ToJson() const;
 	void FromJson(const nlohmann::json& j);
 
-	// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+	// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 	static std::string GetFilePath(const std::string& modelPath);
 };

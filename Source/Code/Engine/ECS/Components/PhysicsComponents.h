@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include <PxPhysicsAPI.h>
 #include "Engine/ECS/Reflect.h"
 
-// „‘Ì‚Ìí•Ê
+// å‰›ä½“ã®ç¨®åˆ¥
 enum class PhysicsBodyType
 {
-    None,      // –¢‘I‘ğ
-    Static,    // Ã“I
-    Dynamic,   // “®“I
-    Character, // ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[
+    None,      // æœªé¸æŠ
+    Static,    // é™çš„
+    Dynamic,   // å‹•çš„
+    Character, // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 };
 
 REFLECT_ENUM(PhysicsBodyType)
@@ -20,7 +20,7 @@ REFLECT_ENUM(PhysicsBodyType)
 
 REFLECT_ENUM_END()
 
-// „‘ÌƒŠƒXƒg
+// å‰›ä½“ãƒªã‚¹ãƒˆ
 struct PhysicsBodyTypeComponent
 {
     REFLECT_BEGIN(PhysicsBodyTypeComponent, "Physics")
@@ -30,26 +30,26 @@ struct PhysicsBodyTypeComponent
     REFLECT_END()
 };
 
-// Ã“I„‘ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+// é™çš„å‰›ä½“ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct StaticBodyComponent
 {
     physx::PxRigidStatic* actor = nullptr;
 };
 
-// ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[ƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct CharacterControllerComponent
 {
     physx::PxController* controller = nullptr;
 
-    // ƒJƒvƒZƒ‹Œ`óƒpƒ‰ƒ[ƒ^
-    float radius = 0.2f; // ”¼Œa
-    float height = 1.6f; // —§‚Á‚Ä‚¢‚é‚Ì‘S‘Ì‚Ì‚‚³
+    // ã‚«ãƒ—ã‚»ãƒ«å½¢çŠ¶ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+    float radius = 0.2f; // åŠå¾„
+    float height = 1.6f; // ç«‹ã£ã¦ã„ã‚‹æ™‚ã®å…¨ä½“ã®é«˜ã•
 
-    // Œ»İPhysX‚Éİ’è‚µ‚Ä‚¢‚é’l
+    // ç¾åœ¨PhysXã«è¨­å®šã—ã¦ã„ã‚‹å€¤
     float appliedRadius = 0.0f;
     float appliedHeight = 0.0f;
 
-    // ‘S‘Ì‚Ì‚‚³‚Æ”¼Œa‚©‚çAPhysX ‚É“n‚·‰~’Œ•”•ª‚Ì’·‚³‚ğo‚·
+    // å…¨ä½“ã®é«˜ã•ã¨åŠå¾„ã‹ã‚‰ã€PhysX ã«æ¸¡ã™å††æŸ±éƒ¨åˆ†ã®é•·ã•ã‚’å‡ºã™
     static float CylinderHeight(float total, float r)
     {
         const float cylinder = total - r * 2.0f;

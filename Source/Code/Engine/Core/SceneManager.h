@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 #include <memory>
 #include "SceneContext.h"
@@ -9,27 +9,27 @@ public:
 	SceneManager() = default;
 	~SceneManager() = default;
 
-	SceneManager(const SceneManager&) = delete;				   // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	SceneManager& operator=(const SceneManager&) = delete;	   // ƒRƒs[‘ã“ü‹Ö~
-	SceneManager(SceneManager&&) noexcept = delete;			   // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	SceneManager& operator=(SceneManager&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~
+	SceneManager(const SceneManager&) = delete;				   // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	SceneManager& operator=(const SceneManager&) = delete;	   // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+	SceneManager(SceneManager&&) noexcept = delete;			   // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	SceneManager& operator=(SceneManager&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢
 
 
-	// XV
+	// æ›´æ–°
 	void Update(float elapsedTime, const SceneContext& context);
-	// •`‰æ
+	// æç”»
 	void Render(const SceneContext& context);
 
-	// ƒV[ƒ“Ø‚è‘Ö‚¦—\–ñ
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆäºˆç´„
 	void ChangeScene(std::unique_ptr<Scene>scene);
 
-	// ƒV[ƒ“ƒNƒŠƒA
+	// ã‚·ãƒ¼ãƒ³ã‚¯ãƒªã‚¢
 	void ClearScene();
 
-	// Œ»İ‚ÌƒV[ƒ“æ“¾
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³å–å¾—
 	Scene* GetCurrentScene() { return currentScene.get(); }
 
 private:
-	std::unique_ptr<Scene>currentScene; // Œ»İƒV[ƒ“
-	std::unique_ptr<Scene>nextScene;    // Ÿ‚ÌƒV[ƒ“
+	std::unique_ptr<Scene>currentScene; // ç¾åœ¨ã‚·ãƒ¼ãƒ³
+	std::unique_ptr<Scene>nextScene;    // æ¬¡ã®ã‚·ãƒ¼ãƒ³
 };

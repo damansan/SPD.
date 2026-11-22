@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <cmath>
 #include <algorithm>
@@ -7,38 +7,38 @@ namespace AdaptiveTrigger
 {
     struct CurvePoint
     {
-        // ‰Ÿ‚µ‚İ—Ê
-        float position = 0.0f; // (0,0`1.0)
-        // ’ïR‚Ì‹­‚³
-        float value = 0.0f;    // (0.0`1.0)
+        // æŠ¼ã—è¾¼ã¿é‡
+        float position = 0.0f; // (0,0ï½1.0)
+        // æŠµæŠ—ã®å¼·ã•
+        float value = 0.0f;    // (0.0ï½1.0)
     };
 
     struct TriggerEffect
     {
-        // o—ÍƒŠƒXƒg
+        // å‡ºåŠ›ãƒªã‚¹ãƒˆ
         std::vector<CurvePoint> forcePoints;
     };
 
-    // Œ»İ’n(‰Ÿ‚µ‚İ—Ê)‚©‚ç‘OŒã‚É‘¶İ‚·‚éƒ|ƒCƒ“ƒg‚ğüŒ`•âŠ®‚µ‚ÄŒ»İ‚Ì’ïR’l‚ğ‹‚ß‚é
+    // ç¾åœ¨åœ°(æŠ¼ã—è¾¼ã¿é‡)ã‹ã‚‰å‰å¾Œã«å­˜åœ¨ã™ã‚‹ãƒã‚¤ãƒ³ãƒˆã‚’ç·šå½¢è£œå®Œã—ã¦ç¾åœ¨ã®æŠµæŠ—å€¤ã‚’æ±‚ã‚ã‚‹
     inline float SampleCurve(const std::vector<CurvePoint>& points, float position)
     {
-        // –³’ïR
+        // ç„¡æŠµæŠ—
         if (points.empty())
         {
             return 0.0f;
         }
-        // “_‚ª1‚Â‚¾‚¯A‚Ü‚½‚Í position ‚ªÅ‰‚Ì“_‚æ‚èè‘O‚Ì‚ÍÅ‰‚Ì“_‚Ì’l‚ğ‚»‚Ì‚Ü‚Üg‚¤
+        // ç‚¹ãŒ1ã¤ã ã‘ã€ã¾ãŸã¯ position ãŒæœ€åˆã®ç‚¹ã‚ˆã‚Šæ‰‹å‰ã®æ™‚ã¯æœ€åˆã®ç‚¹ã®å€¤ã‚’ãã®ã¾ã¾ä½¿ã†
         if (points.size() == 1 || position <= points.front().position)
         {
             return points.front().value;
         }
-        // position ‚ªÅŒã‚Ì“_‚æ‚èŒã‚ë‚È‚çÅŒã‚Ì“_‚Ì’l‚ğ‚»‚Ì‚Ü‚Üg‚¤
+        // position ãŒæœ€å¾Œã®ç‚¹ã‚ˆã‚Šå¾Œã‚ãªã‚‰æœ€å¾Œã®ç‚¹ã®å€¤ã‚’ãã®ã¾ã¾ä½¿ã†
         if (position >= points.back().position)
         {
             return points.back().value;
         }
 
-        // ŠY“–‚·‚é2“_‚ğ’T‚µ‚Ä‚»‚ÌŠÔ‚ğüŒ`•âŠÔ‚·‚é
+        // è©²å½“ã™ã‚‹2ç‚¹ã‚’æ¢ã—ã¦ãã®é–“ã‚’ç·šå½¢è£œé–“ã™ã‚‹
         for (size_t i = 0; i + 1 < points.size(); ++i)
         {
             const CurvePoint& a = points[i];
@@ -57,40 +57,40 @@ namespace AdaptiveTrigger
 {
     struct Zone
     {
-        // ‚±‚Ìƒ][ƒ“‚É‘®‚·‚éƒ|ƒCƒ“ƒg‚ÌƒŠƒXƒg
+        // ã“ã®ã‚¾ãƒ¼ãƒ³ã«å±ã™ã‚‹ãƒã‚¤ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆ
         std::vector<CurvePoint> points;
     };
 
-    // ƒŒƒ“ƒW“à‚Ìƒ][ƒ“‚ğŒŸo‚·‚é
+    // ãƒ¬ãƒ³ã‚¸å†…ã®ã‚¾ãƒ¼ãƒ³ã‚’æ¤œå‡ºã™ã‚‹
     inline std::vector<Zone> DetectZones(const std::vector<CurvePoint>& points)
     {
-        // ŒŸo‚µ‚½ƒ][ƒ“‚ÌƒŠƒXƒg
+        // æ¤œå‡ºã—ãŸã‚¾ãƒ¼ãƒ³ã®ãƒªã‚¹ãƒˆ
         std::vector<Zone> zones;
-		// Œ»İ‚Ìƒ][ƒ“
+		// ç¾åœ¨ã®ã‚¾ãƒ¼ãƒ³
         Zone current;
 
-        // ƒŒƒ“ƒW“à‚Ìƒ|ƒCƒ“ƒg‚ğæ“ª‚©‚ç‡‚É‘–¸‚·‚é
+        // ãƒ¬ãƒ³ã‚¸å†…ã®ãƒã‚¤ãƒ³ãƒˆã‚’å…ˆé ­ã‹ã‚‰é †ã«èµ°æŸ»ã™ã‚‹
         for (const auto& p : points)
         {
-			// ’ïR’l‚ª0‚æ‚è‘å‚«‚¯‚ê‚ÎŒ»İ‚Ìƒ][ƒ“‚É’Ç‰Á‚·‚é
+			// æŠµæŠ—å€¤ãŒ0ã‚ˆã‚Šå¤§ãã‘ã‚Œã°ç¾åœ¨ã®ã‚¾ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹
             if (p.value > 0.0f)
             {
                 current.points.push_back(p);
             }
             else
             {
-				// ’ïR’l‚ª0‚È‚ç’ïR‚ª‚È‚¢êŠ‚Ö—ˆ‚½
+				// æŠµæŠ—å€¤ãŒ0ãªã‚‰æŠµæŠ—ãŒãªã„å ´æ‰€ã¸æ¥ãŸ
                 if (!current.points.empty())
                 {
-                    // ˆê‹æØ‚è‚Æ‚·‚é
+                    // ä¸€åŒºåˆ‡ã‚Šã¨ã™ã‚‹
                     zones.push_back(current);
-					// Œ»İ‚Ìƒ][ƒ“‚ğƒŠƒZƒbƒg
+					// ç¾åœ¨ã®ã‚¾ãƒ¼ãƒ³ã‚’ãƒªã‚»ãƒƒãƒˆ
                     current.points.clear();
                 }
             }
         }
 
-		// ‰Ÿ‚µ‚İØ‚Á‚½‚É’ïR’l0ˆÈã‚ª‚ ‚ê‚Î‚»‚Ì’n“_‚ğÅŒã‚Ìƒ][ƒ“‚Æ‚·‚é
+		// æŠ¼ã—è¾¼ã¿åˆ‡ã£ãŸæ™‚ã«æŠµæŠ—å€¤0ä»¥ä¸ŠãŒã‚ã‚Œã°ãã®åœ°ç‚¹ã‚’æœ€å¾Œã®ã‚¾ãƒ¼ãƒ³ã¨ã™ã‚‹
         if (!current.points.empty())
         {
             zones.push_back(current);
@@ -102,27 +102,27 @@ namespace AdaptiveTrigger
 
 namespace AdaptiveTrigger
 {
-    // “¯‚¶’l‚Æ‚İ‚È‚·Œë·‚Ì”ÍˆÍ
+    // åŒã˜å€¤ã¨ã¿ãªã™èª¤å·®ã®ç¯„å›²
     constexpr float ValueEpsilon = 0.05f;
 
-    // ƒ][ƒ“‚Ì”»’èŒ‹‰Ê
+    // ã‚¾ãƒ¼ãƒ³ã®åˆ¤å®šçµæœ
     enum class ResistanceType
     {
-        Constant, // ˆê’è’ïR
-        Changing, // •Ï‰»’ïR
-        Complex,  // •¡G‚ÈƒJ[ƒu
+        Constant, // ä¸€å®šæŠµæŠ—
+        Changing, // å¤‰åŒ–æŠµæŠ—
+        Complex,  // è¤‡é›‘ãªã‚«ãƒ¼ãƒ–
     };
 
-    // ƒ][ƒ“‚Ìí—Ş‚ğ”»’è‚·‚é
+    // ã‚¾ãƒ¼ãƒ³ã®ç¨®é¡ã‚’åˆ¤å®šã™ã‚‹
     inline ResistanceType ClassifyZone(const Zone& zone)
     {
-		// ƒ|ƒCƒ“ƒg‚ª‚R“_ˆÈã‚È‚ç•¡G‚ÈƒJ[ƒu‚Æ‚İ‚È‚·
+		// ãƒã‚¤ãƒ³ãƒˆãŒï¼“ç‚¹ä»¥ä¸Šãªã‚‰è¤‡é›‘ãªã‚«ãƒ¼ãƒ–ã¨ã¿ãªã™
         if (zone.points.size() >= 3)
         {
             return ResistanceType::Complex;
         }
 
-		// 2“_ˆÈ‰º‚È‚çAÅ‰‚ÆÅŒã‚Ì’l‚Ì·‚ğŒ©‚Äˆê’è’ïR‚©”»’f‚·‚é
+		// 2ç‚¹ä»¥ä¸‹ãªã‚‰ã€æœ€åˆã¨æœ€å¾Œã®å€¤ã®å·®ã‚’è¦‹ã¦ä¸€å®šæŠµæŠ—ã‹åˆ¤æ–­ã™ã‚‹
         float diff = std::abs(zone.points.front().value - zone.points.back().value);
         if (diff < ValueEpsilon)
         {
@@ -136,9 +136,9 @@ namespace AdaptiveTrigger
 {
     inline float ComputeForce(const TriggerEffect& effect, float currentPosition)
     {
-        // Œ»İ’n‚Ì’ïR’l‚ğæ“¾
+        // ç¾åœ¨åœ°ã®æŠµæŠ—å€¤ã‚’å–å¾—
         float force = SampleCurve(effect.forcePoints, currentPosition);
-        // ”ÍˆÍŠO•ÛŒ¯
+        // ç¯„å›²å¤–ä¿é™º
         return std::clamp(force, 0.0f, 1.0f); 
     }
 }

@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <string>
 
-// ƒAƒ^ƒbƒ`ƒƒ“ƒgŠÔ‚Å‹¤—L‚·‚éƒf[ƒ^
+// ã‚¢ã‚¿ãƒƒãƒãƒ¡ãƒ³ãƒˆé–“ã§å…±æœ‰ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
 struct StudioContext
 {
-    // GraphicsŒniframework‚©‚çØ‚è‚éj
+    // Graphicsç³»ï¼ˆframeworkã‹ã‚‰å€Ÿã‚Šã‚‹ï¼‰
     ID3D11Device* device = nullptr;
     ID3D11DeviceContext* deviceContext = nullptr;
 
-    // ƒpƒlƒ‹•\¦ƒtƒ‰ƒO
+    // ãƒ‘ãƒãƒ«è¡¨ç¤ºãƒ•ãƒ©ã‚°
     bool showAnimator      = false;
     bool showTimeline      = false;
     bool showStateGraph = false;
@@ -19,9 +19,9 @@ struct StudioContext
 
     std::string currentModelPath;
 
-    // ƒ^ƒCƒ€ƒ‰ƒCƒ“‚ÅƒXƒNƒ‰ƒu‘€ì‚³‚ê‚½ƒtƒ‰ƒO
+    // ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³ã§ã‚¹ã‚¯ãƒ©ãƒ–æ“ä½œã•ã‚ŒãŸãƒ•ãƒ©ã‚°
     bool requestPoseUpdate = false;
 
-    // Studio‚ÌƒEƒBƒ“ƒhƒE‚ª‚¢‚éƒrƒ…[ƒ|[ƒg
+    // Studioã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒã„ã‚‹ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆ
     unsigned int studioViewportId = 0;
 };

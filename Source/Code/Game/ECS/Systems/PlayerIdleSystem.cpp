@@ -1,4 +1,4 @@
-#include "PlayerIdleSystem.h"
+ï»¿#include "PlayerIdleSystem.h"
 #include "Game/ECS/Components/PlayerIdleComponent.h"
 #include "Game/ECS/Components/PlayerLocomotionComponent.h"
 
@@ -20,7 +20,7 @@ void PlayerIdleSystem::Update(entt::registry& registry, float elapsedTime, const
 		{
 			if (!stateMachine.IsIn("Idle")) return;
 
-			// ‚»‚Ìê‚Å~‚Ü‚é(Œü‚«‚Í•Ï‚¦‚È‚¢)
+			// ãã®å ´ã§æ­¢ã¾ã‚‹(å‘ãã¯å¤‰ãˆãªã„)
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Ground;
 			cmd.moveDir = { 0.0f, 0.0f, 0.0f };

@@ -1,10 +1,10 @@
-#include "StudioStateGraphDraw.h"
+ï»¿#include "StudioStateGraphDraw.h"
 #include <cmath>
 #include <cfloat>
 
 namespace StateGraphDraw
 {
-	// ‹éŒ`‚Ì’†S‚©‚çtarget‚ÖL‚Î‚µ‚½ü‚ªA‹éŒ`‚Ì‰‚ÆŒğ‚í‚é“_
+	// çŸ©å½¢ã®ä¸­å¿ƒã‹ã‚‰targetã¸ä¼¸ã°ã—ãŸç·šãŒã€çŸ©å½¢ã®ç¸ã¨äº¤ã‚ã‚‹ç‚¹
 	ImVec2 GetEdgePoint(const ImVec2& rectMin, const ImVec2& rectMax, const ImVec2& target)
 	{
 		ImVec2 center((rectMin.x + rectMax.x) * 0.5f, (rectMin.y + rectMax.y) * 0.5f);
@@ -14,14 +14,14 @@ namespace StateGraphDraw
 		ImVec2 dir(target.x - center.x, target.y - center.y);
 		if (dir.x == 0.0f && dir.y == 0.0f) return center;
 
-		// ‰¡‚Ì•Ó‚Æc‚Ì•Ó‚Ì‚¤‚¿Aæ‚É‚Ô‚Â‚©‚é‚Ù‚¤‚Ì”{—¦‚ğg‚¤
+		// æ¨ªã®è¾ºã¨ç¸¦ã®è¾ºã®ã†ã¡ã€å…ˆã«ã¶ã¤ã‹ã‚‹ã»ã†ã®å€ç‡ã‚’ä½¿ã†
 		float scaleX = (dir.x != 0.0f) ? halfW / fabsf(dir.x) : FLT_MAX;
 		float scaleY = (dir.y != 0.0f) ? halfH / fabsf(dir.y) : FLT_MAX;
 		float scale = (scaleX < scaleY) ? scaleX : scaleY;
 		return ImVec2(center.x + dir.x * scale, center.y + dir.y * scale);
 	}
 
-	// 2‚Â‚Ìƒm[ƒh‚ğŒ‹‚ÔƒŠƒ“ƒN‚Ìn“_‚ÆI“_‚ğ‹‚ß‚é
+	// 2ã¤ã®ãƒãƒ¼ãƒ‰ã‚’çµã¶ãƒªãƒ³ã‚¯ã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’æ±‚ã‚ã‚‹
 	void CalcLinkPoints(
 		const ImVec2& fromMin, const ImVec2& fromMax, int fromKey,
 		const ImVec2& toMin, const ImVec2& toMax, int toKey,
@@ -31,14 +31,14 @@ namespace StateGraphDraw
 		ImVec2 fromCenter((fromMin.x + fromMax.x) * 0.5f, (fromMin.y + fromMax.y) * 0.5f);
 		ImVec2 toCenter((toMin.x + toMax.x) * 0.5f, (toMin.y + toMax.y) * 0.5f);
 
-		// ƒm[ƒh‚Ì’†S“¯m‚ğŒ‹‚Ôü‚ªA‚»‚ê‚¼‚ê‚Ì‰‚ÆŒğ‚í‚é“_‚ğAn“_‚ÆI“_‚É‚·‚é
+		// ãƒãƒ¼ãƒ‰ã®ä¸­å¿ƒåŒå£«ã‚’çµã¶ç·šãŒã€ãã‚Œãã‚Œã®ç¸ã¨äº¤ã‚ã‚‹ç‚¹ã‚’ã€å§‹ç‚¹ã¨çµ‚ç‚¹ã«ã™ã‚‹
 		outStart = GetEdgePoint(fromMin, fromMax, toCenter);
 		outEnd = GetEdgePoint(toMin, toMax, fromCenter);
 
 		float offset = (hasReverse ? 8.0f : 0.0f) + lane * 10.0f;
 		if (offset <= 0.0f) return;
 
-		// ‰•œ‚Ìü‚ª”½‘Î‘¤‚É‚¸‚ê‚é‚æ‚¤‚ÉAƒL[‚Ì¬‚³‚¢‚Ù‚¤‚©‚çŒ©‚½Œü‚«‚ğŠî€‚É‚·‚é
+		// å¾€å¾©ã®ç·šãŒåå¯¾å´ã«ãšã‚Œã‚‹ã‚ˆã†ã«ã€ã‚­ãƒ¼ã®å°ã•ã„ã»ã†ã‹ã‚‰è¦‹ãŸå‘ãã‚’åŸºæº–ã«ã™ã‚‹
 		bool fromIsSmaller = fromKey < toKey;
 		ImVec2 baseFrom = fromIsSmaller ? fromCenter : toCenter;
 		ImVec2 baseTo = fromIsSmaller ? toCenter : fromCenter;
@@ -46,14 +46,14 @@ namespace StateGraphDraw
 		float len = sqrtf(dir.x * dir.x + dir.y * dir.y);
 		if (len < 0.0001f) return;
 
-		// Šî€‚ÌŒü‚«‚É‚’¼‚È•ûŒü‚Ö‚¸‚ç‚·(‹tŒü‚«‚Ìü‚Í”½‘Î‘¤‚Ö)
+		// åŸºæº–ã®å‘ãã«å‚ç›´ãªæ–¹å‘ã¸ãšã‚‰ã™(é€†å‘ãã®ç·šã¯åå¯¾å´ã¸)
 		float sign = (hasReverse && !fromIsSmaller) ? -1.0f : 1.0f;
 		ImVec2 perp(-dir.y / len * offset * sign, dir.x / len * offset * sign);
 		outStart = ImVec2(outStart.x + perp.x, outStart.y + perp.y);
 		outEnd = ImVec2(outEnd.x + perp.x, outEnd.y + perp.y);
 	}
 
-	// –îˆó•`‰æ
+	// çŸ¢å°æç”»
 	void DrawArrow(ImDrawList* drawList, const ImVec2& start, const ImVec2& end, ImU32 color, float thickness)
 	{
 		ImVec2 dir(end.x - start.x, end.y - start.y);
@@ -65,36 +65,36 @@ namespace StateGraphDraw
 		const float arrowLength = 14.0f;
 		const float arrowWidth = 11.0f;
 
-		// ü‚Í–îˆó‚ÌªŒ³‚Ü‚Å
+		// ç·šã¯çŸ¢å°ã®æ ¹å…ƒã¾ã§
 		ImVec2 base(end.x - dir.x * arrowLength, end.y - dir.y * arrowLength);
 		drawList->AddLine(start, base, color, thickness);
 
-		// –îˆó‚ÌOŠpŒ`
+		// çŸ¢å°ã®ä¸‰è§’å½¢
 		ImVec2 perp(-dir.y, dir.x);
 		ImVec2 left(base.x + perp.x * arrowWidth * 0.5f, base.y + perp.y * arrowWidth * 0.5f);
 		ImVec2 right(base.x - perp.x * arrowWidth * 0.5f, base.y - perp.y * arrowWidth * 0.5f);
 		drawList->AddTriangleFilled(end, left, right, color);
 	}
 
-	// “_‚Æü•ª‚Ì‹——£
+	// ç‚¹ã¨ç·šåˆ†ã®è·é›¢
 	float DistanceToSegment(const ImVec2& p, const ImVec2& a, const ImVec2& b)
 	{
 		ImVec2 ab(b.x - a.x, b.y - a.y);
 		ImVec2 ap(p.x - a.x, p.y - a.y);
 		float lenSq = ab.x * ab.x + ab.y * ab.y;
 
-		// “_p‚ğü•ªab‚É“Š‰e‚µ‚½ˆÊ’u(0‚ªaA1‚ªb)Bü•ª‚ÌŠO‚Éo‚½‚ç’[‚ÉŠñ‚¹‚é
+		// ç‚¹pã‚’ç·šåˆ†abã«æŠ•å½±ã—ãŸä½ç½®(0ãŒaã€1ãŒb)ã€‚ç·šåˆ†ã®å¤–ã«å‡ºãŸã‚‰ç«¯ã«å¯„ã›ã‚‹
 		float t = (lenSq > 0.0f) ? (ap.x * ab.x + ap.y * ab.y) / lenSq : 0.0f;
 		t = (t < 0.0f) ? 0.0f : (t > 1.0f ? 1.0f : t);
 
-		// ü•ªã‚Åˆê”Ô‹ß‚¢“_‚Æ‚Ì‹——£
+		// ç·šåˆ†ä¸Šã§ä¸€ç•ªè¿‘ã„ç‚¹ã¨ã®è·é›¢
 		ImVec2 closest(a.x + ab.x * t, a.y + ab.y * t);
 		float dx = p.x - closest.x;
 		float dy = p.y - closest.y;
 		return sqrtf(dx * dx + dy * dy);
 	}
 
-	// íœƒ{ƒ^ƒ“
+	// å‰Šé™¤ãƒœã‚¿ãƒ³
 	bool DeleteButton(const char* label)
 	{
 		ImGui::Spacing();

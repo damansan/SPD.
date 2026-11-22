@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <json.hpp>
 
-// ‘¬“xƒ|ƒCƒ“ƒg
+// é€Ÿåº¦ãƒã‚¤ãƒ³ãƒˆ
 struct AnimationSpeedPoint
 {
 	int id = -1;
@@ -12,7 +12,7 @@ struct AnimationSpeedPoint
 	bool  isEndpoint = false;
 };
 
-// 1ƒNƒŠƒbƒv•ª‚Ì‘¬“xƒ|ƒCƒ“ƒgŒQ
+// 1ã‚¯ãƒªãƒƒãƒ—åˆ†ã®é€Ÿåº¦ãƒã‚¤ãƒ³ãƒˆç¾¤
 struct AnimationSpeedClipData
 {
 	std::string clipName;
@@ -21,20 +21,20 @@ struct AnimationSpeedClipData
 	int nextId = 1;
 	int GenerateId() { return nextId++; }
 
-	// ³‹K‰»ŠÔ‚É‚¨‚¯‚é‘¬“x‚ğüŒ`•âŠ®‚Å‹‚ß‚é
+	// æ­£è¦åŒ–æ™‚é–“ã«ãŠã‘ã‚‹é€Ÿåº¦ã‚’ç·šå½¢è£œå®Œã§æ±‚ã‚ã‚‹
 	float EvaluateSpeed(float normalizedTime) const;
 };
 
-// ƒ‚ƒfƒ‹1‘Ì•ªA‘SƒNƒŠƒbƒv‚Ì‘¬“xƒf[ƒ^‚ğ‚Ü‚Æ‚ß‚½‚à‚Ì
+// ãƒ¢ãƒ‡ãƒ«1ä½“åˆ†ã€å…¨ã‚¯ãƒªãƒƒãƒ—ã®é€Ÿåº¦ãƒ‡ãƒ¼ã‚¿ã‚’ã¾ã¨ã‚ãŸã‚‚ã®
 class AnimationSpeedData
 {
 public:
 	std::vector<AnimationSpeedClipData> clips;
 
-	// w’è‚µ‚½ƒNƒŠƒbƒv–¼‚Ìƒf[ƒ^‚ğ’T‚·
+	// æŒ‡å®šã—ãŸã‚¯ãƒªãƒƒãƒ—åã®ãƒ‡ãƒ¼ã‚¿ã‚’æ¢ã™
 	AnimationSpeedClipData* FindOrCreateClip(const std::string& clipName);
 
-	// •Û‘¶/“Ç‚İ‚İ
+	// ä¿å­˜/èª­ã¿è¾¼ã¿
 	nlohmann::ordered_json ToJson() const;
 	void FromJson(const nlohmann::json& j);
 };

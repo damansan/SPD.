@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 #include <cstdarg>
 #include <cstdint>
@@ -9,7 +9,7 @@
 #include <vector>
 #include <filesystem>
 
-// ƒƒO‚Ì•Û‘¶æBƒƒbƒZ[ƒW‚ÍUTF-8‚Å‚Âi“ú–{Œê‚Í u8"..." ‚ğ•t‚¯‚Ä‘‚­j
+// ãƒ­ã‚°ã®ä¿å­˜å…ˆã€‚ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯UTF-8ã§æŒã¤ï¼ˆæ—¥æœ¬èªã¯ "..." ã‚’ä»˜ã‘ã¦æ›¸ãï¼‰
 namespace LogBuffer
 {
 	struct Entry
@@ -24,10 +24,10 @@ namespace LogBuffer
 		{
 			std::mutex        mutex;
 			std::deque<Entry> entries;
-			uint64_t          version = 0; // ‘‚«‚İ‚Ì‚½‚Ñ‚É‘‚¦‚éi•\¦‘¤‚ªXV‚ğŒŸ’m‚·‚éj
+			uint64_t          version = 0; // æ›¸ãè¾¼ã¿ã®ãŸã³ã«å¢—ãˆã‚‹ï¼ˆè¡¨ç¤ºå´ãŒæ›´æ–°ã‚’æ¤œçŸ¥ã™ã‚‹ï¼‰
 		};
 
-		// ŠÖ”“àstatic‚É‚µ‚ÄA‹N“®‚Ì‰Šú‰»‡‚Ì–â‘è‚ğ”ğ‚¯‚é
+		// é–¢æ•°å†…staticã«ã—ã¦ã€èµ·å‹•æ™‚ã®åˆæœŸåŒ–é †ã®å•é¡Œã‚’é¿ã‘ã‚‹
 		inline Storage& GetStorage()
 		{
 			static Storage storage;
@@ -45,7 +45,7 @@ namespace LogBuffer
 		}
 	}
 
-	constexpr size_t MaxEntries = 2000; // ‚±‚ê‚ğ’´‚¦‚½‚çAŒÃ‚¢‚à‚Ì‚©‚çÌ‚Ä‚é
+	constexpr size_t MaxEntries = 2000; // ã“ã‚Œã‚’è¶…ãˆãŸã‚‰ã€å¤ã„ã‚‚ã®ã‹ã‚‰æ¨ã¦ã‚‹
 
 	inline void Add(const char* message)
 	{
@@ -54,10 +54,10 @@ namespace LogBuffer
 		char timestamp[16];
 		snprintf(timestamp, sizeof(timestamp), "%02d:%02d:%02d", now.wHour, now.wMinute, now.wSecond);
 
-		// Visual Studio‚Ìuo—ÍvƒEƒBƒ“ƒhƒE
+		// Visual Studioã®ã€Œå‡ºåŠ›ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 		OutputDebugStringW(detail::Utf8ToWide(std::string(message) + "\n").c_str());
 
-		// ƒƒ‚ƒŠã‚Ìƒoƒbƒtƒ@i«—ˆA•ÊƒXƒŒƒbƒh‚©‚ç‘‚©‚ê‚Ä‚àˆÀ‘S‚È‚æ‚¤‚ÉƒƒbƒN‚·‚éj
+		// ãƒ¡ãƒ¢ãƒªä¸Šã®ãƒãƒƒãƒ•ã‚¡ï¼ˆå°†æ¥ã€åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰æ›¸ã‹ã‚Œã¦ã‚‚å®‰å…¨ãªã‚ˆã†ã«ãƒ­ãƒƒã‚¯ã™ã‚‹ï¼‰
 		auto& storage = detail::GetStorage();
 		std::lock_guard<std::mutex> lock(storage.mutex);
 		storage.entries.push_back({ timestamp, message });
@@ -83,8 +83,8 @@ namespace LogBuffer
 	}
 }
 
-// ƒƒO‚ğo‚·Bprintf‚Æ“¯‚¶‘®‚ªg‚¦‚é
-// —áFLog(u8"ƒvƒŒƒnƒu‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ: %s", path.c_str());
+// ãƒ­ã‚°ã‚’å‡ºã™ã€‚printfã¨åŒã˜æ›¸å¼ãŒä½¿ãˆã‚‹
+// ä¾‹ï¼šLog("ãƒ—ãƒ¬ãƒãƒ–ã‚’èª­ã¿è¾¼ã‚ã¾ã›ã‚“: %s", path.c_str());
 inline void Log(const char* format, ...)
 {
 	char message[1024];
@@ -96,10 +96,10 @@ inline void Log(const char* format, ...)
 	LogBuffer::Add(message);
 }
 
-// ƒƒO‚Éo‚·ƒpƒX‚ğ’Z‚­‚·‚éFuData/v‚©‚ç
+// ãƒ­ã‚°ã«å‡ºã™ãƒ‘ã‚¹ã‚’çŸ­ãã™ã‚‹ï¼šã€ŒData/ã€ã‹ã‚‰
 inline std::string LogPath(const std::string& path)
 {
-	const std::filesystem::path p(path); // std::string ‚ÍƒVƒXƒeƒ€‚Ì•¶šƒR[ƒhiShift-JISj‚Æ‚µ‚Ä“Ç‚Ü‚ê‚é
+	const std::filesystem::path p(path); // std::string ã¯ã‚·ã‚¹ãƒ†ãƒ ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ï¼ˆShift-JISï¼‰ã¨ã—ã¦èª­ã¾ã‚Œã‚‹
 
 	std::filesystem::path shortPath;
 	bool found = false;
@@ -110,6 +110,6 @@ inline std::string LogPath(const std::string& path)
 	}
 	if (!found) shortPath = p.filename();
 
-	const auto utf8 = shortPath.generic_u8string(); // ‹æØ‚è‚Íu/vA•¶š‚Í UTF-8
+	const auto utf8 = shortPath.generic_u8string(); // åŒºåˆ‡ã‚Šã¯ã€Œ/ã€ã€æ–‡å­—ã¯ UTF-8
 	return std::string(utf8.begin(), utf8.end());
 }

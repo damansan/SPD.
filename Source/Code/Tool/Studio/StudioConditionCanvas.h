@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -7,131 +7,131 @@
 #include "Engine/Data/ConditionGraphData.h"
 #include "Tool/NodeEditor/NodeEditorCanvas.h"
 
-// �����O���t�̕ҏW�L�����o�X
+// 条件グラフの編集キャンバス
 class StudioConditionCanvas
 {
 public:
 	void Initialize();
 
-	// �ҏW�Ώۂ̏����O���t��ݒ肷��
+	// 編集対象の条件グラフを設定する
 	void SetTarget(ConditionGraph* target);
 
-	// �L�����o�X��`��
+	// キャンバスを描く
 	void Draw();
-	// �C���X�y�N�^�[��`��
+	// インスペクターを描く
 	void DrawInspector();
 
 private:
 
-	// --- �m�[�h�̕`�� --- //
+	// --- ノードの描画 --- //
 
-	// ���^�[���m�[�h�`��
+	// リターンノード描画
 	void DrawReturnNode();
-	// �ϐ��m�[�h�`��
+	// 変数ノード描画
 	void DrawVariableNodes();
-	// �Q�b�^�[�m�[�h�`��
+	// ゲッターノード描画
 	void DrawGetterNodes();
-	// ��r���Z�m�[�h�`��
+	// 比較演算ノード描画
 	void DrawOperatorNodes();
-	// �_�����Z�m�[�h�`��
+	// 論理演算ノード描画
 	void DrawLogicNodes();
-	// �ے�m�[�h�`��
+	// 否定ノード描画
 	void DrawNotNodes();
 
-	// �����N�`��
+	// リンク描画
 	void DrawLinks();
 	
-	// �w�i�E�N���b�N�̃m�[�h�쐬���j���[
+	// 背景右クリックのノード作成メニュー
 	void DrawCreateMenu();
 
 
-	// --- ���� --- //
+	// --- 入力 --- //
 	
-	// �s������h���b�O���ă����N�����
+	// ピンからドラッグしてリンクを作る
 	void UpdateLinkCreation();
-	// �I���X�V
+	// 選択更新
 	void UpdateSelection();
-	// �I�����Ă��镨���폜
+	// 選択している物を削除
 	void DeleteSelection();
 
 
-	// --- �C���X�y�N�^�[ --- //
+	// --- インスペクター --- //
 
-	// ���^�[���m�[�h�̐ݒ�
+	// リターンノードの設定
 	void DrawReturnInspector();
-	// �ϐ��m�[�h�̐ݒ�
+	// 変数ノードの設定
 	void DrawVariableInspector(ConditionVariableNode& node);
-	// �Q�b�^�[�m�[�h�̐ݒ�
+	// ゲッターノードの設定
 	void DrawGetterInspector(ConditionGetterNode& node);
-	// ��r���Z�m�[�h�̐ݒ�
+	// 比較演算ノードの設定
 	void DrawOperatorInspector(ConditionOperatorNode& node);
-	// �_�����Z�m�[�h�̐ݒ�
+	// 論理演算ノードの設定
 	void DrawLogicInspector(ConditionLogicNode& node);
-	// �ے�m�[�h�̐ݒ�
+	// 否定ノードの設定
 	void DrawNotInspector();
 
-	// �����N�̐ݒ�
+	// リンクの設定
 	void DrawLinkInspector(const ConditionLink& link);
 
-	// �m�[�h��ID����A�\���p�̖��O�����
+	// ノードのIDから、表示用の名前を作る
 	std::string GetNodeName(int nodeId) const;
 
 
-	// --- �ʒu --- //
+	// --- 位置 --- //
 
-	// �Ώۂ�؂�ւ������ゾ���A�f�[�^�̈ʒu���m�[�h�ɔ��f����
+	// 対象を切り替えた直後だけ、データの位置をノードに反映する
 	void ApplyPosition(int nodeId, float x, float y) const;
-	// �m�[�h�𓮂�������A�f�[�^�̈ʒu�ɏ����߂�
+	// ノードを動かしたら、データの位置に書き戻す
 	static void ReadPosition(int nodeId, float& x, float& y);
 
 
-	// --- �s����ID --- //
+	// --- ピンのID --- //
 
-	// �m�[�h�̒��ł̃s���̈ʒu
+	// ノードの中でのピンの位置
 	enum PinSlot : uint64_t
 	{
-		kPinOut = 1, // �o��
-		kPinInA = 2, // ����A
-		kPinInB = 3, // ����B
+		kPinOut = 1, // 出力
+		kPinInA = 2, // 入力A
+		kPinInB = 3, // 入力B
 	};
-	// �m�[�h��ID�Əd�Ȃ�Ȃ��悤�ɕt�����
+	// ノードのIDと重ならないように付ける印
 	static constexpr uint64_t kPinIdTag = 1ull << 40;
 
-	// �m�[�h��ID�ƈʒu -> �s����ID
+	// ノードのIDと位置 -> ピンのID
 	static ed::PinId ToPinId(int nodeId, PinSlot slot);
-	// �s����ID -> �m�[�h��ID�ƈʒu
+	// ピンのID -> ノードのIDと位置
 	static bool FromPinId(ed::PinId pinId, int& outNodeId, PinSlot& outSlot);
 
 
-	// --- �f�[�^ --- //
+	// --- データ --- //
 
-	// ���̃N���X��p�̃m�[�h�G�f�B�^�̃R���e�L�X�g
+	// このクラス専用のノードエディタのコンテキスト
 	NodeEditorCanvas canvas;
-	// �ҏW���̏����O���t
+	// 編集中の条件グラフ
 	ConditionGraph* graph = nullptr;
 
 
-	// --- �L�����o�X�̏�� --- //
+	// --- キャンバスの状態 --- //
 
-	// �f�[�^�̈ʒu���m�[�h�ɔ��f���邩
+	// データの位置をノードに反映するか
 	bool needsApplyPositions = true;
-	// ���ɃL�����o�X��`���Ƃ��ɁA�m�[�h�G�f�B�^���̑I����������
+	// 次にキャンバスを描くときに、ノードエディタ側の選択を消すか
 	bool clearSelectionRequested = false;
 
-	// �w�i�̉E�N���b�N�̈ʒu
+	// 背景の右クリックの位置
 	ImVec2 pendingCreatePos{};
 
-	// �I�𒆂̃m�[�h�ƃ����N
+	// 選択中のノードとリンク
 	std::vector<int> selectedNodeIds;
 	int selectedLinkId = -1;
 
 
-	// --- �Q�b�^�[�̃C���X�y�N�^�[��� --- //
+	// --- ゲッターのインスペクター状態 --- //
 
-	// �\�����Ă���Q�b�^�[
+	// 表示しているゲッター
 	int getterInspectorNodeId = -1;
-	// �ꗗ�ŊJ���Ă���R���|�[�l���g
+	// 一覧で開いているコンポーネント
 	std::string browseComponent;
-	// ���̐ݒ�̈ʒu�܂ŃX�N���[�����邩
+	// 今の設定の位置までスクロールするか
 	bool scrollToCurrent = false; 
 };

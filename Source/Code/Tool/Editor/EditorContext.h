@@ -1,29 +1,29 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <unordered_map>
 #include "entt.hpp"
 
-// ƒJƒƒ‰ƒ‚[ƒh
+// ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰
 enum class CameraMode
 {
-    Debug,  // ƒfƒoƒbƒOƒJƒƒ‰iƒ}ƒEƒXEƒL[ƒ{[ƒhj
-    Game,   // ƒQ[ƒ€ƒJƒƒ‰  iƒRƒ“ƒgƒ[ƒ‰[j
+    Debug,  // ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©ï¼ˆãƒã‚¦ã‚¹ãƒ»ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ï¼‰
+    Game,   // ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©  ï¼ˆã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ï¼‰
 };
 
-// StudioƒEƒBƒ“ƒhƒE‚ğŠJ‚­ƒŠƒNƒGƒXƒg
+// Studioã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ããƒªã‚¯ã‚¨ã‚¹ãƒˆ
 struct StudioOpenRequest
 {
     bool        pending = false;
     std::string assetPath;
 };
 
-// ƒV[ƒ“‚Ì•Û‘¶E“Ç‚İ‚İ‚ÌƒŠƒNƒGƒXƒg
+// ã‚·ãƒ¼ãƒ³ã®ä¿å­˜ãƒ»èª­ã¿è¾¼ã¿ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 enum class SceneAction
 {
     None,
-    Save,   // ¡‚ÌƒV[ƒ“‚Éã‘‚«
-    SaveAs, // –¼‘O‚ğ•t‚¯‚Ä•Û‘¶
-    Open,   // “Ç‚İ‚İ
+    Save,   // ä»Šã®ã‚·ãƒ¼ãƒ³ã«ä¸Šæ›¸ã
+    SaveAs, // åå‰ã‚’ä»˜ã‘ã¦ä¿å­˜
+    Open,   // èª­ã¿è¾¼ã¿
 };
 
 struct EditorContext
@@ -31,12 +31,12 @@ struct EditorContext
     entt::entity selectedEntity = entt::null;
     std::unordered_map<entt::entity, std::string> entityNames;
 
-    // ƒJƒƒ‰ƒ‚[ƒh
+    // ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰
     CameraMode cameraMode = CameraMode::Debug;
-    // ‰EƒNƒŠƒbƒN‚ğ‰Ÿ‚µ‚½‚©
+    // å³ã‚¯ãƒªãƒƒã‚¯ã‚’æŠ¼ã—ãŸã‹
     bool rightClickPressed = false;  
 
-    // StudioƒEƒBƒ“ƒhƒEŠJ‚­ƒŠƒNƒGƒXƒg
+    // Studioã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–‹ããƒªã‚¯ã‚¨ã‚¹ãƒˆ
     StudioOpenRequest studioRequest;
 
     std::string GetName(entt::entity e) const
@@ -59,9 +59,9 @@ struct EditorContext
         return selectedEntity == e;
     }
 
-    // ƒƒjƒ…[‚ª—§‚Ä‚éƒŠƒNƒGƒXƒg
+    // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãŒç«‹ã¦ã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
     SceneAction sceneRequest = SceneAction::None;
-    // ¡ŠJ‚¢‚Ä‚¢‚éƒV[ƒ“‚Ìƒtƒ@ƒCƒ‹
+    // ä»Šé–‹ã„ã¦ã„ã‚‹ã‚·ãƒ¼ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«
     std::string currentScenePath;
 };
 

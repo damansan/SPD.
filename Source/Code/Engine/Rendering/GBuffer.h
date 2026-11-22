@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 
 class GBuffer
 {
 public:
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(ID3D11Device* device, UINT width, UINT height);
 
-    // GeometryƒpƒXŠJn
+    // Geometryãƒ‘ã‚¹é–‹å§‹
     void BeginGeometryPass(ID3D11DeviceContext* dc,
         ID3D11DepthStencilView* dsv);
 
-    // GeometryƒpƒXI—¹
+    // Geometryãƒ‘ã‚¹çµ‚äº†
     void EndGeometryPass(ID3D11DeviceContext* dc);
 
-    // SRVƒQƒbƒ^[iLightingƒpƒX‚ÅGƒoƒbƒtƒ@‚ğ“Ç‚Şj
+    // SRVã‚²ãƒƒã‚¿ãƒ¼ï¼ˆLightingãƒ‘ã‚¹ã§Gãƒãƒƒãƒ•ã‚¡ã‚’èª­ã‚€ï¼‰
     ID3D11ShaderResourceView* GetAlbedoSRV()            const { return srvs[0].Get(); }
     ID3D11ShaderResourceView* GetNormalSRV()            const { return srvs[1].Get(); }
     ID3D11ShaderResourceView* GetPositionSRV()          const { return srvs[2].Get(); }
@@ -23,7 +23,7 @@ public:
     ID3D11ShaderResourceView* GetEmissiveSRV()          const { return srvs[4].Get(); }
     ID3D11ShaderResourceView* GetOcclusionSRV()         const { return srvs[5].Get(); }
 
-    // RTV”z—ñƒQƒbƒ^[
+    // RTVé…åˆ—ã‚²ãƒƒã‚¿ãƒ¼
     ID3D11RenderTargetView* const* GetRTVs() const { return rtvPtrs; }
     static constexpr UINT BUFFER_COUNT = 6;
 
@@ -32,6 +32,6 @@ private:
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>   rtvs[BUFFER_COUNT];
     // SRV
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srvs[BUFFER_COUNT];
-    // RTV‚Ìrawƒ|ƒCƒ“ƒ^”z—ñ
+    // RTVã®rawãƒã‚¤ãƒ³ã‚¿é…åˆ—
     ID3D11RenderTargetView* rtvPtrs[BUFFER_COUNT] = {};
 };

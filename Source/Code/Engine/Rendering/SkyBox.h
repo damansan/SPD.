@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include <wrl.h>
 #include <DirectXMath.h>
@@ -7,10 +7,10 @@
 class SkyBox
 {
 public:
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(ID3D11Device* device, const std::string& folderPath);
 
-    // •`‰æ
+    // æç”»
     void Render(
         ID3D11DeviceContext* dc,
         const DirectX::XMFLOAT4X4& view,
@@ -18,7 +18,7 @@ public:
         const DirectX::XMFLOAT3& cameraPosition
     );
 
-    // SRVƒQƒbƒ^[
+    // SRVã‚²ãƒƒã‚¿ãƒ¼
     ID3D11ShaderResourceView* GetSRV() const { return skyTexture.Get(); }
     ID3D11ShaderResourceView* GetDiffuseIem()  const { return diffuseIem.Get(); }
     ID3D11ShaderResourceView* GetLutGgx()      const { return lutGgx.Get(); }
@@ -32,35 +32,35 @@ private:
         DirectX::XMFLOAT4X4 view;
         DirectX::XMFLOAT4X4 projection;
         DirectX::XMFLOAT4   cameraPosition;
-        // 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg—pƒpƒfƒBƒ“ƒO
+        // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç”¨ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
         DirectX::XMFLOAT4   padding;
     };
 
 
-    // ’¸“_ƒVƒF[ƒ_[
+    // é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
     Microsoft::WRL::ComPtr<ID3D11VertexShader>       vertexShader;
-    // ƒsƒNƒZƒ‹ƒVƒF[ƒ_[
+    // ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
     Microsoft::WRL::ComPtr<ID3D11PixelShader>        pixelShader;
-    // “ü—ÍƒŒƒCƒAƒEƒg
+    // å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
     Microsoft::WRL::ComPtr<ID3D11InputLayout>        inputLayout;
-    // ’¸“_ƒoƒbƒtƒ@
+    // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
     Microsoft::WRL::ComPtr<ID3D11Buffer>             vertexBuffer;
-    // ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
     Microsoft::WRL::ComPtr<ID3D11Buffer>             indexBuffer;
-    // ƒLƒ…[ƒuƒ}ƒbƒvƒeƒNƒXƒ`ƒƒ
+    // ã‚­ãƒ¥ãƒ¼ãƒ–ãƒãƒƒãƒ—ãƒ†ã‚¯ã‚¹ãƒãƒ£
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> skyTexture;
-    // ƒXƒJƒCƒ{ƒbƒNƒX•`‰æ—piskybox.dds‚ª‚ ‚ê‚Î‚±‚ê‚ğg—pj
+    // ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹æç”»ç”¨ï¼ˆskybox.ddsãŒã‚ã‚Œã°ã“ã‚Œã‚’ä½¿ç”¨ï¼‰
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> skyBoxTexture;
-    // ƒTƒ“ƒvƒ‰[ƒXƒe[ƒg
+    // ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆ
     Microsoft::WRL::ComPtr<ID3D11SamplerState>       samplerState;
-    // [“xƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒgi[“x‘‚«‚İOFFj
+    // æ·±åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆï¼ˆæ·±åº¦æ›¸ãè¾¼ã¿OFFï¼‰
     Microsoft::WRL::ComPtr<ID3D11DepthStencilState>  depthStencilState;
-    // ’è”ƒoƒbƒtƒ@
+    // å®šæ•°ãƒãƒƒãƒ•ã‚¡
     Microsoft::WRL::ComPtr<ID3D11Buffer>             cbSkyBox;
 
     UINT indexCount = 0;
 
-    // IBL—pƒeƒNƒXƒ`ƒƒ
+    // IBLç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> diffuseIem;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> lutGgx;
 };

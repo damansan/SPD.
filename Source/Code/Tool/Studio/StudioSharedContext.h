@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 #include "Engine/Rendering/SkyBox.h"
 #include "Engine/Resource/ResourceManager.h"
@@ -8,7 +8,7 @@ struct StudioSharedContext
     SkyBox          skyBox;
     ResourceManager resourceManager;
 
-    // ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ìİ’è
+    // ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¨­å®š
     const PostProcessSettings* postProcessSettings = nullptr;
 
     void Initialize(ID3D11Device* device)

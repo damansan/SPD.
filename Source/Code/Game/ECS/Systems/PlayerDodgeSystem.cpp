@@ -1,4 +1,4 @@
-#include "PlayerDodgeSystem.h"
+ï»¿#include "PlayerDodgeSystem.h"
 #include <cmath>
 
 #include "Game/ECS/Components/PlayerIntentComponent.h"
@@ -12,10 +12,10 @@
 
 namespace
 {
-	// ‘Ì‚ÌŒü‚«‚©‚çŒ©‚½Šp“x·‚©‚çA4•ûŒü‚Ì‚Ç‚ê‚©‚ğŒˆ‚ß‚é
+	// ä½“ã®å‘ãã‹ã‚‰è¦‹ãŸè§’åº¦å·®ã‹ã‚‰ã€4æ–¹å‘ã®ã©ã‚Œã‹ã‚’æ±ºã‚ã‚‹
 	PlayerDodgeDirection ClassifyDirection(float diff)
 	{
-		const float quarter = DirectX::XM_PIDIV4; // 45“x
+		const float quarter = DirectX::XM_PIDIV4; // 45åº¦
 
 		if (diff > -quarter && diff <= quarter)         return PlayerDodgeDirection::Front;
 		if (diff > quarter && diff <= quarter * 3.0f)   return PlayerDodgeDirection::Right;
@@ -41,12 +41,12 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 
 			if (!stateMachine.IsIn("Dodge")) return;
 
-			// “ü‚Á‚½uŠÔ ‰ñ”ğ•ûŒü‚ğŒˆ‚ß‚é
+			// å…¥ã£ãŸç¬é–“ å›é¿æ–¹å‘ã‚’æ±ºã‚ã‚‹
 			if (stateMachine.enteredThisFrame)
 			{
 				const float bodyYaw = transform.rotation.y;
 
-				// ƒXƒeƒBƒbƒN“ü—Í‚ª–³‚¯‚ê‚ÎA‘Ì‚ÌŒã‚ë
+				// ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›ãŒç„¡ã‘ã‚Œã°ã€ä½“ã®å¾Œã‚
 				float dodgeYaw = bodyYaw + DirectX::XM_PI;
 				dodge.faceDodgeDir = false;
 
@@ -55,24 +55,24 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 					float inputYaw = PlayerMovementUtils::CalcFacingYaw(intent.moveDir.x, intent.moveDir.z);
 					float diff = PlayerMovementUtils::AngleDiff(bodyYaw, inputYaw);
 
-					// ‘Ì‚©‚çŒ©‚½8•ûŒü(-4?4B0 ‚ª‘OA+ ‚ª‰E‰ñ‚è)
+					// ä½“ã‹ã‚‰è¦‹ãŸ8æ–¹å‘(-4?4ã€‚0 ãŒå‰ã€+ ãŒå³å›ã‚Š)
 					int sector = static_cast<int>(std::round(diff / DirectX::XM_PIDIV4));
 
 					if (sector >= -1 && sector <= 1)
 					{
-						// ‘O¶E‘OE‘O‰EF45“x‚İ‚ÉŠÛ‚ß‚½•ûŒü‚ğŒü‚¢‚ÄA‘O‰ñ”ğ
+						// å‰å·¦ãƒ»å‰ãƒ»å‰å³ï¼š45åº¦åˆ»ã¿ã«ä¸¸ã‚ãŸæ–¹å‘ã‚’å‘ã„ã¦ã€å‰å›é¿
 						dodgeYaw = bodyYaw + DirectX::XM_PIDIV4 * static_cast<float>(sector);
 						dodge.faceDodgeDir = true;
 					}
 					else
 					{
-						// ‰¡EŒã‚ëF¡‚Ü‚Å‚Ç‚¨‚èAƒXƒeƒBƒbƒN‚Ì•ûŒü‚Ö(‰EŒã‚ëE¶Œã‚ë‚Í•Û—¯)
+						// æ¨ªãƒ»å¾Œã‚ï¼šä»Šã¾ã§ã©ãŠã‚Šã€ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®æ–¹å‘ã¸(å³å¾Œã‚ãƒ»å·¦å¾Œã‚ã¯ä¿ç•™)
 						dodgeYaw = inputYaw;
 					}
 				}
 				dodge.dodgeDir = PlayerMovementUtils::YawToForward(dodgeYaw);
 
-				// ƒNƒŠƒbƒv‚Ì‘I‘ğ—pF“ü‚Á‚½uŠÔ‚¾‚¯Œˆ‚ßA‰ñ”ğ’†‚Í•Ï‚¦‚È‚¢
+				// ã‚¯ãƒªãƒƒãƒ—ã®é¸æŠç”¨ï¼šå…¥ã£ãŸç¬é–“ã ã‘æ±ºã‚ã€å›é¿ä¸­ã¯å¤‰ãˆãªã„
 				dodge.direction = dodge.faceDodgeDir
 					? PlayerDodgeDirection::Front
 					: ClassifyDirection(PlayerMovementUtils::AngleDiff(bodyYaw, dodgeYaw));
@@ -84,10 +84,10 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 				dodge.elapsed = 0.0f;
 				dodge.finished = false;
 
-				// “ü‚Á‚½ƒXƒe[ƒg‚ª“ü—Í‚ğÁ”ï‚·‚é
+				// å…¥ã£ãŸã‚¹ãƒ†ãƒ¼ãƒˆãŒå…¥åŠ›ã‚’æ¶ˆè²»ã™ã‚‹
 				intent.dodge.Consume();
 			}
-			// ‰ñ”ğ’† ƒXƒeƒBƒbƒN“ü—Í‚ª‚ ‚ê‚ÎA‰ñ”ğ•ûŒü‚ğ“ü—Í‚Ì‚Ù‚¤‚Ö‹È‚°‚é
+			// å›é¿ä¸­ ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›ãŒã‚ã‚Œã°ã€å›é¿æ–¹å‘ã‚’å…¥åŠ›ã®ã»ã†ã¸æ›²ã’ã‚‹
 			else if (intent.wantsMove)
 			{
 				float dodgeYaw = PlayerMovementUtils::CalcFacingYaw(dodge.dodgeDir.x, dodge.dodgeDir.z);
@@ -96,7 +96,7 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 				dodge.dodgeDir = PlayerMovementUtils::YawToForward(dodgeYaw);
 			}
 
-			// –ˆƒtƒŒ[ƒ€ ŠÔ‚ği‚ßA‘Ì‚©‚çŒ©‚½‰ñ”ğ•ûŒü‚ğ‹‚ß‚é
+			// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ  æ™‚é–“ã‚’é€²ã‚ã€ä½“ã‹ã‚‰è¦‹ãŸå›é¿æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 			dodge.elapsed += elapsedTime;
 
 			float localDiff = PlayerMovementUtils::AngleDiff(
@@ -105,7 +105,7 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 			dodge.localX = sinf(localDiff);
 			dodge.localZ = cosf(localDiff);
 
-			// I‚í‚è‚Ì”»’èFÅ’áŠÔ‚ğ‰ß‚¬‚ÄR2‚ğ—£‚µ‚½A‚Ü‚½‚ÍÅ‘åŠÔ‚É’B‚µ‚½
+			// çµ‚ã‚ã‚Šã®åˆ¤å®šï¼šæœ€ä½æ™‚é–“ã‚’éãã¦R2ã‚’é›¢ã—ãŸã€ã¾ãŸã¯æœ€å¤§æ™‚é–“ã«é”ã—ãŸ
 			if (!dodge.finished)
 			{
 				bool released = !intent.dodge.held && dodge.elapsed >= dodge.minTime;
@@ -113,15 +113,15 @@ void PlayerDodgeSystem::Update(entt::registry& registry, float elapsedTime, cons
 				dodge.finished = released || timeUp;
 			}
 
-			// –ˆƒtƒŒ[ƒ€FLocomotion ‚Ö‚Ìw¦
+			// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ï¼šLocomotion ã¸ã®æŒ‡ç¤º
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Directional;
 			cmd.moveDir = dodge.dodgeDir;
 			cmd.targetSpeed = dodge.dodgeSpeed;
 			cmd.accelHalfLife = dodge.accelHalfLife;
 
-			// ‘O•û3•ûŒüF‰ñ”ğ’†‚¸‚Á‚ÆA‘Ì‚ğ‰ñ”ğ•ûŒü‚ÖŒü‚¯‚é
-			// ‚»‚êˆÈŠOF‘–‚èo‚·‚¾‚¯A”²‚¯‚é‘O‚ÉŒü‚«‚ğ‰ñ”ğ•ûŒü‚Ö‡‚í‚¹‚Ä‚¨‚­
+			// å‰æ–¹3æ–¹å‘ï¼šå›é¿ä¸­ãšã£ã¨ã€ä½“ã‚’å›é¿æ–¹å‘ã¸å‘ã‘ã‚‹
+			// ãã‚Œä»¥å¤–ï¼šèµ°ã‚Šå‡ºã™æ™‚ã ã‘ã€æŠœã‘ã‚‹å‰ã«å‘ãã‚’å›é¿æ–¹å‘ã¸åˆã‚ã›ã¦ãŠã
 			cmd.faceMoveDir = dodge.faceDodgeDir || (dodge.finished && intent.wantsMove);
 		});
 }

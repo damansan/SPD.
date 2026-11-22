@@ -1,4 +1,4 @@
-#include "StudioAnimationSpeed.h"
+ï»¿#include "StudioAnimationSpeed.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/ECS/Components/AnimationSpeedComponent.h"
@@ -7,7 +7,7 @@
 #include <fstream>
 #include <filesystem>
 
-// ImGui•`‰æ
+// ImGuiæç”»
 void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& context)
 {
 	if (!context.showAnimationSpeed) return;
@@ -36,7 +36,7 @@ void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& cont
 		return;
 	}
 
-	// ƒ‚ƒfƒ‹‚ªØ‚è‘Ö‚í‚Á‚½‚çA‚»‚Ìƒ‚ƒfƒ‹—p‚Ì‘¬“xƒJ[ƒuƒf[ƒ^‚ğ“Ç‚İ‚İ’¼‚·
+	// ãƒ¢ãƒ‡ãƒ«ãŒåˆ‡ã‚Šæ›¿ã‚ã£ãŸã‚‰ã€ãã®ãƒ¢ãƒ‡ãƒ«ç”¨ã®é€Ÿåº¦ã‚«ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ç›´ã™
 	if (loadedModelPath != context.currentModelPath)
 	{
 		animationSpeedData = AnimationSpeedData();
@@ -54,8 +54,8 @@ void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& cont
 			catch (const std::exception&) {}
 		}
 
-		// AnimationSpeedSystem‚ªÀÛ‚É‚±‚Ìƒf[ƒ^‚ğŒ©‚Â‚¯‚ç‚ê‚é‚æ‚¤A
-		// ‚±‚Ìƒ‚ƒfƒ‹—p‚ÌƒpƒX‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö”½‰f‚·‚é(Sequencer‚É‚Í–³‚¢è‡)
+		// AnimationSpeedSystemãŒå®Ÿéš›ã«ã“ã®ãƒ‡ãƒ¼ã‚¿ã‚’è¦‹ã¤ã‘ã‚‰ã‚Œã‚‹ã‚ˆã†ã€
+		// ã“ã®ãƒ¢ãƒ‡ãƒ«ç”¨ã®ãƒ‘ã‚¹ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸åæ˜ ã™ã‚‹(Sequencerã«ã¯ç„¡ã„æ‰‹é †)
 		animSpeed.animationSpeedPath = loadPath;
 
 		loadedModelPath = context.currentModelPath;
@@ -69,14 +69,14 @@ void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& cont
 		return;
 	}
 
-	// ‘I‚ñ‚Å‚¢‚éƒNƒŠƒbƒv‚ªØ‚è‘Ö‚í‚Á‚½‚çA‘I‘ğó‘Ô‚ğƒŠƒZƒbƒg‚·‚é
+	// é¸ã‚“ã§ã„ã‚‹ã‚¯ãƒªãƒƒãƒ—ãŒåˆ‡ã‚Šæ›¿ã‚ã£ãŸã‚‰ã€é¸æŠçŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 	if (selectedClipName != animator.currentAnimation)
 	{
 		selectedClipName = animator.currentAnimation;
 		selectedPointId = -1;
 	}
 
-	// ‚±‚ÌƒNƒŠƒbƒv‚Ì’·‚³‚ğæ“¾‚·‚é
+	// ã“ã®ã‚¯ãƒªãƒƒãƒ—ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
 	float clipLength = 0.0f;
 	for (const auto& anim : skinned.model->GetAnimations())
 	{
@@ -87,7 +87,7 @@ void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& cont
 		}
 	}
 
-	// ‚±‚ÌƒNƒŠƒbƒv‚ª¡Ä¶’†‚È‚çAƒvƒŒƒrƒ…[‚Æ‚µ‚Äg‚¤
+	// ã“ã®ã‚¯ãƒªãƒƒãƒ—ãŒä»Šå†ç”Ÿä¸­ãªã‚‰ã€ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼æ™‚åˆ»ã¨ã—ã¦ä½¿ã†
 	float previewTime = (animator.currentAnimation == selectedClipName) ? animator.animationTime : 0.0f;
 
 	AnimationSpeedClipData* clip = animationSpeedData.FindOrCreateClip(selectedClipName);
@@ -108,14 +108,14 @@ void StudioAnimationSpeed::DrawGUI(entt::registry& registry, StudioContext& cont
 	ImGui::End();
 }
 
-// ƒc[ƒ‹ƒo[
+// ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 void StudioAnimationSpeed::DrawToolbar(AnimationSpeedClipData& clip)
 {
 	ImGui::TextDisabled("Clip: %s", clip.clipName.c_str());
 	ImGui::TextDisabled("Points: %d", (int)clip.points.size());
 	ImGui::Separator();
 }
-// ƒOƒ‰ƒt•`‰æ
+// ã‚°ãƒ©ãƒ•æç”»
 void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float previewTime, float clipLength)
 {
 	const float speedMin = 0.0f;
@@ -147,7 +147,7 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 	auto speedToY = [&](float speed)
 		{
 			float t = (std::clamp(speed, speedMin, speedMax) - speedMin) / (speedMax - speedMin);
-			return graphMax.y - t * graphHeight; // ã‚És‚­‚Ù‚Ç‘¬‚¢
+			return graphMax.y - t * graphHeight; // ä¸Šã«è¡Œãã»ã©é€Ÿã„
 		};
 	auto xToTime = [&](float screenX) { return std::clamp((screenX - graphMin.x) / graphWidth, 0.0f, 1.0f); };
 	auto yToSpeed = [&](float screenY)
@@ -156,7 +156,7 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 			return speedMin + t * (speedMax - speedMin);
 		};
 
-	// ‰¡•ûŒü‚Ì–Ú·‚èü(0.5‚İB1.0”{‚¾‚¯‹­’²)
+	// æ¨ªæ–¹å‘ã®ç›®ç››ã‚Šç·š(0.5åˆ»ã¿ã€‚1.0å€ã ã‘å¼·èª¿)
 	for (float s = speedMin; s <= speedMax + 0.001f; s += 0.5f)
 	{
 		float y = speedToY(s);
@@ -169,11 +169,11 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 		dl->AddText(ImVec2(graphMin.x + 4.0f, y - 14.0f), IM_COL32(160, 160, 160, 255), label);
 	}
 
-	// ƒvƒŒƒCƒwƒbƒh(Œ»İ‚ÌÄ¶ˆÊ’u)
+	// ãƒ—ãƒ¬ã‚¤ãƒ˜ãƒƒãƒ‰(ç¾åœ¨ã®å†ç”Ÿä½ç½®)
 	float phX = timeToX(TimeToNormalized(previewTime, clipLength));
 	dl->AddLine(ImVec2(phX, graphMin.y), ImVec2(phX, graphMax.y), IM_COL32(220, 60, 60, 220), 1.5f);
 
-	// ƒ|ƒCƒ“ƒg‚ğtime‡‚É•À‚×‘Ö‚¦‚ÄA‹Èü‚Æ‚µ‚ÄŒq‚¢‚Å•`‰æ‚·‚é
+	// ãƒã‚¤ãƒ³ãƒˆã‚’timeé †ã«ä¸¦ã¹æ›¿ãˆã¦ã€æ›²ç·šã¨ã—ã¦ç¹‹ã„ã§æç”»ã™ã‚‹
 	std::vector<AnimationSpeedPoint*> sorted;
 	sorted.reserve(clip.points.size());
 	for (auto& p : clip.points) sorted.push_back(&p);
@@ -187,7 +187,7 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 		dl->AddLine(a, b, IM_COL32(120, 170, 255, 255), 2.0f);
 	}
 
-	// ƒ|ƒCƒ“ƒg–{‘Ì(ƒhƒ‰ƒbƒO‘€ì)
+	// ãƒã‚¤ãƒ³ãƒˆæœ¬ä½“(ãƒ‰ãƒ©ãƒƒã‚°æ“ä½œ)
 	ImGui::PushID("SpeedPointGraph");
 	for (auto& p : clip.points)
 	{
@@ -208,7 +208,7 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 		{
 			ImVec2 mousePos = ImGui::GetMousePos();
 
-			// n’[EI’[‚ÍX(ŠÔ)‚ğŒÅ’è‚µAY‚Ì‚İ“®‚©‚¹‚é
+			// å§‹ç«¯ãƒ»çµ‚ç«¯ã¯X(æ™‚é–“)ã‚’å›ºå®šã—ã€Yã®ã¿å‹•ã‹ã›ã‚‹
 			if (!p.isEndpoint)
 			{
 				p.time = xToTime(mousePos.x);
@@ -229,7 +229,7 @@ void StudioAnimationSpeed::DrawSpeedGraph(AnimationSpeedClipData& clip, float pr
 	ImGui::Dummy(ImVec2(0.0f, 0.0f));
 }
 
-// Ú×ƒpƒlƒ‹
+// è©³ç´°ãƒ‘ãƒãƒ«
 void StudioAnimationSpeed::DrawDetailPanel(AnimationSpeedClipData& clip, const std::string& modelPath)
 {
 	if (ImGui::Button("Save", ImVec2(-1.0f, 0.0f)))
@@ -263,7 +263,7 @@ void StudioAnimationSpeed::DrawDetailPanel(AnimationSpeedClipData& clip, const s
 
 	float timePct = point->time * 100.0f;
 
-	// n’[EI’[‚ÍŠÔ(X)‚ğŒÅ’è‚·‚é‚½‚ß•ÒW•s‰Â‚É‚·‚é
+	// å§‹ç«¯ãƒ»çµ‚ç«¯ã¯æ™‚é–“(X)ã‚’å›ºå®šã™ã‚‹ãŸã‚ç·¨é›†ä¸å¯ã«ã™ã‚‹
 	ImGui::BeginDisabled(point->isEndpoint);
 	if (ImGui::DragFloat("Time %", &timePct, 0.1f, 0.0f, 100.0f))
 	{
@@ -273,7 +273,7 @@ void StudioAnimationSpeed::DrawDetailPanel(AnimationSpeedClipData& clip, const s
 
 	ImGui::DragFloat("Speed", &point->speed, 0.01f, 0.0f, 3.0f, "%.2fx");
 
-	// n’[EI’[‚Ííœ•s‰Â
+	// å§‹ç«¯ãƒ»çµ‚ç«¯ã¯å‰Šé™¤ä¸å¯
 	if (!point->isEndpoint)
 	{
 		int pointId = point->id;
@@ -281,7 +281,7 @@ void StudioAnimationSpeed::DrawDetailPanel(AnimationSpeedClipData& clip, const s
 	}
 }
 
-// ƒ|ƒCƒ“ƒgíœ
+// ãƒã‚¤ãƒ³ãƒˆå‰Šé™¤
 void StudioAnimationSpeed::DeletePoint(AnimationSpeedClipData& clip, int id)
 {
 	clip.points.erase(
@@ -294,7 +294,7 @@ void StudioAnimationSpeed::DeletePoint(AnimationSpeedClipData& clip, int id)
 		selectedPointId = -1;
 	}
 }
-// íœƒ{ƒ^ƒ“
+// å‰Šé™¤ãƒœã‚¿ãƒ³
 void StudioAnimationSpeed::DrawDeleteButton(const char* label, const std::function<void()>& onDelete)
 {
 	ImGui::Spacing();
@@ -314,27 +314,27 @@ void StudioAnimationSpeed::DrawDeleteButton(const char* label, const std::functi
 	}
 }
 
-// •b”‚ğ0.0`1.0‚É
+// ç§’æ•°ã‚’0.0ï½1.0ã«
 float StudioAnimationSpeed::TimeToNormalized(float time, float clipLength)
 {
 	if (clipLength <= 0.0001f) return 0.0f;
 	return std::clamp(time / clipLength, 0.0f, 1.0f);
 }
 
-// 0.0`1.0‚ğ•b”‚É
+// 0.0ï½1.0ã‚’ç§’æ•°ã«
 float StudioAnimationSpeed::NormalizedToTime(float normalized, float clipLength)
 {
 	return normalized * clipLength;
 }
 
-// •Û‘¶
+// ä¿å­˜
 void StudioAnimationSpeed::Save(const std::string& modelPath)
 {
 	if (modelPath.empty()) return;
 
 	std::string savePath = GetAnimationSpeedFilePath(modelPath);
 
-	// ƒtƒHƒ‹ƒ_‚ª–³‚¯‚ê‚Îì¬‚·‚é
+	// ãƒ•ã‚©ãƒ«ãƒ€ãŒç„¡ã‘ã‚Œã°ä½œæˆã™ã‚‹
 	std::filesystem::create_directories("Data/Json/AnimSpeed");
 
 	std::ofstream ofs(savePath);
@@ -344,7 +344,7 @@ void StudioAnimationSpeed::Save(const std::string& modelPath)
 	}
 }
 
-// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 std::string StudioAnimationSpeed::GetAnimationSpeedFilePath(const std::string& modelPath)
 {
 	std::filesystem::path p(modelPath);
@@ -353,7 +353,7 @@ std::string StudioAnimationSpeed::GetAnimationSpeedFilePath(const std::string& m
 	return "Data/Json/AnimSpeed/" + modelName + ".animspeed";
 }
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“ˆê——‚ğXV‚·‚é
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸€è¦§ã‚’æ›´æ–°ã™ã‚‹
 void StudioAnimationSpeed::RefreshAvailableAnimations(entt::registry& registry)
 {
 	availableAnimations.clear();

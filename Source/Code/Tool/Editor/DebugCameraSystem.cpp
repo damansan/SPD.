@@ -1,4 +1,4 @@
-#include "DebugCameraSystem.h"
+ï»¿#include "DebugCameraSystem.h"
 #include <imgui.h>
 #include <algorithm>
 #include <cmath>
@@ -23,24 +23,24 @@ void DebugCameraSystem::ApplyToCamera(entt::registry& registry, Camera& camera)
             free.base.currentTarget,
             { 0.0f, 1.0f, 0.0f }
         );
-        // Å‰‚Ì1‚Â‚¾‚¯”½‰f
+        // æœ€åˆã®1ã¤ã ã‘åæ˜ 
         break;
     }
 }
 
 void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapsedTime, bool viewportHovered)
 {
-    // Gameƒrƒ…[ƒ|[ƒgã‚Éƒ}ƒEƒX‚ª–³‚¢‚Íˆ—‚µ‚È‚¢
+    // Gameãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆä¸Šã«ãƒã‚¦ã‚¹ãŒç„¡ã„æ™‚ã¯å‡¦ç†ã—ãªã„
     if (!viewportHovered) return;
 
-    // ‰EƒNƒŠƒbƒN’†‚¾‚¯‘€ì‚ğó‚¯•t‚¯‚é
+    // å³ã‚¯ãƒªãƒƒã‚¯ä¸­ã ã‘æ“ä½œã‚’å—ã‘ä»˜ã‘ã‚‹
     if (!(GetAsyncKeyState(VK_RBUTTON) & 0x8000))
     {
         free.firstMouse = true;
         return;
     }
 
-    // ƒzƒC[ƒ‹‚Å‘¬“x•ÏX
+    // ãƒ›ã‚¤ãƒ¼ãƒ«ã§é€Ÿåº¦å¤‰æ›´
     float wheel = ImGui::GetIO().MouseWheel;
     if (wheel != 0.0f)
     {
@@ -50,7 +50,7 @@ void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapse
 
     float move = free.cameraSpeed * elapsedTime;
 
-    // currentEye / currentTarget ‚©‚ç‘OŒã¶‰E‚ğŒvZ
+    // currentEye / currentTarget ã‹ã‚‰å‰å¾Œå·¦å³ã‚’è¨ˆç®—
     DirectX::XMVECTOR eyeV = DirectX::XMLoadFloat3(&free.base.currentEye);
     DirectX::XMVECTOR targetV = DirectX::XMLoadFloat3(&free.base.currentTarget);
     DirectX::XMVECTOR frontV = DirectX::XMVector3Normalize(
@@ -66,7 +66,7 @@ void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapse
     DirectX::XMFLOAT3 eye = free.base.currentEye;
     DirectX::XMFLOAT3 target = free.base.currentTarget;
 
-    // WASD ‘OŒã¶‰EˆÚ“®
+    // WASD å‰å¾Œå·¦å³ç§»å‹•
     if (GetAsyncKeyState('W') & 0x8000)
     {
         eye.x += front.x * move; eye.y += front.y * move; eye.z += front.z * move;
@@ -88,11 +88,11 @@ void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapse
         target.x += right.x * move; target.y += right.y * move; target.z += right.z * move;
     }
 
-    // QE ã‰ºˆÚ“®
+    // QE ä¸Šä¸‹ç§»å‹•
     if (GetAsyncKeyState('E') & 0x8000) { eye.y += move; target.y += move; }
     if (GetAsyncKeyState('Q') & 0x8000) { eye.y -= move; target.y -= move; }
 
-    // ƒ}ƒEƒX‚Å‹“_‰ñ“]
+    // ãƒã‚¦ã‚¹ã§è¦–ç‚¹å›è»¢
     POINT mousePos;
     GetCursorPos(&mousePos);
 
@@ -101,7 +101,7 @@ void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapse
         free.lastMousePos = mousePos;
         free.firstMouse = false;
 
-        // Œ»İ‚ÌŒü‚«‚©‚ç yaw / pitch ‚ğ•œŒ³
+        // ç¾åœ¨ã®å‘ãã‹ã‚‰ yaw / pitch ã‚’å¾©å…ƒ
         DirectX::XMFLOAT3 dir =
         {
             target.x - eye.x,
@@ -128,7 +128,7 @@ void DebugCameraSystem::UpdateFreeCamera(FreeCameraComponent& free, float elapse
 
     free.lastMousePos = mousePos;
 
-    // ‘O•ûŒüƒxƒNƒgƒ‹‚©‚ç target ‚ğXV
+    // å‰æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰ target ã‚’æ›´æ–°
     DirectX::XMFLOAT3 direction;
     direction.x = cosf(free.pitch) * sinf(free.yaw);
     direction.y = sinf(free.pitch);

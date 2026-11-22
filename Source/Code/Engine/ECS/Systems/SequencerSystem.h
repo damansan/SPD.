@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Data/SequencerData.h"
 #include "Engine/Core/JsonFileCache.h"
@@ -13,17 +13,17 @@ public:
 private:
 	JsonFileCache<SequencerData> dataCache;
 	
-	// ¡‰ñ‚ÌƒtƒŒ[ƒ€‚ÅÄ¶‚µ‚½‹æŠÔ
+	// ä»Šå›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§å†ç”Ÿã—ãŸåŒºé–“
 	struct PlayedSpan
 	{
-		float current = 0.0f;   // ¡‚Ì
-		float from = 0.0f;      // i‚Ş‘O
-		float to = 0.0f;        // i‚ñ‚¾Œã
-		bool  wrapped = false;  // ƒ‹[ƒv‚Å“ª‚É–ß‚Á‚½‚©
-		float clipStart = 0.0f; // ƒNƒŠƒbƒv‚Ì“ª
-		float clipEnd = 0.0f;   // ƒNƒŠƒbƒv‚ÌÅŒã
+		float current = 0.0f;   // ä»Šã®æ™‚åˆ»
+		float from = 0.0f;      // é€²ã‚€å‰
+		float to = 0.0f;        // é€²ã‚“ã å¾Œ
+		bool  wrapped = false;  // ãƒ«ãƒ¼ãƒ—ã§é ­ã«æˆ»ã£ãŸã‹
+		float clipStart = 0.0f; // ã‚¯ãƒªãƒƒãƒ—ã®é ­
+		float clipEnd = 0.0f;   // ã‚¯ãƒªãƒƒãƒ—ã®æœ€å¾Œ
 	};
 
-	// 1‘Ì‚ÌƒGƒ“ƒeƒBƒeƒB‚É‚Â‚¢‚ÄAƒtƒ‰ƒO‚ğXV‚·‚é
+	// 1ä½“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã«ã¤ã„ã¦ã€ãƒ•ãƒ©ã‚°ã‚’æ›´æ–°ã™ã‚‹
 	void UpdateFlags(SequencerComponent& seq, const SequencerClipData* clip, const PlayedSpan& span);
 };

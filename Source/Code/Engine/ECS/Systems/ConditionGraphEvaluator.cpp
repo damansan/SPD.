@@ -1,10 +1,10 @@
-#include "ConditionGraphEvaluator.h"
+ï»¿#include "ConditionGraphEvaluator.h"
 #include "Engine/Resource/ComponentRegistry.h"
 #include "Engine/ECS/Reflection.h"
 #include <DirectXMath.h>
 #include <cmath>
 
-// ‘JˆÚğŒ‚ª¬—§‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
+// é·ç§»æ¡ä»¶ãŒæˆç«‹ã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™
 bool ConditionGraphEvaluator::Evaluate(const ConditionGraph& graph, entt::registry& registry, entt::entity entity)
 {
 	int fromId = -1;
@@ -16,46 +16,46 @@ bool ConditionGraphEvaluator::Evaluate(const ConditionGraph& graph, entt::regist
 			break;
 		}
 	}
-	if (fromId == -1) return false; // Return‚É‰½‚à‚Â‚È‚ª‚Á‚Ä‚¢‚È‚¢‚È‚ç•s¬—§
+	if (fromId == -1) return false; // Returnã«ä½•ã‚‚ã¤ãªãŒã£ã¦ã„ãªã„ãªã‚‰ä¸æˆç«‹
 
-	// Œq‚ª‚Á‚Ä‚¢‚é‚Ì‚ªOperator‚È‚çA‚»‚Ì”äŠrŒ‹‰Ê‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã®ãŒOperatorãªã‚‰ã€ãã®æ¯”è¼ƒçµæœã‚’ãã®ã¾ã¾è¿”ã™
 	for (const auto& o : graph.operatorNodes)
 		if (o.id == fromId) return EvaluateOperator(graph, o, registry, entity);
-	// Œq‚ª‚Á‚Ä‚¢‚é‚Ì‚ªLogic(AND/OR)‚È‚çA‚»‚ÌŒ‹‰Ê‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã®ãŒLogic(AND/OR)ãªã‚‰ã€ãã®çµæœã‚’ãã®ã¾ã¾è¿”ã™
 	for (const auto& l : graph.logicNodes)
 		if (l.id == fromId) return EvaluateLogic(graph, l, registry, entity);
-	// Œq‚ª‚Á‚Ä‚¢‚é‚Ì‚ªGetter(BoolŒ^)‚È‚çA0.5‚æ‚èã‚Åtrue‚Æ‚İ‚È‚·
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã®ãŒGetter(Boolå‹)ãªã‚‰ã€0.5ã‚ˆã‚Šä¸Šã§trueã¨ã¿ãªã™
 	for (const auto& g : graph.getterNodes)
 		if (g.id == fromId) return GetGetterValue(g, registry, entity) > 0.5f;
-	// Œq‚ª‚Á‚Ä‚¢‚é‚Ì‚ªVariable(BoolŒ^)‚È‚çA0.5‚æ‚èã‚Åtrue‚Æ‚İ‚È‚·
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã®ãŒVariable(Boolå‹)ãªã‚‰ã€0.5ã‚ˆã‚Šä¸Šã§trueã¨ã¿ãªã™
 	for (const auto& v : graph.variableNodes)
 		if (v.id == fromId) return GetVariableValue(v) > 0.5f;
-	// Œq‚ª‚Á‚Ä‚¢‚é‚Ì‚ªNot‚È‚çA‚»‚ÌŒ‹‰Ê‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·
+	// ç¹‹ãŒã£ã¦ã„ã‚‹ã®ãŒNotãªã‚‰ã€ãã®çµæœã‚’ãã®ã¾ã¾è¿”ã™
 	for (const auto& n : graph.notNodes)
 		if (n.id == fromId) return EvaluateNot(graph, n, registry, entity);
 
-	return false; // ‚Ç‚ê‚É‚àŠY“–‚µ‚È‚¢ê‡
+	return false; // ã©ã‚Œã«ã‚‚è©²å½“ã—ãªã„å ´åˆ
 }
 
-// ƒQƒbƒ^[ƒm[ƒh‚Åæ“¾‚µ‚Ä‚¢‚é’l‚ğæ“¾‚·‚é
+// ã‚²ãƒƒã‚¿ãƒ¼ãƒãƒ¼ãƒ‰ã§å–å¾—ã—ã¦ã„ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹
 float ConditionGraphEvaluator::GetGetterValue(const ConditionGetterNode& node, entt::registry& registry, entt::entity entity)
 {
-	// ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ÆƒtƒB[ƒ‹ƒh‚ÌƒR[ƒhã‚Ì–¼‘O‚©‚çAFieldEntry‚ğ’T‚·
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã¨ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã‚³ãƒ¼ãƒ‰ä¸Šã®åå‰ã‹ã‚‰ã€FieldEntryã‚’æ¢ã™
 	const FieldEntry* found = Reflection::FindField(node.componentName, node.fieldName);
 	if (!found) return 0.0f;
 
-	// ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌÀ‘Ì‚ğæ“¾‚·‚é
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å®Ÿä½“ã‚’å–å¾—ã™ã‚‹
 	entt::meta_any instance;
 
-	// ComponentRegistry‚É“o˜^‚³‚ê‚Ä‚¢‚ê‚ÎA‚»‚¿‚ç‚©‚çæ“¾‚·‚é
+	// ComponentRegistryã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚Œã°ã€ãã¡ã‚‰ã‹ã‚‰å–å¾—ã™ã‚‹
 	if (const ComponentInfo* info = ComponentRegistry::Get(node.componentName)) 
 	{
 		instance = info->getMeta(registry, entity);
 	}
 	else
 	{
-		// “o˜^‚³‚ê‚Ä‚¢‚È‚¢(‘¼‚ÌComponent‚Æ‚Ü‚Æ‚ß‚Ä•t—^‚³‚ê‚é“™)ê‡‚ÍA
-		// Œ^î•ñ‚©‚çEnTT‚ÌƒXƒgƒŒ[ƒW‚ğ’¼Úˆø‚¢‚Äæ“¾‚·‚é
+		// ç™»éŒ²ã•ã‚Œã¦ã„ãªã„(ä»–ã®Componentã¨ã¾ã¨ã‚ã¦ä»˜ä¸ã•ã‚Œã‚‹ç­‰)å ´åˆã¯ã€
+		// å‹æƒ…å ±ã‹ã‚‰EnTTã®ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸ã‚’ç›´æ¥å¼•ã„ã¦å–å¾—ã™ã‚‹
 		if (auto* storage = registry.storage(found->componentType.info().hash()))
 		{
 			if (storage->contains(entity))
@@ -67,18 +67,18 @@ float ConditionGraphEvaluator::GetGetterValue(const ConditionGetterNode& node, e
 
 	if (!instance) return 0.0f;
 
-	// Œ^î•ñ‚©‚çƒtƒB[ƒh‚Ì’l‚ğæ“¾‚·‚é
+	// å‹æƒ…å ±ã‹ã‚‰ãƒ•ã‚£ãƒ¼ãƒ‰ã®å€¤ã‚’å–å¾—ã™ã‚‹
 	entt::meta_data data = found->componentType.data(found->fieldId);
 	entt::meta_any value = data.get(instance);
 
-	// ƒlƒXƒg‚µ‚½ƒtƒB[ƒ‹ƒh‚Ìê‡A‚à‚¤1’iŠK‚¾‚¯Œ@‚è‰º‚°‚é
+	// ãƒã‚¹ãƒˆã—ãŸãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å ´åˆã€ã‚‚ã†1æ®µéšã ã‘æ˜ã‚Šä¸‹ã’ã‚‹
 	if (found->subFieldId != 0 && found->nestedType)
 	{
 		entt::meta_data subData = found->nestedType.data(found->subFieldId);
 		value = subData.get(value);
 	}
 
-	// ŠeŒ^‚ğfloat‚É•ÏŠ·‚·‚é
+	// å„å‹ã‚’floatã«å¤‰æ›ã™ã‚‹
 	if (float* f = value.try_cast<float>()) return *f;
 	if (int* i = value.try_cast<int>())     return static_cast<float>(*i);
 	if (bool* b = value.try_cast<bool>())   return *b ? 1.0f : 0.0f;
@@ -116,7 +116,7 @@ float ConditionGraphEvaluator::GetGetterValue(const ConditionGetterNode& node, e
 
 	return 0.0f;
 }
-// •Ï”ƒm[ƒh‚Å•Û‚µ‚Ä‚¢‚é’l‚ğæ“¾‚·‚é
+// å¤‰æ•°ãƒãƒ¼ãƒ‰ã§ä¿æŒã—ã¦ã„ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹
 float ConditionGraphEvaluator::GetVariableValue(const ConditionVariableNode& node)
 {
 	switch (node.type)
@@ -128,10 +128,10 @@ float ConditionGraphEvaluator::GetVariableValue(const ConditionVariableNode& nod
 	}
 }
 
-// ”äŠrƒm[ƒh‚ğ‰‰Z‚µŒ‹‰Ê‚ğ•Ô‚·
+// æ¯”è¼ƒãƒãƒ¼ãƒ‰ã‚’æ¼”ç®—ã—çµæœã‚’è¿”ã™
 bool ConditionGraphEvaluator::EvaluateOperator(const ConditionGraph& graph, const ConditionOperatorNode& op, entt::registry& registry, entt::entity entity)
 {
-	// A/B‚»‚ê‚¼‚ê‚ÉŒq‚ª‚Á‚Ä‚¢‚éƒm[ƒh‚ÌID‚ğ’T‚·
+	// A/Bãã‚Œãã‚Œã«ç¹‹ãŒã£ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ã®IDã‚’æ¢ã™
 	int fromIdA = -1;
 	int fromIdB = -1;
 	for (const auto& link : graph.links)
@@ -141,12 +141,12 @@ bool ConditionGraphEvaluator::EvaluateOperator(const ConditionGraph& graph, cons
 		else             fromIdA = link.fromId;
 	}
 
-	if (fromIdA == -1 || fromIdB == -1) return false; // •Ğ•û‚Å‚à–¢Ú‘±‚È‚çA•s¬—§ˆµ‚¢
+	if (fromIdA == -1 || fromIdB == -1) return false; // ç‰‡æ–¹ã§ã‚‚æœªæ¥ç¶šãªã‚‰ã€ä¸æˆç«‹æ‰±ã„
 
 	float a = ResolveInputValue(graph, fromIdA, registry, entity);
 	float b = ResolveInputValue(graph, fromIdB, registry, entity);
 
-	const float epsilon = 0.0001f; // •‚“®¬”“_‚ÌŒë·‚ğ‹zû‚·‚é‚½‚ß‚Ì‹–—e”ÍˆÍ
+	const float epsilon = 0.0001f; // æµ®å‹•å°æ•°ç‚¹ã®èª¤å·®ã‚’å¸åã™ã‚‹ãŸã‚ã®è¨±å®¹ç¯„å›²
 
 	switch (op.op)
 	{
@@ -162,7 +162,7 @@ bool ConditionGraphEvaluator::EvaluateOperator(const ConditionGraph& graph, cons
 
 bool ConditionGraphEvaluator::EvaluateLogic(const ConditionGraph& graph, const ConditionLogicNode& logic, entt::registry& registry, entt::entity entity)
 {
-	// A/B‚»‚ê‚¼‚ê‚ÉŒq‚ª‚Á‚Ä‚¢‚éƒm[ƒhID‚ğ’T‚·
+	// A/Bãã‚Œãã‚Œã«ç¹‹ãŒã£ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰IDã‚’æ¢ã™
 	int fromIdA = -1;
 	int fromIdB = -1;
 	for (const auto& link : graph.links)
@@ -172,7 +172,7 @@ bool ConditionGraphEvaluator::EvaluateLogic(const ConditionGraph& graph, const C
 		else             fromIdA = link.fromId;
 	}
 
-	if (fromIdA == -1 || fromIdB == -1) return false; // •Ğ•û‚Å‚à–¢Ú‘±‚È‚çA•s¬—§
+	if (fromIdA == -1 || fromIdB == -1) return false; // ç‰‡æ–¹ã§ã‚‚æœªæ¥ç¶šãªã‚‰ã€ä¸æˆç«‹
 
 	bool a = ResolveInputValue(graph, fromIdA, registry, entity) > 0.5f;
 	bool b = ResolveInputValue(graph, fromIdB, registry, entity) > 0.5f;
@@ -185,10 +185,10 @@ bool ConditionGraphEvaluator::EvaluateLogic(const ConditionGraph& graph, const C
 	return false;
 }
 
-// ”Û’èƒm[ƒh‚ğ‰‰Z‚µŒ‹‰Ê‚ğ•Ô‚·
+// å¦å®šãƒãƒ¼ãƒ‰ã‚’æ¼”ç®—ã—çµæœã‚’è¿”ã™
 bool ConditionGraphEvaluator::EvaluateNot(const ConditionGraph& graph, const ConditionNotNode& notNode, entt::registry& registry, entt::entity entity)
 {
-	// “ü—Íƒsƒ“(1–{‚Ì‚İ)‚ÉŒq‚ª‚Á‚Ä‚¢‚éƒm[ƒhID‚ğ’T‚·
+	// å…¥åŠ›ãƒ”ãƒ³(1æœ¬ã®ã¿)ã«ç¹‹ãŒã£ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰IDã‚’æ¢ã™
 	int fromId = -1;
 	for (const auto& link : graph.links)
 	{
@@ -199,13 +199,13 @@ bool ConditionGraphEvaluator::EvaluateNot(const ConditionGraph& graph, const Con
 		}
 	}
 
-	if (fromId == -1) return false; // –¢Ú‘±‚È‚ç•s¬—§ˆµ‚¢
+	if (fromId == -1) return false; // æœªæ¥ç¶šãªã‚‰ä¸æˆç«‹æ‰±ã„
 
 	bool input = ResolveInputValue(graph, fromId, registry, entity) > 0.5f;
 	return !input;
 }
 
-// ƒm[ƒhID‚©‚ç“ü—Í’l‚ğfloat‚Æ‚µ‚Ä‰ğŒˆ‚·‚é
+// ãƒãƒ¼ãƒ‰IDã‹ã‚‰å…¥åŠ›å€¤ã‚’floatã¨ã—ã¦è§£æ±ºã™ã‚‹
 float ConditionGraphEvaluator::ResolveInputValue(const ConditionGraph& graph, int nodeId, entt::registry& registry, entt::entity entity)
 {
 	for (const auto& g : graph.getterNodes)
@@ -224,5 +224,5 @@ float ConditionGraphEvaluator::ResolveInputValue(const ConditionGraph& graph, in
 		if (n.id == nodeId) return EvaluateNot(graph, n, registry, entity) ? 1.0f : 0.0f;
 
 
-	return 0.0f; // ‚Ç‚Ìƒm[ƒh‚É‚àŠY“–‚µ‚È‚¢ê‡
+	return 0.0f; // ã©ã®ãƒãƒ¼ãƒ‰ã«ã‚‚è©²å½“ã—ãªã„å ´åˆ
 }

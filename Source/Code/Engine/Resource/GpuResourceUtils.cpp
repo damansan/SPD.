@@ -1,4 +1,4 @@
-#define STB_IMAGE_IMPLEMENTATION
+ï»¿#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "GpuResourceUtils.h"
 #include "DDSTextureLoader.h"
@@ -9,7 +9,7 @@
 #include <DirectXTex.h>
 #include <filesystem>
 
-// ’¸“_ƒVƒF[ƒ_[“Ç‚İ‚İ
+// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadVertexShader(
 	ID3D11Device* device,
 	const std::string& filename,
@@ -18,26 +18,26 @@ HRESULT GpuResourceUtils::LoadVertexShader(
 	Microsoft::WRL::ComPtr<ID3D11InputLayout>& inputLayout,
 	Microsoft::WRL::ComPtr<ID3D11VertexShader>& vertexShader)
 {
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	FILE* fp = nullptr;
 	fopen_s(&fp, filename.c_str(), "rb");
 	_ASSERT_EXPR_A(fp, "VertexShader File not found");
 
-	// ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ‹‚ß‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’æ±‚ã‚ã‚‹
 	fseek(fp, 0, SEEK_END);
 	long size{ ftell(fp) };
 	fseek(fp, 0, SEEK_SET);
 
-	//ƒƒ‚ƒŠã‚É’¸“_ƒf[ƒ^‚ğŠi”[‚·‚é—Ìˆæ‚ğ—pˆÓ‚·‚é
+	//ãƒ¡ãƒ¢ãƒªä¸Šã«é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹é ˜åŸŸã‚’ç”¨æ„ã™ã‚‹
 	std::unique_ptr<u_char[]> cso_data = std::make_unique<u_char[]>(size);
 	fread(cso_data.get(), size, 1, fp);
 	fclose(fp);
 
-	// ’¸“_ƒVƒF[ƒ_[¶¬
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”Ÿæˆ
 	HRESULT hr = device->CreateVertexShader(cso_data.get(), size, nullptr, vertexShader.GetAddressOf());
 	_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-	//“ü—ÍƒŒƒCƒAƒEƒg
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	//if (inputLayout != nullptr)
 	if (inputElementDescs != nullptr && inputElementCount > 0)
 	{
@@ -47,35 +47,35 @@ HRESULT GpuResourceUtils::LoadVertexShader(
 	return hr;
 }
 
-// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[“Ç‚İ‚İ
+// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadPixelShader(
 	ID3D11Device* device,
 	const std::string& filename,
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>& pixelShader)
 {
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	FILE* fp = nullptr;
 	fopen_s(&fp, filename.c_str(), "rb");
 	_ASSERT_EXPR_A(fp, "PixelShader File not found");
 
-	// ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ‹‚ß‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’æ±‚ã‚ã‚‹
 	fseek(fp, 0, SEEK_END);
 	long size = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
 
-	//ƒƒ‚ƒŠã‚ÉƒsƒNƒZƒ‹ƒf[ƒ^‚ğŠi”[‚·‚é—Ìˆæ‚ğ—pˆÓ‚·‚é
+	//ãƒ¡ãƒ¢ãƒªä¸Šã«ãƒ”ã‚¯ã‚»ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹é ˜åŸŸã‚’ç”¨æ„ã™ã‚‹
 	std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(size);
 	fread(data.get(), size, 1, fp);
 	fclose(fp);
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_[¶¬
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”Ÿæˆ
 	HRESULT hr = device->CreatePixelShader(data.get(), size, nullptr, pixelShader.GetAddressOf());
 	_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
 	return hr;
 }
 
-// –„‚ß‚İƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+// åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadTexture(
 	ID3D11Device* device,
 	const unsigned char* data,
@@ -86,24 +86,24 @@ HRESULT GpuResourceUtils::LoadTexture(
 {
 	const bool srgb = (colorSpace == TextureColorSpace::sRGB);
 	
-	// ƒOƒŒ[ƒXƒP[ƒ‹‚â1ƒ`ƒƒƒ“ƒlƒ‹‚Ì‰æ‘œ‚à RGBA ‚ÉL‚°‚Ä“Ç‚Ş
+	// ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã‚„1ãƒãƒ£ãƒ³ãƒãƒ«ã®ç”»åƒã‚‚ RGBA ã«åºƒã’ã¦èª­ã‚€
 	const DirectX::WIC_LOADER_FLAGS wicFlags = static_cast<DirectX::WIC_LOADER_FLAGS>(
 		DirectX::WIC_LOADER_FORCE_RGBA32 |
 		(srgb ? DirectX::WIC_LOADER_FORCE_SRGB : DirectX::WIC_LOADER_IGNORE_SRGB));
 
-	// ‚Ü‚¸WIC‚Å‚İ‚éiPNGEJPGj
+	// ã¾ãšWICã§è©¦ã¿ã‚‹ï¼ˆPNGãƒ»JPGï¼‰
 	HRESULT hr = DirectX::CreateWICTextureFromMemoryEx(
 		device, data, dataSize,
-		0,                          // Å‘åƒTƒCƒY
-		D3D11_USAGE_DEFAULT,        // GPU ‚¾‚¯‚ª“Ç‚İ‘‚«‚·‚é
-		D3D11_BIND_SHADER_RESOURCE, // ƒVƒF[ƒ_[‚©‚ç“Ç‚Ş
-		0, 0,                       // CPU ƒAƒNƒZƒXE‚»‚Ì‘¼‚Ìƒtƒ‰ƒO
+		0,                          // æœ€å¤§ã‚µã‚¤ã‚º
+		D3D11_USAGE_DEFAULT,        // GPU ã ã‘ãŒèª­ã¿æ›¸ãã™ã‚‹
+		D3D11_BIND_SHADER_RESOURCE, // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰èª­ã‚€
+		0, 0,                       // CPU ã‚¢ã‚¯ã‚»ã‚¹ãƒ»ãã®ä»–ã®ãƒ•ãƒ©ã‚°
 		wicFlags,
 		nullptr, shaderResourceView.GetAddressOf());
 
 	if (SUCCEEDED(hr)) return hr;
 
-	// WIC¸”s‚Ístb_image‚Å“Ç‚İ‚ŞiTGA“™j
+	// WICå¤±æ•—æ™‚ã¯stb_imageã§èª­ã¿è¾¼ã‚€ï¼ˆTGAç­‰ï¼‰
 	int width, height, channels;
 	unsigned char* rgba = stbi_load_from_memory(
 		data, static_cast<int>(dataSize),
@@ -137,7 +137,7 @@ HRESULT GpuResourceUtils::LoadTexture(
 	}
 	else
 	{
-		// stb_image‚à¸”s‚µ‚½ê‡‚Íƒ_ƒ~[
+		// stb_imageã‚‚å¤±æ•—ã—ãŸå ´åˆã¯ãƒ€ãƒŸãƒ¼
 		hr = CreateDummyTexture(device, shaderResourceView, 0xFFFFFFFF, 1);
 	}
 
@@ -145,19 +145,19 @@ HRESULT GpuResourceUtils::LoadTexture(
 	return hr;
 }
 
-// ƒtƒ@ƒCƒ‹ƒpƒX‚©‚çƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+// ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadTextureFromFile(
 	ID3D11Device* device,
 	const std::string& filename,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
 	TextureColorSpace colorSpace)
 {
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚ÄƒoƒCƒiƒŠ‚ğ“Ç‚İ‚Ş
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ãƒã‚¤ãƒŠãƒªã‚’èª­ã¿è¾¼ã‚€
 	FILE* fp = nullptr;
 	fopen_s(&fp, filename.c_str(), "rb");
 	if (!fp)
 	{
-		// ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚Íƒ_ƒ~[‚ğ•Ô‚·
+		// ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ãƒ€ãƒŸãƒ¼ã‚’è¿”ã™
 		return CreateDummyTexture(device, shaderResourceView, 0xFFFFFFFF, 1);
 	}
 
@@ -169,11 +169,11 @@ HRESULT GpuResourceUtils::LoadTextureFromFile(
 	fread(data.data(), size, 1, fp);
 	fclose(fp);
 
-	// Šù‘¶‚Ì LoadTextureiƒƒ‚ƒŠ”Åj‚É—¬‚·
+	// æ—¢å­˜ã® LoadTextureï¼ˆãƒ¡ãƒ¢ãƒªç‰ˆï¼‰ã«æµã™
 	return LoadTexture(device, data.data(), data.size(), shaderResourceView, colorSpace);
 }
 
-// DDSƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+// DDSãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadDDSTexture(
 	ID3D11Device* device,
 	const std::string& filename,
@@ -182,10 +182,10 @@ HRESULT GpuResourceUtils::LoadDDSTexture(
 	TextureColorSpace colorSpace
 ) 
 {
-	// std::string‚ğstd::wstring•ÏŠ·
+	// std::stringã‚’std::wstringå¤‰æ›
 	std::wstring wfilename = ToWString(filename);
 
-	// sRGBƒtƒ‰ƒO‚ğw’è
+	// sRGBãƒ•ãƒ©ã‚°ã‚’æŒ‡å®š
 	const DirectX::DDS_LOADER_FLAGS ddsFlags = (colorSpace == TextureColorSpace::sRGB)
 		? DirectX::DDS_LOADER_FORCE_SRGB
 		: DirectX::DDS_LOADER_DEFAULT;
@@ -193,15 +193,15 @@ HRESULT GpuResourceUtils::LoadDDSTexture(
 	Microsoft::WRL::ComPtr<ID3D11Resource> resource;
 	HRESULT hr = DirectX::CreateDDSTextureFromFileEx(
 		device, wfilename.c_str(),
-		0,                          // Å‘åƒTƒCƒY
+		0,                          // æœ€å¤§ã‚µã‚¤ã‚º
 		D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE,
-		0, 0,                       // CPU ƒAƒNƒZƒXE‚»‚Ì‘¼‚Ìƒtƒ‰ƒO
+		0, 0,                       // CPU ã‚¢ã‚¯ã‚»ã‚¹ãƒ»ãã®ä»–ã®ãƒ•ãƒ©ã‚°
 		ddsFlags,
 		resource.GetAddressOf(), shaderResourceView.GetAddressOf());
 	_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-	// ƒLƒ…[ƒuƒ}ƒbƒv”»’è
+	// ã‚­ãƒ¥ãƒ¼ãƒ–ãƒãƒƒãƒ—åˆ¤å®š
 	if (isCubemap != nullptr)
 	{
 		*isCubemap = false;
@@ -215,39 +215,39 @@ HRESULT GpuResourceUtils::LoadDDSTexture(
 	}
 	return hr;
 }
-// DDSƒLƒƒƒbƒVƒ…•t‚«ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+// DDSã‚­ãƒ£ãƒƒã‚·ãƒ¥ä»˜ããƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 HRESULT GpuResourceUtils::LoadTextureWithDDSCache(
 	ID3D11Device* device,
 	const std::string& filename,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
 	TextureColorSpace colorSpace) 
 {
-	// “¯–¼‚Ì .dds ƒLƒƒƒbƒVƒ…ƒpƒX‚ğ¶¬
+	// åŒåã® .dds ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‘ã‚¹ã‚’ç”Ÿæˆ
 	std::string ddsPath = filename + ".dds";
 
-	// ƒLƒƒƒbƒVƒ…‚ª–³‚¯‚ê‚ÎAæ‚Éì‚é
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒç„¡ã‘ã‚Œã°ã€å…ˆã«ä½œã‚‹
 	if (!std::filesystem::exists(ddsPath))
 	{
 		SaveToDDS(device, filename, ddsPath);
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚©‚ç“Ç‚Ş
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰èª­ã‚€
 	if (std::filesystem::exists(ddsPath))
 	{
 		HRESULT hr = LoadDDSTexture(device, ddsPath, shaderResourceView, nullptr, colorSpace);
 		if (SUCCEEDED(hr)) return hr;
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚ğì‚ê‚È‚©‚Á‚½E“Ç‚ß‚È‚©‚Á‚½‚Æ‚«‚¾‚¯AŒ³‚Ìƒtƒ@ƒCƒ‹‚©‚ç’¼Ú“Ç‚Ş
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Œãªã‹ã£ãŸãƒ»èª­ã‚ãªã‹ã£ãŸã¨ãã ã‘ã€å…ƒã®ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ç›´æ¥èª­ã‚€
 	return LoadTextureFromFile(device, filename, shaderResourceView, colorSpace);
 }
-// PNG‚È‚Ç‚Ìƒtƒ@ƒCƒ‹‚ğDDS‚Æ‚µ‚Ä•Û‘¶
+// PNGãªã©ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’DDSã¨ã—ã¦ä¿å­˜
 HRESULT GpuResourceUtils::SaveToDDS(
 	ID3D11Device* device, 
 	const std::string& srcFilename, 
 	const std::string& ddsFilename)
 {
-	// ƒtƒ@ƒCƒ‹‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ¡ãƒ¢ãƒªã«èª­ã¿è¾¼ã‚€
 	FILE* fp = nullptr;
 	fopen_s(&fp, srcFilename.c_str(), "rb");
 	if (!fp) return E_FAIL;
@@ -259,9 +259,9 @@ HRESULT GpuResourceUtils::SaveToDDS(
 	fread(data.data(), size, 1, fp);
 	fclose(fp);
 
-	// DirectXTex ‚Åƒƒ‚ƒŠ‚©‚çƒCƒ[ƒW‚ğ“Ç‚İ‚Ş
+	// DirectXTex ã§ãƒ¡ãƒ¢ãƒªã‹ã‚‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’èª­ã¿è¾¼ã‚€
 	DirectX::ScratchImage image;
-	// ‰æ‘œ‚Ì’†‚Ì sRGB ‚Ì–Úˆó‚Í–³‹‚µ‚ÄA’†g‚Ì”’l‚ğ‚»‚Ì‚Ü‚Ü•Û‘¶‚·‚é
+	// ç”»åƒã®ä¸­ã® sRGB ã®ç›®å°ã¯ç„¡è¦–ã—ã¦ã€ä¸­èº«ã®æ•°å€¤ã‚’ãã®ã¾ã¾ä¿å­˜ã™ã‚‹
 	HRESULT hr = DirectX::LoadFromWICMemory(
 		data.data(), data.size(),
 		DirectX::WIC_FLAGS_IGNORE_SRGB,
@@ -270,7 +270,7 @@ HRESULT GpuResourceUtils::SaveToDDS(
 	if (FAILED(hr)) return hr;
 
 
-	// ƒ~ƒbƒvƒ}ƒbƒv‚ğ¶¬i0 = 1x1‚Ü‚Å‘S’iì‚éj
+	// ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã‚’ç”Ÿæˆï¼ˆ0 = 1x1ã¾ã§å…¨æ®µä½œã‚‹ï¼‰
 	DirectX::ScratchImage mipChain;
 	hr = DirectX::GenerateMipMaps(
 		image.GetImages(),
@@ -282,7 +282,7 @@ HRESULT GpuResourceUtils::SaveToDDS(
 
 	if (FAILED(hr)) return hr;
 
-	// BC3ˆ³kiVRAMg—p—Ê‚ğ1/4‚Éj
+	// BC3åœ§ç¸®ï¼ˆVRAMä½¿ç”¨é‡ã‚’1/4ã«ï¼‰
 	DirectX::ScratchImage compressed;
 	HRESULT compHr = DirectX::Compress(
 		mipChain.GetImages(),
@@ -293,10 +293,10 @@ HRESULT GpuResourceUtils::SaveToDDS(
 		DirectX::TEX_THRESHOLD_DEFAULT,
 		compressed);
 
-	// ˆ³k‚Å‚«‚È‚©‚Á‚½ê‡iƒTƒCƒY‚ª4‚Ì”{”‚Å‚È‚¢“™j‚Í”ñˆ³k‚Ì‚Ü‚Ü•Û‘¶
+	// åœ§ç¸®ã§ããªã‹ã£ãŸå ´åˆï¼ˆã‚µã‚¤ã‚ºãŒ4ã®å€æ•°ã§ãªã„ç­‰ï¼‰ã¯éåœ§ç¸®ã®ã¾ã¾ä¿å­˜
 	const DirectX::ScratchImage& src = SUCCEEDED(compHr) ? compressed : mipChain;
 
-	// DDSŒ`®‚Å•Û‘¶iƒ~ƒbƒv•t‚«j
+	// DDSå½¢å¼ã§ä¿å­˜ï¼ˆãƒŸãƒƒãƒ—ä»˜ãï¼‰
 	std::wstring wDdsPath = ToWString(ddsFilename);
 	hr = DirectX::SaveToDDSFile(
 		src.GetImages(),
@@ -308,7 +308,7 @@ HRESULT GpuResourceUtils::SaveToDDS(
 	return hr;
 }
 
-// ƒ_ƒ~[ƒeƒNƒXƒ`ƒƒ¶¬
+// ãƒ€ãƒŸãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆ
 HRESULT GpuResourceUtils::CreateDummyTexture(
 	ID3D11Device* device,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& shaderResourceView,
@@ -353,14 +353,14 @@ HRESULT GpuResourceUtils::CreateDummyTexture(
 	return hr;
 }
 
-// ’è”ƒoƒbƒtƒ@¶¬
+// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 HRESULT GpuResourceUtils::CreateConstantBuffer(
 	ID3D11Device* device,
 	UINT byteWidth,
 	Microsoft::WRL::ComPtr<ID3D11Buffer>& constantBuffer
 )
 {
-	// 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒgŠm”F
+	// 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç¢ºèª
 	_ASSERT_EXPR_A(byteWidth % 16 == 0, "Constant buffer size must be a multiple of 16 bytes.");
 
 	D3D11_BUFFER_DESC desc{};

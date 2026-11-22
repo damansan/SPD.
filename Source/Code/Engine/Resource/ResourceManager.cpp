@@ -1,20 +1,20 @@
-#include "ResourceManager.h"
+ï»¿#include "ResourceManager.h"
 #include "GLTFImporter.h"
 #include "GLTFConverter.h" 
 #include "ModelSerializer.h" 
-#include "GpuResourceUtils.h" //iGPUÄ¶¬—pj
+#include "GpuResourceUtils.h" //ï¼ˆGPUå†ç”Ÿæˆç”¨ï¼‰
 
 #include "Engine/Core/Log.h"
 #include "Engine/Resource/AnimationEditBaker.h"
 
-// ƒ‚ƒfƒ‹æ“¾
+// ãƒ¢ãƒ‡ãƒ«å–å¾—
 std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std::string& filename)
 {
-	// ƒLƒƒƒbƒVƒ…ŒŸõ
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ¤œç´¢
 	auto it = modelCache.find(filename);
 	if (it != modelCache.end())
 	{
-		// ƒLƒƒƒbƒVƒ…‚ª—LŒø‚È‚çg‚¢‰ñ‚·
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒæœ‰åŠ¹ãªã‚‰ä½¿ã„å›ã™
 		return it->second;
 	}
 
@@ -22,38 +22,38 @@ std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std
 
 	const std::string cerealPath = ModelSerializer::ToCerealPath(filename);
 
-	// .cereal ‚ª‚ ‚é(.cereal‚ğ“Ç‚İ‚Ş)
+	// .cereal ãŒã‚ã‚‹(.cerealã‚’èª­ã¿è¾¼ã‚€)
 	if (ModelSerializer::Exists(filename))
 	{
-		Log(u8" .cereal ‚©‚ç“Ç‚İ‚İ: %s", LogPath(cerealPath).c_str());
+		Log(" .cereal ã‹ã‚‰èª­ã¿è¾¼ã¿: %s", LogPath(cerealPath).c_str());
 
 		model = std::make_shared<Model>();
 		ModelSerializer::Load(*model, ModelSerializer::ToCerealPath(filename));
 		GLTFConverter::CreateGpuResources(device, *model);
 	}
-	// .cereal ‚ª‚È‚¢(GLTF‚ğ“Ç‚İ‚Ş)
+	// .cereal ãŒãªã„(GLTFã‚’èª­ã¿è¾¼ã‚€)
 	else
 	{
-		Log(u8" glTF ‚©‚ç•ÏŠ·: %s -> %s", LogPath(filename).c_str(), LogPath(cerealPath).c_str());
+		Log(" glTF ã‹ã‚‰å¤‰æ›: %s -> %s", LogPath(filename).c_str(), LogPath(cerealPath).c_str());
 
 		auto gltfData = GLTFImporter::Load(filename);
 		model = GLTFConverter::Convert(device, gltfData);
 		ModelSerializer::Save(*model, ModelSerializer::ToCerealPath(filename));
 	}
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì•ÒWİ’è‚ğÄ‚«‚Ş
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·¨é›†è¨­å®šã‚’ç„¼ãè¾¼ã‚€
 	if (model->HasSkin())
 	{
-		// –³‚­‚Ä•’Ê‚Ìƒtƒ@ƒCƒ‹‚È‚Ì‚ÅA–³‚¢‚Æ‚«‚ÍƒƒO‚ğo‚³‚È‚¢
+		// ç„¡ãã¦æ™®é€šã®ãƒ•ã‚¡ã‚¤ãƒ«ãªã®ã§ã€ç„¡ã„ã¨ãã¯ãƒ­ã‚°ã‚’å‡ºã•ãªã„
 		const std::string editPath = AnimationEditData::GetFilePath(filename);
 		AnimationEditData editData = editCache.GetOrLoad(editPath,
 			[](AnimationEditData& data, const nlohmann::json& j) { data.FromJson(j); }, JsonMissingLog::Silent);
 
 		if (editCache.GetStatus(editPath) == JsonFileStatus::Loaded)
 		{
-			Log(u8" ƒAƒjƒ[ƒVƒ‡ƒ“•ÒW‚ğ“Ç‚İ‚İ: %s", LogPath(editPath).c_str());
+			Log(" ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç·¨é›†ã‚’èª­ã¿è¾¼ã¿: %s", LogPath(editPath).c_str());
 		}
 
-		// ƒ‹[ƒgƒm[ƒh‚ª–¢İ’è‚È‚çAƒ‚ƒfƒ‹‚©‚ç’T‚·
+		// ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ãŒæœªè¨­å®šãªã‚‰ã€ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰æ¢ã™
 		if (editData.rootNodeName.empty())
 		{
 			editData.rootNodeName = AnimationEditBaker::FindDefaultRootNodeName(*model);
@@ -62,19 +62,19 @@ std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std
 		model->ApplyAnimationEdit(editData);
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚É“o˜^
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ç™»éŒ²
 	modelCache[filename] = model;
 
 	return model;
 }
 
-// ƒLƒƒƒbƒVƒ…íœ
+// ã‚­ãƒ£ãƒƒã‚·ãƒ¥å‰Šé™¤
 void ResourceManager::ReleaseModel(const std::string& filename)
 {
 	modelCache.erase(filename);
 }
 
-// ‘SƒLƒƒƒbƒVƒ…íœ
+// å…¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥å‰Šé™¤
 void ResourceManager::ReleaseAll()
 {
 	modelCache.clear();

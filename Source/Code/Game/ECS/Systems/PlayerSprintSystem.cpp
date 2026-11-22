@@ -1,4 +1,4 @@
-#include "PlayerSprintSystem.h"
+ï»¿#include "PlayerSprintSystem.h"
 #include "Game/ECS/Components/PlayerIntentComponent.h"
 #include "Game/ECS/Components/PlayerSprintComponent.h"
 #include "Game/ECS/Components/PlayerLocomotionComponent.h"
@@ -22,7 +22,7 @@ void PlayerSprintSystem::Update(entt::registry& registry, float elapsedTime, con
 		{
 			if (!stateMachine.IsIn("Sprint")) return;
 
-			// ˆÓ}‚ğALocomotion ‚Ö‚Ìw¦‚É•Ï‚¦‚é
+			// æ„å›³ã‚’ã€Locomotion ã¸ã®æŒ‡ç¤ºã«å¤‰ãˆã‚‹
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Ground;
 			cmd.moveDir = intent.moveDir;

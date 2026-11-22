@@ -1,11 +1,11 @@
-#include "StateMachineSystem.h"
+ï»¿#include "StateMachineSystem.h"
 #include "ConditionGraphEvaluator.h"
 #include "Engine/Core/Log.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/ECS/Components/StateMachineComponent.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 
-// ƒOƒ‰ƒt‚ğæ“¾‚·‚é
+// ã‚°ãƒ©ãƒ•ã‚’å–å¾—ã™ã‚‹
 const StateMachineData* StateMachineSystem::Load(const std::string& path)
 {
 	LoadedStateMachine& loaded = graphCache.GetOrLoad(path,
@@ -14,7 +14,7 @@ const StateMachineData* StateMachineSystem::Load(const std::string& path)
 			l.loaded = true;
 			l.valid = l.data.FromJson(j, path);
 
-			// “Ç‚İ‚İ’¼‚µ‚½‚çA‚±‚ÌƒpƒX‚ÌuState‚ª–³‚¢v‚Ì•ñÏ‚İ‚ğÁ‚µ‚ÄAŠm‚©‚ß’¼‚¹‚é‚æ‚¤‚É‚·‚é
+			// èª­ã¿è¾¼ã¿ç›´ã—ãŸã‚‰ã€ã“ã®ãƒ‘ã‚¹ã®ã€ŒStateãŒç„¡ã„ã€ã®å ±å‘Šæ¸ˆã¿ã‚’æ¶ˆã—ã¦ã€ç¢ºã‹ã‚ç›´ã›ã‚‹ã‚ˆã†ã«ã™ã‚‹
 			std::string prefix = path + "\n";
 			for (auto it = reportedMissingStates.begin(); it != reportedMissingStates.end(); )
 			{
@@ -25,20 +25,20 @@ const StateMachineData* StateMachineSystem::Load(const std::string& path)
 
 	if (!loaded.loaded || !loaded.valid)
 	{
-		// “¯‚¶ƒpƒX‚É‚Â‚¢‚Ä‚Í1‰ñ‚¾‚¯•ñ‚·‚é
+		// åŒã˜ãƒ‘ã‚¹ã«ã¤ã„ã¦ã¯1å›ã ã‘å ±å‘Šã™ã‚‹
 		if (reportedPaths.insert(path).second)
 		{
-			Log(u8"[StateMachine] %s ‚ğg‚¦‚È‚¢i“Ç‚İ‚İ‚Ì¸”s‚©AŒŸØ‚ÌƒGƒ‰[j", LogPath(path).c_str());
+			Log("[StateMachine] %s ã‚’ä½¿ãˆãªã„ï¼ˆèª­ã¿è¾¼ã¿ã®å¤±æ•—ã‹ã€æ¤œè¨¼ã®ã‚¨ãƒ©ãƒ¼ï¼‰", LogPath(path).c_str());
 		}
 		return nullptr;
 	}
 
-	// ’¼‚Á‚½Œã‚ÉAÄ‚Ñ‰ó‚ê‚½‚Æ‚«‚É‚à•ñ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	// ç›´ã£ãŸå¾Œã«ã€å†ã³å£Šã‚ŒãŸã¨ãã«ã‚‚å ±å‘Šã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	reportedPaths.erase(path);
 	return &loaded.data;
 }
 
-// ğŒ‚ª¬—§‚µ‚½Å‰‚Ì‘JˆÚ‚ğ•Ô‚·(—Dæ“x‡)
+// æ¡ä»¶ãŒæˆç«‹ã—ãŸæœ€åˆã®é·ç§»ã‚’è¿”ã™(å„ªå…ˆåº¦é †)
 const StateTransition* StateMachineSystem::FindPassedTransition(
 	const std::vector<StateTransition>& transitions, entt::registry& registry, entt::entity entity)
 {
@@ -52,7 +52,7 @@ const StateTransition* StateMachineSystem::FindPassedTransition(
 	return nullptr;
 }
 
-// State‚É“ü‚é
+// Stateã«å…¥ã‚‹
 void StateMachineSystem::EnterState(StateMachineComponent& sm, const StateNode& state, const StateTransition& via)
 {
 	sm.currentStateId = state.id;
@@ -60,11 +60,11 @@ void StateMachineSystem::EnterState(StateMachineComponent& sm, const StateNode& 
 	sm.enteredTransitionId = via.id;
 	sm.enteredThisFrame = true;
 
-	// Å‰‚ÌƒNƒŠƒbƒv‚ÍAƒQ[ƒ€ƒvƒŒƒC‚ÌŠeSystem‚ª“®‚¢‚½Œã‚ÉŒˆ‚ß‚é
+	// æœ€åˆã®ã‚¯ãƒªãƒƒãƒ—ã¯ã€ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ã®å„SystemãŒå‹•ã„ãŸå¾Œã«æ±ºã‚ã‚‹
 	sm.pendingEntry = true;
 }
 
-// State‚Ì‘JˆÚ‚ğŒˆ‚ß‚é
+// Stateã®é·ç§»ã‚’æ±ºã‚ã‚‹
 void StateMachineSystem::UpdateState(entt::registry& registry)
 {
 	auto view = registry.view<StateMachineComponent, SkinnedMeshComponent>();
@@ -77,17 +77,17 @@ void StateMachineSystem::UpdateState(entt::registry& registry)
 
 		if (skinned.modelPath.empty()) continue;
 
-		// ƒOƒ‰ƒt‚Íƒ‚ƒfƒ‹‚²‚Æ‚É1‚Â
+		// ã‚°ãƒ©ãƒ•ã¯ãƒ¢ãƒ‡ãƒ«ã”ã¨ã«1ã¤
 		const std::string graphPath = StateMachineData::GetFilePath(skinned.modelPath);
 		const StateMachineData* data = Load(graphPath);
 		if (!data) continue;
 
 		const StateNode* current = data->FindState(sm.currentStateId);
 
-		// –¢‰Šú‰»A‚Ü‚½‚ÍƒOƒ‰ƒt‚Ìì‚è’¼‚µ‚Å¡‚ÌState‚ª–³‚­‚È‚Á‚½ê‡‚ÍAEntry‚©‚ç“ü‚è’¼‚·
+		// æœªåˆæœŸåŒ–ã€ã¾ãŸã¯ã‚°ãƒ©ãƒ•ã®ä½œã‚Šç›´ã—ã§ä»Šã®StateãŒç„¡ããªã£ãŸå ´åˆã¯ã€Entryã‹ã‚‰å…¥ã‚Šç›´ã™
 		if (!current)
 		{
-			// ‚±‚ÌƒGƒ“ƒeƒBƒeƒB‚ğˆ—‚·‚éSystem‚ªg‚¤State‚ªAƒOƒ‰ƒt‚É‚ ‚é‚©‚ğŠm‚©‚ß‚é
+			// ã“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚’å‡¦ç†ã™ã‚‹SystemãŒä½¿ã†StateãŒã€ã‚°ãƒ©ãƒ•ã«ã‚ã‚‹ã‹ã‚’ç¢ºã‹ã‚ã‚‹
 			CheckRequiredStates(*data, graphPath, registry, entity);
 
 			const StateTransition* t = FindPassedTransition(data->entry.transitions, registry, entity);
@@ -100,7 +100,7 @@ void StateMachineSystem::UpdateState(entt::registry& registry)
 			continue;
 		}
 
-		// ¡‚ÌState‚©‚ço‚é‘JˆÚ‚ğA—Dæ“x‡‚É’²‚×‚é
+		// ä»Šã®Stateã‹ã‚‰å‡ºã‚‹é·ç§»ã‚’ã€å„ªå…ˆåº¦é †ã«èª¿ã¹ã‚‹
 		const StateTransition* t = FindPassedTransition(current->transitions, registry, entity);
 		if (!t) continue;
 
@@ -111,7 +111,7 @@ void StateMachineSystem::UpdateState(entt::registry& registry)
 	}
 }
 
-// Ä¶‚·‚éƒNƒŠƒbƒv‚ğŒˆ‚ß‚é
+// å†ç”Ÿã™ã‚‹ã‚¯ãƒªãƒƒãƒ—ã‚’æ±ºã‚ã‚‹
 void StateMachineSystem::UpdateAnimation(entt::registry& registry)
 {
 	auto view = registry.view<StateMachineComponent, AnimatorComponent, SkinnedMeshComponent>();
@@ -129,7 +129,7 @@ void StateMachineSystem::UpdateAnimation(entt::registry& registry)
 		if (!state) continue;
 
 
-		// State‚É“ü‚Á‚½’¼ŒãF“ü‚Á‚Ä‚«‚½‘JˆÚ‚ÌƒGƒ“ƒgƒŠ[‚©‚çAÅ‰‚ÌƒNƒŠƒbƒv‚ğŒˆ‚ß‚é
+		// Stateã«å…¥ã£ãŸç›´å¾Œï¼šå…¥ã£ã¦ããŸé·ç§»ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‹ã‚‰ã€æœ€åˆã®ã‚¯ãƒªãƒƒãƒ—ã‚’æ±ºã‚ã‚‹
 		if (sm.pendingEntry)
 		{
 			sm.pendingEntry = false;
@@ -155,14 +155,14 @@ void StateMachineSystem::UpdateAnimation(entt::registry& registry)
 
 			if (!played)
 			{
-				// ğŒ‚ª¬—§‚·‚é‚Â‚È‚ª‚è‚ª–³‚©‚Á‚½(‘O‚ÌƒNƒŠƒbƒv‚ğÄ¶‚µ‘±‚¯‚é)
-				Log(u8"[StateMachine] u%sv‚É“ü‚Á‚½‚ªAÄ¶‚·‚éƒNƒŠƒbƒv‚ªŒˆ‚Ü‚ç‚È‚¢i‘JˆÚID %dj",
+				// æ¡ä»¶ãŒæˆç«‹ã™ã‚‹ã¤ãªãŒã‚ŠãŒç„¡ã‹ã£ãŸ(å‰ã®ã‚¯ãƒªãƒƒãƒ—ã‚’å†ç”Ÿã—ç¶šã‘ã‚‹)
+				Log("[StateMachine] ã€Œ%sã€ã«å…¥ã£ãŸãŒã€å†ç”Ÿã™ã‚‹ã‚¯ãƒªãƒƒãƒ—ãŒæ±ºã¾ã‚‰ãªã„ï¼ˆé·ç§»ID %dï¼‰",
 					state->name.c_str(), sm.enteredTransitionId);
 			}
 			continue;
 		}
 
-		// State“àF¡‚ÌƒNƒŠƒbƒv‚©‚ço‚é‚Â‚È‚ª‚è‚ğA•À‚Ñ‡‚É’²‚×‚é
+		// Stateå†…ï¼šä»Šã®ã‚¯ãƒªãƒƒãƒ—ã‹ã‚‰å‡ºã‚‹ã¤ãªãŒã‚Šã‚’ã€ä¸¦ã³é †ã«èª¿ã¹ã‚‹
 		for (const auto& l : state->child.clipLinks)
 		{
 			if (l.fromClipId != sm.currentClipId) continue;
@@ -179,49 +179,49 @@ void StateMachineSystem::UpdateAnimation(entt::registry& registry)
 	}
 }
 
-// \‚³‚ê‚½State–¼‚Ìˆê——
+// ç”³å‘Šã•ã‚ŒãŸStateåã®ä¸€è¦§
 std::vector<StateMachineSystem::RequiredState>& StateMachineSystem::GetRequiredStates()
 {
 	static std::vector<RequiredState> requiredStates;
 	return requiredStates;
 }
 
-// \‚³‚ê‚½State–¼‚ªA‚±‚ÌƒGƒ“ƒeƒBƒeƒB‚ÌƒOƒ‰ƒt‚É‚ ‚é‚©‚ğŠm‚©‚ß‚é
+// ç”³å‘Šã•ã‚ŒãŸStateåãŒã€ã“ã®ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ã‚°ãƒ©ãƒ•ã«ã‚ã‚‹ã‹ã‚’ç¢ºã‹ã‚ã‚‹
 void StateMachineSystem::CheckRequiredStates(const StateMachineData& data, const std::string& path, const entt::registry& registry, entt::entity entity)
 {
 	for (const auto& r : GetRequiredStates())
 	{
-		// \‚µ‚½System‚Ì‘ÎÛ‚Å‚È‚¢ƒGƒ“ƒeƒBƒeƒB(Player‚Ì\‚É‘Î‚·‚éEnemy‚È‚Ç)‚ÍŠm‚©‚ß‚È‚¢
+		// ç”³å‘Šã—ãŸSystemã®å¯¾è±¡ã§ãªã„ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£(Playerã®ç”³å‘Šã«å¯¾ã™ã‚‹Enemyãªã©)ã¯ç¢ºã‹ã‚ãªã„
 		if (r.usesState && !r.usesState(registry, entity)) continue;
 		if (data.FindStateByName(r.stateName)) continue;
 
-		// “¯‚¶‘g‚É‚Â‚¢‚Ä‚Í1‰ñ‚¾‚¯•ñ‚·‚é
+		// åŒã˜çµ„ã«ã¤ã„ã¦ã¯1å›ã ã‘å ±å‘Šã™ã‚‹
 		std::string key = path + "\n" + r.stateName + "\n" + r.user;
 		if (!reportedMissingStates.insert(key).second) continue;
 
-		Log(u8"[StateMachine] Œx(%s): Stateu%sv‚ªƒOƒ‰ƒt‚É–³‚¢i%s ‚ªg—pj",
+		Log("[StateMachine] è­¦å‘Š(%s): Stateã€Œ%sã€ãŒã‚°ãƒ©ãƒ•ã«ç„¡ã„ï¼ˆ%s ãŒä½¿ç”¨ï¼‰",
 			LogPath(path).c_str(), r.stateName.c_str(), r.user.c_str());
 	}
 }
 
-// \‚ğˆê——‚É‘«‚·
+// ç”³å‘Šã‚’ä¸€è¦§ã«è¶³ã™
 void StateMachineSystem::AddRequiredState(const std::string& stateName, const std::string& user, UsesStateFunc usesState)
 {
 	auto& list = GetRequiredStates();
 	for (const auto& r : list)
 	{
-		if (r.stateName == stateName && r.user == user) return; // \Ï‚İ
+		if (r.stateName == stateName && r.user == user) return; // ç”³å‘Šæ¸ˆã¿
 	}
 	list.push_back({ stateName, user, usesState });
 }
 
 
-// ƒNƒŠƒbƒv‚ğÄ¶‚·‚é
+// ã‚¯ãƒªãƒƒãƒ—ã‚’å†ç”Ÿã™ã‚‹
 void StateMachineSystem::PlayClip(AnimatorComponent& animator, const ClipNode& clip, const BlendSetting& blend)
 {
 	float blendDuration = (blend.enabled && blend.duration > 0.0f) ? blend.duration : 0.0f;
 
-	// ƒuƒŒƒ“ƒh‚µ‚È‚¢
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ã—ãªã„
 	if (animator.currentAnimation.empty() || blendDuration <= 0.0f)
 	{
 		animator.currentAnimation = clip.clipName;
@@ -236,7 +236,7 @@ void StateMachineSystem::PlayClip(AnimatorComponent& animator, const ClipNode& c
 		return;
 	}
 
-	// ƒuƒŒƒ“ƒhŠJn
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰é–‹å§‹
 	animator.blendSnapshotPending = true;
 	animator.blendTime = blendDuration;
 	animator.blendRate = 0.0f;

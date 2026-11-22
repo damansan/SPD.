@@ -1,12 +1,12 @@
-#include "AdaptiveTriggerToolWindow.h"
+ï»¿#include "AdaptiveTriggerToolWindow.h"
 #include <imgui.h>
 #include <algorithm>
 #include <cmath>
 
 namespace
 {
-    constexpr ImU32 AccentColor = IM_COL32(66, 150, 250, 255);   // ImGui‚ç‚µ‚¢Â
-    constexpr ImU32 IndicatorColor = IM_COL32(255, 70, 70, 255); // Œ»İ’n‚ÌÔü
+    constexpr ImU32 AccentColor = IM_COL32(66, 150, 250, 255);   // ImGuiã‚‰ã—ã„é’
+    constexpr ImU32 IndicatorColor = IM_COL32(255, 70, 70, 255); // ç¾åœ¨åœ°ã®èµ¤ç·š
 }
 
 void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
@@ -19,7 +19,7 @@ void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
         return;
     }
 
-    // Å‰‚ÉŒ©‚Â‚©‚Á‚½ƒRƒ“ƒgƒ[ƒ‰[‚ğ•ÒW‘ÎÛ‚É‚·‚é
+    // æœ€åˆã«è¦‹ã¤ã‹ã£ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’ç·¨é›†å¯¾è±¡ã«ã™ã‚‹
     ControllerComponent* found = nullptr;
     auto view = registry.view<ControllerComponent>();
     for (auto entity : view)
@@ -30,7 +30,7 @@ void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
 
     if (!found)
     {
-        ImGui::TextDisabled(u8"ControllerComponent ‚ğ‚ÂƒGƒ“ƒeƒBƒeƒB‚ª‚ ‚è‚Ü‚¹‚ñ");
+        ImGui::TextDisabled("ControllerComponent ã‚’æŒã¤ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒã‚ã‚Šã¾ã›ã‚“");
         ImGui::End();
         return;
     }
@@ -58,7 +58,7 @@ void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
         }
         else
         {
-            ImGui::TextDisabled(u8"ƒ|ƒCƒ“ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢");
+            ImGui::TextDisabled("ãƒã‚¤ãƒ³ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„");
         }
 
         ImGui::EndTable();
@@ -76,7 +76,7 @@ void AdaptiveTriggerToolWindow::DrawTriggerSection(const char* label, AdaptiveTr
     if (!zone.exists)
     {
         ImGui::SameLine(ImGui::GetContentRegionAvail().x - 80.0f + ImGui::GetCursorPosX());
-        if (ImGui::Button(u8"+ ƒ][ƒ“’Ç‰Á"))
+        if (ImGui::Button("+ ã‚¾ãƒ¼ãƒ³è¿½åŠ "))
         {
             zone.exists = true;
             zone.start = 0.0f;
@@ -87,7 +87,7 @@ void AdaptiveTriggerToolWindow::DrawTriggerSection(const char* label, AdaptiveTr
     else
     {
         ImGui::SameLine(ImGui::GetContentRegionAvail().x - 60.0f + ImGui::GetCursorPosX());
-        if (ImGui::Button(u8"íœ"))
+        if (ImGui::Button("å‰Šé™¤"))
         {
             zone.exists = false;
             zone.selectedIndex = -1;
@@ -200,7 +200,7 @@ void AdaptiveTriggerToolWindow::DrawRangeBar(ZoneState& zone, float width, Range
         }
     }
 
-    // Œ»İ‚ÌƒgƒŠƒK[‰Ÿ‚µ‚İˆÊ’uiÔüj
+    // ç¾åœ¨ã®ãƒˆãƒªã‚¬ãƒ¼æŠ¼ã—è¾¼ã¿ä½ç½®ï¼ˆèµ¤ç·šï¼‰
     float curX = pos.x + std::clamp(currentValue, 0.0f, 1.0f) * width;
     drawList->AddLine(ImVec2(curX, pos.y - 4.0f), ImVec2(curX, pos.y + height + 4.0f), IndicatorColor, 2.0f);
 
@@ -260,7 +260,7 @@ void AdaptiveTriggerToolWindow::DrawGraph(std::vector<AdaptiveTrigger::CurvePoin
         }
     }
 
-    // Œ»İ’n‚ÌÔüiƒ][ƒ““à‚É‚¢‚é‚¾‚¯•\¦j
+    // ç¾åœ¨åœ°ã®èµ¤ç·šï¼ˆã‚¾ãƒ¼ãƒ³å†…ã«ã„ã‚‹æ™‚ã ã‘è¡¨ç¤ºï¼‰
     if (showIndicator)
     {
         float curX = innerX + std::clamp(localCurrentValue, 0.0f, 1.0f) * innerWidth;
@@ -289,7 +289,7 @@ void AdaptiveTriggerToolWindow::DrawGraph(std::vector<AdaptiveTrigger::CurvePoin
         {
             AdaptiveTrigger::CurvePoint newPoint = FromScreen(mousePos);
 
-            // ––”ö‚Ì‹«ŠE“_(100%)‚Ìè‘O‚É‘}“ü‚µ‚Ä‚©‚çA’†ŠÔ•”•ª‚¾‚¯•À‚Ñ‘Ö‚¦‚é
+            // æœ«å°¾ã®å¢ƒç•Œç‚¹(100%)ã®æ‰‹å‰ã«æŒ¿å…¥ã—ã¦ã‹ã‚‰ã€ä¸­é–“éƒ¨åˆ†ã ã‘ä¸¦ã³æ›¿ãˆã‚‹
             points.insert(points.end() - 1, newPoint);
             if (points.size() > 2)
             {
@@ -300,7 +300,7 @@ void AdaptiveTriggerToolWindow::DrawGraph(std::vector<AdaptiveTrigger::CurvePoin
                     });
             }
 
-            // ‘}“ü‚µ‚½ƒ|ƒCƒ“ƒg‚ÌV‚µ‚¢index‚ğ’T‚·
+            // æŒ¿å…¥ã—ãŸãƒã‚¤ãƒ³ãƒˆã®æ–°ã—ã„indexã‚’æ¢ã™
             for (size_t i = 0; i < points.size(); ++i)
             {
                 if (points[i].position == newPoint.position && points[i].value == newPoint.value)
@@ -317,7 +317,7 @@ void AdaptiveTriggerToolWindow::DrawGraph(std::vector<AdaptiveTrigger::CurvePoin
 
     if (bgActive && selectedIndex >= 0 && selectedIndex < static_cast<int>(points.size()))
     {
-        // æ“ªE––”öiƒ][ƒ“‚Ì‹«ŠEj‚ÍXŒÅ’èAY‚¾‚¯“®‚©‚·
+        // å…ˆé ­ãƒ»æœ«å°¾ï¼ˆã‚¾ãƒ¼ãƒ³ã®å¢ƒç•Œï¼‰ã¯Xå›ºå®šã€Yã ã‘å‹•ã‹ã™
         if (selectedIndex == 0)
         {
             points[selectedIndex].value = FromScreen(mousePos).value;
@@ -335,7 +335,7 @@ void AdaptiveTriggerToolWindow::DrawGraph(std::vector<AdaptiveTrigger::CurvePoin
     }
 
     if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) &&
-        selectedIndex > 0 && selectedIndex < lastIndex) // ‹«ŠE“_‚Í•À‚Ñ‘Ö‚¦•s—v
+        selectedIndex > 0 && selectedIndex < lastIndex) // å¢ƒç•Œç‚¹ã¯ä¸¦ã³æ›¿ãˆä¸è¦
     {
         AdaptiveTrigger::CurvePoint selected = points[selectedIndex];
         std::sort(points.begin() + 1, points.end() - 1,
@@ -358,7 +358,7 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
 {
     if (selectedIndex < 0 || selectedIndex >= static_cast<int>(points.size()))
     {
-        ImGui::TextDisabled(u8"ƒ|ƒCƒ“ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢");
+        ImGui::TextDisabled("ãƒã‚¤ãƒ³ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„");
         return;
     }
 
@@ -366,12 +366,12 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
     const bool isBoundary = (selectedIndex == 0 || selectedIndex == lastIndex);
 
     ImGui::PushID(selectedIndex);
-    ImGui::TextDisabled(u8"‘I‘ğ’†‚Ìƒ|ƒCƒ“ƒg");
+    ImGui::TextDisabled("é¸æŠä¸­ã®ãƒã‚¤ãƒ³ãƒˆ");
     ImGui::Spacing();
 
     AdaptiveTrigger::CurvePoint& p = points[selectedIndex];
 
-    ImGui::Text(u8"X (ƒ][ƒ““àˆÊ’u)");
+    ImGui::Text("X (ã‚¾ãƒ¼ãƒ³å†…ä½ç½®)");
     ImGui::SetNextItemWidth(-1);
     if (isBoundary)
     {
@@ -387,7 +387,7 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
 
     ImGui::Spacing();
 
-    ImGui::Text(u8"Y (‹­‚³)");
+    ImGui::Text("Y (å¼·ã•)");
     ImGui::SetNextItemWidth(-1);
     ImGui::DragFloat("##posY", &p.value, 0.005f, 0.0f, 1.0f, "%.3f");
 
@@ -396,10 +396,10 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
     if (isBoundary)
     {
         ImGui::BeginDisabled();
-        ImGui::Button(u8"íœi‹«ŠE‚Ì‚½‚ß•s‰Âj", ImVec2(-1, 0));
+        ImGui::Button("å‰Šé™¤ï¼ˆå¢ƒç•Œã®ãŸã‚ä¸å¯ï¼‰", ImVec2(-1, 0));
         ImGui::EndDisabled();
     }
-    else if (ImGui::Button(u8"íœ", ImVec2(-1, 0)))
+    else if (ImGui::Button("å‰Šé™¤", ImVec2(-1, 0)))
     {
         points.erase(points.begin() + selectedIndex);
         selectedIndex = -1;

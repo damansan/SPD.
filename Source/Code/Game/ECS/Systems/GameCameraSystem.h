@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/Camera.h"
 #include "Game/ECS/Components/GameCameraComponent.h"
@@ -7,17 +7,17 @@
 class GameCameraSystem
 {
 public:
-    // XV
+    // æ›´æ–°
     void Update(entt::registry& registry, float elapsedTime);
 
-    // Camera ƒNƒ‰ƒX‚ÉŒ‹‰Ê‚ğ”½‰f
+    // Camera ã‚¯ãƒ©ã‚¹ã«çµæœã‚’åæ˜ 
     void ApplyToCamera(entt::registry& registry, Camera& camera);
 
 private:
-    // ’Ç]ƒJƒƒ‰‚Ìˆ—
+    // è¿½å¾“ã‚«ãƒ¡ãƒ©ã®å‡¦ç†
     void UpdateFollow(GameCameraComponent& cam, const TransformComponent& followTransform, float elapsedTime);
 
-    // ’Ç]ƒJƒƒ‰‚Ì—‘z‚Ì eyeEtarget
+    // è¿½å¾“ã‚«ãƒ¡ãƒ©ã®ç†æƒ³ã® eyeãƒ»target
     DirectX::XMFLOAT3 CalcFollowIdealEye(const GameCameraComponent& cam, const TransformComponent& followTransform) const;
     DirectX::XMFLOAT3 CalcFollowIdealTarget(const GameCameraComponent& cam, const TransformComponent& followTransform) const;
 };

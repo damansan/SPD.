@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/ECS/Reflect.h"
 
 struct PlayerJumpComponent
 {
 	REFLECT_BEGIN(PlayerJumpComponent, "Player Jump")
 
-		// İ’è’l
-		REFLECT_FIELD(float, jumpSpeed, (8.0f), ("Jump Speed", 0.0f, 30.0f)) // ãŒü‚«‚Ì‰‘¬(m/s)Bd—Í -20 ‚Å‚‚³–ñ1.6m
-		REFLECT_FIELD(float, airSpeed, (4.2f), ("Air Speed", 0.0f, 20.0f)) // ‹ó’†‚Å“ü—Í‚µ‚½‚Ì–Ú•W‘¬“x‚Ì‰ºŒÀ(m/s)
-		REFLECT_FIELD(float, airControlHalfLife, (0.5f), ("Air Control Half Life", 0.0f, 3.0f))  // ‹ó’†‚Å—‘z‚Ì‘¬“x‚ÉŠñ‚é”¼Œ¸Šú(•b)B‘å‚«‚¢‚Ù‚Ç‹È‚°‚É‚­‚¢
-		REFLECT_FIELD(float, airTurnSpeed, (5.0f), ("Air Turn Speed", 0.0f, 30.0f)) // ‹ó’†‚Ìù‰ñ‘¬“x(rad/s)
+		// è¨­å®šå€¤
+		REFLECT_FIELD(float, jumpSpeed, (8.0f), ("Jump Speed", 0.0f, 30.0f)) // ä¸Šå‘ãã®åˆé€Ÿ(m/s)ã€‚é‡åŠ› -20 ã§é«˜ã•ç´„1.6m
+		REFLECT_FIELD(float, airSpeed, (4.2f), ("Air Speed", 0.0f, 20.0f)) // ç©ºä¸­ã§å…¥åŠ›ã—ãŸæ™‚ã®ç›®æ¨™é€Ÿåº¦ã®ä¸‹é™(m/s)
+		REFLECT_FIELD(float, airControlHalfLife, (0.5f), ("Air Control Half Life", 0.0f, 3.0f))  // ç©ºä¸­ã§ç†æƒ³ã®é€Ÿåº¦ã«å¯„ã‚‹åŠæ¸›æœŸ(ç§’)ã€‚å¤§ãã„ã»ã©æ›²ã’ã«ãã„
+		REFLECT_FIELD(float, airTurnSpeed, (5.0f), ("Air Turn Speed", 0.0f, 30.0f)) // ç©ºä¸­ã®æ—‹å›é€Ÿåº¦(rad/s)
 
-		// ’µ‚Ñ•û(Às’†)
-		REFLECT_FIELD(bool, fromGround, (false), ("From Ground", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ’nã‚©‚ç’µ‚ñ‚¾‚©(qƒOƒ‰ƒt‚Ì“üŒû‚Åg‚¤)
+		// è·³ã³æ–¹(å®Ÿè¡Œä¸­)
+		REFLECT_FIELD(bool, fromGround, (false), ("From Ground", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // åœ°ä¸Šã‹ã‚‰è·³ã‚“ã ã‹(å­ã‚°ãƒ©ãƒ•ã®å…¥å£ã§ä½¿ã†)
 
-		REFLECT_FIELD(float, airRadius, (0.5f), ("Air Radius", 0.0f, 2.0f)) // ‹ó’†‚Ì“–‚½‚è”»’è‚Ì”¼Œa
+		REFLECT_FIELD(float, airRadius, (0.5f), ("Air Radius", 0.0f, 2.0f)) // ç©ºä¸­ã®å½“ãŸã‚Šåˆ¤å®šã®åŠå¾„
 
 		REFLECT_END()
 
-		// “à•”À‘•—p
-		float takeoffSpeed = 0.0f; // “¥‚İØ‚Á‚½‚Ì…•½‚Ì‘¬‚³
+		// å†…éƒ¨å®Ÿè£…ç”¨
+		float takeoffSpeed = 0.0f; // è¸ã¿åˆ‡ã£ãŸæ™‚ã®æ°´å¹³ã®é€Ÿã•
 };

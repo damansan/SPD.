@@ -1,33 +1,33 @@
-#pragma once
+ï»¿#pragma once
 #include <functional>
 #include "Engine/Core/Camera.h"
 #include "Engine/Core/GameView.h"
 
-// ƒGƒfƒBƒ^‚ÌGameƒEƒBƒ“ƒhƒE(Viewport‚ÆƒhƒbƒLƒ“ƒOƒŒƒCƒAƒEƒg)‚ÆAƒfƒoƒbƒOƒJƒƒ‰
+// ã‚¨ãƒ‡ã‚£ã‚¿ã®Gameã‚¦ã‚£ãƒ³ãƒ‰ã‚¦(Viewportã¨ãƒ‰ãƒƒã‚­ãƒ³ã‚°ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ)ã¨ã€ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©
 class ViewportWindow
 {
 public:
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     void Initialize(UINT width = 1920, UINT height = 1080);
 
-    // ImGui•`‰æ(GameView‚Ì•`‰æŒ‹‰Ê‚ğViewport‚É•\¦‚·‚é)
+    // ImGuiæç”»(GameViewã®æç”»çµæœã‚’Viewportã«è¡¨ç¤ºã™ã‚‹)
     void Draw(GameView& gameView, const std::function<void()>& drawMenus = nullptr);
 
-    // ƒfƒoƒbƒOƒJƒƒ‰æ“¾
+    // ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©å–å¾—
     Camera& GetDebugCamera() { return debugCamera; }
 
-    // ƒrƒ…[ƒ|[ƒg‚ªƒzƒo[‚³‚ê‚Ä‚¢‚é‚©
+    // ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆãŒãƒ›ãƒãƒ¼ã•ã‚Œã¦ã„ã‚‹ã‹
     bool IsViewportHovered() const { return viewportHovered; }
 
 private:
-    Camera debugCamera; // ƒfƒoƒbƒOƒJƒƒ‰
+    Camera debugCamera; // ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©
 
     bool viewportHovered = false;
 
-    // true‚ÌŠÔAŸ‚ÌDraw()‚ÅDockSpace‚ÌƒŒƒCƒAƒEƒg‚ğiÄj\’z‚·‚é
+    // trueã®é–“ã€æ¬¡ã®Draw()ã§DockSpaceã®ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’ï¼ˆå†ï¼‰æ§‹ç¯‰ã™ã‚‹
     bool firstDockSetup = true;
 
-    // ƒhƒbƒLƒ“ƒO”ä—¦
+    // ãƒ‰ãƒƒã‚­ãƒ³ã‚°æ¯”ç‡
     float dockRatioLeft = 0.1f;   // Hierarchy
     float dockRatioRight = 0.15f; // Inspector
 

@@ -1,4 +1,4 @@
-#include "GameComponents.h"
+﻿#include "GameComponents.h"
 #include "Engine/Resource/ComponentRegistry.h"
 
 #include "Game/ECS/Components/GameInputComponent.h"

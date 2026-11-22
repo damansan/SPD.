@@ -1,22 +1,22 @@
-#include "PostProcess.h"
+ï»¿#include "PostProcess.h"
 #include "Engine/Resource/GpuResourceUtils.h"
 #include <algorithm>
 #include <cmath>
 
 namespace
 {
-	// b4FGPU ‚É‘—‚éŒ`
+	// b4ï¼šGPU ã«é€ã‚‹å½¢
 	struct CbPostProcess
 	{
 		float exposure;
-		int   tonemapEnabled; // bool ‚Í HLSL ‚Æ‘å‚«‚³‚ªˆá‚¤‚Ì‚Å int ‚Å‘—‚é
+		int   tonemapEnabled; // bool ã¯ HLSL ã¨å¤§ãã•ãŒé•ã†ã®ã§ int ã§é€ã‚‹
 		float contrast;
 		float saturation;
 
-		DirectX::XMFLOAT3 colorFilter; // ƒŠƒjƒA
+		DirectX::XMFLOAT3 colorFilter; // ãƒªãƒ‹ã‚¢
 		float vignetteIntensity;
 
-		DirectX::XMFLOAT3 vignetteColor; // ƒŠƒjƒA
+		DirectX::XMFLOAT3 vignetteColor; // ãƒªãƒ‹ã‚¢
 		float vignetteSmoothness;
 
 		float aspectRatio;
@@ -27,29 +27,29 @@ namespace
 		float radialBlurStrength;
 		float radialBlurRadius;
 		float radialBlurSoftness;
-		float postPadding; // 16ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg—p
+		float postPadding; // 16ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆç”¨
 	};
-	static_assert(sizeof(CbPostProcess) % 16 == 0, "’è”ƒoƒbƒtƒ@‚Í16ƒoƒCƒg‚Ì”{”‚É‚·‚é");
+	static_assert(sizeof(CbPostProcess) % 16 == 0, "å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¯16ãƒã‚¤ãƒˆã®å€æ•°ã«ã™ã‚‹");
 
-	// sRGB ‚©‚ç ƒŠƒjƒA
+	// sRGB ã‹ã‚‰ ãƒªãƒ‹ã‚¢
 	float SRGBToLinear(float c)
 	{
 		return (c <= 0.04045f) ? c / 12.92f : powf((c + 0.055f) / 1.055f, 2.4f);
 	}
 }
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void PostProcess::Initialize(ID3D11Device* device)
 {
 	this->device = device;
 
-	// ‘S‰æ–Ê‚Ì ’¸“_ƒVƒF[ƒ_[
+	// å…¨ç”»é¢ã® é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> dummyLayout;
 	GpuResourceUtils::LoadVertexShader(
 		device, "Data/Shader/Fullscreen_VS.cso",
 		nullptr, 0, dummyLayout, fullscreenVS);
 
-	// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[
+	// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	GpuResourceUtils::LoadPixelShader(device, "Data/Shader/Final_PS.cso", finalPS);
 
 	GpuResourceUtils::LoadPixelShader(device, "Data/Shader/BloomUpsample_PS.cso", bloomUpsamplePS);
@@ -60,13 +60,13 @@ void PostProcess::Initialize(ID3D11Device* device)
 	
 	GpuResourceUtils::LoadPixelShader(device, "Data/Shader/RadialBlur_PS.cso", radialBlurPS);
 
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒU[
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼
 	D3D11_RASTERIZER_DESC rd{};
 	rd.FillMode = D3D11_FILL_SOLID;
 	rd.CullMode = D3D11_CULL_NONE;
 	device->CreateRasterizerState(&rd, rasterizerState.GetAddressOf());
 
-	// ƒTƒ“ƒvƒ‰[
+	// ã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 	D3D11_SAMPLER_DESC sd{};
 	sd.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	sd.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -76,11 +76,11 @@ void PostProcess::Initialize(ID3D11Device* device)
 	sd.MaxLOD = D3D11_FLOAT32_MAX;
 	device->CreateSamplerState(&sd, linearSampler.GetAddressOf());
 
-	// İ’è’l‚Ì’è”ƒoƒbƒtƒ@
+	// è¨­å®šå€¤ã®å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	GpuResourceUtils::CreateConstantBuffer(device, sizeof(CbPostProcess), cbPostProcess);
 }
 
-// HDRScene ‚ğ“Ç‚ñ‚Å output ‚Ö‘‚«o‚·
+// HDRScene ã‚’èª­ã‚“ã§ output ã¸æ›¸ãå‡ºã™
 void PostProcess::Render(
 	ID3D11DeviceContext* dc,
 	ID3D11ShaderResourceView* hdrScene,
@@ -89,20 +89,20 @@ void PostProcess::Render(
 	UINT height,
 	const PostProcessSettings& settings)
 {
-	// ‰æ–Ê‚Ì‘å‚«‚³‚ª•Ï‚í‚Á‚½‚çAƒuƒ‹[ƒ€‚Ìì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğì‚è’¼‚·
+	// ç”»é¢ã®å¤§ãã•ãŒå¤‰ã‚ã£ãŸã‚‰ã€ãƒ–ãƒ«ãƒ¼ãƒ ã®ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½œã‚Šç›´ã™
 	if (width != bloomSourceWidth || height != bloomSourceHeight)
 	{
 		ResizeBloomTargets(width, height);
 	}
 
-	// İ’è’l‚ğ GPU ‚É‘—‚éŒ`‚É‚µ‚Ä“n‚·
+	// è¨­å®šå€¤ã‚’ GPU ã«é€ã‚‹å½¢ã«ã—ã¦æ¸¡ã™
 	CbPostProcess cb{};
 	cb.exposure = settings.exposure;
 	cb.tonemapEnabled = settings.tonemapEnabled ? 1 : 0;
 	cb.contrast = settings.contrast;
 	cb.saturation = settings.saturation;
 
-	// ƒŠƒjƒA‚É’¼‚µ‚Ä‚©‚ç‘—‚é
+	// ãƒªãƒ‹ã‚¢ã«ç›´ã—ã¦ã‹ã‚‰é€ã‚‹
 	cb.colorFilter =
 	{
 		SRGBToLinear(settings.colorFilter.x),
@@ -110,7 +110,7 @@ void PostProcess::Render(
 		SRGBToLinear(settings.colorFilter.z)
 	};
 
-	// ƒrƒlƒbƒg
+	// ãƒ“ãƒãƒƒãƒˆ
 	cb.vignetteIntensity = settings.vignetteIntensity * 3.0f;
 	cb.vignetteSmoothness = settings.vignetteSmoothness * 5.0f;
 	cb.vignetteColor =
@@ -120,25 +120,25 @@ void PostProcess::Render(
 		SRGBToLinear(settings.vignetteColor.z)
 	};
 
-	// ‰æ–Ê‚Ìc‰¡”ä
+	// ç”»é¢ã®ç¸¦æ¨ªæ¯”
 	cb.aspectRatio = (height > 0) ? static_cast<float>(width) / static_cast<float>(height) : 1.0f;
 
-	// ƒuƒ‹[ƒ€
+	// ãƒ–ãƒ«ãƒ¼ãƒ 
 	cb.bloomThreshold = settings.bloomThreshold;
 	cb.bloomScale = settings.bloomIntensity / static_cast<float>(kBloomLevels);
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼
 	cb.radialBlurStrength = settings.radialBlurStrength;
 	cb.radialBlurRadius = settings.radialBlurRadius;
 	cb.radialBlurSoftness = settings.radialBlurSoftness;
 
-	// ƒfƒoƒbƒO•\¦
+	// ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
 	cb.debugView = static_cast<int>(settings.debugView);
 
 	dc->UpdateSubresource(cbPostProcess.Get(), 0, nullptr, &cb, 0, 0);
 	dc->PSSetConstantBuffers(4, 1, cbPostProcess.GetAddressOf());
 
-	// ‘S‰æ–Ê‚Ì•`‰æ‚Å‹¤’Ê‚ÌƒXƒe[ƒg
+	// å…¨ç”»é¢ã®æç”»ã§å…±é€šã®ã‚¹ãƒ†ãƒ¼ãƒˆ
 	dc->RSSetState(rasterizerState.Get());
 	dc->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
 	dc->IASetInputLayout(nullptr);
@@ -146,13 +146,13 @@ void PostProcess::Render(
 	dc->VSSetShader(fullscreenVS.Get(), nullptr, 0);
 	dc->PSSetSamplers(0, 1, linearSampler.GetAddressOf());
 
-	// ƒV[ƒ“‚ğu•`‚­æv‚©‚çŠO‚·
+	// ã‚·ãƒ¼ãƒ³ã‚’ã€Œæãå…ˆã€ã‹ã‚‰å¤–ã™
 	dc->OMSetRenderTargets(0, nullptr, nullptr);
 
-	// ‚±‚ÌŒã‚ÌƒpƒX‚ª“Ç‚ŞƒV[ƒ“
+	// ã“ã®å¾Œã®ãƒ‘ã‚¹ãŒèª­ã‚€ã‚·ãƒ¼ãƒ³
 	ID3D11ShaderResourceView* sceneSrv = hdrScene;
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼
 	if (settings.radialBlurEnabled)
 	{
 		dc->PSSetShaderResources(0, 1, &hdrScene);
@@ -161,12 +161,12 @@ void PostProcess::Render(
 		sceneSrv = radialBlurTarget.srv.Get();
 	}
 
-	// ƒuƒ‹[ƒ€F–¾‚é‚¢Š‚ğ”²‚«o‚µ‚ÄA1/2 ‚Ì‘å‚«‚³‚Ö
+	// ãƒ–ãƒ«ãƒ¼ãƒ ï¼šæ˜ã‚‹ã„æ‰€ã‚’æŠœãå‡ºã—ã¦ã€1/2 ã®å¤§ãã•ã¸
 	dc->PSSetShaderResources(0, 1, &hdrScene);
 	DrawFullscreen(dc, bloomExtractPS.Get(),
 		bloomDown[0].rtv.Get(), bloomDown[0].width, bloomDown[0].height);
 
-	// 1’i‚¸‚Â¬‚³‚­‚·‚é
+	// 1æ®µãšã¤å°ã•ãã™ã‚‹
 	for (int i = 1; i < kBloomLevels; i++)
 	{
 		ID3D11ShaderResourceView* src = bloomDown[i - 1].srv.Get();
@@ -175,23 +175,23 @@ void PostProcess::Render(
 			bloomDown[i].rtv.Get(), bloomDown[i].width, bloomDown[i].height);
 	}
 
-	// ’i‚²‚Æ‚ÉA‰¡‚©‚çc‚Ì‡‚Å‚Ú‚©‚·
+	// æ®µã”ã¨ã«ã€æ¨ªã‹ã‚‰ç¸¦ã®é †ã§ã¼ã‹ã™
 	for (int i = 0; i < kBloomLevels; i++)
 	{
-		// ‰¡
+		// æ¨ª
 		ID3D11ShaderResourceView* src = bloomDown[i].srv.Get();
 		dc->PSSetShaderResources(0, 1, &src);
 		DrawFullscreen(dc, bloomBlurHPS.Get(),
 			bloomTemp[i].rtv.Get(), bloomTemp[i].width, bloomTemp[i].height);
 
-		// c
+		// ç¸¦
 		src = bloomTemp[i].srv.Get();
 		dc->PSSetShaderResources(0, 1, &src);
 		DrawFullscreen(dc, bloomBlurVPS.Get(),
 			bloomBlur[i].rtv.Get(), bloomBlur[i].width, bloomBlur[i].height);
 	}
 
-	// ˆê”Ô¬‚³‚¢’i‚©‚çA2”{‚ÉL‚°‚È‚ª‚ç‘«‚µ‚Ä‚¢‚­
+	// ä¸€ç•ªå°ã•ã„æ®µã‹ã‚‰ã€2å€ã«åºƒã’ãªãŒã‚‰è¶³ã—ã¦ã„ã
 	ID3D11ShaderResourceView* lower = bloomBlur[kBloomLevels - 1].srv.Get();
 	for (int i = kBloomLevels - 2; i >= 0; i--)
 	{
@@ -200,12 +200,12 @@ void PostProcess::Render(
 		DrawFullscreen(dc, bloomUpsamplePS.Get(),
 			bloomTemp[i].rtv.Get(), bloomTemp[i].width, bloomTemp[i].height);
 
-		// ¡‘‚¢‚½’i‚ªAŸ‚Ì’i‚É‚Æ‚Á‚Ä‚Ìu1‚Â‰ºv‚É‚È‚é
+		// ä»Šæ›¸ã„ãŸæ®µãŒã€æ¬¡ã®æ®µã«ã¨ã£ã¦ã®ã€Œ1ã¤ä¸‹ã€ã«ãªã‚‹
 		lower = bloomTemp[i].srv.Get();
 	}
 
-	// ÅIƒpƒX‚Å“Ç‚Şƒuƒ‹[ƒ€‚ÌŠGiƒfƒoƒbƒO•\¦‚Å‚ÍŒ©‚½‚¢’i‚É·‚µ‘Ö‚¦‚éj
-	ID3D11ShaderResourceView* bloomResult = lower; // ‘«‚µ‡‚í‚¹‚½Š®¬•iitemp[0]j
+	// æœ€çµ‚ãƒ‘ã‚¹ã§èª­ã‚€ãƒ–ãƒ«ãƒ¼ãƒ ã®çµµï¼ˆãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã§ã¯è¦‹ãŸã„æ®µã«å·®ã—æ›¿ãˆã‚‹ï¼‰
+	ID3D11ShaderResourceView* bloomResult = lower; // è¶³ã—åˆã‚ã›ãŸå®Œæˆå“ï¼ˆtemp[0]ï¼‰
 	switch (settings.debugView)
 	{
 	case PostProcessDebugView::BloomExtract:
@@ -217,31 +217,31 @@ void PostProcess::Render(
 		bloomResult = bloomBlur[level].srv.Get();
 		break;
 	}
-	default: // NoneEBloomResult ‚ÍŠ®¬•i‚Ì‚Ü‚Ü
+	default: // Noneãƒ»BloomResult ã¯å®Œæˆå“ã®ã¾ã¾
 		break;
 	}
 
-	// ÅIƒpƒXFƒV[ƒ“‚Æƒuƒ‹[ƒ€‚ğ“Ç‚ñ‚ÅA•\¦—p‚Ö
+	// æœ€çµ‚ãƒ‘ã‚¹ï¼šã‚·ãƒ¼ãƒ³ã¨ãƒ–ãƒ«ãƒ¼ãƒ ã‚’èª­ã‚“ã§ã€è¡¨ç¤ºç”¨ã¸
 	ID3D11ShaderResourceView* finalSrvs[2] = { sceneSrv, bloomResult };
 	dc->PSSetShaderResources(0, 2, finalSrvs);
 	DrawFullscreen(dc, finalPS.Get(), output, width, height);
 
-	// “Ç‚Ş•¨‚Ì‘©”›‚ğ‰ğœ
+	// èª­ã‚€ç‰©ã®æŸç¸›ã‚’è§£é™¤
 	ID3D11ShaderResourceView* nullSrvs[2] = {};
 	dc->PSSetShaderResources(0, 2, nullSrvs); 
 }
 
-// ‰æ–Ê‚Ì‘å‚«‚³‚É‡‚í‚¹‚ÄAƒuƒ‹[ƒ€‚Ìì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğì‚è’¼‚·
+// ç”»é¢ã®å¤§ãã•ã«åˆã‚ã›ã¦ã€ãƒ–ãƒ«ãƒ¼ãƒ ã®ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½œã‚Šç›´ã™
 void PostProcess::ResizeBloomTargets(UINT width, UINT height)
 {
 	bloomSourceWidth = width;
 	bloomSourceHeight = height;
 
 
-	// ƒ‰ƒWƒAƒ‹ƒuƒ‰[
+	// ãƒ©ã‚¸ã‚¢ãƒ«ãƒ–ãƒ©ãƒ¼
 	CreateRenderTexture(radialBlurTarget, width, height, DXGI_FORMAT_R16G16B16A16_FLOAT);
 
-	// [0] ‚ª 1/2A‚»‚±‚©‚ç’i‚²‚Æ‚É”¼•ª
+	// [0] ãŒ 1/2ã€ãã“ã‹ã‚‰æ®µã”ã¨ã«åŠåˆ†
 	UINT w = width;
 	UINT h = height;
 	for (int i = 0; i < kBloomLevels; i++)
@@ -249,16 +249,16 @@ void PostProcess::ResizeBloomTargets(UINT width, UINT height)
 		w = (std::max)(w / 2, 1u);
 		h = (std::max)(h / 2, 1u);
 
-		// 1‚ğ’´‚¦‚é–¾‚é‚³‚ğ•Û‚Ä‚ÄAƒAƒ‹ƒtƒ@‚È‚µ‚ÅŒy‚¢Œ`®
+		// 1ã‚’è¶…ãˆã‚‹æ˜ã‚‹ã•ã‚’ä¿ã¦ã¦ã€ã‚¢ãƒ«ãƒ•ã‚¡ãªã—ã§è»½ã„å½¢å¼
 		CreateRenderTexture(bloomDown[i], w, h, DXGI_FORMAT_R11G11B10_FLOAT);
 		CreateRenderTexture(bloomTemp[i], w, h, DXGI_FORMAT_R11G11B10_FLOAT);
 		CreateRenderTexture(bloomBlur[i], w, h, DXGI_FORMAT_R11G11B10_FLOAT);
 	}
 }
-// ì‹Æ—pƒeƒNƒXƒ`ƒƒ‚ğ1–‡ì‚é
+// ä½œæ¥­ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’1æšä½œã‚‹
 void PostProcess::CreateRenderTexture(RenderTexture& target, UINT width, UINT height, DXGI_FORMAT format)
 {
-	// ŒÃ‚¢•¨‚ğ‰ğ•ú
+	// å¤ã„ç‰©ã‚’è§£æ”¾
 	target.srv.Reset();
 	target.rtv.Reset();
 	target.texture.Reset();
@@ -280,7 +280,7 @@ void PostProcess::CreateRenderTexture(RenderTexture& target, UINT width, UINT he
 	target.width = width;
 	target.height = height;
 }
-// ‘S‰æ–Ê‚ÌlŠpŒ`‚ğ1‰ñ•`‚­
+// å…¨ç”»é¢ã®å››è§’å½¢ã‚’1å›æã
 void PostProcess::DrawFullscreen(ID3D11DeviceContext* dc, ID3D11PixelShader* ps, ID3D11RenderTargetView* rtv, UINT width, UINT height)
 {
 	dc->OMSetRenderTargets(1, &rtv, nullptr);
@@ -295,6 +295,6 @@ void PostProcess::DrawFullscreen(ID3D11DeviceContext* dc, ID3D11PixelShader* ps,
 	dc->PSSetShader(ps, nullptr, 0);
 	dc->Draw(4, 0);
 
-	// •`‚­æ‚ğŠO‚·
+	// æãå…ˆã‚’å¤–ã™
 	dc->OMSetRenderTargets(0, nullptr, nullptr);
 }

@@ -1,53 +1,53 @@
-#pragma once
+ï»¿#pragma once
 #include <deque>
 #include <string>
 #include <vector>
 #include "entt.hpp"
 
-// Player ‚ÌˆÚ“®‚Ì—lq
+// Player ã®ç§»å‹•ã®æ§˜å­
 class MovementMonitorWindow
 {
 public:
-	// ’l‚ğ1‚Â‹L˜^‚·‚é
+	// å€¤ã‚’1ã¤è¨˜éŒ²ã™ã‚‹
 	void Record(entt::registry& registry, float elapsedTime);
 
-	// ‹L˜^‚ğƒOƒ‰ƒt‚É•`‚­
+	// è¨˜éŒ²ã‚’ã‚°ãƒ©ãƒ•ã«æã
 	void Draw();
 
-	// •\¦‚µ‚Ä‚¢‚é‚©
+	// è¡¨ç¤ºã—ã¦ã„ã‚‹ã‹
 	bool isOpen = false;
 
 private:
-	// 1‰ñ•ª‚Ì‹L˜^
+	// 1å›åˆ†ã®è¨˜éŒ²
 	struct Sample
 	{
-		float time = 0.0f;            // ‹L˜^‚ğn‚ß‚Ä‚©‚ç‚ÌŠÔ
-		float horizontalSpeed = 0.0f; // …•½‚Ì‘¬‚³
-		float desiredSpeed = 0.0f;    // –Ú•W‚Ì‘¬‚³
-		float verticalSpeed = 0.0f;   // c‚Ì‘¬‚³
-		int   stateIndex = 0;         // ƒXƒe[ƒg‚Ì”Ô†
+		float time = 0.0f;            // è¨˜éŒ²ã‚’å§‹ã‚ã¦ã‹ã‚‰ã®æ™‚é–“
+		float horizontalSpeed = 0.0f; // æ°´å¹³ã®é€Ÿã•
+		float desiredSpeed = 0.0f;    // ç›®æ¨™ã®é€Ÿã•
+		float verticalSpeed = 0.0f;   // ç¸¦ã®é€Ÿã•
+		int   stateIndex = 0;         // ã‚¹ãƒ†ãƒ¼ãƒˆã®ç•ªå·
 	};
 
-	// ƒOƒ‰ƒt‚É•`‚­1–{‚Ìü
+	// ã‚°ãƒ©ãƒ•ã«æã1æœ¬ã®ç·š
 	struct Series
 	{
-		float Sample::* value = nullptr; // ‚Ç‚Ì’l‚ğ•`‚­‚©
+		float Sample::* value = nullptr; // ã©ã®å€¤ã‚’æãã‹
 		unsigned int    color = 0;
 		float           thickness = 1.0f;
 	};
 
-	// ƒOƒ‰ƒt‚ğ1‚Â•`‚­
+	// ã‚°ãƒ©ãƒ•ã‚’1ã¤æã
 	void DrawGraph(float height, float minValue, float maxValue, float gridStep, const Series* series, int seriesCount);
 
-	// ƒXƒe[ƒg–¼‚ğ”Ô†‚É•Ï‚¦‚é
+	// ã‚¹ãƒ†ãƒ¼ãƒˆåã‚’ç•ªå·ã«å¤‰ãˆã‚‹
 	int FindOrAddState(const std::string& name);
 
-	std::deque<Sample>       samples;    // ŒÃ‚¢‡
-	std::vector<std::string> stateNames; // ƒXƒe[ƒg–¼
+	std::deque<Sample>       samples;    // å¤ã„é †
+	std::vector<std::string> stateNames; // ã‚¹ãƒ†ãƒ¼ãƒˆå
 
-	float totalTime = 0.0f;   // ‹L˜^‚ğn‚ß‚Ä‚©‚ç‚ÌŠÔ
-	bool  paused = false;     // ˆê’â~’†‚Í‹L˜^‚µ‚È‚¢
+	float totalTime = 0.0f;   // è¨˜éŒ²ã‚’å§‹ã‚ã¦ã‹ã‚‰ã®æ™‚é–“
+	bool  paused = false;     // ä¸€æ™‚åœæ­¢ä¸­ã¯è¨˜éŒ²ã—ãªã„
 
-	static constexpr float kViewSeconds = 3.0f;  // •\¦‚·‚éŠÔ‚Ì•
-	static constexpr float kKeepSeconds = 10.0f; // ‹L˜^‚Æ‚µ‚Äc‚µ‚Ä‚¨‚­’·‚³
+	static constexpr float kViewSeconds = 3.0f;  // è¡¨ç¤ºã™ã‚‹æ™‚é–“ã®å¹…
+	static constexpr float kKeepSeconds = 10.0f; // è¨˜éŒ²ã¨ã—ã¦æ®‹ã—ã¦ãŠãé•·ã•
 };

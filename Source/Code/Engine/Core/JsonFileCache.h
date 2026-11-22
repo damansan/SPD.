@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Engine/Core/Log.h"
 
 #include <string>
@@ -8,19 +8,19 @@
 #include <filesystem>
 #include <json.hpp>
 
-// “Ç‚İ‚İŒ‹‰Ê
+// èª­ã¿è¾¼ã¿çµæœ
 enum class JsonFileStatus
 {
-	Loaded,  // “Ç‚İ‚İÏ‚İ
-	Missing, // ƒtƒ@ƒCƒ‹‚È‚µ
-	Broken,  // “Ç‚İ‚ß‚È‚¢
+	Loaded,  // èª­ã¿è¾¼ã¿æ¸ˆã¿
+	Missing, // ãƒ•ã‚¡ã‚¤ãƒ«ãªã—
+	Broken,  // èª­ã¿è¾¼ã‚ãªã„
 };
 
-// ƒtƒ@ƒCƒ‹‚ª–³‚¢‚Æ‚«‚ÉƒƒO‚ğo‚·‚©
+// ãƒ•ã‚¡ã‚¤ãƒ«ãŒç„¡ã„ã¨ãã«ãƒ­ã‚°ã‚’å‡ºã™ã‹
 enum class JsonMissingLog
 {
-	Silent, // –³‚­‚Ä‚àxá‚ª–³‚¢‚à‚Ì
-	Report, // –³‚¢‚Æ‚¨‚©‚µ‚¢‚à‚Ì
+	Silent, // ç„¡ãã¦ã‚‚æ”¯éšœãŒç„¡ã„ã‚‚ã®
+	Report, // ç„¡ã„ã¨ãŠã‹ã—ã„ã‚‚ã®
 };
 
 template<typename T>
@@ -28,55 +28,55 @@ class JsonFileCache
 {
 public:
 	using LoadFunc = std::function<void(T&, const nlohmann::json&)>;
-	using SaveFunc = std::function<nlohmann::ordered_json(const T&)>; // ƒL[‚Ì‡”Ô‚ğ•Û‚Â
+	using SaveFunc = std::function<nlohmann::ordered_json(const T&)>; // ã‚­ãƒ¼ã®é †ç•ªã‚’ä¿ã¤
 
-	// “Ç‚Ş
+	// èª­ã‚€
 	T& GetOrLoad(const std::string& path, const LoadFunc& loadFunc, JsonMissingLog missingLog = JsonMissingLog::Report)
 	{
 		return Find(path, loadFunc, missingLog).data;
 	}
 
-	// ÅŒã‚É“Ç‚ñ‚¾‚Æ‚«‚ÌŒ‹‰Ê
+	// æœ€å¾Œã«èª­ã‚“ã ã¨ãã®çµæœ
 	JsonFileStatus GetStatus(const std::string& path) const
 	{
 		auto it = cache.find(path);
 		return (it != cache.end()) ? it->second.status : JsonFileStatus::Missing;
 	}
 
-	// ‘‚­
+	// æ›¸ã
 	bool Save(const std::string& path, const T& data, const SaveFunc& saveFunc)
 	{
 		namespace fs = std::filesystem;
 		std::error_code ec;
 		fs::create_directories(fs::path(path).parent_path(), ec);
 
-		// ˆêƒtƒ@ƒCƒ‹‚É‘‚«Ø‚é
+		// ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãåˆ‡ã‚‹
 		const std::string tempPath = path + ".tmp";
 		{
 			std::ofstream ofs(tempPath);
 			if (!ofs.is_open())
 			{
-				Log(u8" •Û‘¶‚Å‚«‚È‚¢: %s", LogPath(path).c_str());
+				Log(" ä¿å­˜ã§ããªã„: %s", LogPath(path).c_str());
 				return false;
 			}
 			ofs << saveFunc(data).dump(4, ' ', false, nlohmann::ordered_json::error_handler_t::replace);
 			if (!ofs)
 			{
-				Log(u8" •Û‘¶‚Å‚«‚È‚¢: %s", LogPath(path).c_str());
+				Log(" ä¿å­˜ã§ããªã„: %s", LogPath(path).c_str());
 				return false;
 			}
 		}
 
-		// –{•¨‚Æ’u‚«Š·‚¦‚é
+		// æœ¬ç‰©ã¨ç½®ãæ›ãˆã‚‹
 		fs::rename(tempPath, path, ec);
 		if (ec)
 		{
-			Log(u8" •Û‘¶‚Å‚«‚È‚¢: %s", LogPath(path).c_str());
+			Log(" ä¿å­˜ã§ããªã„: %s", LogPath(path).c_str());
 			fs::remove(tempPath, ec);
 			return false;
 		}
 
-		// ©•ª‚ÌƒLƒƒƒbƒVƒ…‚à‘‚¢‚½“à—e‚É‚µ‚Ä‚¨‚­
+		// è‡ªåˆ†ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚‚æ›¸ã„ãŸå†…å®¹ã«ã—ã¦ãŠã
 		Entry& entry = cache[path];
 		entry.data = data;
 		entry.lastWriteTime = fs::last_write_time(path, ec);
@@ -90,11 +90,11 @@ private:
 	{
 		T data;
 		std::filesystem::file_time_type lastWriteTime;
-		bool exists = false;                             // “Ç‚ñ‚¾‚Æ‚«‚Éƒtƒ@ƒCƒ‹‚ª‚ ‚Á‚½‚©
-		JsonFileStatus status = JsonFileStatus::Missing; // “Ç‚ñ‚¾Œ‹‰Ê
+		bool exists = false;                             // èª­ã‚“ã ã¨ãã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã£ãŸã‹
+		JsonFileStatus status = JsonFileStatus::Missing; // èª­ã‚“ã çµæœ
 	};
 
-	// ƒLƒƒƒbƒVƒ…‚©‚ç’T‚·Bƒtƒ@ƒCƒ‹‚Ìó‘Ô‚ª•Ï‚í‚Á‚Ä‚¢‚ê‚Î“Ç‚İ’¼‚·
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚‰æ¢ã™ã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã®çŠ¶æ…‹ãŒå¤‰ã‚ã£ã¦ã„ã‚Œã°èª­ã¿ç›´ã™
 	Entry& Find(const std::string& path, const LoadFunc& loadFunc, JsonMissingLog missingLog)
 	{
 		std::error_code ec;
@@ -106,27 +106,27 @@ private:
 		{
 			Entry& cached = it->second;
 
-			// ‘O‰ñ‚Æ“¯‚¶ó‘Ô‚È‚çAƒLƒƒƒbƒVƒ…‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·
+			// å‰å›ã¨åŒã˜çŠ¶æ…‹ãªã‚‰ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ãã®ã¾ã¾è¿”ã™
 			if (exists == cached.exists && (!exists || writeTime == cached.lastWriteTime))
 			{
 				return cached;
 			}
-			// ƒtƒ@ƒCƒ‹‚ªXV‚³‚ê‚½EŒ»‚ê‚½EÁ‚¦‚½ê‡‚ÍA“Ç‚İ’¼‚·
+			// ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›´æ–°ã•ã‚ŒãŸãƒ»ç¾ã‚ŒãŸãƒ»æ¶ˆãˆãŸå ´åˆã¯ã€èª­ã¿ç›´ã™
 			cache.erase(it);
 		}
 
-		// ƒ}ƒbƒv‚Ì’†‚É’¼Úì‚Á‚Ä‚©‚ç“Ç‚Ş
+		// ãƒãƒƒãƒ—ã®ä¸­ã«ç›´æ¥ä½œã£ã¦ã‹ã‚‰èª­ã‚€
 		Entry& entry = cache.try_emplace(path).first->second;
 		entry.lastWriteTime = writeTime;
 		entry.exists = exists;
 
-		// ó‘Ô‚ª•Ï‚í‚Á‚½‚Æ‚«‚¾‚¯‚±‚±‚É—ˆ‚é‚Ì‚ÅAƒƒO‚Í1‰ñ‚¾‚¯o‚é
+		// çŠ¶æ…‹ãŒå¤‰ã‚ã£ãŸã¨ãã ã‘ã“ã“ã«æ¥ã‚‹ã®ã§ã€ãƒ­ã‚°ã¯1å›ã ã‘å‡ºã‚‹
 		if (!exists)
 		{
 			entry.status = JsonFileStatus::Missing;
 			if (missingLog == JsonMissingLog::Report)
 			{
-				Log(u8" ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢: %s", LogPath(path).c_str());
+				Log(" ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã„: %s", LogPath(path).c_str());
 			}
 			return entry;
 		}
@@ -135,7 +135,7 @@ private:
 		if (!ifs.is_open())
 		{
 			entry.status = JsonFileStatus::Broken;
-			Log(u8" ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚È‚¢: %s", LogPath(path).c_str());
+			Log(" ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ãªã„: %s", LogPath(path).c_str());
 			return entry;
 		}
 
@@ -148,10 +148,10 @@ private:
 		}
 		catch (const std::exception&)
 		{
-			// “r’†‚Ü‚Å“Ç‚ñ‚¾•ª‚ÍÌ‚Ä‚ÄA‰Šú’l‚É‚·‚é
+			// é€”ä¸­ã¾ã§èª­ã‚“ã åˆ†ã¯æ¨ã¦ã¦ã€åˆæœŸå€¤ã«ã™ã‚‹
 			entry.data = T{};
 			entry.status = JsonFileStatus::Broken;
-			Log(u8" JSON ‚ª“Ç‚ß‚È‚¢: %s", LogPath(path).c_str());
+			Log(" JSON ãŒèª­ã‚ãªã„: %s", LogPath(path).c_str());
 		}
 
 		return entry;

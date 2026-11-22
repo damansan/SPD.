@@ -1,4 +1,4 @@
-#include "PlayerMovementUtils.h"
+ï»¿#include "PlayerMovementUtils.h"
 #include <cmath>
 
 namespace PlayerMovementUtils
@@ -43,24 +43,24 @@ namespace PlayerMovementUtils
 		float elapsedTime,
 		float acceleration)
 	{
-		// –Ú•W(•ûŒü‚Í“ü—Í•ûŒüA‘å‚«‚³‚Í targetSpeed)
+		// ç›®æ¨™(æ–¹å‘ã¯å…¥åŠ›æ–¹å‘ã€å¤§ãã•ã¯ targetSpeed)
 		WorldVelocityResult result = StickToWorldVelocity(inputX, inputZ, cameraFront, cameraRight, targetSpeed);
 
-		// •‰‚È‚ç]—ˆ‚Ç‚¨‚èA‘¦À‚É–Ú•W‘¬“x
+		// è² ãªã‚‰å¾“æ¥ã©ãŠã‚Šã€å³åº§ã«ç›®æ¨™é€Ÿåº¦
 		if (acceleration < 0.0f) return result;
 		if (targetSpeed <= 0.0f) return result;
 
-		// Œ»İ‚Ì…•½•ûŒü‚Ì‘¬‚³
+		// ç¾åœ¨ã®æ°´å¹³æ–¹å‘ã®é€Ÿã•
 		float currentSpeed = sqrtf(currentVelocity.x * currentVelocity.x + currentVelocity.z * currentVelocity.z);
 
-		// ‘¬‚³‚¾‚¯‚ğA1ƒtƒŒ[ƒ€‚ ‚½‚èÅ‘å acceleration * elapsedTime ‚¸‚Â–Ú•W‚Ö‹ß‚Ã‚¯‚é
+		// é€Ÿã•ã ã‘ã‚’ã€1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šæœ€å¤§ acceleration * elapsedTime ãšã¤ç›®æ¨™ã¸è¿‘ã¥ã‘ã‚‹
 		float maxStep = acceleration * elapsedTime;
 		float diff = targetSpeed - currentSpeed;
 		float newSpeed = (fabsf(diff) <= maxStep)
 			? targetSpeed
 			: currentSpeed + (diff > 0.0f ? maxStep : -maxStep);
 
-		// •ûŒü‚Í“ü—Í•ûŒü‚Ì‚Ü‚ÜA‘å‚«‚³‚¾‚¯·‚µ‘Ö‚¦‚é
+		// æ–¹å‘ã¯å…¥åŠ›æ–¹å‘ã®ã¾ã¾ã€å¤§ãã•ã ã‘å·®ã—æ›¿ãˆã‚‹
 		float scale = newSpeed / targetSpeed;
 		result.velocity.x *= scale;
 		result.velocity.z *= scale;
@@ -100,7 +100,7 @@ namespace PlayerMovementUtils
 
 	DirectX::XMFLOAT3 YawToForward(float yaw)
 	{
-		// CalcFacingYaw ‚ª atan2(-x, -z) ‚È‚Ì‚ÅA‚»‚Ì‹t
+		// CalcFacingYaw ãŒ atan2(-x, -z) ãªã®ã§ã€ãã®é€†
 		return { -sinf(yaw), 0.0f, -cosf(yaw) };
 	}
 
@@ -114,7 +114,7 @@ namespace PlayerMovementUtils
 	float Damper(float current, float target, float halfLife, float elapsedTime)
 	{
 		if (halfLife <= 0.0f) return target;
-		// Œo‰ßŠÔ‚ª halfLife 1‚Â•ª‚È‚çA·‚Í 2^-1 = ”¼•ª‚É‚È‚é
+		// çµŒéæ™‚é–“ãŒ halfLife 1ã¤åˆ†ãªã‚‰ã€å·®ã¯ 2^-1 = åŠåˆ†ã«ãªã‚‹
 		return target + (current - target) * exp2f(-elapsedTime / halfLife);
 	}
 }

@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 
-// ƒRƒ“ƒgƒ[ƒ‰[‚Ìİ’è’liJSON•Û‘¶j
+// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®è¨­å®šå€¤ï¼ˆJSONä¿å­˜ï¼‰
 struct ControllerSettings
 {
-	// ƒXƒeƒBƒbƒN ƒfƒbƒhƒ][ƒ“
+	// ã‚¹ãƒ†ã‚£ãƒƒã‚¯ ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
 	float leftStickDeadzone = 0.2f;
 	float rightStickDeadzone = 0.2f;
 
-	// ƒgƒŠƒK[ ƒfƒbƒhƒ][ƒ“
+	// ãƒˆãƒªã‚¬ãƒ¼ ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
 	float leftTriggerDeadzone = 0.05f;
 	float rightTriggerDeadzone = 0.05f;
 
-	// L2/R2 ƒfƒWƒ^ƒ‹”»’èè‡’l 
+	// L2/R2 ãƒ‡ã‚¸ã‚¿ãƒ«åˆ¤å®šé–¾å€¤ 
 	float leftTriggerPressThreshold = 0.5f;
 	float leftTriggerReleaseThreshold = 0.3f;
 	float rightTriggerPressThreshold = 0.5f;

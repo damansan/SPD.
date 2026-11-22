@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/ECS/Reflection.h"
 
 class MetaRegistry
 {
 public:
-	// “o˜^Ï‚İƒƒ^î•ñ‚©‚çInspectorUI‚ğ©“®•`‰æ
+	// ç™»éŒ²æ¸ˆã¿ãƒ¡ã‚¿æƒ…å ±ã‹ã‚‰InspectorUIã‚’è‡ªå‹•æç”»
 	static void DrawMetaFields(entt::meta_type metaType, entt::meta_any instance);
 };

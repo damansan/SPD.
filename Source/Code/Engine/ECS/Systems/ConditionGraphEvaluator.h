@@ -1,28 +1,28 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Data/ConditionGraphData.h"
 
 class ConditionGraphEvaluator
 {
 public:
-	// ‘JˆÚğŒ‚ª¬—§‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
+	// é·ç§»æ¡ä»¶ãŒæˆç«‹ã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™
 	static bool Evaluate(const ConditionGraph& graph, entt::registry& registry, entt::entity entity);
 
 private:
-	// ƒQƒbƒ^[ƒm[ƒh‚Åæ“¾‚µ‚Ä‚¢‚é’l‚ğæ“¾‚·‚é
+	// ã‚²ãƒƒã‚¿ãƒ¼ãƒãƒ¼ãƒ‰ã§å–å¾—ã—ã¦ã„ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹
 	static float GetGetterValue(const ConditionGetterNode& node, entt::registry& registry, entt::entity entity);
-	// •Ï”ƒm[ƒh‚Å•Û‚µ‚Ä‚¢‚é’l‚ğæ“¾‚·‚é
+	// å¤‰æ•°ãƒãƒ¼ãƒ‰ã§ä¿æŒã—ã¦ã„ã‚‹å€¤ã‚’å–å¾—ã™ã‚‹
 	static float GetVariableValue(const ConditionVariableNode& node);
 
-	// ”äŠrƒm[ƒh‚ğ‰‰Z‚µŒ‹‰Ê‚ğ•Ô‚·
+	// æ¯”è¼ƒãƒãƒ¼ãƒ‰ã‚’æ¼”ç®—ã—çµæœã‚’è¿”ã™
 	static bool EvaluateOperator(const ConditionGraph& graph, const ConditionOperatorNode& op, entt::registry& registry, entt::entity entity);
 
-	// ˜_—ƒm[ƒh‚ğ‰‰Z‚µŒ‹‰Ê‚ğ•Ô‚·
+	// è«–ç†ãƒãƒ¼ãƒ‰ã‚’æ¼”ç®—ã—çµæœã‚’è¿”ã™
 	static bool EvaluateLogic(const ConditionGraph& graph, const ConditionLogicNode& logic, entt::registry& registry, entt::entity entity);
 
-	// ”Û’èƒm[ƒh‚ğ‰‰Z‚µŒ‹‰Ê‚ğ•Ô‚·
+	// å¦å®šãƒãƒ¼ãƒ‰ã‚’æ¼”ç®—ã—çµæœã‚’è¿”ã™
 	static bool EvaluateNot(const ConditionGraph& graph, const ConditionNotNode& notNode, entt::registry& registry, entt::entity entity);
 
-	// ƒm[ƒhID‚©‚ç“ü—Í’l‚ğfloat‚Æ‚µ‚Ä‰ğŒˆ‚·‚é
+	// ãƒãƒ¼ãƒ‰IDã‹ã‚‰å…¥åŠ›å€¤ã‚’floatã¨ã—ã¦è§£æ±ºã™ã‚‹
 	static float ResolveInputValue(const ConditionGraph& graph, int nodeId, entt::registry& registry, entt::entity entity);
 };

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,7 +20,7 @@
 #include "GameTool/PostProcessToolWindow.h"
 #include "Tool/AdaptiveTriggerToolWindow.h"
 
-// ƒGƒfƒBƒ^‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+// ã‚¨ãƒ‡ã‚£ã‚¿ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 class EditorApp : public Application
 {
 public:
@@ -37,19 +37,19 @@ protected:
 	bool IsGameInputActive() const override;
 	bool IsDebugDrawAllowed() const override { return true; }
 private:
-	// ƒGƒfƒBƒ^‚ÌUI‚ğ•\¦‚µ‚Ä‚¢‚é‚©
+	// ã‚¨ãƒ‡ã‚£ã‚¿ã®UIã‚’è¡¨ç¤ºã—ã¦ã„ã‚‹ã‹
 	bool IsEditorActive() const;
 
-	// ƒfƒoƒbƒOƒJƒƒ‰‚ÌXV‚ÆADebug/Game‚ÌØ‚è‘Ö‚¦
+	// ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©ã®æ›´æ–°ã¨ã€Debug/Gameã®åˆ‡ã‚Šæ›¿ãˆ
 	void UpdateDebugCamera(float elapsedTime);
 
-	// Studio‚ğŠJ‚­
+	// Studioã‚’é–‹ã
 	void OpenStudioWindow(const std::string& assetPath = "");
 
-	// ƒƒjƒ…[ƒo[‚Ì’†g
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã®ä¸­èº«
 	void DrawMainMenu();
 
-	// ƒƒjƒ…[‚ª—§‚Ä‚½AƒV[ƒ“‚Ì•Û‘¶E“Ç‚İ‚İƒŠƒNƒGƒXƒg‚ğÀs‚·‚é
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãŒç«‹ã¦ãŸã€ã‚·ãƒ¼ãƒ³ã®ä¿å­˜ãƒ»èª­ã¿è¾¼ã¿ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å®Ÿè¡Œã™ã‚‹
 	void ProcessSceneRequest();
 
 	ImGuiManager imguiManager;
@@ -71,9 +71,9 @@ private:
 	std::vector<std::unique_ptr<StudioWindow>> studioWindows;
 	int nextStudioWindowId = 0;
 
-	// Open‚ÌŠm”Fƒ|ƒbƒvƒAƒbƒv‚ÅŠJ‚­ƒpƒX
+	// Openã®ç¢ºèªãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã§é–‹ããƒ‘ã‚¹
 	std::string pendingOpenPath;
 
-	// F1‚ÅƒQ[ƒ€’P‘Ì‚ÌŒ©‚½–Ú‚ğƒvƒŒƒrƒ…[
+	// F1ã§ã‚²ãƒ¼ãƒ å˜ä½“ã®è¦‹ãŸç›®ã‚’ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼
 	bool previewRelease = false;
 };

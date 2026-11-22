@@ -1,4 +1,4 @@
-#include "PlayerCrouchSystem.h"
+ï»¿#include "PlayerCrouchSystem.h"
 #include "Game/ECS/Components/PlayerIntentComponent.h"
 #include "Game/ECS/Components/PlayerCrouchComponent.h"
 #include "Game/ECS/Components/PlayerLocomotionComponent.h"
@@ -27,21 +27,21 @@ void PlayerCrouchSystem::Update(entt::registry& registry, float elapsedTime, con
 
 			if (stateMachine.enteredThisFrame)
 			{
-				// “ü‚Á‚½uŠÔF“ü‚Á‚Ä‚«‚½ › ‚ğg‚¢Ø‚é(c‚Á‚Ä‚¢‚é‚ÆA—§‚Â”»’è‚É‚àg‚í‚ê‚Ä‚µ‚Ü‚¤)
+				// å…¥ã£ãŸç¬é–“ï¼šå…¥ã£ã¦ããŸ â—‹ ã‚’ä½¿ã„åˆ‡ã‚‹(æ®‹ã£ã¦ã„ã‚‹ã¨ã€ç«‹ã¤åˆ¤å®šã«ã‚‚ä½¿ã‚ã‚Œã¦ã—ã¾ã†)
 				intent.dodge.Consume();
 				crouch.wantsStand = false;
 			}
 			else if (intent.dodge.buffered)
 			{
-				// ‚µ‚á‚ª‚İ’†‚É ›F—§‚¿‚½‚¢Bg‚¢Ø‚é(—§‚Á‚½Œã‚ÉA‚Ü‚½ Crouch ‚É“ü‚ç‚È‚¢‚æ‚¤‚É)
+				// ã—ã‚ƒãŒã¿ä¸­ã« â—‹ï¼šç«‹ã¡ãŸã„ã€‚ä½¿ã„åˆ‡ã‚‹(ç«‹ã£ãŸå¾Œã«ã€ã¾ãŸ Crouch ã«å…¥ã‚‰ãªã„ã‚ˆã†ã«)
 				crouch.wantsStand = true;
 				intent.dodge.Consume();
 			}
 
-			// —§‚¿‚½‚¢ ‚©‚Â “ª‚Ìã‚ª‹ó‚¢‚Ä‚¢‚é ¨ —§‚Â(“Vˆä‚Ì‰º‚È‚çAo‚é‚Ü‚Å‘Ò‚Â)
+			// ç«‹ã¡ãŸã„ ã‹ã¤ é ­ã®ä¸ŠãŒç©ºã„ã¦ã„ã‚‹ â†’ ç«‹ã¤(å¤©äº•ã®ä¸‹ãªã‚‰ã€å‡ºã‚‹ã¾ã§å¾…ã¤)
 			crouch.standRequested = crouch.wantsStand && contact.canStand;
 
-			// ˆÓ}‚ğALocomotion ‚Ö‚Ìw¦‚É•Ï‚¦‚é
+			// æ„å›³ã‚’ã€Locomotion ã¸ã®æŒ‡ç¤ºã«å¤‰ãˆã‚‹
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Ground;
 			cmd.moveDir = intent.moveDir;
@@ -50,7 +50,7 @@ void PlayerCrouchSystem::Update(entt::registry& registry, float elapsedTime, con
 			cmd.decelHalfLife = crouch.decelHalfLife;
 			cmd.turnSpeed = crouch.turnSpeed;
 
-			// “–‚½‚è”»’è‚ğ’á‚­‚·‚éw¦
+			// å½“ãŸã‚Šåˆ¤å®šã‚’ä½ãã™ã‚‹æŒ‡ç¤º
 			movement.heightScale = crouch.heightScale;
 		});
 }

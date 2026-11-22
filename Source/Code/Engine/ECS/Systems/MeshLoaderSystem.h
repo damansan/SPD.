@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d11.h>
 
 #include "entt.hpp"
@@ -13,7 +13,7 @@
 class MeshLoaderSystem
 {
 public:
-    // XV(–¢ƒ[ƒh‚ÌMeshComponent‚ğŒŸo‚µ‚Äƒ[ƒhj
+    // æ›´æ–°(æœªãƒ­ãƒ¼ãƒ‰ã®MeshComponentã‚’æ¤œå‡ºã—ã¦ãƒ­ãƒ¼ãƒ‰ï¼‰
     void Update(
         entt::registry& registry,
         ID3D11Device* device,

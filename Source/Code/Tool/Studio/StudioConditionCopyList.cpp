@@ -1,19 +1,19 @@
-#include "StudioConditionCopyList.h"
+ï»¿#include "StudioConditionCopyList.h"
 #include <imgui.h>
 
-// ‚±‚Ìƒtƒ@ƒCƒ‹‚Ì’†‚¾‚¯‚Åg‚¤ˆ—
+// ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸­ã ã‘ã§ä½¿ã†å‡¦ç†
 namespace
 {
-	// Ê‚·Œ³‚É‚Å‚«‚éğŒ‚©
+	// å†™ã™å…ƒã«ã§ãã‚‹æ¡ä»¶ã‹
 	bool IsCopySource(bool always, const ConditionGraph& condition)
 	{
-		// always‚ÌƒŠƒ“ƒN‚ÍAğŒ‚ğg‚Á‚Ä‚¢‚È‚¢‚Ì‚Åo‚³‚È‚¢
+		// alwaysã®ãƒªãƒ³ã‚¯ã¯ã€æ¡ä»¶ã‚’ä½¿ã£ã¦ã„ãªã„ã®ã§å‡ºã•ãªã„
 		if (always) return false;
 
-		// ğŒ‚ª‹ó(Ô‚¢ƒŠƒ“ƒN)‚ÍAÊ‚µ‚Ä‚à‹ó‚É‚È‚é‚¾‚¯‚È‚Ì‚Åo‚³‚È‚¢
+		// æ¡ä»¶ãŒç©º(èµ¤ã„ãƒªãƒ³ã‚¯)ã¯ã€å†™ã—ã¦ã‚‚ç©ºã«ãªã‚‹ã ã‘ãªã®ã§å‡ºã•ãªã„
 		if (condition.IsEmpty()) return false;
 
-		// Œˆ‚Ü‚è‚É‡‚í‚È‚¢ƒŠƒ“ƒN‚ğŠÜ‚ŞğŒ‚ÍAƒGƒ‰[‚²‚ÆÊ‚Á‚Ä‚µ‚Ü‚¤‚Ì‚Åo‚³‚È‚¢
+		// æ±ºã¾ã‚Šã«åˆã‚ãªã„ãƒªãƒ³ã‚¯ã‚’å«ã‚€æ¡ä»¶ã¯ã€ã‚¨ãƒ©ãƒ¼ã”ã¨å†™ã£ã¦ã—ã¾ã†ã®ã§å‡ºã•ãªã„
 		for (const auto& l : condition.links)
 		{
 			if (!condition.IsLinkValid(l)) return false;
@@ -21,7 +21,7 @@ namespace
 		return true;
 	}
 
-	// e‚Ì‘JˆÚ‚ÌID‚©‚çA‘JˆÚŒ³‚Ì–¼‘O‚ğì‚é
+	// è¦ªã®é·ç§»ã®IDã‹ã‚‰ã€é·ç§»å…ƒã®åå‰ã‚’ä½œã‚‹
 	std::string GetTransitionSourceName(const StateMachineData& data, int transitionId)
 	{
 		for (const auto& t : data.entry.transitions)
@@ -38,14 +38,14 @@ namespace
 		return "(missing)";
 	}
 
-	// State‚ÌID‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+	// Stateã®IDã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 	std::string GetStateName(const StateMachineData& data, int stateId)
 	{
 		const StateNode* s = data.FindState(stateId);
 		return s ? s->name : "(missing)";
 	}
 
-	// ƒNƒŠƒbƒv‚ÌID‚©‚çA•\¦—p‚Ì–¼‘O‚ğì‚é
+	// ã‚¯ãƒªãƒƒãƒ—ã®IDã‹ã‚‰ã€è¡¨ç¤ºç”¨ã®åå‰ã‚’ä½œã‚‹
 	std::string GetClipName(const ChildGraph& child, int clipId)
 	{
 		const ClipNode* c = child.FindClip(clipId);
@@ -53,25 +53,25 @@ namespace
 	}
 }
 
-// e‚ÌŠK‘w‚ÌƒŠƒ“ƒN‚ğW‚ß‚é
+// è¦ªã®éšå±¤ã®ãƒªãƒ³ã‚¯ã‚’é›†ã‚ã‚‹
 std::vector<ConditionCopyItem> ConditionCopyList::CollectParent(const StateMachineData& data, const ConditionTarget& self)
 {
 	std::vector<ConditionCopyItem> items;
 
-	// ƒŠƒ“ƒN1–{•ª‚ğAğŒ‚É‡‚¦‚Î‘«‚·
+	// ãƒªãƒ³ã‚¯1æœ¬åˆ†ã‚’ã€æ¡ä»¶ã«åˆãˆã°è¶³ã™
 	auto add = [&](const std::string& fromName, const StateTransition& t)
 		{
 			ConditionTarget target{ ConditionTarget::Kind::StateLink, -1, t.id };
-			if (target == self) return; // ©•ª©g‚Ío‚³‚È‚¢
+			if (target == self) return; // è‡ªåˆ†è‡ªèº«ã¯å‡ºã•ãªã„
 			if (!IsCopySource(t.always, t.condition)) return;
 
 			items.push_back({ target, "", fromName + " -> " + GetStateName(data, t.toStateId) });
 		};
 
-	// Entry‚©‚ço‚éƒŠƒ“ƒN
+	// Entryã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& t : data.entry.transitions) add("Entry", t);
 
-	// ŠeState‚©‚ço‚éƒŠƒ“ƒN
+	// å„Stateã‹ã‚‰å‡ºã‚‹ãƒªãƒ³ã‚¯
 	for (const auto& s : data.states)
 	{
 		for (const auto& t : s.transitions) add(s.name, t);
@@ -80,30 +80,30 @@ std::vector<ConditionCopyItem> ConditionCopyList::CollectParent(const StateMachi
 	return items;
 }
 
-// q‚ÌŠK‘w‚ÌƒŠƒ“ƒN‚ğW‚ß‚é
+// å­ã®éšå±¤ã®ãƒªãƒ³ã‚¯ã‚’é›†ã‚ã‚‹
 std::vector<ConditionCopyItem> ConditionCopyList::CollectChild(const StateMachineData& data, const ConditionTarget& self)
 {
 	std::vector<ConditionCopyItem> items;
 
-	// ‘S‚Ä‚ÌState‚Ìq‚ÌƒŠƒ“ƒN‚ğAState–¼‚ğŒ©o‚µ‚É‚µ‚ÄW‚ß‚é
+	// å…¨ã¦ã®Stateã®å­ã®ãƒªãƒ³ã‚¯ã‚’ã€Stateåã‚’è¦‹å‡ºã—ã«ã—ã¦é›†ã‚ã‚‹
 	for (const auto& s : data.states)
 	{
-		// ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv
+		// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—
 		for (const auto& l : s.child.entryLinks)
 		{
 			ConditionTarget target{ ConditionTarget::Kind::EntryLink, s.id, l.id };
-			if (target == self) continue; // ©•ª©g‚Ío‚³‚È‚¢
+			if (target == self) continue; // è‡ªåˆ†è‡ªèº«ã¯å‡ºã•ãªã„
 			if (!IsCopySource(l.always, l.condition)) continue;
 
 			std::string label = "Entry(" + GetTransitionSourceName(data, l.entryTransitionId) + ") -> " + GetClipName(s.child, l.toClipId);
 			items.push_back({ target, s.name, label });
 		}
 
-		// ƒNƒŠƒbƒv ¨ ƒNƒŠƒbƒv
+		// ã‚¯ãƒªãƒƒãƒ— â†’ ã‚¯ãƒªãƒƒãƒ—
 		for (const auto& l : s.child.clipLinks)
 		{
 			ConditionTarget target{ ConditionTarget::Kind::ClipLink, s.id, l.id };
-			if (target == self) continue; // ©•ª©g‚Ío‚³‚È‚¢
+			if (target == self) continue; // è‡ªåˆ†è‡ªèº«ã¯å‡ºã•ãªã„
 			if (!IsCopySource(l.always, l.condition)) continue;
 
 			std::string label = GetClipName(s.child, l.fromClipId) + " -> " + GetClipName(s.child, l.toClipId);
@@ -114,7 +114,7 @@ std::vector<ConditionCopyItem> ConditionCopyList::CollectChild(const StateMachin
 	return items;
 }
 
-// ƒŠƒXƒg‚ğ•`‚­
+// ãƒªã‚¹ãƒˆã‚’æã
 void ConditionCopyList::Draw(const std::vector<ConditionCopyItem>& items)
 {
 	ImGui::BeginChild("##ConditionCopyList", ImVec2(0.0f, 150.0f), true);
@@ -129,7 +129,7 @@ void ConditionCopyList::Draw(const std::vector<ConditionCopyItem>& items)
 	{
 		const ConditionCopyItem& item = items[i];
 
-		// Œ©o‚µ
+		// è¦‹å‡ºã—
 		bool hasGroup = !item.group.empty();
 		if (hasGroup && (i == 0 || item.group != previousGroup))
 		{
@@ -137,12 +137,12 @@ void ConditionCopyList::Draw(const std::vector<ConditionCopyItem>& items)
 		}
 		previousGroup = item.group;
 
-		// €–Ú
+		// é …ç›®
 		ImGui::PushID(item.target.linkId);
 		if (hasGroup) ImGui::Indent();
 		ImGui::Selectable(item.label.c_str());
 
-		// ƒhƒ‰ƒbƒOŠJnF‚Ç‚ÌƒŠƒ“ƒN‚©‚ğ‰^‚Ô
+		// ãƒ‰ãƒ©ãƒƒã‚°é–‹å§‹ï¼šã©ã®ãƒªãƒ³ã‚¯ã‹ã‚’é‹ã¶
 		if (ImGui::BeginDragDropSource())
 		{
 			ImGui::SetDragDropPayload(kPayloadType, &item.target, sizeof(ConditionTarget));
@@ -157,29 +157,29 @@ void ConditionCopyList::Draw(const std::vector<ConditionCopyItem>& items)
 	ImGui::EndChild();
 }
 
-// ó‚¯Œû‚ğ•`‚­
+// å—ã‘å£ã‚’æã
 ConditionTarget ConditionCopyList::DrawDropTarget(const ConditionTarget& self)
 {
 	ConditionTarget dropped;
 
-	// ó‚¯Œû‚Ì˜g
+	// å—ã‘å£ã®æ 
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.20f, 0.20f, 0.25f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.20f, 0.20f, 0.25f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.20f, 0.20f, 0.25f, 1.0f));
 	ImGui::Button("Drop a link here to copy", ImVec2(-1.0f, 40.0f));
 	ImGui::PopStyleColor(3);
 
-	// ƒŠƒXƒg‚©‚ç‰^‚Î‚ê‚Ä‚«‚½ƒŠƒ“ƒN‚ğó‚¯æ‚é
+	// ãƒªã‚¹ãƒˆã‹ã‚‰é‹ã°ã‚Œã¦ããŸãƒªãƒ³ã‚¯ã‚’å—ã‘å–ã‚‹
 	if (ImGui::BeginDragDropTarget())
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(kPayloadType))
 		{
-			// ‰^‚Î‚ê‚Ä‚«‚½•¨‚Ì‘å‚«‚³‚ª‡‚Á‚Ä‚¢‚é‚Æ‚«‚¾‚¯g‚¤
+			// é‹ã°ã‚Œã¦ããŸç‰©ã®å¤§ãã•ãŒåˆã£ã¦ã„ã‚‹ã¨ãã ã‘ä½¿ã†
 			if (payload->DataSize == sizeof(ConditionTarget))
 			{
 				ConditionTarget source = *static_cast<const ConditionTarget*>(payload->Data);
 
-				// ©•ª©g‚ÍÊ‚³‚È‚¢
+				// è‡ªåˆ†è‡ªèº«ã¯å†™ã•ãªã„
 				if (source != self) dropped = source;
 			}
 		}

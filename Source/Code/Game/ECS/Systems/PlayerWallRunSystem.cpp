@@ -1,4 +1,4 @@
-#include "PlayerWallRunSystem.h"
+ï»¿#include "PlayerWallRunSystem.h"
 #include <cmath>
 #include <algorithm>
 
@@ -17,7 +17,7 @@
 
 namespace
 {
-	// …•½‚ÌŒü‚«‚ğ’·‚³‚P‚É‚·‚é
+	// æ°´å¹³ã®å‘ãã‚’é•·ã•ï¼‘ã«ã™ã‚‹
 	bool NormalizeXZ(float& x, float& z)
 	{
 		const float len = sqrtf(x * x + z * z);
@@ -27,7 +27,7 @@ namespace
 		return true;
 	}
 
-	// Œü‚«‚©‚çu•Ç‚ÖŒü‚©‚¤¬•ªv‚ğæ‚èœ‚«A•Ç‚Ì–Ê‚É‰ˆ‚Á‚½Œü‚«‚É‚·‚é
+	// å‘ãã‹ã‚‰ã€Œå£ã¸å‘ã‹ã†æˆåˆ†ã€ã‚’å–ã‚Šé™¤ãã€å£ã®é¢ã«æ²¿ã£ãŸå‘ãã«ã™ã‚‹
 	bool ProjectOnWall(float& dx, float& dz, float nx, float nz)
 	{
 		const float d = dx * nx + dz * nz;
@@ -53,10 +53,10 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 		const StateMachineComponent& stateMachine, PlayerLocomotionComponent& loco, MovementComponent& movement, const TransformComponent& transform,
 		PlayerIntentComponent& intent)
 		{
-			// Œ»İ‚ªWallRun‚Å‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+			// ç¾åœ¨ãŒWallRunã§ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 			if (!stateMachine.IsIn("WallRun")) return;
 
-			// •Ç‚É“–‚½‚Á‚Ä‚¢‚ê‚ÎA–@ü‚ğæ‚è’¼‚·
+			// å£ã«å½“ãŸã£ã¦ã„ã‚Œã°ã€æ³•ç·šã‚’å–ã‚Šç›´ã™
 			float nx = contact.sideNormal.x;
 			float nz = contact.sideNormal.z;
 			if (contact.hitSide && NormalizeXZ(nx, nz))
@@ -66,16 +66,16 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 			const float wnx = wallRun.wallNormal.x;
 			const float wnz = wallRun.wallNormal.z;
 
-			// WallRun ŠJn
+			// WallRun é–‹å§‹
 			if (stateMachine.enteredThisFrame)
 			{
-				// ‘–‚éŒü‚«FŒ»İ‚Ì‘¬“x‚ğ•Ç‚Ì–Ê‚É‰ˆ‚í‚¹‚é
+				// èµ°ã‚‹å‘ãï¼šç¾åœ¨ã®é€Ÿåº¦ã‚’å£ã®é¢ã«æ²¿ã‚ã›ã‚‹
 				float dx = movement.velocity.x;
 				float dz = movement.velocity.z;
 
 				if (!ProjectOnWall(dx, dz, wnx, wnz))
 				{
-					// ‘¬“x‚©‚çŒˆ‚Ü‚ç‚È‚¢ê‡‚Í‘Ì‚ÌŒü‚«‚ğg‚¤
+					// é€Ÿåº¦ã‹ã‚‰æ±ºã¾ã‚‰ãªã„å ´åˆã¯ä½“ã®å‘ãã‚’ä½¿ã†
 					const DirectX::XMFLOAT3 forward = PlayerMovementUtils::YawToForward(transform.rotation.y);
 					dx = forward.x;
 					dz = forward.z;
@@ -83,43 +83,43 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 				}
 				wallRun.runDir = { dx, 0.0f, dz };
 
-				// ‘–‚é‘¬‚³F“ü‚Á‚Ä‚«‚½¨‚¢‚ğ•Û‚Â
+				// èµ°ã‚‹é€Ÿã•ï¼šå…¥ã£ã¦ããŸå‹¢ã„ã‚’ä¿ã¤
 				const float planarSpeed = sqrtf(movement.velocity.x * movement.velocity.x + movement.velocity.z * movement.velocity.z);
 				wallRun.runSpeed = (std::max)(planarSpeed, wallRun.minRunSpeed);
 
-				// •Ç‚ª¶‰E‚Ç‚¿‚ç‚É‚ ‚é‚©‚ğŒˆ‚ß‚é
+				// å£ãŒå·¦å³ã©ã¡ã‚‰ã«ã‚ã‚‹ã‹ã‚’æ±ºã‚ã‚‹
 				wallRun.isWallRight = sense.isWallRight;
 				
-				// ó‘Ô‚ğ‰Šú‰»
+				// çŠ¶æ…‹ã‚’åˆæœŸåŒ–
 				wallRun.elapsed = 0.0f;
 				wallRun.kicked = false;
 				wallRun.kickTime = 0.0f;
 				wallRun.finished = false;
 
-				// ‘O‰ñ‚Ì•Ç‘–‚è‚©‚ç’…’n‚ğ‹²‚ñ‚Å‚¢‚é‚©
+				// å‰å›ã®å£èµ°ã‚Šã‹ã‚‰ç€åœ°ã‚’æŒŸã‚“ã§ã„ã‚‹ã‹
 				const bool chained = (loco.landingCount == wallRun.lastLandingCount);
 				wallRun.lastLandingCount = loco.landingCount;
 
-				// n‚Ü‚é‹æŠÔ‚ÆAc‚Ì‘¬‚³‚ğŒˆ‚ß‚é
+				// å§‹ã¾ã‚‹åŒºé–“ã¨ã€ç¸¦ã®é€Ÿã•ã‚’æ±ºã‚ã‚‹
 				wallRun.isClimbing = false;
 				wallRun.isFalling = false;
 				if (!chained)
 				{
-					// Å‰‚Ì•Ç‘–‚èF‹ì‚¯ã‚ª‚ç‚¹‚é
+					// æœ€åˆã®å£èµ°ã‚Šï¼šé§†ã‘ä¸ŠãŒã‚‰ã›ã‚‹
 					wallRun.isClimbing = true;
 					wallRun.climbStartY = transform.position.y;
 					movement.velocity.y = wallRun.climbSpeed;
 				}
 				else
 				{
-					// ˜A‘±‚Ì•Ç‘–‚èF‹ì‚¯‰º‚ª‚ç‚¹‚é
+					// é€£ç¶šã®å£èµ°ã‚Šï¼šé§†ã‘ä¸‹ãŒã‚‰ã›ã‚‹
 					wallRun.isFalling = true;
 					movement.velocity.y = (std::clamp)(movement.velocity.y, wallRun.minEnterVerticalSpeed, wallRun.maxEnterVerticalSpeed);
 				}
 			}
 			else
 			{
-				// ‘–‚Á‚Ä‚¢‚éŒü‚«‚ğA¡‚Ì•Ç‚Ì–Ê‚É‰ˆ‚í‚¹’¼‚·
+				// èµ°ã£ã¦ã„ã‚‹å‘ãã‚’ã€ä»Šã®å£ã®é¢ã«æ²¿ã‚ã›ç›´ã™
 				float dx = wallRun.runDir.x;
 				float dz = wallRun.runDir.z;
 				if (ProjectOnWall(dx, dz, wnx, wnz))
@@ -133,7 +133,7 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 			const float gravity = fabsf(movement.gravity);
 
 
-			// ‹ì‚¯ã‚ª‚è‚ÌI‚í‚è‚ğ”»’f‚·‚é
+			// é§†ã‘ä¸ŠãŒã‚Šã®çµ‚ã‚ã‚Šã‚’åˆ¤æ–­ã™ã‚‹
 			if (wallRun.isClimbing)
 			{
 				float arcHeight = 0.0f;
@@ -154,13 +154,13 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 				}
 			}
 
-			// ‹ì‚¯‰º‚ª‚è’†‚ÍA„i—Í‚ğ­‚µ‚¸‚Â‰º‚°‚é
+			// é§†ã‘ä¸‹ãŒã‚Šä¸­ã¯ã€æ¨é€²åŠ›ã‚’å°‘ã—ãšã¤ä¸‹ã’ã‚‹
 			if (!wallRun.isClimbing && !wallRun.isFalling && movement.velocity.y <= 0.0f)
 			{
 				wallRun.isFalling = true;
 			}
 
-			// „i—Í‚ğ‰º‚°n‚ß‚é
+			// æ¨é€²åŠ›ã‚’ä¸‹ã’å§‹ã‚ã‚‹
 			if (wallRun.isFalling)
 			{
 				wallRun.runSpeed *= powf(0.5f, elapsedTime / wallRun.fallSpeedHalfLife);
@@ -168,7 +168,7 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 
 
 
-			// •Ç‚ğR‚é
+			// å£ã‚’è¹´ã‚‹
 			if (!wallRun.kicked && intent.jump.buffered)
 			{
 				const float forward = wallRun.runSpeed * wallRun.kickForwardScale;
@@ -181,29 +181,29 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 			}
 			movement.radiusOverride = wallRun.radius;
 
-			// R‚Á‚½ŒãFƒƒbƒN‚ÌŠÔ‚ğ”‚¦‚é
+			// è¹´ã£ãŸå¾Œï¼šãƒ­ãƒƒã‚¯ã®æ™‚é–“ã‚’æ•°ãˆã‚‹
 			if (wallRun.kicked)
 			{
 				wallRun.kickTime += elapsedTime;
 			}
 
-			// •ÇR‚èŒãAƒƒbƒNŠÔ‚ª‰ß‚¬‚½
+			// å£è¹´ã‚Šå¾Œã€ãƒ­ãƒƒã‚¯æ™‚é–“ãŒéããŸ
 			const bool kickDone = wallRun.kicked && wallRun.kickTime >= wallRun.kickLockTime;
-			// •Ç‚ª–³‚­‚È‚Á‚½
+			// å£ãŒç„¡ããªã£ãŸ
 			const bool wallLost = !wallRun.kicked && !sense.nearWall;
-			// ‘–‚é‘¬‚³‚ªˆê’èˆÈ‰º‚É‚È‚Á‚½
+			// èµ°ã‚‹é€Ÿã•ãŒä¸€å®šä»¥ä¸‹ã«ãªã£ãŸ
 			const bool speedLost = !wallRun.kicked && wallRun.runSpeed < wallRun.enterMinSpeed; 
-			// ã‹L‚Ì‚Ç‚ê‚© or ’n–Ê‚É‚Â‚¢‚½‚ç WallRun ‚ğI—¹‚·‚é
+			// ä¸Šè¨˜ã®ã©ã‚Œã‹ or åœ°é¢ã«ã¤ã„ãŸã‚‰ WallRun ã‚’çµ‚äº†ã™ã‚‹
 			wallRun.finished = kickDone || wallLost || speedLost || movement.isGrounded;
 
-			// R‚Á‚½’¼Œã‚Í Locomotion ‚ÉG‚ç‚È‚¢
+			// è¹´ã£ãŸç›´å¾Œã¯ Locomotion ã«è§¦ã‚‰ãªã„
 			if (wallRun.kicked)
 			{
 				loco.command.mode = LocomotionMode::External;
 				return;
 			}
 
-			// ‘–‚éw¦‚ğ Locomotion ‚Éw¦‚·‚é
+			// èµ°ã‚‹æŒ‡ç¤ºã‚’ Locomotion ã«æŒ‡ç¤ºã™ã‚‹
 			const float stick = sense.touchingWall ? wallRun.stickSpeed : 0.0f;
 			float mx = wallRun.runDir.x * wallRun.runSpeed - wnx * stick;
 			float mz = wallRun.runDir.z * wallRun.runSpeed - wnz * stick;
@@ -217,20 +217,20 @@ void PlayerWallRunSystem::Update(entt::registry& registry, float elapsedTime, co
 			cmd.accelHalfLife = wallRun.accelHalfLife;
 			cmd.faceMoveDir = true;
 
-			// d—Í‚ğ Movement ‚Öw¦‚·‚é
+			// é‡åŠ›ã‚’ Movement ã¸æŒ‡ç¤ºã™ã‚‹
 			if (wallRun.isClimbing)
 			{
-				// ‹ì‚¯ã‚ª‚èFd—Í 0
+				// é§†ã‘ä¸ŠãŒã‚Šï¼šé‡åŠ› 0
 				movement.gravityScale = 0.0f; 
 			}
 			else if (wallRun.isFalling)
 			{
-				// ‹ì‚¯‰º‚ª‚èF¸‘¬‚µ‚È‚ª‚ç‰º‚ª‚é
+				// é§†ã‘ä¸‹ãŒã‚Šï¼šå¤±é€Ÿã—ãªãŒã‚‰ä¸‹ãŒã‚‹
 				movement.gravityScale = wallRun.fallGravityScale;
 			}
 			else
 			{
-				// ’¸ã•t‹ßFã¸‚ªã‚Ü‚é
+				// é ‚ä¸Šä»˜è¿‘ï¼šä¸Šæ˜‡ãŒå¼±ã¾ã‚‹
 				movement.gravityScale = wallRun.riseGravityScale;
 			}
 		});

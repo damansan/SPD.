@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "Engine/Core/Camera.h"
 
 class CameraViewSystem
 {
 public:
-	// ÅI‚Ì’l‚ğì‚é
+	// æœ€çµ‚ã®å€¤ã‚’ä½œã‚‹
 	void Update(entt::registry& registry);
 
-	// Camera ‚É“n‚·
+	// Camera ã«æ¸¡ã™
 	void ApplyToCamera(entt::registry& registry, Camera& camera);
 };

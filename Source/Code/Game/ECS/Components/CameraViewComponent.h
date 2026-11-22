@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
@@ -6,13 +6,13 @@ struct CameraViewComponent
 {
 	REFLECT_BEGIN(CameraViewComponent, "Camera View")
 
-		REFLECT_FIELD(DirectX::XMFLOAT3,   eye,  (0.0f, 0.0f, 0.0f), ("Eye",    0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ç≈èIÇÃ eye
-		REFLECT_FIELD(DirectX::XMFLOAT3, target, (0.0f, 0.0f, 0.0f), ("Target", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ç≈èIÇÃ target
+		REFLECT_FIELD(DirectX::XMFLOAT3,   eye,  (0.0f, 0.0f, 0.0f), ("Eye",    0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ÊúÄÁµÇ„ÅÆ eye
+		REFLECT_FIELD(DirectX::XMFLOAT3, target, (0.0f, 0.0f, 0.0f), ("Target", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ÊúÄÁµÇ„ÅÆ target
 		
-		REFLECT_FIELD(float, fov,  (0.0f), ("Fov",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ç≈èIÇÃ FOV
-		REFLECT_FIELD(float, roll, (0.0f), ("Roll", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ç≈èIÇÃåXÇ´
+		REFLECT_FIELD(float, fov,  (0.0f), ("Fov",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ÊúÄÁµÇ„ÅÆ FOV
+		REFLECT_FIELD(float, roll, (0.0f), ("Roll", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ÊúÄÁµÇ„ÅÆÂÇæ„Åç
 		
-		REFLECT_FIELD(bool, valid, (false), ("Valid", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ílÇ™Ç≈Ç´ÇƒÇ¢ÇÈÇ©
+		REFLECT_FIELD(bool, valid, (false), ("Valid", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ÂÄ§„Åå„Åß„Åç„Å¶„ÅÑ„Çã„Åã
 
 	REFLECT_END()
 };

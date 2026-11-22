@@ -1,35 +1,35 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <json.hpp>
 #include "Engine/Data/ConditionGraphData.h"
 
-// ƒGƒfƒBƒ^ã‚ÌˆÊ’u
+// ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®ä½ç½®
 struct EditorPosition
 {
 	float x = 0.0f;
 	float y = 0.0f;
 };
 
-// ƒuƒŒƒ“ƒh‚Ìİ’è
+// ãƒ–ãƒ¬ãƒ³ãƒ‰ã®è¨­å®š
 struct BlendSetting
 {
-	bool enabled = true;   // ƒuƒŒƒ“ƒh‚·‚é‚©
-	float duration = 0.2f; // ƒuƒŒƒ“ƒh‚Ì•b”(enabled‚ªfalse‚È‚çg‚í‚È‚¢)
+	bool enabled = true;   // ãƒ–ãƒ¬ãƒ³ãƒ‰ã™ã‚‹ã‹
+	float duration = 0.2f; // ãƒ–ãƒ¬ãƒ³ãƒ‰ã®ç§’æ•°(enabledãŒfalseãªã‚‰ä½¿ã‚ãªã„)
 };
 
-// eŠK‘w : ‘JˆÚ(State ¨ State)
+// è¦ªéšå±¤ : é·ç§»(State â†’ State)
 struct StateTransition
 {
 	int id = -1;
 	int toStateId = -1;
-	bool always = false; // true‚È‚çğŒ‚ÉŠÖŒW‚È‚­¬—§‚·‚é
+	bool always = false; // trueãªã‚‰æ¡ä»¶ã«é–¢ä¿‚ãªãæˆç«‹ã™ã‚‹
 	BlendSetting blend;
 	ConditionGraph condition;
 };
 
-// qŠK‘wFÄ¶‚·‚éƒNƒŠƒbƒv
+// å­éšå±¤ï¼šå†ç”Ÿã™ã‚‹ã‚¯ãƒªãƒƒãƒ—
 struct ClipNode
 {
 	int id = -1;
@@ -40,17 +40,17 @@ struct ClipNode
 	EditorPosition editorPos;
 };
 
-// qŠK‘wF‘JˆÚ(ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv)
+// å­éšå±¤ï¼šé·ç§»(ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—)
 struct EntryLink
 {
 	int id = -1;
-	int entryTransitionId = -1; // ‚Ç‚Ì‘JˆÚ‚©‚ç—ˆ‚½ƒGƒ“ƒgƒŠ[‚©
+	int entryTransitionId = -1; // ã©ã®é·ç§»ã‹ã‚‰æ¥ãŸã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‹
 	int toClipId = -1;
 	bool always = false;
 	ConditionGraph condition;
 };
 
-// qŠK‘wF‘JˆÚ(ƒNƒŠƒbƒv ¨ ƒNƒŠƒbƒv)
+// å­éšå±¤ï¼šé·ç§»(ã‚¯ãƒªãƒƒãƒ— â†’ ã‚¯ãƒªãƒƒãƒ—)
 struct ClipLink
 {
 	int id = -1;
@@ -61,39 +61,39 @@ struct ClipLink
 	ConditionGraph condition;
 };
 
-// qŠK‘w(‚»‚ÌState‚Å‰½‚ğÄ¶‚·‚é‚©)
+// å­éšå±¤(ãã®Stateã§ä½•ã‚’å†ç”Ÿã™ã‚‹ã‹)
 struct ChildGraph
 {
 	std::vector<ClipNode>  clips;
 	std::vector<EntryLink> entryLinks;
 	std::vector<ClipLink>  clipLinks;
 
-	// ƒGƒ“ƒgƒŠ[‚ÌƒGƒfƒBƒ^ã‚ÌˆÊ’u
+	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã®ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã®ä½ç½®
 	std::unordered_map<int, EditorPosition> entryEditorPos;
 
 	const ClipNode* FindClip(int clipId) const;
 };
 
-// State(e)
+// State(è¦ª)
 struct StateNode
 {
 	int id = -1;
 	std::string name;
-	std::vector<StateTransition> transitions; // •À‚Ñ‡‚ª‚»‚Ì‚Ü‚Ü—Dæ“x
+	std::vector<StateTransition> transitions; // ä¸¦ã³é †ãŒãã®ã¾ã¾å„ªå…ˆåº¦
 	ChildGraph child;
 
 	EditorPosition editorPos;
 	float editorColor[3] = { 0.27f, 0.35f, 0.47f };
 };
 
-// e‚ÌEntry(Å‰‚ÌState‚Ö‚Ì‘JˆÚ‚ğ‚Â)
+// è¦ªã®Entry(æœ€åˆã®Stateã¸ã®é·ç§»ã‚’æŒã¤)
 struct StateMachineEntry
 {
 	std::vector<StateTransition> transitions;
 	EditorPosition editorPos;
 };
 
-// Stateƒ}ƒVƒ“‚ÌƒOƒ‰ƒt‘S‘Ì
+// Stateãƒã‚·ãƒ³ã®ã‚°ãƒ©ãƒ•å…¨ä½“
 class StateMachineData
 {
 public:
@@ -102,68 +102,68 @@ public:
 	StateMachineEntry entry;
 	std::vector<StateNode> states;
 
-	// IDÌ”Ô
+	// IDæ¡ç•ª
 	int GenerateId() { return nextId++; }
 
-	// ŒŸõ
+	// æ¤œç´¢
 	const StateNode* FindState(int stateId) const;
 	const StateNode* FindStateByName(const std::string& name) const;
-	const StateTransition* FindTransition(int transitionId) const; // Entry‚Ì‘JˆÚ‚àŠÜ‚Ş
+	const StateTransition* FindTransition(int transitionId) const; // Entryã®é·ç§»ã‚‚å«ã‚€
 
-	// ‘JˆÚŒ³‚ÉEntry‚ğw’è‚·‚é‚Æ‚«‚ÌID
+	// é·ç§»å…ƒã«Entryã‚’æŒ‡å®šã™ã‚‹ã¨ãã®ID
 	static constexpr int kEntryId = 0;
 
 	
 	
-	// ‹ó‚ÌƒOƒ‰ƒt‚É‚·‚é
+	// ç©ºã®ã‚°ãƒ©ãƒ•ã«ã™ã‚‹
 	void Clear();
 
 	// State
-	int  AddState(const std::string& baseName, const EditorPosition& pos); // ì¬
-	bool RenameState(int stateId, const std::string& newName);             // –¼‘O•ÏX
-	void RemoveState(int stateId);                                         // íœ
+	int  AddState(const std::string& baseName, const EditorPosition& pos); // ä½œæˆ
+	bool RenameState(int stateId, const std::string& newName);             // åå‰å¤‰æ›´
+	void RemoveState(int stateId);                                         // å‰Šé™¤
 
-	// ‘JˆÚ
-	int  AddTransition(int fromStateId, int toStateId); // ì¬
-	void RemoveTransition(int transitionId);            // íœ
-	bool MoveTransition(int transitionId, int offset);  // —Dæ“x‚Ì“ü‚ê‘Ö‚¦
+	// é·ç§»
+	int  AddTransition(int fromStateId, int toStateId); // ä½œæˆ
+	void RemoveTransition(int transitionId);            // å‰Šé™¤
+	bool MoveTransition(int transitionId, int offset);  // å„ªå…ˆåº¦ã®å…¥ã‚Œæ›¿ãˆ
 
-	// qŠK‘wFƒNƒŠƒbƒv
-	int  AddClip(int stateId, const std::string& name, const EditorPosition& pos); // ì¬
-	void RemoveClip(int stateId, int clipId);                                      // íœ
+	// å­éšå±¤ï¼šã‚¯ãƒªãƒƒãƒ—
+	int  AddClip(int stateId, const std::string& name, const EditorPosition& pos); // ä½œæˆ
+	void RemoveClip(int stateId, int clipId);                                      // å‰Šé™¤
 
-	// qŠK‘wF(ƒGƒ“ƒgƒŠ[ ¨ ƒNƒŠƒbƒv)
-	int  AddEntryLink(int stateId, int transitionId, int toClipId); // ì¬
-	void RemoveEntryLink(int stateId, int linkId);                  // íœ
-	bool MoveEntryLink(int stateId, int linkId, int offset);        // —Dæ“x‚Ì“ü‚ê‘Ö‚¦
+	// å­éšå±¤ï¼š(ã‚¨ãƒ³ãƒˆãƒªãƒ¼ â†’ ã‚¯ãƒªãƒƒãƒ—)
+	int  AddEntryLink(int stateId, int transitionId, int toClipId); // ä½œæˆ
+	void RemoveEntryLink(int stateId, int linkId);                  // å‰Šé™¤
+	bool MoveEntryLink(int stateId, int linkId, int offset);        // å„ªå…ˆåº¦ã®å…¥ã‚Œæ›¿ãˆ
 
-	// qŠK‘wF(ƒNƒŠƒbƒv ¨ ƒNƒŠƒbƒv)
-	int  AddClipLink(int stateId, int fromClipId, int toClipId); // ì¬
-	void RemoveClipLink(int stateId, int linkId);                // íœ
-	bool MoveClipLink(int stateId, int linkId, int offset);      // —Dæ“x‚Ì“ü‚ê‘Ö‚¦
+	// å­éšå±¤ï¼š(ã‚¯ãƒªãƒƒãƒ— â†’ ã‚¯ãƒªãƒƒãƒ—)
+	int  AddClipLink(int stateId, int fromClipId, int toClipId); // ä½œæˆ
+	void RemoveClipLink(int stateId, int linkId);                // å‰Šé™¤
+	bool MoveClipLink(int stateId, int linkId, int offset);      // å„ªå…ˆåº¦ã®å…¥ã‚Œæ›¿ãˆ
 
-	// •ÒW—p‚ÌŒŸõ
+	// ç·¨é›†ç”¨ã®æ¤œç´¢
 	StateNode* FindState(int stateId);
 	StateTransition* FindTransition(int transitionId);
 
-	// ‘¼‚ÌState‚Æd•¡‚µ‚È‚¢–¼‘O‚ğì‚é
+	// ä»–ã®Stateã¨é‡è¤‡ã—ãªã„åå‰ã‚’ä½œã‚‹
 	std::string MakeUniqueStateName(const std::string& baseName) const;
 
 
 
-	// ®‡«ƒ`ƒFƒbƒN
+	// æ•´åˆæ€§ãƒã‚§ãƒƒã‚¯
 	bool Validate(const std::string& sourceName) const;
 
-	// •Û‘¶/“Ç‚İ‚İ
+	// ä¿å­˜/èª­ã¿è¾¼ã¿
 	nlohmann::ordered_json ToJson() const;
 	bool FromJson(const nlohmann::json& j, const std::string& sourceName);
 
-	// ƒ‚ƒfƒ‹ƒpƒX‚©‚ç•Û‘¶æ‚ÌƒpƒX‚ğ‘g‚İ—§‚Ä‚é
+	// ãƒ¢ãƒ‡ãƒ«ãƒ‘ã‚¹ã‹ã‚‰ä¿å­˜å…ˆã®ãƒ‘ã‚¹ã‚’çµ„ã¿ç«‹ã¦ã‚‹
 	static std::string GetFilePath(const std::string& modelPath);
 
 private:
 	int nextId = 1;
 
-	// ‘JˆÚ‚ğ‚Á‚Ä‚¢‚éƒŠƒXƒg(EntryA‚Ü‚½‚Í‚Ç‚ê‚©‚ÌState)‚ğ’T‚·
+	// é·ç§»ã‚’æŒã£ã¦ã„ã‚‹ãƒªã‚¹ãƒˆ(Entryã€ã¾ãŸã¯ã©ã‚Œã‹ã®State)ã‚’æ¢ã™
 	std::vector<StateTransition>* FindTransitionOwner(int transitionId);
 };

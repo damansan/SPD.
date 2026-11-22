@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "entt.hpp"
 #include "SceneContext.h"
 #include "PhysX.h"
@@ -10,40 +10,40 @@ public:
 	Scene() = default;
 	virtual ~Scene() = default;
 
-	Scene(const Scene&) = delete;                // ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	Scene& operator=(const Scene&) = delete;     // ƒRƒs[‘ã“ü‹Ö~
-	Scene(Scene&&) noexcept = delete;            // ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‹Ö~
-	Scene& operator=(Scene&&) noexcept = delete; // ƒ€[ƒu‘ã“ü‹Ö~
+	Scene(const Scene&) = delete;                // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	Scene& operator=(const Scene&) = delete;     // ã‚³ãƒ”ãƒ¼ä»£å…¥ç¦æ­¢
+	Scene(Scene&&) noexcept = delete;            // ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç¦æ­¢
+	Scene& operator=(Scene&&) noexcept = delete; // ãƒ ãƒ¼ãƒ–ä»£å…¥ç¦æ­¢
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	virtual void Initialize(const SceneContext& context) = 0;
-	// I—¹‰»
+	// çµ‚äº†åŒ–
 	virtual void Finalize() = 0;
-	// XV
+	// æ›´æ–°
 	virtual void Update(float elapsedTime, const SceneContext& context) = 0;
-	// •`‰æ
+	// æç”»
 	virtual void Render(const SceneContext& context) = 0;
 
-	// ƒŒƒWƒXƒgƒŠæ“¾
+	// ãƒ¬ã‚¸ã‚¹ãƒˆãƒªå–å¾—
 	entt::registry& GetRegistry() { return registry; }
-	// •¨—ƒV[ƒ“æ“¾
+	// ç‰©ç†ã‚·ãƒ¼ãƒ³å–å¾—
 	physx::PxScene* GetPhysicsScene() { return pxScene; }
-	// ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[ƒ}ƒl[ƒWƒƒ[æ“¾
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼å–å¾—
 	physx::PxControllerManager* GetControllerManager() { return controllerManager; }
 
 protected:
 
-	// Entity/ComponentŠÇ—
+	// Entity/Componentç®¡ç†
 	entt::registry registry; 
 
-	// •¨—ƒV[ƒ“‚Ìì¬
+	// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®ä½œæˆ
 	void InitializePhysicsScene(PhysX& physX);
-	// •¨—ƒV[ƒ“‚Ì”jŠü
+	// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®ç ´æ£„
 	void FinalizePhysicsScene();
-	// •¨—ƒV[ƒ“‚ÌXV
+	// ç‰©ç†ã‚·ãƒ¼ãƒ³ã®æ›´æ–°
 	void UpdatePhysicsScene(float elapsedTime);
-	// •¨—ƒ[ƒ‹ƒh–{‘Ì
+	// ç‰©ç†ãƒ¯ãƒ¼ãƒ«ãƒ‰æœ¬ä½“
 	physx::PxScene* pxScene = nullptr; 
-	// ƒLƒƒƒ‰ƒNƒ^[ƒRƒ“ƒgƒ[ƒ‰[ƒ}ƒl[ƒWƒƒ[
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 	physx::PxControllerManager* controllerManager = nullptr;
 };

@@ -1,4 +1,4 @@
-#include "StudioAnimationEdit.h"
+ï»¿#include "StudioAnimationEdit.h"
 #include "Engine/ECS/Components/SkinnedMeshComponent.h"
 #include "Engine/ECS/Components/AnimatorComponent.h"
 #include "Engine/Resource/AnimationEditBaker.h"
@@ -7,7 +7,7 @@
 #include <cmath>
 
 
-// ImGui•`‰æ
+// ImGuiæç”»
 void StudioAnimationEdit::DrawGUI(entt::registry& registry, StudioContext& context)
 {
 	if (!context.showAnimationEdit) return;
@@ -33,7 +33,7 @@ void StudioAnimationEdit::DrawGUI(entt::registry& registry, StudioContext& conte
 		return;
 	}
 
-	// ƒ‚ƒfƒ‹‚ªØ‚è‘Ö‚í‚Á‚½‚çA‚»‚Ìƒ‚ƒfƒ‹—p‚Ìİ’è‚ğ“Ç‚İ‚İ’¼‚·
+	// ãƒ¢ãƒ‡ãƒ«ãŒåˆ‡ã‚Šæ›¿ã‚ã£ãŸã‚‰ã€ãã®ãƒ¢ãƒ‡ãƒ«ç”¨ã®è¨­å®šã‚’èª­ã¿è¾¼ã¿ç›´ã™
 	if (loadedModelPath != context.currentModelPath)
 	{
 		Load(context.currentModelPath, *skinned.model);
@@ -46,26 +46,26 @@ void StudioAnimationEdit::DrawGUI(entt::registry& registry, StudioContext& conte
 		return;
 	}
 
-	// ƒ‚[ƒh‚ğŒˆ‚ß‚Ä‚©‚çAÄ‚«•û‚ğ‡‚í‚¹‚é
+	// ãƒ¢ãƒ¼ãƒ‰ã‚’æ±ºã‚ã¦ã‹ã‚‰ã€ç„¼ãæ–¹ã‚’åˆã‚ã›ã‚‹
 	DrawModeBar();
 	SyncBakeWithMode(*skinned.model, animator, context);
 
 	const std::string& clipName = animator.currentAnimation;
 	const float detailWidth = 260.0f;
 
-	// ¶Fƒ^ƒCƒ€ƒ‰ƒCƒ“
+	// å·¦ï¼šã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 	ImGui::BeginChild("AnimEditTimeline", ImVec2(-detailWidth, 0.0f));
 	bool changed = DrawTimelineArea(*skinned.model, animator, context);
 	ImGui::EndChild();
 
 	ImGui::SameLine();
 
-	// ‰EF”’l
+	// å³ï¼šæ•°å€¤
 	ImGui::BeginChild("AnimEditDetail", ImVec2(detailWidth, 0.0f), true);
 	changed |= DrawDetailArea(*skinned.model, clipName, context.currentModelPath);
 	ImGui::EndChild();
 
-	// ‚Ç‚¿‚ç‚©‚Å’l‚ª•Ï‚í‚Á‚½‚çA¶ƒf[ƒ^‚©‚çÄ‚«’¼‚·
+	// ã©ã¡ã‚‰ã‹ã§å€¤ãŒå¤‰ã‚ã£ãŸã‚‰ã€ç”Ÿãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ç„¼ãç›´ã™
 	if (changed)
 	{
 		Rebake(*skinned.model);
@@ -77,7 +77,7 @@ void StudioAnimationEdit::DrawGUI(entt::registry& registry, StudioContext& conte
 	ImGui::End();
 }
 
-// ƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚Ä‚¢‚éŠÔ‚ÉŒÄ‚Ô
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã¦ã„ã‚‹é–“ã«å‘¼ã¶
 void StudioAnimationEdit::OnHidden(entt::registry& registry, StudioContext& context)
 {
 	if (!previewActive) return;
@@ -102,20 +102,20 @@ void StudioAnimationEdit::OnHidden(entt::registry& registry, StudioContext& cont
 	SetPreviewActive(*skinned.model, animator, context, false);
 }
 
-// ƒ‚[ƒh‚ÌØ‚è‘Ö‚¦
+// ãƒ¢ãƒ¼ãƒ‰ã®åˆ‡ã‚Šæ›¿ãˆ
 void StudioAnimationEdit::DrawModeBar()
 {
 	if (ImGui::RadioButton("Trim", mode == EditMode::Trim)) mode = EditMode::Trim;
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Root Motion", mode == EditMode::RootMotion)) mode = EditMode::RootMotion;
 
-	// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“ƒ‚[ƒh‚Å‚ÍA•\¦‚·‚é²‚ğØ‚è‘Ö‚¦‚é
+	// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¢ãƒ¼ãƒ‰ã§ã¯ã€è¡¨ç¤ºã™ã‚‹è»¸ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	if (mode == EditMode::RootMotion)
 	{
 		auto setViewAxis = [&](SectionAxis axis)
 			{
 				viewAxis = axis;
-				// Œ©‚¦‚È‚­‚È‚é²‚Ì‹æŠÔ‚ğ‘I‚ñ‚Å‚¢‚½‚çA‘I‘ğ‚ğŠO‚·
+				// è¦‹ãˆãªããªã‚‹è»¸ã®åŒºé–“ã‚’é¸ã‚“ã§ã„ãŸã‚‰ã€é¸æŠã‚’å¤–ã™
 				if (selectedAxis != viewAxis) selectedSection = -1;
 			};
 
@@ -128,21 +128,21 @@ void StudioAnimationEdit::DrawModeBar()
 	}
 	ImGui::Separator();
 }
-// ƒ^ƒCƒ€ƒ‰ƒCƒ“
+// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 bool StudioAnimationEdit::DrawTimelineArea(const Model& model, AnimatorComponent& animator, StudioContext& context)
 {
 	const std::string& clipName = animator.currentAnimation;
 
-	// ƒNƒŠƒbƒv‚Ì’·‚³
+	// ã‚¯ãƒªãƒƒãƒ—ã®é•·ã•
 	const Model::Animation* animation = previewActive ? model.FindPreviewAnimation(clipName) : model.FindAnimation(clipName);
 	const float length = animation ? animation->secondsLength : 0.0f;
 
 	const float frameStep = CalcFrameStep(model, clipName);
 
-	// Ä¶ƒ{ƒ^ƒ“‚ÆŒ»İ
+	// å†ç”Ÿãƒœã‚¿ãƒ³ã¨ç¾åœ¨æ™‚åˆ»
 	if (mode == EditMode::Trim)
 	{
-		// ƒgƒŠƒ~ƒ“ƒOƒ‚[ƒhFg‚¤”ÍˆÍ‚¾‚¯‚ğA‚±‚Ìƒc[ƒ‹‚ª‚ği‚ß‚ÄÄ¶‚·‚é
+		// ãƒˆãƒªãƒŸãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ï¼šä½¿ã†ç¯„å›²ã ã‘ã‚’ã€ã“ã®ãƒ„ãƒ¼ãƒ«ãŒæ™‚åˆ»ã‚’é€²ã‚ã¦å†ç”Ÿã™ã‚‹
 		float trimStart = 0.0f;
 		float trimEnd = 0.0f;
 		GetTrimRange(clipName, length, trimStart, trimEnd);
@@ -151,12 +151,12 @@ bool StudioAnimationEdit::DrawTimelineArea(const Model& model, AnimatorComponent
 		{
 			if (rangePlaying)
 			{
-				// ”ÍˆÍ‚ÌŠO‚©‚çÄ¶‚µ‚½‚çAStart ‚©‚ç
+				// ç¯„å›²ã®å¤–ã‹ã‚‰å†ç”Ÿã—ãŸã‚‰ã€Start ã‹ã‚‰
 				if (animator.animationTime < trimStart || animator.animationTime >= trimEnd)
 				{
 					animator.animationTime = trimStart;
 				}
-				animator.isPlaying = false; // Animator ‚É‚Íi‚ß‚³‚¹‚È‚¢
+				animator.isPlaying = false; // Animator ã«ã¯é€²ã‚ã•ã›ãªã„
 				animator.isEnd = false;
 				context.requestPoseUpdate = true;
 			}
@@ -169,17 +169,17 @@ bool StudioAnimationEdit::DrawTimelineArea(const Model& model, AnimatorComponent
 	}
 	else
 	{
-		// ƒ‹[ƒgƒ‚[ƒVƒ‡ƒ“ƒ‚[ƒhFAnimator ‚ÉÄ¶‚³‚¹‚é
+		// ãƒ«ãƒ¼ãƒˆãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¢ãƒ¼ãƒ‰ï¼šAnimator ã«å†ç”Ÿã•ã›ã‚‹
 		StudioTimelineWidget::DrawAnimatorToolbar(animator, length, frameStep);
 	}
 
-	// ƒ^ƒCƒ€ƒ‰ƒCƒ“
+	// ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³
 	if (timeline.BeginWithAnimator("##AnimEditRuler", length, frameStep, animator, context))
 	{
 		rangePlaying = false;
 	}
 
-	// ƒgƒ‰ƒbƒN
+	// ãƒˆãƒ©ãƒƒã‚¯
 	bool changed = false;
 	if (mode == EditMode::Trim)
 	{
@@ -192,7 +192,7 @@ bool StudioAnimationEdit::DrawTimelineArea(const Model& model, AnimatorComponent
 
 	timeline.End();
 
-	// ƒsƒ“‚ÌˆÊ’u‚Å‘€ì‚·‚éƒ{ƒ^ƒ“
+	// ãƒ”ãƒ³ã®ä½ç½®ã§æ“ä½œã™ã‚‹ãƒœã‚¿ãƒ³
 	const float pinTime = StudioTimelineWidget::SnapToFrame(animator.animationTime, frameStep, length);
 	if (mode == EditMode::Trim)
 	{
@@ -206,20 +206,20 @@ bool StudioAnimationEdit::DrawTimelineArea(const Model& model, AnimatorComponent
 	return changed;
 }
 
-// ”’l
+// æ•°å€¤
 bool StudioAnimationEdit::DrawDetailArea(const Model& model, const std::string& clipName, const std::string& modelPath)
 {
-	// ƒ‚ƒfƒ‹‘S‘Ì‚Ìİ’è
+	// ãƒ¢ãƒ‡ãƒ«å…¨ä½“ã®è¨­å®š
 	bool changed = DrawRootNodeCombo(model);
 	ImGui::Separator();
 
-	// ƒNƒŠƒbƒv‚²‚Æ‚Ìİ’è
+	// ã‚¯ãƒªãƒƒãƒ—ã”ã¨ã®è¨­å®š
 	ImGui::Text("Clip: %s", clipName.c_str());
 	changed |= DrawClipSettings(model, clipName);
 
 	ImGui::Separator();
 
-	// ƒŠƒZƒbƒgF‚±‚ÌƒNƒŠƒbƒv‚Ìİ’è‚ğÁ‚·
+	// ãƒªã‚»ãƒƒãƒˆï¼šã“ã®ã‚¯ãƒªãƒƒãƒ—ã®è¨­å®šã‚’æ¶ˆã™
 	if (editData.FindClip(clipName) && ImGui::Button("Reset Clip"))
 	{
 		auto& clips = editData.clips;
@@ -230,7 +230,7 @@ bool StudioAnimationEdit::DrawDetailArea(const Model& model, const std::string& 
 		changed = true;
 	}
 
-	// •Û‘¶
+	// ä¿å­˜
 	if (ImGui::Button("Save"))
 	{
 		Save(modelPath);
@@ -244,14 +244,14 @@ bool StudioAnimationEdit::DrawDetailArea(const Model& model, const std::string& 
 	return changed;
 }
 
-// Root Node ‚Ì‘I‘ğ
+// Root Node ã®é¸æŠ
 bool StudioAnimationEdit::DrawRootNodeCombo(const Model& model)
 {
 	bool changed = false;
 
 	if (ImGui::BeginCombo("Root Node", editData.rootNodeName.c_str()))
 	{
-		// ˆê——‚Æ©“®‚Ì’l‚ÍAŠJ‚¢‚Ä‚¢‚éŠÔ‚¾‚¯’²‚×‚é
+		// ä¸€è¦§ã¨è‡ªå‹•ã®å€¤ã¯ã€é–‹ã„ã¦ã„ã‚‹é–“ã ã‘èª¿ã¹ã‚‹
 		const auto& nodes = model.GetNodes();
 		const std::string defaultName = AnimationEditBaker::FindDefaultRootNodeName(model);
 
@@ -260,7 +260,7 @@ bool StudioAnimationEdit::DrawRootNodeCombo(const Model& model)
 			const std::string& name = nodes[index].name;
 			const bool selected = (name == editData.rootNodeName);
 
-			// ©“®‚ÅŒ©‚Â‚¯‚½ƒ{[ƒ“‚É‚Í–Úˆó‚ğ•t‚¯‚é
+			// è‡ªå‹•ã§è¦‹ã¤ã‘ãŸãƒœãƒ¼ãƒ³ã«ã¯ç›®å°ã‚’ä»˜ã‘ã‚‹
 			const std::string label = (name == defaultName) ? name + "  (auto)" : name;
 
 			if (ImGui::Selectable(label.c_str(), selected) && !selected)
@@ -277,22 +277,22 @@ bool StudioAnimationEdit::DrawRootNodeCombo(const Model& model)
 	return changed;
 }
 
-// ƒNƒŠƒbƒv‚Ìİ’è
+// ã‚¯ãƒªãƒƒãƒ—ã®è¨­å®š
 bool StudioAnimationEdit::DrawClipSettings(const Model& model, const std::string& clipName)
 {
-	// İ’è‚ª–³‚¢ƒNƒŠƒbƒv‚ÍŠù’è’l‚Å•\¦‚·‚é
+	// è¨­å®šãŒç„¡ã„ã‚¯ãƒªãƒƒãƒ—ã¯æ—¢å®šå€¤ã§è¡¨ç¤ºã™ã‚‹
 	const AnimationEditClipData* existing = editData.FindClip(clipName);
 	AnimationEditClipData clip = existing ? *existing : AnimationEditClipData{};
 	clip.clipName = clipName;
 
 	bool changed = false;
 
-	// Œü‚«‚Ì•â³
+	// å‘ãã®è£œæ­£
 	ImGui::Separator();
 	ImGui::TextDisabled("Orientation");
 	changed |= ImGui::DragFloat("Yaw Offset", &clip.yawOffsetDegrees, 1.0f, -180.0f, 180.0f, "%.1f deg");
 
-	// ƒ‚[ƒh‚²‚Æ‚Ì€–Ú
+	// ãƒ¢ãƒ¼ãƒ‰ã”ã¨ã®é …ç›®
 	ImGui::Separator();
 	if (mode == EditMode::Trim)
 	{
@@ -305,7 +305,7 @@ bool StudioAnimationEdit::DrawClipSettings(const Model& model, const std::string
 		changed |= DrawSectionSettings(model, clip);
 	}
 
-	// •ÏX‚ª‚ ‚Á‚½‚Æ‚«‚¾‚¯Aƒf[ƒ^‚É‘‚«–ß‚·
+	// å¤‰æ›´ãŒã‚ã£ãŸã¨ãã ã‘ã€ãƒ‡ãƒ¼ã‚¿ã«æ›¸ãæˆ»ã™
 	if (changed)
 	{
 		*editData.FindOrCreateClip(clipName) = clip;
@@ -314,81 +314,81 @@ bool StudioAnimationEdit::DrawClipSettings(const Model& model, const std::string
 	return changed;
 }
 
-// 1ƒtƒŒ[ƒ€‚Ì•b”
+// 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç§’æ•°
 float StudioAnimationEdit::CalcFrameStep(const Model& model, const std::string& clipName)
 {
 	const Model::Animation* raw = model.FindRawAnimation(clipName);
 	return raw ? raw->CalcFrameStep() : 0.0f;
 }
-// ¶ƒf[ƒ^‚Ì’·‚³
+// ç”Ÿãƒ‡ãƒ¼ã‚¿ã®é•·ã•
 float StudioAnimationEdit::FindRawLength(const Model& model, const std::string& clipName)
 {
 	const Model::Animation* raw = model.FindRawAnimation(clipName);
 	return raw ? raw->secondsLength : 0.0f;
 }
 
-// ƒ‚[ƒh‚É‡‚í‚¹‚ÄÄ‚«’¼‚·
+// ãƒ¢ãƒ¼ãƒ‰ã«åˆã‚ã›ã¦ç„¼ãç›´ã™
 void StudioAnimationEdit::Rebake(Model& model) const
 {
-	// •ÒWÏ‚İ
+	// ç·¨é›†æ¸ˆã¿
 	model.ApplyAnimationEdit(editData);
 
-	// ƒgƒŠƒ~ƒ“ƒO‚ÌƒvƒŒƒrƒ…[’†‚ÍAƒvƒŒƒrƒ…[—p‚àÄ‚«’¼‚·
+	// ãƒˆãƒªãƒŸãƒ³ã‚°ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ä¸­ã¯ã€ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã‚‚ç„¼ãç›´ã™
 	if (previewActive)
 	{
 		model.ApplyAnimationEditPreview(editData);
 	}
 }
-// ƒ‚[ƒh‚ÆÄ‚«•û‚ª‚¸‚ê‚Ä‚¢‚½‚ç‡‚í‚¹‚é
+// ãƒ¢ãƒ¼ãƒ‰ã¨ç„¼ãæ–¹ãŒãšã‚Œã¦ã„ãŸã‚‰åˆã‚ã›ã‚‹
 void StudioAnimationEdit::SyncBakeWithMode(Model& model, AnimatorComponent& animator, StudioContext& context)
 {
 	SetPreviewActive(model, animator, context, mode == EditMode::Trim);
 }
-// ƒgƒŠƒ~ƒ“ƒO‚ÌƒvƒŒƒrƒ…[‚ğg‚¤^‚â‚ß‚é
+// ãƒˆãƒªãƒŸãƒ³ã‚°ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’ä½¿ã†ï¼ã‚„ã‚ã‚‹
 void StudioAnimationEdit::SetPreviewActive(Model& model, AnimatorComponent& animator, StudioContext& context, bool active)
 {
-	// Animator ‚ÌØ‚è‘Ö‚¦‚Í–ˆ‰ñ‡‚í‚¹‚é
+	// Animator ã®åˆ‡ã‚Šæ›¿ãˆã¯æ¯å›åˆã‚ã›ã‚‹
 	animator.usePreview = active;
 	if (active == previewActive) return;
 
-	// •ÒWÏ‚İ‚ÌƒNƒŠƒbƒv‚Ì‚Ì‘Î‰•\‚ğg‚Á‚ÄA“¯‚¶ƒ|[ƒY‚ğw‚·‚æ‚¤‚É‚ğ’¼‚·
+	// ç·¨é›†æ¸ˆã¿ã®ã‚¯ãƒªãƒƒãƒ—ã®æ™‚åˆ»ã®å¯¾å¿œè¡¨ã‚’ä½¿ã£ã¦ã€åŒã˜ãƒãƒ¼ã‚ºã‚’æŒ‡ã™ã‚ˆã†ã«æ™‚åˆ»ã‚’ç›´ã™
 	const Model::Animation* edited = model.FindAnimation(animator.currentAnimation);
 
 	if (active)
 	{
 		model.ApplyAnimationEditPreview(editData);
 
-		// ƒJƒbƒgŒã‚Ì ¨ ƒJƒbƒg‘O‚Ì
+		// ã‚«ãƒƒãƒˆå¾Œã®æ™‚åˆ» â†’ ã‚«ãƒƒãƒˆå‰ã®æ™‚åˆ»
 		if (edited) animator.animationTime = edited->ToRawTime(animator.animationTime);
 	}
 	else
 	{
-		// ƒJƒbƒg‘O‚Ì ¨ ƒJƒbƒgŒã‚ÌiƒJƒbƒg‚³‚ê‚½•”•ª‚È‚çA’[‚ÉŠñ‚¹‚éj
+		// ã‚«ãƒƒãƒˆå‰ã®æ™‚åˆ» â†’ ã‚«ãƒƒãƒˆå¾Œã®æ™‚åˆ»ï¼ˆã‚«ãƒƒãƒˆã•ã‚ŒãŸéƒ¨åˆ†ãªã‚‰ã€ç«¯ã«å¯„ã›ã‚‹ï¼‰
 		if (edited) animator.animationTime = edited->ToBakedTime(animator.animationTime);
 
 		model.ClearAnimationPreview();
 	}
 
 	previewActive = active;
-	rangePlaying = false; // ”ÍˆÍ‚ÌÄ¶‚Í~‚ß‚é
-	curveDirty = true;    // ƒOƒ‰ƒt‚àì‚è’¼‚·
+	rangePlaying = false; // ç¯„å›²ã®å†ç”Ÿã¯æ­¢ã‚ã‚‹
+	curveDirty = true;    // ã‚°ãƒ©ãƒ•ã‚‚ä½œã‚Šç›´ã™
 	context.requestPoseUpdate = true;
 }
 
-// “Ç‚İ‚İ
+// èª­ã¿è¾¼ã¿
 void StudioAnimationEdit::Load(const std::string& modelPath, const Model& model)
 {
-	// –³‚¢E‰ó‚ê‚Ä‚¢‚é‚Æ‚«‚Í‰Šú’l‚ª•Ô‚éB–³‚­‚Ä•’Ê‚Ìƒtƒ@ƒCƒ‹‚È‚Ì‚ÅAƒƒO‚Ío‚³‚È‚¢
+	// ç„¡ã„ãƒ»å£Šã‚Œã¦ã„ã‚‹ã¨ãã¯åˆæœŸå€¤ãŒè¿”ã‚‹ã€‚ç„¡ãã¦æ™®é€šã®ãƒ•ã‚¡ã‚¤ãƒ«ãªã®ã§ã€ãƒ­ã‚°ã¯å‡ºã•ãªã„
 	editData = fileCache.GetOrLoad(AnimationEditData::GetFilePath(modelPath),
 		[](AnimationEditData& data, const nlohmann::json& j) { data.FromJson(j); }, JsonMissingLog::Silent);
 
 	loadedModelPath = modelPath;
 	isDirty = false;
-	previewActive = false; // “Ç‚İ‚ñ‚¾‚Î‚©‚è‚Ìƒ‚ƒfƒ‹‚É‚ÍAƒvƒŒƒrƒ…[—p‚Í‚Ü‚¾–³‚¢
+	previewActive = false; // èª­ã¿è¾¼ã‚“ã ã°ã‹ã‚Šã®ãƒ¢ãƒ‡ãƒ«ã«ã¯ã€ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ã¯ã¾ã ç„¡ã„
 	curveDirty = true;
 	selectedSection = -1;
 
-	// ƒ‹[ƒgƒm[ƒh‚ª–¢İ’è‚È‚çAƒ‚ƒfƒ‹‚©‚ç’T‚·
+	// ãƒ«ãƒ¼ãƒˆãƒãƒ¼ãƒ‰ãŒæœªè¨­å®šãªã‚‰ã€ãƒ¢ãƒ‡ãƒ«ã‹ã‚‰æ¢ã™
 	if (editData.rootNodeName.empty())
 	{
 		editData.rootNodeName = AnimationEditBaker::FindDefaultRootNodeName(model);

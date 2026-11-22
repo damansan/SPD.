@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
@@ -6,52 +6,52 @@ struct PlayerWallRunComponent
 {
 	REFLECT_BEGIN(PlayerWallRunComponent, "Player Wall Run")
 
-		// “ü‚éğŒ
-		REFLECT_FIELD(float, enterMaxAngleDeg, (40.0f), ("Enter Max Angle Deg", 0.0f, 90.0f)) // “–‚½‚éŠp“x‚ª‚±‚êˆÈ‰º‚È‚ç“ü‚ê‚é
-		REFLECT_FIELD(float, enterMinSpeed,    (4.0f),  ("Enter Min Speed",     0.0f, 20.0f)) // …•½‚Ì‘¬‚³‚ª‚±‚êˆÈã‚È‚ç“ü‚ê‚é
+		// å…¥ã‚‹æ¡ä»¶
+		REFLECT_FIELD(float, enterMaxAngleDeg, (40.0f), ("Enter Max Angle Deg", 0.0f, 90.0f)) // å½“ãŸã‚‹è§’åº¦ãŒã“ã‚Œä»¥ä¸‹ãªã‚‰å…¥ã‚Œã‚‹
+		REFLECT_FIELD(float, enterMinSpeed,    (4.0f),  ("Enter Min Speed",     0.0f, 20.0f)) // æ°´å¹³ã®é€Ÿã•ãŒã“ã‚Œä»¥ä¸Šãªã‚‰å…¥ã‚Œã‚‹
 
-		// ‘–‚è•û
-		REFLECT_FIELD(float, minRunSpeed,   (7.0f), ("Min Run Speed", 0.0f, 20.0f))  // •Ç‚ğ‘–‚é‘¬‚³‚Ì‰ºŒÀ
-		REFLECT_FIELD(float, accelHalfLife, (0.1f), ("Accel Half Life", 0.0f, 1.0f)) // ‘–‚é‘¬“x‚ÉŠñ‚¹‚é”¼Œ¸Šú
-		REFLECT_FIELD(float, stickSpeed,    (1.0f), ("Stick Speed", 0.0f, 5.0f))     // •Ç‚Ö‰Ÿ‚µ•t‚¯‚é‘¬‚³
+		// èµ°ã‚Šæ–¹
+		REFLECT_FIELD(float, minRunSpeed,   (7.0f), ("Min Run Speed", 0.0f, 20.0f))  // å£ã‚’èµ°ã‚‹é€Ÿã•ã®ä¸‹é™
+		REFLECT_FIELD(float, accelHalfLife, (0.1f), ("Accel Half Life", 0.0f, 1.0f)) // èµ°ã‚‹é€Ÿåº¦ã«å¯„ã›ã‚‹åŠæ¸›æœŸ
+		REFLECT_FIELD(float, stickSpeed,    (1.0f), ("Stick Speed", 0.0f, 5.0f))     // å£ã¸æŠ¼ã—ä»˜ã‘ã‚‹é€Ÿã•
 
-		// ‹ì‚¯ã‚ª‚è
-		REFLECT_FIELD(float, climbSpeed,       (3.0f), ("Climb Speed",        0.0f, 20.0f)) // ‹ì‚¯ã‚ª‚éc‚Ì‘¬“x
-		REFLECT_FIELD(float, climbHeight,      (3.0f), ("Climb Height",       0.0f, 20.0f)) // Å‚“’B“_‚Ü‚Å‚Ì‚‚³
-		REFLECT_FIELD(float, riseGravityScale, (0.5f), ("Rise Gravity Scale", 0.01f, 3.0f)) // ‹ì‚¯ã‚ª‚è‚Ìd—Í”{—¦
+		// é§†ã‘ä¸ŠãŒã‚Š
+		REFLECT_FIELD(float, climbSpeed,       (3.0f), ("Climb Speed",        0.0f, 20.0f)) // é§†ã‘ä¸ŠãŒã‚‹ç¸¦ã®é€Ÿåº¦
+		REFLECT_FIELD(float, climbHeight,      (3.0f), ("Climb Height",       0.0f, 20.0f)) // æœ€é«˜åˆ°é”ç‚¹ã¾ã§ã®é«˜ã•
+		REFLECT_FIELD(float, riseGravityScale, (0.5f), ("Rise Gravity Scale", 0.01f, 3.0f)) // é§†ã‘ä¸ŠãŒã‚Šã®é‡åŠ›å€ç‡
 
-		// ‹ì‚¯‰º‚ª‚è
-		REFLECT_FIELD(float, fallGravityScale,  (0.5f), ("Fall Gravity Scale",   0.0f, 3.0f))  // ‹ì‚¯‰º‚ª‚è‚Ìd—Í”{—¦
-		REFLECT_FIELD(float, fallSpeedHalfLife, (1.0f), ("Fall Speed Half Life", 0.1f, 10.0f)) // „i—Í‚ğ‰º‚°‚é
+		// é§†ã‘ä¸‹ãŒã‚Š
+		REFLECT_FIELD(float, fallGravityScale,  (0.5f), ("Fall Gravity Scale",   0.0f, 3.0f))  // é§†ã‘ä¸‹ãŒã‚Šã®é‡åŠ›å€ç‡
+		REFLECT_FIELD(float, fallSpeedHalfLife, (1.0f), ("Fall Speed Half Life", 0.1f, 10.0f)) // æ¨é€²åŠ›ã‚’ä¸‹ã’ã‚‹
 
-		// ~‰º’†‚É“ü‚Á‚½‚Ìc‚Ì‘¬“x
-		REFLECT_FIELD(float, maxEnterVerticalSpeed,  (3.0f), ("Max Enter Vertical Speed", -10.0f, 10.0f)) // “ü‚Á‚½uŠÔ‚Ìc‚Ì‘¬‚³‚ÌãŒÀ
-		REFLECT_FIELD(float, minEnterVerticalSpeed, (-1.0f), ("Min Enter Vertical Speed", -10.0f, 10.0f)) // “ü‚Á‚½uŠÔ‚Ìc‚Ì‘¬‚³‚Ì‰ºŒÀ
+		// é™ä¸‹ä¸­ã«å…¥ã£ãŸæ™‚ã®ç¸¦ã®é€Ÿåº¦
+		REFLECT_FIELD(float, maxEnterVerticalSpeed,  (3.0f), ("Max Enter Vertical Speed", -10.0f, 10.0f)) // å…¥ã£ãŸç¬é–“ã®ç¸¦ã®é€Ÿã•ã®ä¸Šé™
+		REFLECT_FIELD(float, minEnterVerticalSpeed, (-1.0f), ("Min Enter Vertical Speed", -10.0f, 10.0f)) // å…¥ã£ãŸç¬é–“ã®ç¸¦ã®é€Ÿã•ã®ä¸‹é™
 
-		// •Ç‚ğR‚é
-		REFLECT_FIELD(float, kickOutSpeed,     (4.0f), ("Kick Out Speed",     0.0f, 20.0f)) // •Ç‚©‚ç—£‚ê‚éŒü‚«‚Ì‘¬‚³
-		REFLECT_FIELD(float, kickUpSpeed,      (7.0f), ("Kick Up Speed",      0.0f, 20.0f)) // •ÇR‚è‚Ìã‚Ö‚Ì—Í
-		REFLECT_FIELD(float, kickForwardScale, (1.6f), ("Kick Forward Scale", 0.0f, 3.0f))  // •ÇR‚è‚Ì‘O‚Ö‚Ì—Í
-		REFLECT_FIELD(float, kickLockTime,     (0.2f), ("Kick Lock Time",     0.0f, 1.0f))  // R‚Á‚½ŒãAƒXƒeƒBƒbƒN‚ªŒø‚©‚È‚¢ŠÔ
+		// å£ã‚’è¹´ã‚‹
+		REFLECT_FIELD(float, kickOutSpeed,     (4.0f), ("Kick Out Speed",     0.0f, 20.0f)) // å£ã‹ã‚‰é›¢ã‚Œã‚‹å‘ãã®é€Ÿã•
+		REFLECT_FIELD(float, kickUpSpeed,      (7.0f), ("Kick Up Speed",      0.0f, 20.0f)) // å£è¹´ã‚Šã®ä¸Šã¸ã®åŠ›
+		REFLECT_FIELD(float, kickForwardScale, (1.6f), ("Kick Forward Scale", 0.0f, 3.0f))  // å£è¹´ã‚Šã®å‰ã¸ã®åŠ›
+		REFLECT_FIELD(float, kickLockTime,     (0.2f), ("Kick Lock Time",     0.0f, 1.0f))  // è¹´ã£ãŸå¾Œã€ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒåŠ¹ã‹ãªã„æ™‚é–“
 
-		// ó‘Ô
-		REFLECT_FIELD(bool,  isWallRight, (false), ("Is Wall Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “ü‚Á‚½‚ÉŒˆ‚ß‚½¶‰E
-		REFLECT_FIELD(float, elapsed,      (0.0f), ("Elapsed",       0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “ü‚Á‚Ä‚©‚ç‚ÌŠÔ
-		REFLECT_FIELD(bool,  kicked,      (false), ("Kicked",        0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // •Ç‚ğR‚Á‚½
-		REFLECT_FIELD(float, kickTime,     (0.0f), ("Kick Time",     0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // R‚Á‚Ä‚©‚ç‚ÌŠÔ
-		REFLECT_FIELD(bool,  finished,    (false), ("Finished",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // •Ç‘–‚è‚ªI‚í‚Á‚½
-		REFLECT_FIELD(bool, isClimbing,   (false), ("Is Climbing",   0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‡@ ‹ì‚¯ã‚ª‚è’†
-		REFLECT_FIELD(bool, isFalling,    (false), ("Is Falling",    0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‡B ‰º‚ª‚Á‚Ä‚¢‚é(qƒNƒŠƒbƒv‚ÌğŒ‚É‚àg‚¦‚é)
+		// çŠ¶æ…‹
+		REFLECT_FIELD(bool,  isWallRight, (false), ("Is Wall Right", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…¥ã£ãŸæ™‚ã«æ±ºã‚ãŸå·¦å³
+		REFLECT_FIELD(float, elapsed,      (0.0f), ("Elapsed",       0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…¥ã£ã¦ã‹ã‚‰ã®æ™‚é–“
+		REFLECT_FIELD(bool,  kicked,      (false), ("Kicked",        0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å£ã‚’è¹´ã£ãŸ
+		REFLECT_FIELD(float, kickTime,     (0.0f), ("Kick Time",     0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // è¹´ã£ã¦ã‹ã‚‰ã®æ™‚é–“
+		REFLECT_FIELD(bool,  finished,    (false), ("Finished",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å£èµ°ã‚ŠãŒçµ‚ã‚ã£ãŸ
+		REFLECT_FIELD(bool, isClimbing,   (false), ("Is Climbing",   0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // â‘  é§†ã‘ä¸ŠãŒã‚Šä¸­
+		REFLECT_FIELD(bool, isFalling,    (false), ("Is Falling",    0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // â‘¢ ä¸‹ãŒã£ã¦ã„ã‚‹(å­ã‚¯ãƒªãƒƒãƒ—ã®æ¡ä»¶ã«ã‚‚ä½¿ãˆã‚‹)
 
-		REFLECT_FIELD(float, radius, (0.5f), ("Radius", 0.0f, 2.0f)) // •Ç‘–‚è’†‚Ì“–‚½‚è”»’è‚Ì”¼Œa
+		REFLECT_FIELD(float, radius, (0.5f), ("Radius", 0.0f, 2.0f)) // å£èµ°ã‚Šä¸­ã®å½“ãŸã‚Šåˆ¤å®šã®åŠå¾„
 
 	REFLECT_END()
 
-	// “à•”À‘•—p
-	DirectX::XMFLOAT3 wallNormal = { 0.0f, 0.0f, 0.0f }; // ¡‰ˆ‚Á‚Ä‚¢‚é•Ç‚Ì–@ü
-	DirectX::XMFLOAT3 runDir = { 0.0f, 0.0f, 0.0f };     // •Ç‚É‰ˆ‚Á‚Äi‚ŞŒü‚«
-	float             runSpeed = 0.0f;                   // ‘–‚é‘¬‚³
-	float             climbStartY = 0.0f;              // ‹ì‚¯ã‚ª‚è‚ğn‚ß‚½‚‚³
-	int               lastLandingCount = -1;           // ‘O‚É•Ç‘–‚è‚Ö“ü‚Á‚½‚Ì’…’n‰ñ”
+	// å†…éƒ¨å®Ÿè£…ç”¨
+	DirectX::XMFLOAT3 wallNormal = { 0.0f, 0.0f, 0.0f }; // ä»Šæ²¿ã£ã¦ã„ã‚‹å£ã®æ³•ç·š
+	DirectX::XMFLOAT3 runDir = { 0.0f, 0.0f, 0.0f };     // å£ã«æ²¿ã£ã¦é€²ã‚€å‘ã
+	float             runSpeed = 0.0f;                   // èµ°ã‚‹é€Ÿã•
+	float             climbStartY = 0.0f;              // é§†ã‘ä¸ŠãŒã‚Šã‚’å§‹ã‚ãŸé«˜ã•
+	int               lastLandingCount = -1;           // å‰ã«å£èµ°ã‚Šã¸å…¥ã£ãŸæ™‚ã®ç€åœ°å›æ•°
 
 };

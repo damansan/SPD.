@@ -1,4 +1,4 @@
-#include "ComponentRegistry.h"
+﻿#include "ComponentRegistry.h"
 
 std::unordered_map<std::string, ComponentInfo> ComponentRegistry::registry;
 std::vector<std::string> ComponentRegistry::typeNames;

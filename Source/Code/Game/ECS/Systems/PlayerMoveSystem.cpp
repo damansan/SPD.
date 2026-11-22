@@ -1,4 +1,4 @@
-#include "PlayerMoveSystem.h"
+ï»¿#include "PlayerMoveSystem.h"
 #include "Game/ECS/Components/PlayerIntentComponent.h"
 #include "Game/ECS/Components/PlayerMoveComponent.h"
 #include "Game/ECS/Components/PlayerLocomotionComponent.h"
@@ -21,17 +21,17 @@ void PlayerMoveSystem::Update(entt::registry& registry, float elapsedTime, const
 		{
 			if (!stateMachine.IsIn("Move")) return;
 
-			// “ü‚Á‚½uŠÔ‚ÉŒv‘ª‚ğ‚â‚è’¼‚·
+			// å…¥ã£ãŸç¬é–“ã«è¨ˆæ¸¬ã‚’ã‚„ã‚Šç›´ã™
 			if (stateMachine.enteredThisFrame)
 			{
 				move.runTime = 0.0f;
 			}
 
-			// Run ‚Ì‘¬‚³‚É“ü‚Á‚Ä‚¢‚éŠÔ‚¾‚¯ŠÔ‚ği‚ß‚é
+			// Run ã®é€Ÿã•ã«å…¥ã£ã¦ã„ã‚‹é–“ã ã‘æ™‚é–“ã‚’é€²ã‚ã‚‹
 			const bool atRunSpeed = loco.currentSpeed >= move.runSpeed * move.runReachRatio;
 			move.runTime = atRunSpeed ? move.runTime + elapsedTime : 0.0f;
 
-			// ˆÓ}‚ğALocomotion ‚Ö‚Ìw¦‚É•Ï‚¦‚é
+			// æ„å›³ã‚’ã€Locomotion ã¸ã®æŒ‡ç¤ºã«å¤‰ãˆã‚‹
 			LocomotionCommand& cmd = loco.command;
 			cmd.mode = LocomotionMode::Ground;
 			cmd.moveDir = intent.moveDir;

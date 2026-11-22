@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include <vector>
 #include <DirectXMath.h>
 #include "Engine/Resource/Model.h"
 
-// ƒXƒLƒjƒ“ƒOƒƒbƒVƒ…—pƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚¹ã‚­ãƒ‹ãƒ³ã‚°ãƒ¡ãƒƒã‚·ãƒ¥ç”¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 struct SkinnedMeshComponent
 {
-    // ƒ‚ƒfƒ‹ƒf[ƒ^
+    // ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿
     std::shared_ptr<Model> model; 
-    // ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İŒ³ƒpƒX
+    // ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿å…ƒãƒ‘ã‚¹
     std::string modelPath;
 
-    // ƒƒbƒVƒ…‚²‚Æ‚Ìƒ{[ƒ“s—ñ
+    // ãƒ¡ãƒƒã‚·ãƒ¥ã”ã¨ã®ãƒœãƒ¼ãƒ³è¡Œåˆ—
     std::vector<std::vector<DirectX::XMFLOAT4X4>> boneTransforms;
 
-    // ƒm[ƒh‚²‚Æ‚ÌƒOƒ[ƒoƒ‹s—ñ
+    // ãƒãƒ¼ãƒ‰ã”ã¨ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«è¡Œåˆ—
     std::vector<DirectX::XMFLOAT4X4> nodeGlobalTransforms;
 
 

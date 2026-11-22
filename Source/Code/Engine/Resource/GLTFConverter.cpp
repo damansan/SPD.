@@ -1,11 +1,11 @@
-#include "GLTFConverter.h"
+ï»¿#include "GLTFConverter.h"
 #include "GpuResourceUtils.h"
 #include "Engine/Utility/misc.h"
 
 #include <fstream>
 #include <vector>
 
-// GLTFData ‚ğó‚¯æ‚è Model ‚ğ¶¬‚µ‚Ä•Ô‚·
+// GLTFData ã‚’å—ã‘å–ã‚Š Model ã‚’ç”Ÿæˆã—ã¦è¿”ã™
 std::shared_ptr<Model> GLTFConverter::Convert(
 	ID3D11Device* device,
 	const std::shared_ptr<GLTFData>& data)
@@ -21,13 +21,13 @@ std::shared_ptr<Model> GLTFConverter::Convert(
 	return model;
 }
 
-// .cereal ‚©‚ç•œŒ³‚µ‚½Œã‚ÉGPUƒŠƒ\[ƒX‚¾‚¯Ä¶¬‚·‚é
+// .cereal ã‹ã‚‰å¾©å…ƒã—ãŸå¾Œã«GPUãƒªã‚½ãƒ¼ã‚¹ã ã‘å†ç”Ÿæˆã™ã‚‹
 void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 {
-	// ƒƒbƒVƒ…‚ÌGPUƒoƒbƒtƒ@Ä¶¬
+	// ãƒ¡ãƒƒã‚·ãƒ¥ã®GPUãƒãƒƒãƒ•ã‚¡å†ç”Ÿæˆ
 	for (auto& mesh : model.meshes)
 	{
-		// ’¸“_ƒoƒbƒtƒ@
+		// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 		{
 			D3D11_BUFFER_DESC desc{};
 			desc.ByteWidth = static_cast<UINT>(
@@ -40,7 +40,7 @@ void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 				&desc, &sub, mesh.vertexBuffer.GetAddressOf());
 			_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 		}
-		// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 		{
 			D3D11_BUFFER_DESC desc{};
 			desc.ByteWidth = static_cast<UINT>(
@@ -55,10 +55,10 @@ void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 		}
 	}
 
-	// ƒ}ƒeƒŠƒAƒ‹‚ÌƒeƒNƒXƒ`ƒƒÄ¶¬
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£å†ç”Ÿæˆ
 	for (auto& mat : model.materials)
 	{
-		// colorSpace : F‚ÌƒeƒNƒXƒ`ƒƒiBaseEEmissivej‚È‚ç sRGBAƒf[ƒ^iNormal ‚È‚Çj‚È‚ç Linear
+		// colorSpace : è‰²ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆBaseãƒ»Emissiveï¼‰ãªã‚‰ sRGBã€ãƒ‡ãƒ¼ã‚¿ï¼ˆNormal ãªã©ï¼‰ãªã‚‰ Linear
 		auto loadTex = [&](
 			const std::string& filepath,
 			const std::vector<uint8_t>& pixels,
@@ -68,12 +68,12 @@ void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 			{
 				if (!filepath.empty())
 				{
-					// ŠO•”ƒtƒ@ƒCƒ‹ ¨ DDSƒLƒƒƒbƒVƒ…—Dæ‚Åƒ[ƒh
+					// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ« â†’ DDSã‚­ãƒ£ãƒƒã‚·ãƒ¥å„ªå…ˆã§ãƒ­ãƒ¼ãƒ‰
 					GpuResourceUtils::LoadTextureWithDDSCache(device, filepath, srv, colorSpace);
 				}
 				else if (!pixels.empty())
 				{
-					// –„‚ß‚İƒoƒCƒiƒŠ ¨ ‚»‚Ì‚Ü‚Üƒ[ƒhiDDSƒLƒƒƒbƒVƒ…‘ÎÛŠOj
+					// åŸ‹ã‚è¾¼ã¿ãƒã‚¤ãƒŠãƒª â†’ ãã®ã¾ã¾ãƒ­ãƒ¼ãƒ‰ï¼ˆDDSã‚­ãƒ£ãƒƒã‚·ãƒ¥å¯¾è±¡å¤–ï¼‰
 					GpuResourceUtils::LoadTexture(device, pixels.data(), pixels.size(), srv, colorSpace);
 				}
 				else
@@ -85,10 +85,10 @@ void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 		loadTex(mat.normalTextureFileName, mat.normalMapData, mat.normalMap, 0xFFFF8080, TextureColorSpace::Linear);
 		loadTex(mat.metallicRoughnessTextureFileName, mat.metallicRoughnessMapData, mat.metallicRoughnessMap, 0xFFFFFFFF, TextureColorSpace::Linear);
 		loadTex(mat.occlusionTextureFileName, mat.occlusionMapData, mat.occlusionMap, 0xFFFFFFFF, TextureColorSpace::Linear);
-		loadTex(mat.emissiveTextureFileName, mat.emissiveMapData, mat.emissiveMap, 0xFFFFFFFF, TextureColorSpace::sRGB); // ƒeƒNƒXƒ`ƒƒ‚ª‚È‚¯‚ê‚Î”’i”­Œõ = ŒW”j
+		loadTex(mat.emissiveTextureFileName, mat.emissiveMapData, mat.emissiveMap, 0xFFFFFFFF, TextureColorSpace::sRGB); // ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒãªã‘ã‚Œã°ç™½ï¼ˆç™ºå…‰ = ä¿‚æ•°ï¼‰
 	}
 
-	// material ƒ|ƒCƒ“ƒ^‚ÌÄÚ‘±
+	// material ãƒã‚¤ãƒ³ã‚¿ã®å†æ¥ç¶š
 	for (auto& mesh : model.meshes)
 	{
 		if (mesh.materialIndex >= 0 &&
@@ -99,7 +99,7 @@ void GLTFConverter::CreateGpuResources(ID3D11Device* device, Model& model)
 	}
 }
 
-// ƒm[ƒh•ÏŠ·
+// ãƒãƒ¼ãƒ‰å¤‰æ›
 void GLTFConverter::ConvertNodes(
 	Model& model,
 	const GLTFData& data)
@@ -122,7 +122,7 @@ void GLTFConverter::ConvertNodes(
 	}
 }
 
-// ƒƒbƒVƒ…•ÏŠ·
+// ãƒ¡ãƒƒã‚·ãƒ¥å¤‰æ›
 void GLTFConverter::ConvertMeshes(
 	Model& model,
 	const GLTFData& data,
@@ -136,7 +136,7 @@ void GLTFConverter::ConvertMeshes(
 		dst.nodeIndex = src.nodeIndex;
 		dst.materialIndex = src.materialIndex;
 
-		// ’¸“_ƒf[ƒ^‚ğGLTFData::Vertex‚©‚çModel::Vertex‚ÖƒRƒs[
+		// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’GLTFData::Vertexã‹ã‚‰Model::Vertexã¸ã‚³ãƒ”ãƒ¼
 		dst.vertices.reserve(src.vertices.size());
 		for (const auto& v : src.vertices)
 		{
@@ -150,10 +150,10 @@ void GLTFConverter::ConvertMeshes(
 			dst.vertices.push_back(mv);
 		}
 
-		// ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^ƒRƒs[
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚³ãƒ”ãƒ¼
 		dst.indices = src.indices;
 
-		// ƒ{[ƒ“ƒf[ƒ^ƒRƒs[
+		// ãƒœãƒ¼ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚³ãƒ”ãƒ¼
 		dst.bones.reserve(src.bones.size());
 		for (const auto& b : src.bones)
 		{
@@ -163,7 +163,7 @@ void GLTFConverter::ConvertMeshes(
 			dst.bones.push_back(mb);
 		}
 
-		// ’¸“_ƒoƒbƒtƒ@¶¬
+		// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 		{
 			D3D11_BUFFER_DESC desc{};
 			desc.ByteWidth = static_cast<UINT>(
@@ -179,7 +179,7 @@ void GLTFConverter::ConvertMeshes(
 			_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 		}
 
-		// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 		{
 			D3D11_BUFFER_DESC desc{};
 			desc.ByteWidth = static_cast<UINT>(
@@ -197,7 +197,7 @@ void GLTFConverter::ConvertMeshes(
 
 		model.meshes.push_back(std::move(dst));
 	}
-	// ‘SƒƒbƒVƒ…‚Ì’¸“_‚©‚çƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX‚ğŒvZ
+	// å…¨ãƒ¡ãƒƒã‚·ãƒ¥ã®é ‚ç‚¹ã‹ã‚‰ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹ã‚’è¨ˆç®—
 	for (const auto& mesh : model.meshes)
 	{
 		for (const auto& v : mesh.vertices)
@@ -213,7 +213,7 @@ void GLTFConverter::ConvertMeshes(
 	}
 }
 
-// ƒ}ƒeƒŠƒAƒ‹•ÏŠ·
+// ãƒãƒ†ãƒªã‚¢ãƒ«å¤‰æ›
 void GLTFConverter::ConvertMaterials(
 	Model& model,
 	const GLTFData& data,
@@ -221,7 +221,7 @@ void GLTFConverter::ConvertMaterials(
 {
 	model.materials.reserve(data.materials.size());
 
-	// colorSpace : F‚ÌƒeƒNƒXƒ`ƒƒiBaseEEmissivej‚È‚ç sRGBAƒf[ƒ^iNormal ‚È‚Çj‚È‚ç Linear
+	// colorSpace : è‰²ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆBaseãƒ»Emissiveï¼‰ãªã‚‰ sRGBã€ãƒ‡ãƒ¼ã‚¿ï¼ˆNormal ãªã©ï¼‰ãªã‚‰ Linear
 	auto convertTexture = [&](
 		int texIndex,
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv,
@@ -239,13 +239,13 @@ void GLTFConverter::ConvertMaterials(
 
 			if (!texData.filepath.empty())
 			{
-				// ŠO•”ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ş
-				// DDSƒLƒƒƒbƒVƒ…—Dæ‚Åƒ[ƒh
+				// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã‚€
+				// DDSã‚­ãƒ£ãƒƒã‚·ãƒ¥å„ªå…ˆã§ãƒ­ãƒ¼ãƒ‰
 				GpuResourceUtils::LoadTextureWithDDSCache(device, texData.filepath, srv, colorSpace);
 			}
 			else if (!texData.pixels.empty())
 			{
-				// –„‚ß‚İƒoƒCƒiƒŠ‚©‚ç“Ç‚Ş(‚»‚Ì‚Ü‚Üƒ[ƒh(DDSƒLƒƒƒbƒVƒ…‘ÎÛŠO))
+				// åŸ‹ã‚è¾¼ã¿ãƒã‚¤ãƒŠãƒªã‹ã‚‰èª­ã‚€(ãã®ã¾ã¾ãƒ­ãƒ¼ãƒ‰(DDSã‚­ãƒ£ãƒƒã‚·ãƒ¥å¯¾è±¡å¤–))
 				GpuResourceUtils::LoadTexture(device, texData.pixels.data(), texData.pixels.size(), srv, colorSpace);
 			}
 			else
@@ -265,7 +265,7 @@ void GLTFConverter::ConvertMaterials(
 		dst.alphaMode = static_cast<Model::Material::AlphaMode>(src.alphaMode);
 		dst.alphaCutoff = src.alphaCutoff;
 
-		// ŠO•”ƒtƒ@ƒCƒ‹‚È‚çƒpƒX‚ğA–„‚ß‚İ‚È‚çƒoƒCƒiƒŠƒf[ƒ^‚ğ•Û‘¶
+		// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰ãƒ‘ã‚¹ã‚’ã€åŸ‹ã‚è¾¼ã¿ãªã‚‰ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
 		auto saveTexture = [&](
 			int texIndex,
 			std::string& outPath,
@@ -276,12 +276,12 @@ void GLTFConverter::ConvertMaterials(
 
 				if (!texData.filepath.empty())
 				{
-					// ŠO•”ƒtƒ@ƒCƒ‹QÆ‚È‚çƒpƒX‚¾‚¯•Û‘¶
+					// å¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«å‚ç…§ãªã‚‰ãƒ‘ã‚¹ã ã‘ä¿å­˜
 					outPath = texData.filepath;
 				}
 				else if (!texData.pixels.empty())
 				{
-					// –„‚ß‚İ‚È‚çƒoƒCƒiƒŠƒf[ƒ^‚ğ•Û‘¶
+					// åŸ‹ã‚è¾¼ã¿ãªã‚‰ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
 					outPixels = texData.pixels;
 				}
 			};
@@ -292,16 +292,16 @@ void GLTFConverter::ConvertMaterials(
 		saveTexture(src.occlusionMapIndex, dst.occlusionTextureFileName, dst.occlusionMapData);
 		saveTexture(src.emissiveMapIndex, dst.emissiveTextureFileName, dst.emissiveMapData);
 
-		// ƒeƒNƒXƒ`ƒƒ¶¬i‰‰ñƒ[ƒhj
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆï¼ˆåˆå›ãƒ­ãƒ¼ãƒ‰æ™‚ï¼‰
 		convertTexture(src.baseMapIndex, dst.baseMap, 0xFFFFFFFF, TextureColorSpace::sRGB);
 		convertTexture(src.normalMapIndex, dst.normalMap, 0xFFFF8080, TextureColorSpace::Linear);
 		convertTexture(src.metallicRoughnessMapIndex, dst.metallicRoughnessMap, 0xFFFFFFFF, TextureColorSpace::Linear);
 		convertTexture(src.occlusionMapIndex, dst.occlusionMap, 0xFFFFFFFF, TextureColorSpace::Linear);
-		convertTexture(src.emissiveMapIndex, dst.emissiveMap, 0xFFFFFFFF, TextureColorSpace::sRGB); // ƒeƒNƒXƒ`ƒƒ‚ª‚È‚¯‚ê‚Î”’
+		convertTexture(src.emissiveMapIndex, dst.emissiveMap, 0xFFFFFFFF, TextureColorSpace::sRGB); // ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒãªã‘ã‚Œã°ç™½
 
 		model.materials.push_back(std::move(dst));
 	}
-	// ƒƒbƒVƒ…‚Æƒ}ƒeƒŠƒAƒ‹‚ğ•R•t‚¯
+	// ãƒ¡ãƒƒã‚·ãƒ¥ã¨ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’ç´ä»˜ã‘
 	for (auto& mesh : model.meshes)
 	{
 		if (mesh.materialIndex >= 0 &&
@@ -312,7 +312,7 @@ void GLTFConverter::ConvertMaterials(
 	}
 }
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“•ÏŠ·
+// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å¤‰æ›
 void GLTFConverter::ConvertAnimations(
 	Model& model,
 	const GLTFData& data)
@@ -330,7 +330,7 @@ void GLTFConverter::ConvertAnimations(
 		{
 			Model::NodeAnim dstNode;
 
-			// positionƒL[ƒtƒŒ[ƒ€
+			// positionã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
 			dstNode.positionKeyframes.reserve(
 				srcNode.positionKeyframes.size());
 			for (const auto& kf : srcNode.positionKeyframes)
@@ -341,7 +341,7 @@ void GLTFConverter::ConvertAnimations(
 				dstNode.positionKeyframes.push_back(dkf);
 			}
 
-			// rotationƒL[ƒtƒŒ[ƒ€
+			// rotationã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
 			dstNode.rotationKeyframes.reserve(
 				srcNode.rotationKeyframes.size());
 			for (const auto& kf : srcNode.rotationKeyframes)
@@ -352,7 +352,7 @@ void GLTFConverter::ConvertAnimations(
 				dstNode.rotationKeyframes.push_back(dkf);
 			}
 
-			// scaleƒL[ƒtƒŒ[ƒ€
+			// scaleã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
 			dstNode.scaleKeyframes.reserve(
 				srcNode.scaleKeyframes.size());
 			for (const auto& kf : srcNode.scaleKeyframes)

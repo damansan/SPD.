@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -9,50 +9,50 @@
 #include "EditorContext.h"
 #include "entt.hpp"
 
-// ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‚Ì‘€ìó‘Ô
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã®æ“ä½œçŠ¶æ…‹
 enum class ProjectItemMode
 {
-    None,            // ‰½‚à‚µ‚Ä‚¢‚È‚¢
-    Renaming,        // –¼‘O•ÒW’†
-    ConfirmingDelete,// íœŠm”Fƒ_ƒCƒAƒƒO•\¦’†
+    None,            // ä½•ã‚‚ã—ã¦ã„ãªã„
+    Renaming,        // åå‰ç·¨é›†ä¸­
+    ConfirmingDelete,// å‰Šé™¤ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°è¡¨ç¤ºä¸­
 };
 
-// ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‚Ì‘€ìó‘Ô‚Ü‚Æ‚ß
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã®æ“ä½œçŠ¶æ…‹ã¾ã¨ã‚
 struct ProjectItemState
 {
-    std::filesystem::path selectedPath;   // ‘I‘ğ’†‚Ìƒtƒ@ƒCƒ‹EƒtƒHƒ‹ƒ_
+    std::filesystem::path selectedPath;   // é¸æŠä¸­ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒ•ã‚©ãƒ«ãƒ€
     ProjectItemMode        mode = ProjectItemMode::None;
-    std::filesystem::path  targetPath;           // ƒŠƒl[ƒ€Eíœ‘ÎÛ‚ÌƒpƒX
-    char                   editBuffer[256] = {}; // ƒŠƒl[ƒ€’†‚Ì“ü—Íƒoƒbƒtƒ@
+    std::filesystem::path  targetPath;           // ãƒªãƒãƒ¼ãƒ ãƒ»å‰Šé™¤å¯¾è±¡ã®ãƒ‘ã‚¹
+    char                   editBuffer[256] = {}; // ãƒªãƒãƒ¼ãƒ ä¸­ã®å…¥åŠ›ãƒãƒƒãƒ•ã‚¡
 };
 
 
 class ProjectWindow
 {
 public:
-    // ‰Šú‰»i‘–¸‚·‚éƒ‹[ƒgƒpƒX‚ğİ’èj
+    // åˆæœŸåŒ–ï¼ˆèµ°æŸ»ã™ã‚‹ãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹ã‚’è¨­å®šï¼‰
     void Initialize(const std::string& rootPath);
-    // ƒAƒCƒRƒ““Ç‚İ‚İ
+    // ã‚¢ã‚¤ã‚³ãƒ³èª­ã¿è¾¼ã¿
     void LoadIcons(ID3D11Device* device);
-    // •`‰æ
+    // æç”»
     void Draw(entt::registry& registry, EditorContext& context, bool asDrawer = false);
 
-    // d•¡‚µ‚È‚¢–¼‘O‚Åì¬
+    // é‡è¤‡ã—ãªã„åå‰ã§ä½œæˆ
     static std::string GenerateUniqueName(const std::filesystem::path& parentDir, const std::string& baseName);
 
 private:
-    // ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒHƒ‹ƒ_ƒcƒŠ[‚Ì1ƒm[ƒh
+    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®1ãƒãƒ¼ãƒ‰
     struct FolderNode
     {
         std::filesystem::path path;
         std::string name;
         std::vector<FolderNode> children;
     };
-    // ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚Ì1ƒGƒ“ƒgƒŠ
+    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®1ã‚¨ãƒ³ãƒˆãƒª
     struct FileEntry
     {
         std::filesystem::path path;
-        std::string filename; // Šg’£q‚ğœ‚¢‚½ƒtƒ@ƒCƒ‹–¼i•\¦—pj
+        std::string filename; // æ‹¡å¼µå­ã‚’é™¤ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆè¡¨ç¤ºç”¨ï¼‰
         bool isModel = false;
         bool isStateGraph = false;
         bool isSequencer = false;
@@ -60,58 +60,58 @@ private:
     };
 
 
-    // ¶‘¤FƒtƒHƒ‹ƒ_ƒcƒŠ[
+    // å·¦å´ï¼šãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼
     void DrawFolderTree(FolderNode& node);
-    // ‰E‘¤Fƒtƒ@ƒCƒ‹ˆê——
+    // å³å´ï¼šãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§
     void DrawFileGrid(entt::registry& registry, EditorContext& context);
 
-    // ˆê’èŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒHƒ‹ƒ_ƒcƒŠ[‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+    // ä¸€å®šé–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
     void RefreshFolderTreeIfNeeded();
-    // ƒfƒBƒXƒN‚ğÀÛ‚É‘–¸‚µ‚ÄAw’èƒpƒXˆÈ‰º‚ÌFolderNode‚ğ\’z‚·‚éiÄ‹Aj
+    // ãƒ‡ã‚£ã‚¹ã‚¯ã‚’å®Ÿéš›ã«èµ°æŸ»ã—ã¦ã€æŒ‡å®šãƒ‘ã‚¹ä»¥ä¸‹ã®FolderNodeã‚’æ§‹ç¯‰ã™ã‚‹ï¼ˆå†å¸°ï¼‰
     FolderNode BuildFolderNode(const std::filesystem::path& path);
 
-    // ‘I‘ğƒtƒHƒ‹ƒ_‚ª•Ï‚í‚Á‚½^ˆê’èŠÔŠu‚ªŒo‰ß‚µ‚Ä‚¢‚ê‚ÎAƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh‚ÌƒLƒƒƒbƒVƒ…‚ğì‚è’¼‚·
+    // é¸æŠãƒ•ã‚©ãƒ«ãƒ€ãŒå¤‰ã‚ã£ãŸï¼ä¸€å®šé–“éš”ãŒçµŒéã—ã¦ã„ã‚Œã°ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚Šç›´ã™
     void RefreshFileGridIfNeeded();
-    // ƒfƒBƒXƒN‚ğÀÛ‚É‘–¸‚µ‚ÄAw’èƒtƒHƒ‹ƒ_’¼‰º‚ÌFileEntryˆê——‚ğ\’z‚·‚é
+    // ãƒ‡ã‚£ã‚¹ã‚¯ã‚’å®Ÿéš›ã«èµ°æŸ»ã—ã¦ã€æŒ‡å®šãƒ•ã‚©ãƒ«ãƒ€ç›´ä¸‹ã®FileEntryä¸€è¦§ã‚’æ§‹ç¯‰ã™ã‚‹
     std::vector<FileEntry> BuildFileGrid(const std::filesystem::path& path);
 
-    // ƒtƒ@ƒCƒ‹‚ªƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚©”»’è
+    // ãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
     bool IsModelFile(const std::filesystem::path& path);
-    // ƒtƒ@ƒCƒ‹‚ªƒXƒe[ƒgƒOƒ‰ƒtƒtƒ@ƒCƒ‹‚©”»’è
+    // ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¹ãƒ†ãƒ¼ãƒˆã‚°ãƒ©ãƒ•ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
     bool IsStateGraphFile(const std::filesystem::path& path);
-	// ƒtƒ@ƒCƒ‹‚ªƒV[ƒPƒ“ƒT[ƒtƒ@ƒCƒ‹‚©”»’è
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚·ãƒ¼ã‚±ãƒ³ã‚µãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
     static bool IsSequencerFile(const std::filesystem::path& path);
-    // ƒtƒ@ƒCƒ‹‚ªƒAƒjƒ[ƒVƒ‡ƒ“‘¬“xƒtƒ@ƒCƒ‹‚©”»’è
+    // ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é€Ÿåº¦ãƒ•ã‚¡ã‚¤ãƒ«ã‹åˆ¤å®š
     static bool IsAnimSpeedFile(const std::filesystem::path& path);
 
-    // íœŠm”Fƒ|ƒbƒv
+    // å‰Šé™¤ç¢ºèªãƒãƒƒãƒ—
     void DrawDeleteConfirmPopup();
 
-    // ƒŠƒl[ƒ€ŠJn
+    // ãƒªãƒãƒ¼ãƒ é–‹å§‹
     void BeginRename(const std::filesystem::path& target);
-    // ƒŠƒl[ƒ€Šm’è
+    // ãƒªãƒãƒ¼ãƒ ç¢ºå®š
     void CommitRename();
 
-    // ƒ‹[ƒgƒpƒX
+    // ãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹
     std::filesystem::path rootPath;
 
-    // ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‹¤’Ê‚Ì‘€ìó‘Ô
+    // ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«å…±é€šã®æ“ä½œçŠ¶æ…‹
     ProjectItemState itemState;
 
-    // ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒHƒ‹ƒ_ƒcƒŠ[‚Ìƒ‹[ƒg
+    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼ã®ãƒ«ãƒ¼ãƒˆ
     FolderNode folderTreeCache;
 
-    // ƒtƒHƒ‹ƒ_ƒcƒŠ[ÄƒXƒLƒƒƒ“‚ÌŠÔŠuŠÇ—
+    // ãƒ•ã‚©ãƒ«ãƒ€ãƒ„ãƒªãƒ¼å†ã‚¹ã‚­ãƒ£ãƒ³ã®é–“éš”ç®¡ç†
     std::chrono::steady_clock::time_point lastFolderScanTime{};
     static constexpr std::chrono::seconds folderScanInterval{ 2 };
 
-    // ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒOƒŠƒbƒh
+    // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰
     std::vector<FileEntry> fileGridCache;
-    // fileGridCache‚ª‚Ç‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚·‚éƒLƒƒƒbƒVƒ…‚©‚ğ‹L˜^
+    // fileGridCacheãŒã©ã®ãƒ•ã‚©ãƒ«ãƒ€ã«å¯¾ã™ã‚‹ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‹ã‚’è¨˜éŒ²
     std::filesystem::path fileGridCachedPath;
-    // ƒtƒ@ƒCƒ‹ƒOƒŠƒbƒhÄƒXƒLƒƒƒ“‚ÌŠÔŠuŠÇ—
+    // ãƒ•ã‚¡ã‚¤ãƒ«ã‚°ãƒªãƒƒãƒ‰å†ã‚¹ã‚­ãƒ£ãƒ³ã®é–“éš”ç®¡ç†
     std::chrono::steady_clock::time_point lastFileGridScanTime{};
 
-    // ƒ‚ƒfƒ‹ƒAƒCƒRƒ“—pSRV
+    // ãƒ¢ãƒ‡ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ç”¨SRV
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> modelIconSRV;
 };

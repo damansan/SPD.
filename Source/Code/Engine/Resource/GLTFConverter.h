@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include <d3d11.h>
 
@@ -8,37 +8,37 @@
 class GLTFConverter
 {
 public:
-    // GLTFData ‚ğó‚¯æ‚è Model ‚ğ¶¬‚µ‚Ä•Ô‚·
+    // GLTFData ã‚’å—ã‘å–ã‚Š Model ã‚’ç”Ÿæˆã—ã¦è¿”ã™
     static std::shared_ptr<Model> Convert(
         ID3D11Device* device,
         const std::shared_ptr<GLTFData>& data
     );
 
-    // .cereal ‚©‚ç•œŒ³‚µ‚½Œã‚ÉGPUƒŠƒ\[ƒX‚¾‚¯Ä¶¬‚·‚é
+    // .cereal ã‹ã‚‰å¾©å…ƒã—ãŸå¾Œã«GPUãƒªã‚½ãƒ¼ã‚¹ã ã‘å†ç”Ÿæˆã™ã‚‹
     static void CreateGpuResources(ID3D11Device* device, Model& model);
 
 private:
-    // ƒm[ƒh•ÏŠ·
+    // ãƒãƒ¼ãƒ‰å¤‰æ›
     static void ConvertNodes(
         Model& model,
         const GLTFData& data
     );
 
-    // ƒƒbƒVƒ…•ÏŠ·i’¸“_EƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬j
+    // ãƒ¡ãƒƒã‚·ãƒ¥å¤‰æ›ï¼ˆé ‚ç‚¹ãƒ»ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆï¼‰
     static void ConvertMeshes(
         Model& model,
         const GLTFData& data,
         ID3D11Device* device
     );
 
-    // ƒ}ƒeƒŠƒAƒ‹•ÏŠ·iƒeƒNƒXƒ`ƒƒ¶¬j
+    // ãƒãƒ†ãƒªã‚¢ãƒ«å¤‰æ›ï¼ˆãƒ†ã‚¯ã‚¹ãƒãƒ£ç”Ÿæˆï¼‰
     static void ConvertMaterials(
         Model& model,
         const GLTFData& data,
         ID3D11Device* device
     );
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“•ÏŠ·
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å¤‰æ›
     static void ConvertAnimations(
         Model& model,
         const GLTFData& data

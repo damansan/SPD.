@@ -1,4 +1,4 @@
-#include "CameraViewSystem.h"
+ï»¿#include "CameraViewSystem.h"
 #include <cmath>
 
 #include "Game/ECS/Components/CameraViewComponent.h"
@@ -10,17 +10,17 @@ void CameraViewSystem::Update(entt::registry& registry)
 	auto view = registry.view<CameraViewComponent, GameCameraComponent>();
 	view.each([&](entt::entity entity, CameraViewComponent& camView, const GameCameraComponent& cam)
 		{
-			// “y‘ä‚ÌˆÊ’u‡‚í‚¹‚ª‚Ü‚¾‚È‚çAì‚ç‚È‚¢
+			// åœŸå°ã®ä½ç½®åˆã‚ã›ãŒã¾ã ãªã‚‰ã€ä½œã‚‰ãªã„
 			camView.valid = false;
 			if (!cam.initialized) return;
 
-			// “y‘ä
+			// åœŸå°
 			camView.eye = cam.base.currentEye;
 			camView.target = cam.base.currentTarget;
 			camView.fov = cam.fov;
 			camView.roll = 0.0f;
 
-			// { ‰‰o
+			// ï¼‹ æ¼”å‡º
 			const auto* effect = registry.try_get<CameraEffectComponent>(entity);
 			if (effect)
 			{
@@ -34,13 +34,13 @@ void CameraViewSystem::Update(entt::registry& registry)
 				camView.roll += effect->roll;
 			}
 
-			// ‚ ‚½‚è”»’è
+			// ã‚ãŸã‚Šåˆ¤å®š
 
 			camView.valid = true;
 		});
 }
 
-// Camera ‚É“n‚·
+// Camera ã«æ¸¡ã™
 void CameraViewSystem::ApplyToCamera(entt::registry& registry, Camera& camera)
 {
 	auto view = registry.view<CameraViewComponent>();
@@ -49,7 +49,7 @@ void CameraViewSystem::ApplyToCamera(entt::registry& registry, Camera& camera)
 		const auto& camView = view.get<CameraViewComponent>(entity);
 		if (!camView.valid) continue;
 
-		// ŒX‚«FŒ©‚éŒü‚«‚ğ²‚ÉAã‚ÌŒü‚«(0,1,0)‚ğ roll ‚¾‚¯‰ñ‚·
+		// å‚¾ãï¼šè¦‹ã‚‹å‘ãã‚’è»¸ã«ã€ä¸Šã®å‘ã(0,1,0)ã‚’ roll ã ã‘å›ã™
 		const DirectX::XMVECTOR eye = DirectX::XMLoadFloat3(&camView.eye);
 		const DirectX::XMVECTOR target = DirectX::XMLoadFloat3(&camView.target);
 		const DirectX::XMVECTOR forward = DirectX::XMVector3Normalize(DirectX::XMVectorSubtract(target, eye));
@@ -59,6 +59,6 @@ void CameraViewSystem::ApplyToCamera(entt::registry& registry, Camera& camera)
 
 		camera.SetLookAt(camView.eye, camView.target, up);
 		camera.SetFovDeg(camView.fov);
-		break; // ƒJƒƒ‰‚Í1‚Â‚¾‚¯
+		break; // ã‚«ãƒ¡ãƒ©ã¯1ã¤ã ã‘
 	}
 }

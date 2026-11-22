@@ -1,77 +1,77 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
 
-// ‰‰oó‘Ô
+// æ¼”å‡ºçŠ¶æ…‹
 struct PulseState
 {
 	REFLECT_BEGIN(PulseState, "Pulse State")
 
-		REFLECT_FIELD(bool, active, (false), ("Active", 0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // Ä¶’†
-		REFLECT_FIELD(bool, ready,  (true),  ("Ready",  0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // €”õŠ®—¹
-		REFLECT_FIELD(float, time,  (0.0f),  ("Time",   0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // Œo‰ßŠÔ
+		REFLECT_FIELD(bool, active, (false), ("Active", 0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å†ç”Ÿä¸­
+		REFLECT_FIELD(bool, ready,  (true),  ("Ready",  0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æº–å‚™å®Œäº†
+		REFLECT_FIELD(float, time,  (0.0f),  ("Time",   0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // çµŒéæ™‚é–“
 
 	REFLECT_END()
 };
 
-// ƒJƒƒ‰‚Ì‰‰o
+// ã‚«ãƒ¡ãƒ©ã®æ¼”å‡º
 struct CameraEffectComponent
 {
 	REFLECT_BEGIN(CameraEffectComponent, "Camera Effect")
 
-		// ”­‰ÎğŒ
-		REFLECT_FIELD(float, runSpeed, (5.0f), ("Run Speed", 0.0f, 50.0f)) // ‚±‚Ì‘¬‚³ˆÈã‚ğ‘–‚è‚Æ‚·‚é
+		// ç™ºç«æ¡ä»¶
+		REFLECT_FIELD(float, runSpeed, (5.0f), ("Run Speed", 0.0f, 50.0f)) // ã“ã®é€Ÿã•ä»¥ä¸Šã‚’èµ°ã‚Šã¨ã™ã‚‹
 
-		// FovF‘¬‚³‚ÅL‚°‚é
-		REFLECT_FIELD(float, fovAddMax,   (15.0f), ("Fov Add Max", 0.0f, 60.0f))   // ‘¬‚¢‚É‘«‚· FOV
-		REFLECT_FIELD(float, speedFull,   (15.0f), ("Speed Full", 0.0f, 50.0f))    // ‚±‚Ì‘¬‚³‚Å FOV ‚ğ‘«‚·
-		REFLECT_FIELD(float, fovHalfLife, (0.25f), ("Fov Half Life", 0.01f, 2.0f)) // ‘«‚·—Ê‚ğŠñ‚¹‚é”¼Œ¸Šú
+		// Fovï¼šé€Ÿã•ã§åºƒã’ã‚‹
+		REFLECT_FIELD(float, fovAddMax,   (15.0f), ("Fov Add Max", 0.0f, 60.0f))   // é€Ÿã„æ™‚ã«è¶³ã™ FOV
+		REFLECT_FIELD(float, speedFull,   (15.0f), ("Speed Full", 0.0f, 50.0f))    // ã“ã®é€Ÿã•ã§ FOV ã‚’è¶³ã™
+		REFLECT_FIELD(float, fovHalfLife, (0.25f), ("Fov Half Life", 0.01f, 2.0f)) // è¶³ã™é‡ã‚’å¯„ã›ã‚‹åŠæ¸›æœŸ
 
-		// HeadBobF‘–‚èo‚µ‚É¶‰E‚Ö—h‚ç‚·
-		REFLECT_FIELD(float, runBobRearmSpeed,   (1.0f), ("Run Bob Rearm Speed",   0.0f, 50.0f)) // ‚±‚Ì‘¬‚³ˆÈ‰º‚Å€”õ
-		REFLECT_FIELD(float, runBobStepInterval, (0.3f), ("Run Bob Step Interval", 0.05f, 1.0f)) // •Ğ‘¤‚Ö—h‚ê‚éŠÔ
-		REFLECT_FIELD(float, runBobDuration,     (1.5f), ("Run Bob Duration",      0.1f, 5.0f))  // —h‚ç‚·ŠÔ
-		REFLECT_FIELD(float, runBobSway,        (0.15f), ("Run Bob Sway",          0.0f, 1.0f))  // —h‚ê•(‰¡)
-		REFLECT_FIELD(float, runBobLift,        (0.05f), ("Run Bob Lift",          0.0f, 1.0f))  // —h‚ê•(c)
-		REFLECT_FIELD(float, runBobRollDeg,      (2.0f), ("Run Bob Roll Deg",      0.0f, 15.0f)) // ŒX‚«‚ÌÅ‘å
+		// HeadBobï¼šèµ°ã‚Šå‡ºã—ã«å·¦å³ã¸æºã‚‰ã™
+		REFLECT_FIELD(float, runBobRearmSpeed,   (1.0f), ("Run Bob Rearm Speed",   0.0f, 50.0f)) // ã“ã®é€Ÿã•ä»¥ä¸‹ã§æº–å‚™
+		REFLECT_FIELD(float, runBobStepInterval, (0.3f), ("Run Bob Step Interval", 0.05f, 1.0f)) // ç‰‡å´ã¸æºã‚Œã‚‹æ™‚é–“
+		REFLECT_FIELD(float, runBobDuration,     (1.5f), ("Run Bob Duration",      0.1f, 5.0f))  // æºã‚‰ã™æ™‚é–“
+		REFLECT_FIELD(float, runBobSway,        (0.15f), ("Run Bob Sway",          0.0f, 1.0f))  // æºã‚Œå¹…(æ¨ª)
+		REFLECT_FIELD(float, runBobLift,        (0.05f), ("Run Bob Lift",          0.0f, 1.0f))  // æºã‚Œå¹…(ç¸¦)
+		REFLECT_FIELD(float, runBobRollDeg,      (2.0f), ("Run Bob Roll Deg",      0.0f, 15.0f)) // å‚¾ãã®æœ€å¤§
 
-		// KickShakeF•ÇR‚è‚Å1‰ñ—h‚ç‚·
-		REFLECT_FIELD(float, kickShakeDuration, (0.3f), ("Kick Shake Duration", 0.05f, 2.0f))  // Šñ‚Á‚Ä–ß‚é‚Ü‚Å‚ÌŠÔ
-		REFLECT_FIELD(float, kickShakeSway,    (0.08f), ("Kick Shake Sway",     0.0f, 0.5f))   // ‰¡‚¸‚ê‚ÌÅ‘å
-		REFLECT_FIELD(float, kickShakeRollDeg,  (1.5f), ("Kick Shake Roll Deg", 0.0f, 10.0f))  // ŒX‚«‚ÌÅ‘å
+		// KickShakeï¼šå£è¹´ã‚Šã§1å›æºã‚‰ã™
+		REFLECT_FIELD(float, kickShakeDuration, (0.3f), ("Kick Shake Duration", 0.05f, 2.0f))  // å¯„ã£ã¦æˆ»ã‚‹ã¾ã§ã®æ™‚é–“
+		REFLECT_FIELD(float, kickShakeSway,    (0.08f), ("Kick Shake Sway",     0.0f, 0.5f))   // æ¨ªãšã‚Œã®æœ€å¤§
+		REFLECT_FIELD(float, kickShakeRollDeg,  (1.5f), ("Kick Shake Roll Deg", 0.0f, 10.0f))  // å‚¾ãã®æœ€å¤§
 
-		// LandShakeF’·‚­—‰º‚µ‚½‚ç—h‚ç‚·
-		REFLECT_FIELD(float, landFallSpeed,    (10.0f), ("Land Fall Speed",     0.0f, 50.0f))  // ‚±‚Ì—‰º‘¬“xˆÈã‚Å€”õ
-		REFLECT_FIELD(float, landShakeDuration, (0.5f), ("Land Shake Duration", 0.05f, 2.0f))  // —h‚ç‚·ŠÔ
-		REFLECT_FIELD(float, landShakeSway,    (0.12f), ("Land Shake Sway",     0.0f, 0.5f))   // —h‚ê•
-		REFLECT_FIELD(float, landShakeRollDeg,  (2.0f), ("Land Shake Roll Deg", 0.0f, 10.0f))  // ŒX‚«
+		// LandShakeï¼šé•·ãè½ä¸‹ã—ãŸã‚‰æºã‚‰ã™
+		REFLECT_FIELD(float, landFallSpeed,    (10.0f), ("Land Fall Speed",     0.0f, 50.0f))  // ã“ã®è½ä¸‹é€Ÿåº¦ä»¥ä¸Šã§æº–å‚™
+		REFLECT_FIELD(float, landShakeDuration, (0.5f), ("Land Shake Duration", 0.05f, 2.0f))  // æºã‚‰ã™æ™‚é–“
+		REFLECT_FIELD(float, landShakeSway,    (0.12f), ("Land Shake Sway",     0.0f, 0.5f))   // æºã‚Œå¹…
+		REFLECT_FIELD(float, landShakeRollDeg,  (2.0f), ("Land Shake Roll Deg", 0.0f, 10.0f))  // å‚¾ã
 
-		// SlideShakeFƒXƒ‰ƒCƒh’†‚Í‰º‚°‚é
-		REFLECT_FIELD(float, slideDropTime, (0.525f), ("Slide Drop Time", 0.01f, 2.0f)) // ’ê‚Ü‚Å‰º‚ª‚é(–ß‚é)ŠÔ
-		REFLECT_FIELD(float, slideDrop,       (0.5f), ("Slide Drop",      0.0f, 3.0f))  // ‰º‚°‚é[‚³
+		// SlideShakeï¼šã‚¹ãƒ©ã‚¤ãƒ‰ä¸­ã¯ä¸‹ã’ã‚‹
+		REFLECT_FIELD(float, slideDropTime, (0.525f), ("Slide Drop Time", 0.01f, 2.0f)) // åº•ã¾ã§ä¸‹ãŒã‚‹(æˆ»ã‚‹)æ™‚é–“
+		REFLECT_FIELD(float, slideDrop,       (0.5f), ("Slide Drop",      0.0f, 3.0f))  // ä¸‹ã’ã‚‹æ·±ã•
 
-		// WallTiltF•Ç‘–‚è’†ŒX‚¯‚é
-		REFLECT_FIELD(float, wallTiltMaxDeg,       (8.0f), ("Wall Tilt Max Deg",      0.0f, 30.0f))  // ŒX‚«‚ÌÅ‘å(“x)
-		REFLECT_FIELD(float, wallTiltHalfLife,     (1.0f), ("Wall Tilt Half Life",    0.01f, 5.0f))  // ŒX‚¢‚Ä‚¢‚­”¼Œ¸Šú(•b)B‘å‚«‚¢‚Ù‚Ç‚¶‚í‚¶‚í
-		REFLECT_FIELD(float, wallTiltReturnSpeed, (40.0f), ("Wall Tilt Return Speed", 0.0f, 200.0f)) // –ß‚é‘¬‚³
+		// WallTiltï¼šå£èµ°ã‚Šä¸­å‚¾ã‘ã‚‹
+		REFLECT_FIELD(float, wallTiltMaxDeg,       (8.0f), ("Wall Tilt Max Deg",      0.0f, 30.0f))  // å‚¾ãã®æœ€å¤§(åº¦)
+		REFLECT_FIELD(float, wallTiltHalfLife,     (1.0f), ("Wall Tilt Half Life",    0.01f, 5.0f))  // å‚¾ã„ã¦ã„ãåŠæ¸›æœŸ(ç§’)ã€‚å¤§ãã„ã»ã©ã˜ã‚ã˜ã‚
+		REFLECT_FIELD(float, wallTiltReturnSpeed, (40.0f), ("Wall Tilt Return Speed", 0.0f, 200.0f)) // æˆ»ã‚‹é€Ÿã•
 
 
-		// ‰‰o‚²‚Æ‚Ìó‘Ô
-		REFLECT_FIELD(float, fovAdd,        (0.0f), ("Fov Add",         0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // FovFŒ»İ’Ç‰Á‚µ‚Ä‚¢‚é—Ê
-		REFLECT_FIELD(float, slideDropRate, (0.0f), ("Slide Drop Rate", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // SlideDropF‰º‚ª‚è‹ï‡
-		REFLECT_FIELD(float, wallTilt,      (0.0f), ("Wall Tilt",       0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // WallTiltF¡‚ÌŒX‚«
+		// æ¼”å‡ºã”ã¨ã®çŠ¶æ…‹
+		REFLECT_FIELD(float, fovAdd,        (0.0f), ("Fov Add",         0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // Fovï¼šç¾åœ¨è¿½åŠ ã—ã¦ã„ã‚‹é‡
+		REFLECT_FIELD(float, slideDropRate, (0.0f), ("Slide Drop Rate", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // SlideDropï¼šä¸‹ãŒã‚Šå…·åˆ
+		REFLECT_FIELD(float, wallTilt,      (0.0f), ("Wall Tilt",       0.0f, 0.0f, 0.1f,  "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // WallTiltï¼šä»Šã®å‚¾ã
 
 		REFLECT_FIELD(PulseState, runBob,    (), ("Run Bob"))    // HeadBob
 		REFLECT_FIELD(PulseState, kickShake, (), ("Kick Shake")) // KickShake
 		REFLECT_FIELD(PulseState, landShake, (), ("Land Shake")) // LandShake
 
 
-		// o—Í
-		REFLECT_FIELD(DirectX::XMFLOAT3, eyeOffset,    (0.0f, 0.0f, 0.0f), ("Eye Offset",    0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // eye ‚Ì‚¸‚ê
-		REFLECT_FIELD(DirectX::XMFLOAT3, targetOffset, (0.0f, 0.0f, 0.0f), ("Target Offset", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // target ‚Ì‚¸‚ê
-		REFLECT_FIELD(float, fovOffset, (0.0f), ("Fov Offset", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // FOV ‚Ì‘Œ¸
-		REFLECT_FIELD(float, roll,      (0.0f), ("Roll",       0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ŒX‚«
+		// å‡ºåŠ›
+		REFLECT_FIELD(DirectX::XMFLOAT3, eyeOffset,    (0.0f, 0.0f, 0.0f), ("Eye Offset",    0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // eye ã®ãšã‚Œ
+		REFLECT_FIELD(DirectX::XMFLOAT3, targetOffset, (0.0f, 0.0f, 0.0f), ("Target Offset", 0.0f, 0.0f, 0.01f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // target ã®ãšã‚Œ
+		REFLECT_FIELD(float, fovOffset, (0.0f), ("Fov Offset", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // FOV ã®å¢—æ¸›
+		REFLECT_FIELD(float, roll,      (0.0f), ("Roll",       0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å‚¾ã
 
 
 		REFLECT_END()

@@ -1,4 +1,4 @@
-#include "PlayerLocomotionSystem.h"
+ï»¿#include "PlayerLocomotionSystem.h"
 #include <cmath>
 #include <algorithm>
 #include <DirectXMath.h>
@@ -10,14 +10,14 @@
 
 namespace
 {
-	// w”“I‚ÈŒ¸Š‚Í0‚É“Í‚©‚È‚¢‚Ì‚ÅA‚±‚ê‚æ‚è’x‚­‚È‚Á‚½‚ç0‚É‚·‚é
+	// æŒ‡æ•°çš„ãªæ¸›è¡°ã¯0ã«å±Šã‹ãªã„ã®ã§ã€ã“ã‚Œã‚ˆã‚Šé…ããªã£ãŸã‚‰0ã«ã™ã‚‹
 	constexpr float kStopSpeed = 0.05f;
 
 	float PlanarLength(float x, float z) { return sqrtf(x * x + z * z); }
 
 	bool HasDirection(const DirectX::XMFLOAT3& dir) { return PlanarLength(dir.x, dir.z) > 0.0001f; }
 
-	// w¦‚³‚ê‚½•ûŒü‚Ö‘Ì‚ğ‰ñ‚µA‰ñ‚Á‚½Œã‚ÌŒü‚«‚Ì‚¸‚ê(rad)‚ğ•Ô‚·
+	// æŒ‡ç¤ºã•ã‚ŒãŸæ–¹å‘ã¸ä½“ã‚’å›ã—ã€å›ã£ãŸå¾Œã®å‘ãã®ãšã‚Œ(rad)ã‚’è¿”ã™
 	float TurnTowards(const LocomotionCommand& cmd, TransformComponent& transform, float elapsedTime)
 	{
 		if (!HasDirection(cmd.moveDir)) return 0.0f;
@@ -27,28 +27,28 @@ namespace
 		return PlayerMovementUtils::AngleDiff(transform.rotation.y, targetYaw);
 	}
 
-	// Ground ‚É“ü‚éFÀÛ‚Ì‘¬“x‚ğu‘Ì‚ÌŒü‚«‚É‰ˆ‚Á‚½‘¬‚³v‚Æu‚¿‰z‚µ‚Ì‘¬“xv‚É•ª‚¯‚Äæ‚è‚Ş
+	// Ground ã«å…¥ã‚‹æ™‚ï¼šå®Ÿéš›ã®é€Ÿåº¦ã‚’ã€Œä½“ã®å‘ãã«æ²¿ã£ãŸé€Ÿã•ã€ã¨ã€ŒæŒã¡è¶Šã—ã®é€Ÿåº¦ã€ã«åˆ†ã‘ã¦å–ã‚Šè¾¼ã‚€
 	void AbsorbIntoGround(PlayerLocomotionComponent& loco, const MovementComponent& movement, const TransformComponent& transform)
 	{
 		DirectX::XMFLOAT3 forward = PlayerMovementUtils::YawToForward(transform.rotation.y);
 
-		// ‘Ì‚ÌŒü‚«‚É‰ˆ‚Á‚½¬•ª(Œã‚ëŒü‚«‚Í0‚Æ‚·‚é)
+		// ä½“ã®å‘ãã«æ²¿ã£ãŸæˆåˆ†(å¾Œã‚å‘ãã¯0ã¨ã™ã‚‹)
 		float along = movement.velocity.x * forward.x + movement.velocity.z * forward.z;
 		loco.currentSpeed = (std::max)(0.0f, along);
 
-		// ‚»‚êˆÈŠO(‰¡EŒã‚ëŒü‚«)‚ÍA‚¿‰z‚µ‚Ì‘¬“x‚Æ‚µ‚Äc‚·
+		// ãã‚Œä»¥å¤–(æ¨ªãƒ»å¾Œã‚å‘ã)ã¯ã€æŒã¡è¶Šã—ã®é€Ÿåº¦ã¨ã—ã¦æ®‹ã™
 		loco.carryVelocity.x = movement.velocity.x - forward.x * loco.currentSpeed;
 		loco.carryVelocity.z = movement.velocity.z - forward.z * loco.currentSpeed;
 	}
 
-	// ’nãF‘Ì‚ÌŒü‚«‚É‰ˆ‚Á‚Äi‚Ş
+	// åœ°ä¸Šï¼šä½“ã®å‘ãã«æ²¿ã£ã¦é€²ã‚€
 	void DriveGround(PlayerLocomotionComponent& loco, const LocomotionCommand& cmd,
 		MovementComponent& movement, TransformComponent& transform, float elapsedTime)
 	{
-		// Œü‚«
+		// å‘ã
 		float facingError = TurnTowards(cmd, transform, elapsedTime);
 
-		// ©•ª‚Å‘–‚Á‚Ä‚¢‚é‘¬‚³
+		// è‡ªåˆ†ã§èµ°ã£ã¦ã„ã‚‹é€Ÿã•
 		float alignment = (std::max)(0.0f, cosf(facingError));
 		float desiredSpeed = cmd.targetSpeed * alignment;
 
@@ -59,7 +59,7 @@ namespace
 			loco.currentSpeed = 0.0f;
 		}
 
-		// ‚¿‰z‚µ‚Ì‘¬“x
+		// æŒã¡è¶Šã—ã®é€Ÿåº¦
 		loco.carryVelocity.x = PlayerMovementUtils::Damper(loco.carryVelocity.x, 0.0f, cmd.carryHalfLife, elapsedTime);
 		loco.carryVelocity.z = PlayerMovementUtils::Damper(loco.carryVelocity.z, 0.0f, cmd.carryHalfLife, elapsedTime);
 		if (PlanarLength(loco.carryVelocity.x, loco.carryVelocity.z) < kStopSpeed)
@@ -67,24 +67,24 @@ namespace
 			loco.carryVelocity = { 0.0f, 0.0f, 0.0f };
 		}
 
-		// ‘¬“x = ‘Ì‚ÌŒü‚« ~ ‘¬‚³ { ‚¿‰z‚µ
+		// é€Ÿåº¦ = ä½“ã®å‘ã Ã— é€Ÿã• ï¼‹ æŒã¡è¶Šã—
 		DirectX::XMFLOAT3 forward = PlayerMovementUtils::YawToForward(transform.rotation.y);
 		movement.velocity.x = forward.x * loco.currentSpeed + loco.carryVelocity.x;
 		movement.velocity.z = forward.z * loco.currentSpeed + loco.carryVelocity.z;
 
-		// Šm”F—p
+		// ç¢ºèªç”¨
 		loco.desiredSpeed = desiredSpeed;
 		loco.facingErrorDeg = DirectX::XMConvertToDegrees(facingError);
 	}
 
-	// ‹ó’†F‘¬“x‚ÌƒxƒNƒgƒ‹‚ğ•Û‚Â
+	// ç©ºä¸­ï¼šé€Ÿåº¦ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä¿ã¤
 	void DriveAir(PlayerLocomotionComponent& loco, const LocomotionCommand& cmd,
 		MovementComponent& movement, TransformComponent& transform, float elapsedTime)
 	{
-		// Œü‚«
+		// å‘ã
 		float facingError = TurnTowards(cmd, transform, elapsedTime);
 
-		// ‘¬“xF“ü—Í‚ª–³‚¯‚ê‚Î¨‚¢‚ğ‚»‚Ì‚Ü‚Ü•Û‚Â
+		// é€Ÿåº¦ï¼šå…¥åŠ›ãŒç„¡ã‘ã‚Œã°å‹¢ã„ã‚’ãã®ã¾ã¾ä¿ã¤
 		if (HasDirection(cmd.moveDir))
 		{
 			float targetX = cmd.moveDir.x * cmd.targetSpeed;
@@ -93,27 +93,27 @@ namespace
 			movement.velocity.z = PlayerMovementUtils::Damper(movement.velocity.z, targetZ, cmd.accelHalfLife, elapsedTime);
 		}
 
-		// ’…’n‚µ‚½Œã‚Å‚àQÆ‚Å‚«‚é‚æ‚¤‚É
+		// ç€åœ°ã—ãŸå¾Œã§ã‚‚å‚ç…§ã§ãã‚‹ã‚ˆã†ã«
 		loco.landingHorizontalSpeed = PlanarLength(movement.velocity.x, movement.velocity.z);
 		loco.landingVerticalSpeed = movement.velocity.y;
 
-		// Šm”F—p
+		// ç¢ºèªç”¨
 		loco.currentSpeed = loco.landingHorizontalSpeed;
 		loco.desiredSpeed = cmd.targetSpeed;
 		loco.facingErrorDeg = DirectX::XMConvertToDegrees(facingError);
 	}
 
-	// Œü‚«‚Æ‚Í•Ê‚Ì•ûŒü‚Éi‚ŞF‘Ì‚ÌŒü‚«‚Í•Ï‚¦‚¸A‘¬“x‚¾‚¯‚ğw¦‚³‚ê‚½•ûŒü‚ÖŠñ‚¹‚é
+	// å‘ãã¨ã¯åˆ¥ã®æ–¹å‘ã«é€²ã‚€ï¼šä½“ã®å‘ãã¯å¤‰ãˆãšã€é€Ÿåº¦ã ã‘ã‚’æŒ‡ç¤ºã•ã‚ŒãŸæ–¹å‘ã¸å¯„ã›ã‚‹
 	void DriveDirectional(PlayerLocomotionComponent& loco, const LocomotionCommand& cmd,
 		MovementComponent& movement, float elapsedTime)
 	{
-		// ‘¬“xFw¦‚³‚ê‚½•ûŒü ~ ‘¬‚³ ‚Öƒ_ƒ“ƒp[‚Å‹ß‚Ã‚¯‚é
+		// é€Ÿåº¦ï¼šæŒ‡ç¤ºã•ã‚ŒãŸæ–¹å‘ Ã— é€Ÿã• ã¸ãƒ€ãƒ³ãƒ‘ãƒ¼ã§è¿‘ã¥ã‘ã‚‹
 		float targetX = cmd.moveDir.x * cmd.targetSpeed;
 		float targetZ = cmd.moveDir.z * cmd.targetSpeed;
 		movement.velocity.x = PlayerMovementUtils::Damper(movement.velocity.x, targetX, cmd.accelHalfLife, elapsedTime);
 		movement.velocity.z = PlayerMovementUtils::Damper(movement.velocity.z, targetZ, cmd.accelHalfLife, elapsedTime);
 
-		// Šm”F—p
+		// ç¢ºèªç”¨
 		loco.currentSpeed = PlanarLength(movement.velocity.x, movement.velocity.z);
 		loco.desiredSpeed = cmd.targetSpeed;
 		loco.facingErrorDeg = 0.0f;
@@ -127,16 +127,16 @@ void PlayerLocomotionSystem::Update(entt::registry& registry, float elapsedTime)
 		{
 			const LocomotionCommand& cmd = loco.command;
 
-			// ‘Ì‚Ìó‘ÔF’…’n‚µ‚½‰ñ”
+			// ä½“ã®çŠ¶æ…‹ï¼šç€åœ°ã—ãŸå›æ•°
 			if (movement.isGrounded && loco.airTime > 0.0f)
 			{
 				loco.landingCount++;
 			}
-			// ‘Ì‚Ìó‘ÔFÚ’n‚µ‚Ä‚¢‚È‚¢ŠÔ
+			// ä½“ã®çŠ¶æ…‹ï¼šæ¥åœ°ã—ã¦ã„ãªã„æ™‚é–“
 			loco.airTime = movement.isGrounded ? 0.0f : loco.airTime + elapsedTime;
 			loco.isAirborne = (loco.airTime >= loco.fallGraceTime);
 
-			// w¦‚ª‚ ‚ê‚ÎAŒü‚«‚ği‚Ş•ûŒü‚Öˆê‹C‚É‡‚í‚¹‚é
+			// æŒ‡ç¤ºãŒã‚ã‚Œã°ã€å‘ãã‚’é€²ã‚€æ–¹å‘ã¸ä¸€æ°—ã«åˆã‚ã›ã‚‹
 			if (HasDirection(cmd.faceDir))
 			{
 				transform.rotation.y = PlayerMovementUtils::CalcFacingYaw(cmd.faceDir.x, cmd.faceDir.z);
@@ -146,7 +146,7 @@ void PlayerLocomotionSystem::Update(entt::registry& registry, float elapsedTime)
 				transform.rotation.y = PlayerMovementUtils::CalcFacingYaw(cmd.moveDir.x, cmd.moveDir.z);
 			}
 
-			// ‘¼‚Ìƒ‚[ƒh‚©‚ç Ground ‚ÉØ‚è‘Ö‚í‚Á‚½‚¾‚¯AÀÛ‚Ì‘¬“x‚ğæ‚è‚Ş
+			// ä»–ã®ãƒ¢ãƒ¼ãƒ‰ã‹ã‚‰ Ground ã«åˆ‡ã‚Šæ›¿ã‚ã£ãŸæ™‚ã ã‘ã€å®Ÿéš›ã®é€Ÿåº¦ã‚’å–ã‚Šè¾¼ã‚€
 			if (cmd.mode == LocomotionMode::Ground && loco.lastMode != LocomotionMode::Ground) 
 			{
 				AbsorbIntoGround(loco, movement, transform);
@@ -167,17 +167,17 @@ void PlayerLocomotionSystem::Update(entt::registry& registry, float elapsedTime)
 				break;
 
 			case LocomotionMode::External:
-				// velocity.xz ‚ÍŠO•”‚ª‘‚­
+				// velocity.xz ã¯å¤–éƒ¨ãŒæ›¸ã
 				loco.desiredSpeed = 0.0f;
 				loco.facingErrorDeg = 0.0f;
 				break;
 			}
 
-			// ‘Ì‚Ìó‘ÔF¡‚Ì¨‚¢
+			// ä½“ã®çŠ¶æ…‹ï¼šä»Šã®å‹¢ã„
 			loco.horizontalSpeed = PlanarLength(movement.velocity.x, movement.velocity.z);
 			loco.verticalSpeed = movement.velocity.y;
 
-			// w¦‚Í1ƒtƒŒ[ƒ€ŒÀ‚è
+			// æŒ‡ç¤ºã¯1ãƒ•ãƒ¬ãƒ¼ãƒ é™ã‚Š
 			loco.lastMode = cmd.mode;
 			loco.command = LocomotionCommand{};
 		});

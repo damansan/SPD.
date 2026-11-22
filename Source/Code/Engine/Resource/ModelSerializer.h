@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <memory>
 #include <string>
 
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 class Model;
 
 namespace cereal
@@ -14,15 +14,15 @@ namespace cereal
 class ModelSerializer
 {
 public:
-	// Model‚ğƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+	// Modelã‚’ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹
 	static void Save(const Model& model, const std::string& filepath);
 
-	// ƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚©‚çModel‚ğ•œŒ³‚·‚é
+	// ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰Modelã‚’å¾©å…ƒã™ã‚‹
 	static void Load(Model& model, const std::string& filepath);
 
-	// cerealƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©Šm”F
+	// cerealãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèª
 	static bool Exists(const std::string& gltfPath);
 
-	// Šg’£q‚ğ .cereal ‚É’u‚«Š·‚¦‚½ƒpƒX‚ğ•Ô‚·
+	// æ‹¡å¼µå­ã‚’ .cereal ã«ç½®ãæ›ãˆãŸãƒ‘ã‚¹ã‚’è¿”ã™
 	static std::string ToCerealPath(const std::string& gltfPath);
 };

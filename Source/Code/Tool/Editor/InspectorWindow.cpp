@@ -1,4 +1,4 @@
-#include "InspectorWindow.h"
+ï»¿#include "InspectorWindow.h"
 #include <imgui.h>
 #include "imgui_internal.h"
 #include "Engine/Resource/ComponentRegistry.h"
@@ -6,14 +6,14 @@
 #include "Tool/Editor/MetaRegistry.h"
 #include "tracy/Tracy.hpp"
 
-// •`‰æ
+// æç”»
 void InspectorWindow::Draw(entt::registry& registry, EditorContext& context)
 {
     ZoneScoped;
 
     ImGui::Begin("Inspector");
 
-    // ‰½‚à‘I‘ð‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‰½‚à•\Ž¦‚µ‚È‚¢
+    // ä½•ã‚‚é¸æŠžã•ã‚Œã¦ã„ãªã‘ã‚Œã°ä½•ã‚‚è¡¨ç¤ºã—ãªã„
     if (context.selectedEntity == entt::null)
     {
         ImGui::Text("No entity selected.");
@@ -21,23 +21,23 @@ void InspectorWindow::Draw(entt::registry& registry, EditorContext& context)
         return;
     }
 
-    // –¼‘O•ÒW
+    // åå‰ç·¨é›†
     DrawNameField(registry, context);
 
     ImGui::Separator();
 
-    // ƒRƒ“ƒ|[ƒlƒ“ƒgˆê——
+    // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€è¦§
     DrawComponents(registry, context);
 
     ImGui::Separator();
 
-    // ƒRƒ“ƒ|[ƒlƒ“ƒg’Ç‰Áƒ{ƒ^ƒ“
+    // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆè¿½åŠ ãƒœã‚¿ãƒ³
     DrawAddComponent(registry, context);
 
     ImGui::End();
 }
 
-// –¼‘O•ÒWUI
+// åå‰ç·¨é›†UI
 void InspectorWindow::DrawNameField(entt::registry& registry, EditorContext& context)
 {
     entt::entity e = context.selectedEntity;
@@ -52,7 +52,7 @@ void InspectorWindow::DrawNameField(entt::registry& registry, EditorContext& con
     }
 }
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒgˆê——UI
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä¸€è¦§UI
 void InspectorWindow::DrawComponents(entt::registry& registry, EditorContext& context)
 {
     entt::entity e = context.selectedEntity;
@@ -61,27 +61,27 @@ void InspectorWindow::DrawComponents(entt::registry& registry, EditorContext& co
     {
         const ComponentInfo* info = ComponentRegistry::Get(name);
         if (!info) continue;
-        // ‚±‚ÌEntity‚ªƒRƒ“ƒ|[ƒlƒ“ƒg‚ðŽ‚Á‚Ä‚¢‚é‚©
+        // ã“ã®EntityãŒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒã£ã¦ã„ã‚‹ã‹
         if (!info->has(registry, e)) continue;
 
         ImGui::PushID(name.c_str());
 
-        // íœƒ{ƒ^ƒ“
+        // å‰Šé™¤ãƒœã‚¿ãƒ³
         if (ImGui::Button("x"))
         {
             info->remove(registry, e);
             ImGui::PopID();
-            // íœŒã‚ÍƒCƒeƒŒ[ƒVƒ‡ƒ“‚ð’†’f
+            // å‰Šé™¤å¾Œã¯ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­
             break;
         }
         ImGui::SameLine();
 
 
-        // ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌImGui‚ð•`‰æ
+        // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ImGuiã‚’æç”»
         const auto* drawImGui = ComponentInspectorRegistry::Get(name);
         if (drawImGui)
         {
-            // “ÆŽ©‚ÌUI‚ª“o˜^‚³‚ê‚Ä‚¢‚ê‚Î‚»‚ê‚ðŽg‚¤
+            // ç‹¬è‡ªã®UIãŒç™»éŒ²ã•ã‚Œã¦ã„ã‚Œã°ãã‚Œã‚’ä½¿ã†
             (*drawImGui)(registry, e);
         }
         else if (info->getMeta)
@@ -95,7 +95,7 @@ void InspectorWindow::DrawComponents(entt::registry& registry, EditorContext& co
 
                 if (ImGui::CollapsingHeader(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    // •Ê‚ÌID‹óŠÔ‚ÅˆÍ‚Þ
+                    // åˆ¥ã®IDç©ºé–“ã§å›²ã‚€
                     ImGui::PushID("fields");
                     MetaRegistry::DrawMetaFields(metaType, info->getMeta(registry, e));
                     ImGui::PopID();
@@ -107,7 +107,7 @@ void InspectorWindow::DrawComponents(entt::registry& registry, EditorContext& co
     }
 }
 
-// ƒRƒ“ƒ|[ƒlƒ“ƒg’Ç‰ÁUI
+// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆè¿½åŠ UI
 void InspectorWindow::DrawAddComponent(entt::registry& registry, EditorContext& context)
 {
     entt::entity e = context.selectedEntity;
@@ -127,7 +127,7 @@ void InspectorWindow::DrawAddComponent(entt::registry& registry, EditorContext& 
             const ComponentInfo* info = ComponentRegistry::Get(name);
             if (!info) continue;
 
-            // ‚·‚Å‚ÉŽ‚Á‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍƒOƒŒ[ƒAƒEƒg
+            // ã™ã§ã«æŒã£ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ã‚°ãƒ¬ãƒ¼ã‚¢ã‚¦ãƒˆ
             if (info->has(registry, e))
             {
                 ImGui::TextDisabled("%s", info->displayName.c_str());

@@ -1,54 +1,54 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXMath.h>
 #include "Engine/ECS/Reflect.h"
 
-// ƒ{ƒ^ƒ“1‚Â‚Ô‚ñ‚ÌˆÓ}
+// ãƒœã‚¿ãƒ³1ã¤ã¶ã‚“ã®æ„å›³
 struct ActionIntent
 {
 	REFLECT_BEGIN(ActionIntent, "Action Intent")
 
-		REFLECT_FIELD(bool,  buffered, (false), ("Buffered",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æs“ü—Í‚Æ‚µ‚Äó‚¯•t‚¯’†
-		REFLECT_FIELD(bool,  held,     (false), ("Held",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¡‰Ÿ‚µ‘±‚¯‚Ä‚¢‚é‚©
-		REFLECT_FIELD(float, heldTime, (0.0f),  ("Held Time", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‰Ÿ‚µ‘±‚¯‚Ä‚¢‚éŠÔ
+		REFLECT_FIELD(bool,  buffered, (false), ("Buffered",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å…ˆè¡Œå…¥åŠ›ã¨ã—ã¦å—ã‘ä»˜ã‘ä¸­
+		REFLECT_FIELD(bool,  held,     (false), ("Held",      0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä»ŠæŠ¼ã—ç¶šã‘ã¦ã„ã‚‹ã‹
+		REFLECT_FIELD(float, heldTime, (0.0f),  ("Held Time", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // æŠ¼ã—ç¶šã‘ã¦ã„ã‚‹æ™‚é–“
 
 		REFLECT_END()
 
-		// “à•”À‘•—p
-		float bufferTimer = 0.0f; // ‰Ÿ‚µ‚Ä‚©‚ç‚ÌŒo‰ßŠÔ
+		// å†…éƒ¨å®Ÿè£…ç”¨
+		float bufferTimer = 0.0f; // æŠ¼ã—ã¦ã‹ã‚‰ã®çµŒéæ™‚é–“
 
-	// ƒXƒe[ƒg‚ªg‚Á‚½‚ÉŒÄ‚Ô
+	// ã‚¹ãƒ†ãƒ¼ãƒˆãŒä½¿ã£ãŸæ™‚ã«å‘¼ã¶
 	void Consume() { buffered = false; }
 };
 
-// ƒvƒŒƒCƒ„[‚ÌˆÓ}
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ„å›³
 struct PlayerIntentComponent
 {
 	REFLECT_BEGIN(PlayerIntentComponent, "Player Intent")
 
-		// İ’è’l
-		REFLECT_FIELD(float, moveGraceTime,     (0.1f),  ("Move Grace Time",     0.0f, 0.5f)) // “ü—Í‚ª“rØ‚ê‚Ä‚à wantsMove ‚ğ•Û‚ÂŠÔ
-		REFLECT_FIELD(float, runEnterThreshold, (0.9f),  ("Run Enter Threshold", 0.0f, 1.0f)) // ‚±‚Ì“|‚µ‹ï‡ˆÈã‚Å‘–‚è‚É“ü‚é
-		REFLECT_FIELD(float, runExitThreshold,  (0.7f),  ("Run Exit Threshold",  0.0f, 1.0f)) // ‚±‚Ì“|‚µ‹ï‡–¢–‚Å•à‚«‚É–ß‚é
-		REFLECT_FIELD(float, runGraceTime,      (0.15f), ("Run Grace Time",      0.0f, 0.5f)) // “|‚µ‹ï‡‚ª–ß‚Á‚Ä‚à wantsRun ‚ğ•Û‚ÂŠÔ
-		REFLECT_FIELD(float, jumpBufferTime,    (0.15f), ("Jump Buffer Time",    0.0f, 0.5f)) // ƒWƒƒƒ“ƒv‚Ìæs“ü—Í‚ğó‚¯•t‚¯‚Ä‚¨‚­ŠÔ
-		REFLECT_FIELD(float, dodgeBufferTime,   (0.15f), ("Dodge Buffer Time",   0.0f, 0.5f)) // ‰ñ”ğ‚Ìæs“ü—Í‚ğó‚¯•t‚¯‚Ä‚¨‚­ŠÔ
+		// è¨­å®šå€¤
+		REFLECT_FIELD(float, moveGraceTime,     (0.1f),  ("Move Grace Time",     0.0f, 0.5f)) // å…¥åŠ›ãŒé€”åˆ‡ã‚Œã¦ã‚‚ wantsMove ã‚’ä¿ã¤æ™‚é–“
+		REFLECT_FIELD(float, runEnterThreshold, (0.9f),  ("Run Enter Threshold", 0.0f, 1.0f)) // ã“ã®å€’ã—å…·åˆä»¥ä¸Šã§èµ°ã‚Šã«å…¥ã‚‹
+		REFLECT_FIELD(float, runExitThreshold,  (0.7f),  ("Run Exit Threshold",  0.0f, 1.0f)) // ã“ã®å€’ã—å…·åˆæœªæº€ã§æ­©ãã«æˆ»ã‚‹
+		REFLECT_FIELD(float, runGraceTime,      (0.15f), ("Run Grace Time",      0.0f, 0.5f)) // å€’ã—å…·åˆãŒæˆ»ã£ã¦ã‚‚ wantsRun ã‚’ä¿ã¤æ™‚é–“
+		REFLECT_FIELD(float, jumpBufferTime,    (0.15f), ("Jump Buffer Time",    0.0f, 0.5f)) // ã‚¸ãƒ£ãƒ³ãƒ—ã®å…ˆè¡Œå…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã¦ãŠãæ™‚é–“
+		REFLECT_FIELD(float, dodgeBufferTime,   (0.15f), ("Dodge Buffer Time",   0.0f, 0.5f)) // å›é¿ã®å…ˆè¡Œå…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã¦ãŠãæ™‚é–“
 
-		// ˆÓ}
-		REFLECT_FIELD(bool, wantsMove, (false), ("Wants Move", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “®‚«‚½‚¢‚©
-		REFLECT_FIELD(bool, wantsRun,  (false), ("Wants Run",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ‘–‚è‚½‚¢‚©
+		// æ„å›³
+		REFLECT_FIELD(bool, wantsMove, (false), ("Wants Move", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å‹•ããŸã„ã‹
+		REFLECT_FIELD(bool, wantsRun,  (false), ("Wants Run",  0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // èµ°ã‚ŠãŸã„ã‹
 		
-		REFLECT_FIELD(DirectX::XMFLOAT3, moveDir, (0.0f, 0.0f, 0.0f), ("Move Dir", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ƒ[ƒ‹ƒh•ûŒü
+		REFLECT_FIELD(DirectX::XMFLOAT3, moveDir, (0.0f, 0.0f, 0.0f), ("Move Dir", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ãƒ¯ãƒ¼ãƒ«ãƒ‰æ–¹å‘
 		
-		REFLECT_FIELD(float, moveAmount,  (0.0f),  ("Move Amount",   0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // “|‚µ‹ï‡
-		REFLECT_FIELD(bool,  hasRawInput, (false), ("Has Raw Input", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ¡ƒtƒŒ[ƒ€‚Ì¶‚Ì“ü—Í‚ª‚ ‚é‚©
+		REFLECT_FIELD(float, moveAmount,  (0.0f),  ("Move Amount",   0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // å€’ã—å…·åˆ
+		REFLECT_FIELD(bool,  hasRawInput, (false), ("Has Raw Input", 0.0f, 0.0f, 0.1f, "", FieldFlags::VisibleOnly | FieldFlags::Transient)) // ä»Šãƒ•ãƒ¬ãƒ¼ãƒ ã®ç”Ÿã®å…¥åŠ›ãŒã‚ã‚‹ã‹
 
-		// ƒ{ƒ^ƒ“‚ÌˆÓ}
+		// ãƒœã‚¿ãƒ³ã®æ„å›³
 		REFLECT_FIELD(ActionIntent, jump, (), ("Jump"))
 		REFLECT_FIELD(ActionIntent, dodge, (), ("Dodge"))
 
 		REFLECT_END()
 
-		// “à•”À‘•—p
-		float graceTimer = 0.0f; // “ü—Í‚ª“rØ‚ê‚Ä‚©‚ç‚ÌŒo‰ßŠÔ
-		float runGraceTimer = 0.0f; // “|‚µ‹ï‡‚ª runExitThreshold ‚ğ‰º‰ñ‚Á‚Ä‚©‚ç‚ÌŒo‰ßŠÔ
+		// å†…éƒ¨å®Ÿè£…ç”¨
+		float graceTimer = 0.0f; // å…¥åŠ›ãŒé€”åˆ‡ã‚Œã¦ã‹ã‚‰ã®çµŒéæ™‚é–“
+		float runGraceTimer = 0.0f; // å€’ã—å…·åˆãŒ runExitThreshold ã‚’ä¸‹å›ã£ã¦ã‹ã‚‰ã®çµŒéæ™‚é–“
 };

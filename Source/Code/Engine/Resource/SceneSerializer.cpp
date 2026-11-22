@@ -1,4 +1,4 @@
-#include "SceneSerializer.h"
+ï»¿#include "SceneSerializer.h"
 #include "Engine/Resource/EntitySerializer.h"
 #include "Engine/ECS/Components/PrefabInstanceComponent.h"
 #include "Engine/Core/Log.h"
@@ -11,7 +11,7 @@ nlohmann::json SceneSerializer::Serialize(entt::registry& registry, const NameGe
 {
 	nlohmann::json scene = nlohmann::json::object();
 	scene["version"] = Version;
-	scene["settings"] = nlohmann::json::object(); // ŠÂ‹«İ’èiƒ‰ƒCƒgESkyBox‚È‚Çj‚Ì’u‚«êŠB¡‚Í‹ó
+	scene["settings"] = nlohmann::json::object(); // ç’°å¢ƒè¨­å®šï¼ˆãƒ©ã‚¤ãƒˆãƒ»SkyBoxãªã©ï¼‰ã®ç½®ãå ´æ‰€ã€‚ä»Šã¯ç©º
 
 	std::vector<entt::entity> entities;
 	for (auto e : registry.view<entt::entity>())
@@ -32,7 +32,7 @@ nlohmann::json SceneSerializer::Serialize(entt::registry& registry, const NameGe
 
 		if (auto* prefab = registry.try_get<PrefabInstanceComponent>(e))
 		{
-			// ƒvƒŒƒnƒu”z’u‚ÌEntity‚ÍAŒ»İ’l‚ÆƒvƒŒƒnƒu‚Ì’l‚Ì·•ª‚¾‚¯‚ğ‘‚­
+			// ãƒ—ãƒ¬ãƒãƒ–é…ç½®ã®Entityã¯ã€ç¾åœ¨å€¤ã¨ãƒ—ãƒ¬ãƒãƒ–ã®å€¤ã®å·®åˆ†ã ã‘ã‚’æ›¸ã
 			entry["prefab"] = prefab->prefabPath;
 
 			if (const nlohmann::json* prefabData = EntitySerializer::LoadPrefabFile(prefab->prefabPath))
@@ -47,13 +47,13 @@ nlohmann::json SceneSerializer::Serialize(entt::registry& registry, const NameGe
 			}
 			else
 			{
-				// ƒvƒŒƒnƒu–{‘Ì‚ª“Ç‚ß‚È‚¢ê‡‚ÍA·•ª‚ğæ‚ê‚È‚¢‚Ì‚ÅAQÆ‚¾‚¯c‚·
-				Log(u8"[Warn] ·•ª”äŠr—p‚ÌƒvƒŒƒnƒu‚ğ“Ç‚ß‚È‚¢: %s", LogPath(prefab->prefabPath).c_str());
+				// ãƒ—ãƒ¬ãƒãƒ–æœ¬ä½“ãŒèª­ã‚ãªã„å ´åˆã¯ã€å·®åˆ†ã‚’å–ã‚Œãªã„ã®ã§ã€å‚ç…§ã ã‘æ®‹ã™
+				Log("[Warn] å·®åˆ†æ¯”è¼ƒç”¨ã®ãƒ—ãƒ¬ãƒãƒ–ã‚’èª­ã‚ãªã„: %s", LogPath(prefab->prefabPath).c_str());
 			}
 		}
 		else
 		{
-			// ‚»‚êˆÈŠO‚ÍAƒvƒŒƒnƒu‚Æ“¯‚¶Œ`®‚ÅAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’†g‚ğ‘‚­
+			// ãã‚Œä»¥å¤–ã¯ã€ãƒ—ãƒ¬ãƒãƒ–ã¨åŒã˜å½¢å¼ã§ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸­èº«ã‚’æ›¸ã
 			entry["components"] = EntitySerializer::SerializeEntity(registry, e);
 		}
 
@@ -68,23 +68,23 @@ bool SceneSerializer::SaveToFile(entt::registry& registry, const std::string& pa
 {
 	nlohmann::json scene = Serialize(registry, getName);
 
-	// ƒV[ƒ“‚Íg‚¢‰ñ‚³‚È‚¢‚Ì‚ÅA‚»‚ÌêŒÀ‚è‚Åg‚¤
+	// ã‚·ãƒ¼ãƒ³ã¯ä½¿ã„å›ã•ãªã„ã®ã§ã€ãã®å ´é™ã‚Šã§ä½¿ã†
 	JsonFileCache<nlohmann::json> file;
 	if (!file.Save(path, scene, [](const nlohmann::json& d) { return nlohmann::ordered_json(d); }))
 	{
 		return false;
 	}
 
-	Log(u8"[Info] ƒV[ƒ“‚ğ•Û‘¶: %s (Entity %d ŒÂ)", LogPath(path).c_str(), static_cast<int>(scene["entities"].size()));
+	Log("[Info] ã‚·ãƒ¼ãƒ³ã‚’ä¿å­˜: %s (Entity %d å€‹)", LogPath(path).c_str(), static_cast<int>(scene["entities"].size()));
 	return true;
 }
 
-// JSON‚Ì“à—e‚ÅAEntity‚ğì‚é
+// JSONã®å†…å®¹ã§ã€Entityã‚’ä½œã‚‹
 void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json& scene, const NameSetter& setName)
 {
 	if (!scene.contains("entities") || !scene["entities"].is_array())
 	{
-		Log(u8"ƒV[ƒ“‚ÌŒ`®‚ª•s³‚Å‚·(entities‚ª‚ ‚è‚Ü‚¹‚ñ)");
+		Log("ã‚·ãƒ¼ãƒ³ã®å½¢å¼ãŒä¸æ­£ã§ã™(entitiesãŒã‚ã‚Šã¾ã›ã‚“)");
 		return;
 	}
 
@@ -105,12 +105,12 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 
 		if (e == entt::null)
 		{
-			// InstantiatePrefab / CreateFromComponents ‘¤‚ªAÚ‚µ‚¢——R‚ğLog‚Éo‚µ‚Ä‚¢‚é
+			// InstantiatePrefab / CreateFromComponents å´ãŒã€è©³ã—ã„ç†ç”±ã‚’Logã«å‡ºã—ã¦ã„ã‚‹
 			++failedCount;
 			continue;
 		}
 
-		// ƒvƒŒƒnƒu¶¬‚ÌŒãA·•ª‚ª‚ ‚ê‚Îã‘‚«‚·‚é
+		// ãƒ—ãƒ¬ãƒãƒ–ç”Ÿæˆã®å¾Œã€å·®åˆ†ãŒã‚ã‚Œã°ä¸Šæ›¸ãã™ã‚‹
 		if (entry.contains("overrides") && entry["overrides"].is_object())
 		{
 			try
@@ -119,7 +119,7 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 			}
 			catch (const nlohmann::json::exception&)
 			{
-				Log(u8"[Warn] overrides ‚Ì“K—p‚É¸”s: %s", entry.value("name", std::string()).c_str());
+				Log("[Warn] overrides ã®é©ç”¨ã«å¤±æ•—: %s", entry.value("name", std::string()).c_str());
 			}
 		}
 
@@ -131,20 +131,20 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 
 	if (failedCount > 0)
 	{
-		Log(u8"%dŒÂ‚ÌEntity‚ğ•œŒ³‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½", failedCount);
+		Log("%då€‹ã®Entityã‚’å¾©å…ƒã§ãã¾ã›ã‚“ã§ã—ãŸ", failedCount);
 	}
 }
 
-// ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚ŞB“Ç‚İ‚İ‘O‚ÉAŠù‘¶‚ÌEntity‚ğ1‚Â‚¸‚Âdestroy‚·‚é
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€ã€‚èª­ã¿è¾¼ã¿å‰ã«ã€æ—¢å­˜ã®Entityã‚’1ã¤ãšã¤destroyã™ã‚‹
 bool SceneSerializer::LoadFromFile(entt::registry& registry, const std::string& path, const NameSetter& setName)
 {
-	// ƒV[ƒ“‚ÍŠJ‚­‚Æ‚«‚É1‰ñ“Ç‚Ş‚¾‚¯‚È‚Ì‚ÅA‚»‚ÌêŒÀ‚è‚Åg‚¤
+	// ã‚·ãƒ¼ãƒ³ã¯é–‹ãã¨ãã«1å›èª­ã‚€ã ã‘ãªã®ã§ã€ãã®å ´é™ã‚Šã§ä½¿ã†
 	JsonFileCache<nlohmann::json> file;
 	const nlohmann::json& scene = file.GetOrLoad(path,
 		[](nlohmann::json& d, const nlohmann::json& j) { d = j; });
 	if (file.GetStatus(path) != JsonFileStatus::Loaded) return false;
 
-	// Šù‘¶‚ÌEntity‚ğA1‚Â‚¸‚Â”jŠü‚·‚é
+	// æ—¢å­˜ã®Entityã‚’ã€1ã¤ãšã¤ç ´æ£„ã™ã‚‹
 	std::vector<entt::entity> existing;
 	for (auto e : registry.view<entt::entity>())
 	{
@@ -157,21 +157,21 @@ bool SceneSerializer::LoadFromFile(entt::registry& registry, const std::string& 
 
 	Deserialize(registry, scene, setName);
 
-	Log(u8"ƒV[ƒ“‚ğ“Ç‚İ‚İ: %s", LogPath(path).c_str());
+	Log("ã‚·ãƒ¼ãƒ³ã‚’èª­ã¿è¾¼ã¿: %s", LogPath(path).c_str());
 	return true;
 }
 
-// Œ»İ‚ÌEntity‚Ì’l‚ÆƒvƒŒƒnƒu‚Å‚Ì’l‚ğ”äŠr‚·‚é
+// ç¾åœ¨ã®Entityã®å€¤ã¨ãƒ—ãƒ¬ãƒãƒ–ã§ã®å€¤ã‚’æ¯”è¼ƒã™ã‚‹
 nlohmann::json SceneSerializer::DiffAgainstPrefab(const nlohmann::json& current, const nlohmann::json& prefab)
 {
 	nlohmann::json overrides = nlohmann::json::object();
 
-	// current‚ÍA‚»‚ÌEntity‚ª¡‚Á‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚¾‚¯‚ğŠÜ‚Ş
+	// currentã¯ã€ãã®EntityãŒä»ŠæŒã£ã¦ã„ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã ã‘ã‚’å«ã‚€
 	for (auto& [componentName, currentFields] : current.items())
 	{
 		if (!currentFields.is_object()) continue;
 
-		// ƒvƒŒƒnƒu‘¤‚É–³‚¢ƒRƒ“ƒ|[ƒlƒ“ƒgi”z’uŒã‚É’Ç‰Á‚µ‚½j‚ÍA”äŠr‚Ì‚µ‚æ‚¤‚ª‚È‚¢‚Ì‚Å‘ÎÛŠO
+		// ãƒ—ãƒ¬ãƒãƒ–å´ã«ç„¡ã„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆï¼ˆé…ç½®å¾Œã«è¿½åŠ ã—ãŸï¼‰ã¯ã€æ¯”è¼ƒã®ã—ã‚ˆã†ãŒãªã„ã®ã§å¯¾è±¡å¤–
 		if (!prefab.contains(componentName)) continue;
 		const nlohmann::json& prefabFields = prefab[componentName];
 		if (!prefabFields.is_object()) continue;
@@ -180,7 +180,7 @@ nlohmann::json SceneSerializer::DiffAgainstPrefab(const nlohmann::json& current,
 
 		for (auto& [fieldName, value] : currentFields.items())
 		{
-			// ƒvƒŒƒnƒu‘¤‚É–³‚¢ƒtƒB[ƒ‹ƒhi‰ü–¼E’Ç‰Áj‚ÍA”äŠr‚Å‚«‚È‚¢‚Ì‚Å”ò‚Î‚·
+			// ãƒ—ãƒ¬ãƒãƒ–å´ã«ç„¡ã„ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼ˆæ”¹åãƒ»è¿½åŠ ï¼‰ã¯ã€æ¯”è¼ƒã§ããªã„ã®ã§é£›ã°ã™
 			if (!prefabFields.contains(fieldName)) continue;
 
 			if (value != prefabFields[fieldName])

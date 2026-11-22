@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
-// ƒ[ƒhÏ‚İƒtƒ‰ƒO
+// ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ãƒ•ãƒ©ã‚°
 struct MeshLoadedTag {};
 
-// ”ñ•\¦ƒtƒ‰ƒO
+// éè¡¨ç¤ºãƒ•ãƒ©ã‚°
 struct InvisibleTag {};
 
-// ‰e‚ğ—‚Æ‚³‚È‚¢ƒtƒ‰ƒO
+// å½±ã‚’è½ã¨ã•ãªã„ãƒ•ãƒ©ã‚°
 struct NoShadowTag {};

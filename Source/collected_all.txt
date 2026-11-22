@@ -684,7 +684,7 @@ void GameApp::OnPostUpdate(float elapsedTime)
 	// エンティティの名前はエディタ専用なので、受け取らない
 	if (!SceneSerializer::LoadFromFile(scene->GetRegistry(), startScenePath))
 	{
-		Log(u8"最初のシーンを読めない: %s", LogPath(startScenePath).c_str());
+		Log("最初のシーンを読めない: %s", LogPath(startScenePath).c_str());
 	}
 }
 
@@ -705,7 +705,7 @@ std::string GameApp::LoadStartScenePath()
 
 	if (file.GetStatus(kProjectSettingsPath) == JsonFileStatus::Loaded && path.empty())
 	{
-		Log(u8"プロジェクト設定に startScene が無い");
+		Log("プロジェクト設定に startScene が無い");
 	}
 	return path;
 }
@@ -2032,13 +2032,13 @@ public:
 			std::ofstream ofs(tempPath);
 			if (!ofs.is_open())
 			{
-				Log(u8" 保存できない: %s", LogPath(path).c_str());
+				Log(" 保存できない: %s", LogPath(path).c_str());
 				return false;
 			}
 			ofs << saveFunc(data).dump(4, ' ', false, nlohmann::ordered_json::error_handler_t::replace);
 			if (!ofs)
 			{
-				Log(u8" 保存できない: %s", LogPath(path).c_str());
+				Log(" 保存できない: %s", LogPath(path).c_str());
 				return false;
 			}
 		}
@@ -2047,7 +2047,7 @@ public:
 		fs::rename(tempPath, path, ec);
 		if (ec)
 		{
-			Log(u8" 保存できない: %s", LogPath(path).c_str());
+			Log(" 保存できない: %s", LogPath(path).c_str());
 			fs::remove(tempPath, ec);
 			return false;
 		}
@@ -2102,7 +2102,7 @@ private:
 			entry.status = JsonFileStatus::Missing;
 			if (missingLog == JsonMissingLog::Report)
 			{
-				Log(u8" ファイルが見つからない: %s", LogPath(path).c_str());
+				Log(" ファイルが見つからない: %s", LogPath(path).c_str());
 			}
 			return entry;
 		}
@@ -2111,7 +2111,7 @@ private:
 		if (!ifs.is_open())
 		{
 			entry.status = JsonFileStatus::Broken;
-			Log(u8" ファイルを開けない: %s", LogPath(path).c_str());
+			Log(" ファイルを開けない: %s", LogPath(path).c_str());
 			return entry;
 		}
 
@@ -2127,7 +2127,7 @@ private:
 			// 途中まで読んだ分は捨てて、初期値にする
 			entry.data = T{};
 			entry.status = JsonFileStatus::Broken;
-			Log(u8" JSON が読めない: %s", LogPath(path).c_str());
+			Log(" JSON が読めない: %s", LogPath(path).c_str());
 		}
 
 		return entry;
@@ -2150,7 +2150,7 @@ Path: C:\Users\offri\Desktop\New-Library\Source\Code\Engine\Core\Log.h
 #include <vector>
 #include <filesystem>
 
-// ログの保存先。メッセージはUTF-8で持つ（日本語は u8"..." を付けて書く）
+// ログの保存先。メッセージはUTF-8で持つ（日本語は "..." を付けて書く）
 namespace LogBuffer
 {
 	struct Entry
@@ -2225,7 +2225,7 @@ namespace LogBuffer
 }
 
 // ログを出す。printfと同じ書式が使える
-// 例：Log(u8"プレハブを読み込めません: %s", path.c_str());
+// 例：Log("プレハブを読み込めません: %s", path.c_str());
 inline void Log(const char* format, ...)
 {
 	char message[1024];
@@ -4036,7 +4036,7 @@ void SequencerData::FromJson(const nlohmann::json& j)
 				const std::string flagName = jr.value("flag", "");
 				if (!TryParseSequencerFlag(flagName, r.flag))
 				{
-					Log(u8" Sequencer: 不明なフラグ「%s」", flagName.c_str());
+					Log(" Sequencer: 不明なフラグ「%s」", flagName.c_str());
 					continue;
 				}
 				clip.ranges.push_back(r);
@@ -4055,7 +4055,7 @@ void SequencerData::FromJson(const nlohmann::json& j)
 				const std::string flagName = jp.value("flag", "");
 				if (!TryParseSequencerFlag(flagName, p.flag))
 				{
-					Log(u8" Sequencer: 不明なフラグ「%s」", flagName.c_str());
+					Log(" Sequencer: 不明なフラグ「%s」", flagName.c_str());
 					continue;
 				}
 				clip.points.push_back(p);
@@ -4529,12 +4529,12 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 
 	auto error = [&](const std::string& message)
 		{
-			Log(u8"[StateMachine] エラー(%s): %s", LogPath(sourceName).c_str(), message.c_str());
+			Log("[StateMachine] エラー(%s): %s", LogPath(sourceName).c_str(), message.c_str());
 			++errorCount;
 		};
 	auto warning = [&](const std::string& message)
 		{
-			Log(u8"[StateMachine] 警告(%s): %s", LogPath(sourceName).c_str(), message.c_str());
+			Log("[StateMachine] 警告(%s): %s", LogPath(sourceName).c_str(), message.c_str());
 		};
 
 	// IDの重複
@@ -4543,22 +4543,22 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 		{
 			if (id < 0)
 			{
-				error(what + u8" のIDが設定されていません");
+				error(what + " のIDが設定されていません");
 			}
 			else if (!usedIds.insert(id).second)
 			{
-				error(what + u8" のID " + std::to_string(id) + u8" が重複しています");
+				error(what + " のID " + std::to_string(id) + " が重複しています");
 			}
 		};
 
-	for (const auto& t : entry.transitions) checkId(t.id, u8"Entryの遷移");
+	for (const auto& t : entry.transitions) checkId(t.id, "Entryの遷移");
 	for (const auto& s : states)
 	{
-		checkId(s.id, u8"State「" + s.name + u8"」");
-		for (const auto& t : s.transitions)        checkId(t.id, u8"「" + s.name + u8"」の遷移");
-		for (const auto& c : s.child.clips)        checkId(c.id, u8"「" + s.name + u8"」のクリップ");
-		for (const auto& l : s.child.entryLinks)   checkId(l.id, u8"「" + s.name + u8"」のエントリーのつながり");
-		for (const auto& l : s.child.clipLinks)    checkId(l.id, u8"「" + s.name + u8"」のクリップのつながり");
+		checkId(s.id, "State「" + s.name + "」");
+		for (const auto& t : s.transitions)        checkId(t.id, "「" + s.name + "」の遷移");
+		for (const auto& c : s.child.clips)        checkId(c.id, "「" + s.name + "」のクリップ");
+		for (const auto& l : s.child.entryLinks)   checkId(l.id, "「" + s.name + "」のエントリーのつながり");
+		for (const auto& l : s.child.clipLinks)    checkId(l.id, "「" + s.name + "」のクリップのつながり");
 	}
 
 	// Stateの名前(実行側は名前で参照するので、空と重複を禁止)
@@ -4567,18 +4567,18 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 	{
 		if (s.name.empty())
 		{
-			error(u8"名前の無いStateがあります(ID " + std::to_string(s.id) + u8")");
+			error("名前の無いStateがあります(ID " + std::to_string(s.id) + ")");
 		}
 		else if (!usedNames.insert(s.name).second)
 		{
-			error(u8"State名「" + s.name + u8"」が重複しています");
+			error("State名「" + s.name + "」が重複しています");
 		}
 	}
 
 	// Entry
 	if (entry.transitions.empty())
 	{
-		error(u8"Entryから出る遷移がありません");
+		error("Entryから出る遷移がありません");
 	}
 
 	// 遷移・つながりの共通チェック
@@ -4586,7 +4586,7 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 		{
 			if (!always && condition.IsEmpty())
 			{
-				error(what + u8" の条件が空です(常に成立させる場合はalwaysを指定)");
+				error(what + " の条件が空です(常に成立させる場合はalwaysを指定)");
 			}
 
 			// Getterが読むフィールドが、今のコードにあるか(名前を変えた・消したときに気づけるように)
@@ -4595,7 +4595,7 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 				if (g.componentName.empty() || g.fieldName.empty()) continue; // 未設定はエディタで表示する
 				if (!Reflection::FindField(g.componentName, g.fieldName))
 				{
-					error(what + u8" の条件が、存在しないフィールド「" + g.componentName + "." + g.fieldName + u8"」を読んでいます");
+					error(what + " の条件が、存在しないフィールド「" + g.componentName + "." + g.fieldName + "」を読んでいます");
 				}
 			}
 
@@ -4605,7 +4605,7 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 				std::string reason;
 				if (!condition.IsLinkValid(l, &reason))
 				{
-					error(what + u8" の条件に、決まりに合わないリンクがあります(リンクID " + std::to_string(l.id) + u8"): " + reason);
+					error(what + " の条件に、決まりに合わないリンクがあります(リンクID " + std::to_string(l.id) + "): " + reason);
 				}
 			}
 		};
@@ -4614,25 +4614,25 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 		{
 			if (blend.enabled && blend.duration <= 0.0f)
 			{
-				warning(what + u8" のブレンド時間が0以下です(ブレンドしない扱いになります)");
+				warning(what + " のブレンド時間が0以下です(ブレンドしない扱いになります)");
 			}
 		};
 
 	auto checkTransition = [&](const StateTransition& t, const std::string& fromName)
 		{
-			std::string what = fromName + u8" の遷移(ID " + std::to_string(t.id) + u8")";
+			std::string what = fromName + " の遷移(ID " + std::to_string(t.id) + ")";
 			if (!FindState(t.toStateId))
 			{
-				error(what + u8" の行き先のStateがありません");
+				error(what + " の行き先のStateがありません");
 			}
 			checkCommon(t.always, t.condition, what);
 			checkBlend(t.blend, what);
 		};
 
-	for (const auto& t : entry.transitions) checkTransition(t, u8"Entry");
+	for (const auto& t : entry.transitions) checkTransition(t, "Entry");
 	for (const auto& s : states)
 	{
-		for (const auto& t : s.transitions) checkTransition(t, u8"「" + s.name + u8"」");
+		for (const auto& t : s.transitions) checkTransition(t, "「" + s.name + "」");
 	}
 
 	// 子グラフ
@@ -4655,14 +4655,14 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 		// エントリー → クリップ
 		for (const auto& l : s.child.entryLinks)
 		{
-			std::string what = u8"「" + s.name + u8"」のエントリーのつながり(ID " + std::to_string(l.id) + u8")";
+			std::string what = "「" + s.name + "」のエントリーのつながり(ID " + std::to_string(l.id) + ")";
 			if (std::find(incoming.begin(), incoming.end(), l.entryTransitionId) == incoming.end())
 			{
-				error(what + u8" に対応する、入ってくる遷移がありません");
+				error(what + " に対応する、入ってくる遷移がありません");
 			}
 			if (!s.child.FindClip(l.toClipId))
 			{
-				error(what + u8" の行き先のクリップがありません");
+				error(what + " の行き先のクリップがありません");
 			}
 			checkCommon(l.always, l.condition, what);
 		}
@@ -4674,21 +4674,21 @@ bool StateMachineData::Validate(const std::string& sourceName) const
 				[transitionId](const EntryLink& l) { return l.entryTransitionId == transitionId; });
 			if (!connected)
 			{
-				error(u8"「" + s.name + u8"」に、どのクリップにもつながっていないエントリーがあります(遷移ID " + std::to_string(transitionId) + u8")");
+				error("「" + s.name + "」に、どのクリップにもつながっていないエントリーがあります(遷移ID " + std::to_string(transitionId) + ")");
 			}
 		}
 
 		// クリップ → クリップ
 		for (const auto& l : s.child.clipLinks)
 		{
-			std::string what = u8"「" + s.name + u8"」のクリップのつながり(ID " + std::to_string(l.id) + u8")";
+			std::string what = "「" + s.name + "」のクリップのつながり(ID " + std::to_string(l.id) + ")";
 			if (!s.child.FindClip(l.fromClipId))
 			{
-				error(what + u8" の元のクリップがありません");
+				error(what + " の元のクリップがありません");
 			}
 			if (!s.child.FindClip(l.toClipId))
 			{
-				error(what + u8" の行き先のクリップがありません");
+				error(what + " の行き先のクリップがありません");
 			}
 			checkCommon(l.always, l.condition, what);
 			checkBlend(l.blend, what);
@@ -4791,7 +4791,7 @@ bool StateMachineData::FromJson(const nlohmann::json& j, const std::string& sour
 	int version = j.value("version", 0);
 	if (version != kVersion)
 	{
-		Log(u8"[StateMachine] エラー(%s): 対応していない形式（version %d）", LogPath(sourceName).c_str(), version);		
+		Log("[StateMachine] エラー(%s): 対応していない形式（version %d）", LogPath(sourceName).c_str(), version);		
 		return false;
 	}
 
@@ -9663,7 +9663,7 @@ const StateMachineData* StateMachineSystem::Load(const std::string& path)
 		// 同じパスについては1回だけ報告する
 		if (reportedPaths.insert(path).second)
 		{
-			Log(u8"[StateMachine] %s を使えない（読み込みの失敗か、検証のエラー）", LogPath(path).c_str());
+			Log("[StateMachine] %s を使えない（読み込みの失敗か、検証のエラー）", LogPath(path).c_str());
 		}
 		return nullptr;
 	}
@@ -9791,7 +9791,7 @@ void StateMachineSystem::UpdateAnimation(entt::registry& registry)
 			if (!played)
 			{
 				// 条件が成立するつながりが無かった(前のクリップを再生し続ける)
-				Log(u8"[StateMachine] 「%s」に入ったが、再生するクリップが決まらない（遷移ID %d）",
+				Log("[StateMachine] 「%s」に入ったが、再生するクリップが決まらない（遷移ID %d）",
 					state->name.c_str(), sm.enteredTransitionId);
 			}
 			continue;
@@ -9834,7 +9834,7 @@ void StateMachineSystem::CheckRequiredStates(const StateMachineData& data, const
 		std::string key = path + "\n" + r.stateName + "\n" + r.user;
 		if (!reportedMissingStates.insert(key).second) continue;
 
-		Log(u8"[StateMachine] 警告(%s): State「%s」がグラフに無い（%s が使用）",
+		Log("[StateMachine] 警告(%s): State「%s」がグラフに無い（%s が使用）",
 			LogPath(path).c_str(), r.stateName.c_str(), r.user.c_str());
 	}
 }
@@ -13528,7 +13528,7 @@ void EntitySerializer::DeserializeEntity(entt::registry& registry, entt::entity 
 		if (!info)
 		{
 			// 削除・改名されたコンポーネント。落とさずに飛ばして、ログに残す
-			Log(u8"未登録のコンポーネントを無視: %s", name.c_str());
+			Log("未登録のコンポーネントを無視: %s", name.c_str());
 			continue;
 		}
 
@@ -13590,14 +13590,14 @@ entt::entity EntitySerializer::InstantiatePrefab(entt::registry& registry, const
 
 	if (!data->is_object())
 	{
-		Log(u8"プレハブの形式が違う: %s", LogPath(prefabPath).c_str());
+		Log("プレハブの形式が違う: %s", LogPath(prefabPath).c_str());
 		return entt::null;
 	}
 
 	entt::entity e = CreateFromComponents(registry, *data);
 	if (e == entt::null)
 	{
-		Log(u8"プレハブの復元に失敗: %s", LogPath(prefabPath).c_str());
+		Log("プレハブの復元に失敗: %s", LogPath(prefabPath).c_str());
 		return entt::null;
 	}
 
@@ -14479,7 +14479,7 @@ void GLTFImporter::LoadMeshes(
 					buf.data.data() + bv.byteOffset + acc.byteOffset);
 
 				// 確認用：ウェイトの型と配置
-				Log(u8"[WEIGHTS_0] componentType=%d type=%d count=%zu byteStride=%zu vertices=%zu",
+				Log("[WEIGHTS_0] componentType=%d type=%d count=%zu byteStride=%zu vertices=%zu",
 					acc.componentType, acc.type, acc.count, bv.byteStride, mesh.vertices.size());
 
 				for (size_t i = 0; i < acc.count; i++)
@@ -16083,7 +16083,7 @@ std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std
 	// .cereal がある(.cerealを読み込む)
 	if (ModelSerializer::Exists(filename))
 	{
-		Log(u8" .cereal から読み込み: %s", LogPath(cerealPath).c_str());
+		Log(" .cereal から読み込み: %s", LogPath(cerealPath).c_str());
 
 		model = std::make_shared<Model>();
 		ModelSerializer::Load(*model, ModelSerializer::ToCerealPath(filename));
@@ -16092,7 +16092,7 @@ std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std
 	// .cereal がない(GLTFを読み込む)
 	else
 	{
-		Log(u8" glTF から変換: %s -> %s", LogPath(filename).c_str(), LogPath(cerealPath).c_str());
+		Log(" glTF から変換: %s -> %s", LogPath(filename).c_str(), LogPath(cerealPath).c_str());
 
 		auto gltfData = GLTFImporter::Load(filename);
 		model = GLTFConverter::Convert(device, gltfData);
@@ -16108,7 +16108,7 @@ std::shared_ptr<Model> ResourceManager::GetModel(ID3D11Device* device, const std
 
 		if (editCache.GetStatus(editPath) == JsonFileStatus::Loaded)
 		{
-			Log(u8" アニメーション編集を読み込み: %s", LogPath(editPath).c_str());
+			Log(" アニメーション編集を読み込み: %s", LogPath(editPath).c_str());
 		}
 
 		// ルートノードが未設定なら、モデルから探す
@@ -16234,7 +16234,7 @@ nlohmann::json SceneSerializer::Serialize(entt::registry& registry, const NameGe
 			else
 			{
 				// プレハブ本体が読めない場合は、差分を取れないので、参照だけ残す
-				Log(u8"[Warn] 差分比較用のプレハブを読めない: %s", LogPath(prefab->prefabPath).c_str());
+				Log("[Warn] 差分比較用のプレハブを読めない: %s", LogPath(prefab->prefabPath).c_str());
 			}
 		}
 		else
@@ -16261,7 +16261,7 @@ bool SceneSerializer::SaveToFile(entt::registry& registry, const std::string& pa
 		return false;
 	}
 
-	Log(u8"[Info] シーンを保存: %s (Entity %d 個)", LogPath(path).c_str(), static_cast<int>(scene["entities"].size()));
+	Log("[Info] シーンを保存: %s (Entity %d 個)", LogPath(path).c_str(), static_cast<int>(scene["entities"].size()));
 	return true;
 }
 
@@ -16270,7 +16270,7 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 {
 	if (!scene.contains("entities") || !scene["entities"].is_array())
 	{
-		Log(u8"シーンの形式が不正です(entitiesがありません)");
+		Log("シーンの形式が不正です(entitiesがありません)");
 		return;
 	}
 
@@ -16305,7 +16305,7 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 			}
 			catch (const nlohmann::json::exception&)
 			{
-				Log(u8"[Warn] overrides の適用に失敗: %s", entry.value("name", std::string()).c_str());
+				Log("[Warn] overrides の適用に失敗: %s", entry.value("name", std::string()).c_str());
 			}
 		}
 
@@ -16317,7 +16317,7 @@ void SceneSerializer::Deserialize(entt::registry& registry, const nlohmann::json
 
 	if (failedCount > 0)
 	{
-		Log(u8"%d個のEntityを復元できませんでした", failedCount);
+		Log("%d個のEntityを復元できませんでした", failedCount);
 	}
 }
 
@@ -16343,7 +16343,7 @@ bool SceneSerializer::LoadFromFile(entt::registry& registry, const std::string& 
 
 	Deserialize(registry, scene, setName);
 
-	Log(u8"シーンを読み込み: %s", LogPath(path).c_str());
+	Log("シーンを読み込み: %s", LogPath(path).c_str());
 	return true;
 }
 
@@ -21184,11 +21184,11 @@ void ComponentRegistryInitializer::Initialize()
 				if (_c->connected)
 				{
 					const char* typeName = _c->type == ControllerType::PS5 ? "PS5 DualSense" : "Xbox";
-					ImGui::TextColored({ 0.3f, 1.0f, 0.3f, 1.0f }, u8"[%s] 接続中", typeName);
+					ImGui::TextColored({ 0.3f, 1.0f, 0.3f, 1.0f }, "[%s] 接続中", typeName);
 				}
 				else
 				{
-					ImGui::TextColored({ 0.6f, 0.6f, 0.6f, 1.0f }, u8"未接続");
+					ImGui::TextColored({ 0.6f, 0.6f, 0.6f, 1.0f }, "未接続");
 				}
 			}));
 
@@ -21212,12 +21212,12 @@ void ComponentRegistryInitializer::Initialize()
 				auto* staticBody = reg.try_get<StaticBodyComponent>(e);
 				if (staticBody)
 				{
-					ImGui::Text(staticBody->actor ? u8"状態: 生成済み" : u8"状態: 未生成");
+					ImGui::Text(staticBody->actor ? "状態: 生成済み" : "状態: 未生成");
 				}
 				break;
 			}
 			case PhysicsBodyType::Dynamic:
-				ImGui::TextColored({ 1, 0.5f, 0, 1 }, u8"Dynamicは未実装です");
+				ImGui::TextColored({ 1, 0.5f, 0, 1 }, "Dynamicは未実装です");
 				break;
 			case PhysicsBodyType::Character:
 			{
@@ -21225,7 +21225,7 @@ void ComponentRegistryInitializer::Initialize()
 				if (ctrl)
 				{
 					bool created = (ctrl->controller != nullptr);
-					ImGui::Text(created ? u8"状態: 生成済み" : u8"状態: 未生成");
+					ImGui::Text(created ? "状態: 生成済み" : "状態: 未生成");
 				}
 
 				// 移動の状態（Characterと一緒に付与されるMovementComponent）
@@ -22578,9 +22578,9 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 	// 右クリックでコンテキストメニュー
 	if (ImGui::BeginPopupContextItem(path.string().c_str()))
 	{
-		if (ImGui::BeginMenu(u8"新規作成"))
+		if (ImGui::BeginMenu("新規作成"))
 		{
-			if (ImGui::MenuItem(u8"フォルダ"))
+			if (ImGui::MenuItem("フォルダ"))
 			{
 				std::string newName = GenerateUniqueName(path, "New Folder");
 				std::filesystem::create_directory(path / newName);
@@ -22590,7 +22590,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		}
 
 		ImGui::Separator();
-		if (ImGui::MenuItem(u8"名前の変更"))
+		if (ImGui::MenuItem("名前の変更"))
 		{
 			BeginRename(path);
 		}
@@ -22599,7 +22599,7 @@ void PrefabWindow::DrawFolderTree(FolderNode& node, entt::registry& registry, Ed
 		if (path != rootPath)
 		{
 			ImGui::Separator();
-			if (ImGui::MenuItem(u8"削除"))
+			if (ImGui::MenuItem("削除"))
 			{
 				itemState.mode = PrefabItemMode::ConfirmingDelete;
 				itemState.targetPath = path;
@@ -22684,11 +22684,11 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 		// 右クリックで「名前の変更」「削除」
 		if (ImGui::BeginPopupContextItem("##fileContext"))
 		{
-			if (ImGui::MenuItem(u8"名前の変更"))
+			if (ImGui::MenuItem("名前の変更"))
 			{
 				BeginRename(file.path);
 			}
-			if (ImGui::MenuItem(u8"削除"))
+			if (ImGui::MenuItem("削除"))
 			{
 				itemState.mode = PrefabItemMode::ConfirmingDelete;
 				itemState.targetPath = file.path;
@@ -22730,9 +22730,9 @@ void PrefabWindow::DrawFileGrid(entt::registry& registry, EditorContext& context
 	// 空白部分の右クリックで、新規フォルダ作成
 	if (ImGui::BeginPopupContextWindow("PrefabFileGridContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverExistingPopup))
 	{
-		if (ImGui::BeginMenu(u8"新規作成"))
+		if (ImGui::BeginMenu("新規作成"))
 		{
-			if (ImGui::MenuItem(u8"フォルダ"))
+			if (ImGui::MenuItem("フォルダ"))
 			{
 				std::string newName = GenerateUniqueName(itemState.selectedPath, "New Folder");
 				std::filesystem::create_directory(itemState.selectedPath / newName);
@@ -22833,16 +22833,16 @@ void PrefabWindow::DrawDeleteConfirmPopup()
 {
 	if (itemState.mode != PrefabItemMode::ConfirmingDelete) return;
 
-	ImGui::OpenPopup(u8"削除の確認");
+	ImGui::OpenPopup("削除の確認");
 
 	bool open = true;
-	if (ImGui::BeginPopupModal(u8"削除の確認", &open, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("削除の確認", &open, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		std::string name = itemState.targetPath.filename().string();
-		ImGui::Text(u8"「%s」を削除しますか？", name.c_str());
+		ImGui::Text("「%s」を削除しますか？", name.c_str());
 		ImGui::Spacing();
 
-		if (ImGui::Button(u8"削除", ImVec2(120, 0)))
+		if (ImGui::Button("削除", ImVec2(120, 0)))
 		{
 			std::error_code ec;
 			std::filesystem::remove_all(itemState.targetPath, ec);
@@ -22859,7 +22859,7 @@ void PrefabWindow::DrawDeleteConfirmPopup()
 
 		ImGui::SameLine();
 
-		if (ImGui::Button(u8"キャンセル", ImVec2(120, 0)))
+		if (ImGui::Button("キャンセル", ImVec2(120, 0)))
 		{
 			itemState.mode = PrefabItemMode::None;
 			itemState.targetPath.clear();
@@ -23174,9 +23174,9 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 	// 右クリックでコンテキストメニュー（このフォルダの中に作る）
 	if (ImGui::BeginPopupContextItem(path.string().c_str()))
 	{
-		if (ImGui::BeginMenu(u8"新規作成"))
+		if (ImGui::BeginMenu("新規作成"))
 		{
-			if (ImGui::MenuItem(u8"フォルダ"))
+			if (ImGui::MenuItem("フォルダ"))
 			{
 				std::string newName = GenerateUniqueName(path, "New Folder");
 				std::filesystem::create_directory(path / newName);
@@ -23186,7 +23186,7 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 		}
 
 		ImGui::Separator();
-		if (ImGui::MenuItem(u8"名前の変更"))
+		if (ImGui::MenuItem("名前の変更"))
 		{
 			BeginRename(path);
 		}
@@ -23195,7 +23195,7 @@ void ProjectWindow::DrawFolderTree(FolderNode& node)
 		if (path != rootPath)
 		{
 			ImGui::Separator();
-			if (ImGui::MenuItem(u8"削除"))
+			if (ImGui::MenuItem("削除"))
 			{
 				itemState.mode = ProjectItemMode::ConfirmingDelete;
 				itemState.targetPath = path;
@@ -23333,11 +23333,11 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 		// 右クリックで「名前の変更」「削除」
 		if (ImGui::BeginPopupContextItem("##fileContext"))
 		{
-			if (ImGui::MenuItem(u8"名前の変更"))
+			if (ImGui::MenuItem("名前の変更"))
 			{
 				BeginRename(file.path);
 			}
-			if (ImGui::MenuItem(u8"削除"))
+			if (ImGui::MenuItem("削除"))
 			{
 				itemState.mode = ProjectItemMode::ConfirmingDelete;
 				itemState.targetPath = file.path;
@@ -23386,9 +23386,9 @@ void ProjectWindow::DrawFileGrid(entt::registry& registry, EditorContext& contex
 	// 空白部分の右クリックで新規作成メニュー
 	if (ImGui::BeginPopupContextWindow("FileGridContext", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverExistingPopup))
 	{
-		if (ImGui::BeginMenu(u8"新規作成"))
+		if (ImGui::BeginMenu("新規作成"))
 		{
-			if (ImGui::MenuItem(u8"フォルダ"))
+			if (ImGui::MenuItem("フォルダ"))
 			{
 				std::string newName = GenerateUniqueName(itemState.selectedPath, "New Folder");
 				std::filesystem::create_directory(itemState.selectedPath / newName);
@@ -23522,16 +23522,16 @@ void ProjectWindow::DrawDeleteConfirmPopup()
 {
 	if (itemState.mode != ProjectItemMode::ConfirmingDelete) return;
 
-	ImGui::OpenPopup(u8"削除の確認");
+	ImGui::OpenPopup("削除の確認");
 
 	bool open = true;
-	if (ImGui::BeginPopupModal(u8"削除の確認", &open, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("削除の確認", &open, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		std::string name = itemState.targetPath.filename().string();
-		ImGui::Text(u8"「%s」を削除しますか？", name.c_str());
+		ImGui::Text("「%s」を削除しますか？", name.c_str());
 		ImGui::Spacing();
 
-		if (ImGui::Button(u8"削除", ImVec2(120, 0)))
+		if (ImGui::Button("削除", ImVec2(120, 0)))
 		{
 			std::error_code ec;
 			std::filesystem::remove_all(itemState.targetPath, ec);
@@ -23548,7 +23548,7 @@ void ProjectWindow::DrawDeleteConfirmPopup()
 
 		ImGui::SameLine();
 
-		if (ImGui::Button(u8"キャンセル", ImVec2(120, 0)))
+		if (ImGui::Button("キャンセル", ImVec2(120, 0)))
 		{
 			itemState.mode = ProjectItemMode::None;
 			itemState.targetPath.clear();
@@ -26015,7 +26015,7 @@ Path: C:\Users\offri\Desktop\New-Library\Source\Code\Tool\Studio\StudioCondition
 namespace
 {
 	// ピンの印(▶)
-	const char* kPinIcon = u8"▶";
+	const char* kPinIcon = "▶";
 
 	// 各ノードの幅に合わせて、中央に配置する
 	void CenterNextItem(float totalWidth, float itemWidth)
@@ -31456,14 +31456,14 @@ void StudioTimeline::DrawGUI(entt::registry& registry, StudioContext& context)
     // 再生/停止
     if (animator.isPlaying)
     {
-        if (ImGui::Button(u8"■"))
+        if (ImGui::Button("■"))
         {
             animator.isPlaying = false;
         }
     }
     else
     {
-        if (ImGui::Button(u8"▶"))
+        if (ImGui::Button("▶"))
         {
             if (animator.animationTime >= animLength)
                 animator.animationTime = 0.0f;
@@ -31616,7 +31616,7 @@ bool StudioTimelineWidget::DrawToolbar(bool& isPlaying, float time, float frameS
 {
 	bool changed = false;
 
-	if (ImGui::Button(isPlaying ? u8"■" : u8"▶", ImVec2(28.0f, 0.0f)))
+	if (ImGui::Button(isPlaying ? "■" : "▶", ImVec2(28.0f, 0.0f)))
 	{
 		isPlaying = !isPlaying;
 		changed = true;
@@ -32629,7 +32629,7 @@ void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
 
     if (!found)
     {
-        ImGui::TextDisabled(u8"ControllerComponent を持つエンティティがありません");
+        ImGui::TextDisabled("ControllerComponent を持つエンティティがありません");
         ImGui::End();
         return;
     }
@@ -32657,7 +32657,7 @@ void AdaptiveTriggerToolWindow::Draw(entt::registry& registry)
         }
         else
         {
-            ImGui::TextDisabled(u8"ポイントを選択してください");
+            ImGui::TextDisabled("ポイントを選択してください");
         }
 
         ImGui::EndTable();
@@ -32675,7 +32675,7 @@ void AdaptiveTriggerToolWindow::DrawTriggerSection(const char* label, AdaptiveTr
     if (!zone.exists)
     {
         ImGui::SameLine(ImGui::GetContentRegionAvail().x - 80.0f + ImGui::GetCursorPosX());
-        if (ImGui::Button(u8"+ ゾーン追加"))
+        if (ImGui::Button("+ ゾーン追加"))
         {
             zone.exists = true;
             zone.start = 0.0f;
@@ -32686,7 +32686,7 @@ void AdaptiveTriggerToolWindow::DrawTriggerSection(const char* label, AdaptiveTr
     else
     {
         ImGui::SameLine(ImGui::GetContentRegionAvail().x - 60.0f + ImGui::GetCursorPosX());
-        if (ImGui::Button(u8"削除"))
+        if (ImGui::Button("削除"))
         {
             zone.exists = false;
             zone.selectedIndex = -1;
@@ -32957,7 +32957,7 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
 {
     if (selectedIndex < 0 || selectedIndex >= static_cast<int>(points.size()))
     {
-        ImGui::TextDisabled(u8"ポイントを選択してください");
+        ImGui::TextDisabled("ポイントを選択してください");
         return;
     }
 
@@ -32965,12 +32965,12 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
     const bool isBoundary = (selectedIndex == 0 || selectedIndex == lastIndex);
 
     ImGui::PushID(selectedIndex);
-    ImGui::TextDisabled(u8"選択中のポイント");
+    ImGui::TextDisabled("選択中のポイント");
     ImGui::Spacing();
 
     AdaptiveTrigger::CurvePoint& p = points[selectedIndex];
 
-    ImGui::Text(u8"X (ゾーン内位置)");
+    ImGui::Text("X (ゾーン内位置)");
     ImGui::SetNextItemWidth(-1);
     if (isBoundary)
     {
@@ -32986,7 +32986,7 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
 
     ImGui::Spacing();
 
-    ImGui::Text(u8"Y (強さ)");
+    ImGui::Text("Y (強さ)");
     ImGui::SetNextItemWidth(-1);
     ImGui::DragFloat("##posY", &p.value, 0.005f, 0.0f, 1.0f, "%.3f");
 
@@ -32995,10 +32995,10 @@ void AdaptiveTriggerToolWindow::DrawSelectedPointPanel(std::vector<AdaptiveTrigg
     if (isBoundary)
     {
         ImGui::BeginDisabled();
-        ImGui::Button(u8"削除（境界のため不可）", ImVec2(-1, 0));
+        ImGui::Button("削除（境界のため不可）", ImVec2(-1, 0));
         ImGui::EndDisabled();
     }
-    else if (ImGui::Button(u8"削除", ImVec2(-1, 0)))
+    else if (ImGui::Button("削除", ImVec2(-1, 0)))
     {
         points.erase(points.begin() + selectedIndex);
         selectedIndex = -1;
