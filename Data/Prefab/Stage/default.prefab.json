@@ -8,6 +8,9 @@
     "MeshComponent": {
         "modelPath": "Data/Model/UEdefault/Cube.glb"
     },
+    "PhysicsBodyTypeComponent": {
+        "type": "Static"
+    },
     "TransformComponent": {
         "position": [
             -500.0,

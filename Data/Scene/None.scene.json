@@ -9,66 +9,34 @@
             "prefab": "Data/Prefab/Camera/FreeCamera.prefab.json"
         },
         {
-            "components": {
-                "CategoryComponent": {
-                    "category": "None"
-                },
-                "MaterialComponent": {
-                    "shadingModel": "Grid"
-                },
-                "MeshComponent": {
-                    "modelPath": "Data/Model/UEdefault/Cube.glb"
-                },
-                "TransformComponent": {
-                    "position": [
-                        -500.0,
-                        -1.0,
-                        500.0
-                    ],
-                    "rotation": [
-                        0.0,
-                        0.0,
-                        0.0
-                    ],
-                    "scale": [
-                        1000.0,
-                        1.0,
-                        1000.0
-                    ]
-                }
-            },
-            "name": "default"
+            "name": "GameCamera",
+            "prefab": "Data/Prefab/Camera/GameCamera.prefab.json"
         },
         {
-            "components": {
-                "CategoryComponent": {
-                    "category": "None"
-                },
-                "MaterialComponent": {
-                    "shadingModel": "Grid"
-                },
-                "MeshComponent": {
-                    "modelPath": "Data/Model/UEdefault/Cube.glb"
-                },
+            "name": "default",
+            "prefab": "Data/Prefab/Stage/default.prefab.json"
+        },
+        {
+            "name": "Wall",
+            "prefab": "Data/Prefab/Stage/Wall.prefab.json"
+        },
+        {
+            "name": "Map_Robot3",
+            "overrides": {
                 "TransformComponent": {
                     "position": [
-                        16.0,
-                        0.0,
-                        0.0
+                        3.551413059234619,
+                        -1.3504177331924438e-07,
+                        7.319651126861572
                     ],
                     "rotation": [
                         0.0,
-                        0.0,
+                        1.294745683670044,
                         0.0
-                    ],
-                    "scale": [
-                        1.0,
-                        15.0,
-                        100.0
                     ]
                 }
             },
-            "name": "wall"
+            "prefab": "Data/Prefab/Player/Map_Robot3.prefab.json"
         }
     ],
     "settings": {},

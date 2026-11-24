@@ -18,6 +18,7 @@
 #include "Game/ECS/Components/PlayerIntentComponent.h"
 #include "Game/ECS/Components/PlayerLocomotionComponent.h"
 #include "Game/ECS/Components/PlayerWallSenseComponent.h"
+#include "Game/ECS/Components/PlayerRespawnComponent.h"
 
 void GameComponents::Register() 
 {
@@ -38,5 +39,7 @@ void GameComponents::Register()
 	REGISTER_COMPONENT_TYPE(PlayerIntentComponent, "Player Intent");
 	REGISTER_COMPONENT_TYPE(PlayerLocomotionComponent, "Player Locomotion");
 	REGISTER_COMPONENT_TYPE(PlayerWallSenseComponent, "Player Wall Sense");
+	REGISTER_COMPONENT_TYPE(PlayerRespawnComponent, "Player Respawn");
+
 
 }

@@ -19,6 +19,7 @@
 #include "Game/ECS/Systems/PlayerWallRunSystem.h"
 #include "Game/ECS/Systems/PlayerCrouchSystem.h"
 #include "Game/ECS/Systems/PlayerSlideSystem.h"
+#include "Game/ECS/Systems/PlayerRespawnSystem.h"
 
 #include "Game/ECS/Systems/CameraEffectSystem.h"
 #include "Game/ECS/Systems/CameraViewSystem.h"
@@ -75,6 +76,7 @@ private:
 	PlayerWallRunSystem playerWallRunSystem;
 	PlayerCrouchSystem  playerCrouchSystem;
 	PlayerSlideSystem   playerSlideSystem;
+	PlayerRespawnSystem playerRespawnSystem;
 
 	CameraEffectSystem  cameraEffectSystem;
 	CameraViewSystem    cameraViewSystem;

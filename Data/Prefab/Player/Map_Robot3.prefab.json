@@ -57,6 +57,11 @@
         "turnSpeed": 13.0,
         "walkSpeed": 1.0
     },
+    "PlayerRespawnComponent": {
+        "fadeInTime": 0.6000000238418579,
+        "fadeOutTime": 0.6000000238418579,
+        "killY": -20.0
+    },
     "PlayerSlideComponent": {
         "accelHalfLife": 0.05000000074505806,
         "boostSpeed": 2.0,
@@ -64,7 +69,7 @@
         "downhillTurnSpeed": 6.0,
         "endSpeed": 1.5,
         "friction": 5.0,
-        "heightScale": 0.5,
+        "heightScale": 0.10000000149011612,
         "maxSpeed": 15.0,
         "slopeGravityScale": 1.0,
         "strafeSpeed": 2.0,

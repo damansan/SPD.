@@ -1,5 +1,6 @@
 ﻿#include "SceneGame.h"
 #include <imgui.h>
+#include <algorithm>
 
 #include "tracy/Tracy.hpp"
 
@@ -193,9 +194,47 @@ void SceneGame::Render(const SceneContext& context)
 	{
 		ZoneScopedN("PostProcess::Render");
 
+		//// 設定が渡されていなければ初期値で描く
+		//static const PostProcessSettings kDefaultSettings{};
+		//const PostProcessSettings& settings = context.postProcessSettings ? *context.postProcessSettings : kDefaultSettings;
+
+		//postProcess.Render(
+		//	context.deviceContext,
+		//	context.sceneShaderResourceView,
+		//	context.outputRenderTargetView,
+		//	context.screenWidth,
+		//	context.screenHeight,
+		//	settings
+		//);
+
+
 		// 設定が渡されていなければ初期値で描く
 		static const PostProcessSettings kDefaultSettings{};
 		const PostProcessSettings& settings = context.postProcessSettings ? *context.postProcessSettings : kDefaultSettings;
+
+		// 落下の暗転：一番暗いものに合わせる
+		float fade = 0.0f;
+		auto respawnView = registry.view<PlayerRespawnComponent>();
+		for (auto entity : respawnView)
+		{
+			fade = (std::max)(fade, respawnView.get<PlayerRespawnComponent>(entity).fade);
+		}
+
+		// 元の設定はそのまま、描く分だけ変える
+		PostProcessSettings drawSettings = settings;
+		if (fade > 0.0f)
+		{
+			// 円を一定の速さで小さくする（半径は 1/強さ に比例するので、1/強さ を補間する）
+			constexpr float kVignetteMax = 20.0f; // 最後の円の小ささ（スライダーの上限 1.0 を超えてよい）
+			const float baseInv = 1.0f / (std::max)(settings.vignetteIntensity, 0.01f);
+			const float maxInv = 1.0f / kVignetteMax;
+			drawSettings.vignetteIntensity = 1.0f / (baseInv + (maxInv - baseInv) * fade);
+
+			// 中心は必ず残るので、最後の 2 割で露出を落として消す
+			constexpr float kBlackoutStart = 0.8f;
+			const float blackout = (std::max)(0.0f, (fade - kBlackoutStart) / (1.0f - kBlackoutStart));
+			drawSettings.exposure *= 1.0f - blackout;
+		}
 
 		postProcess.Render(
 			context.deviceContext,
@@ -203,7 +242,7 @@ void SceneGame::Render(const SceneContext& context)
 			context.outputRenderTargetView,
 			context.screenWidth,
 			context.screenHeight,
-			settings
+			drawSettings
 		);
 	}
 
@@ -304,6 +343,12 @@ void SceneGame::UpdateGameplay(float elapsedTime, const SceneContext& context)
 	{
 		ZoneScopedN("MovementSystem");
 		movementSystem.Update(registry, elapsedTime, context);
+	}
+
+	// 落下からの復帰
+	{
+		ZoneScopedN("PlayerRespawnSystem");
+		playerRespawnSystem.Update(registry, elapsedTime);
 	}
 }
 
